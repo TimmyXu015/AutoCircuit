@@ -1,6 +1,4 @@
-;; cs_amp.il  (v3: textbook layout with real wires)
-;; Builds the common-source amplifier test schematic, laid out like the
-;; homework figure:
+;; cs_amp.il -- common-source amplifier (ECE 203 HW1 figure)
 ;;
 ;;            RD (100k) -- VDD (2 V)
 ;;             |
@@ -8,174 +6,114 @@
 ;;    |        |
 ;;   V0     RLARGE
 ;;  (2MHz)     |
-;;           VBIAS
+;;           VBIAS  (= design variable "vbias")
 ;;
-;; Usage (in the CIW):
-;;   sh("cd ~/AutoCircuit && git pull")  load("~/AutoCircuit/cs_amp.il")
-;;   csBuild("SelfPractice" "cs_amp" "cmrf7sf" "nfet")
-;;   csBuild("SelfPractice" "cs_amp" "cmrf7sf" "nfet" ?vbias "0.55" ?rlarge "10M")
+;; Usage (in the CIW, after load("~/AutoCircuit/ac.il")):
+;;   csBuild("SelfPractice" "cs_amp")                  ; draw the schematic
+;;   csSim()                                           ; DC + AC + tran, print results, plot
+;;   csSim(?vbias 0.55)                                ; another bias point
+;;   csSim(?vbias 0.55 ?plots nil)                     ; numbers only
+;;   csBuild("SelfPractice" "cs_amp" ?nParams list(list("nf" "2")))   ; NMOS parameters
 ;;
-;;   Arg 1-2 : your own library and the cell name to create (overwritten if it exists)
-;;   Arg 3-4 : NMOS library and cell from your PDK
-;;   ?vbias  : VBIAS value               (default "0.6", placeholder)
-;;   ?rlarge : RLARGE value              (default "1G")
-;;   ?vamp   : input sine amplitude      (default "10m")
-;;   ?nParams: NMOS CDF params, e.g. list(list("nf" "2"))
-;;
-;; Every device is placed so that one chosen pin lands on a chosen point,
-;; measured from the real pin positions of each symbol, then pins are joined
-;; with straight or L-shaped wires. This keeps it independent of symbol sizes.
+;; VBIAS is the design variable "vbias". If you open this cell in ADE L by hand,
+;; add vbias under Variables (Variables -> Copy From Cellview).
 
-csLabelH = 0.1
-
-;; ---------- geometry helpers ----------
-procedure( csLeft(p d)  list(xCoord(p) - d  yCoord(p)) )
-procedure( csRight(p d) list(xCoord(p) + d  yCoord(p)) )
-procedure( csUp(p d)    list(xCoord(p)  yCoord(p) + d) )
-procedure( csDown(p d)  list(xCoord(p)  yCoord(p) - d) )
-
-;; absolute position of a terminal's pin on a placed instance
-procedure( csPinPt(inst termName)
-  let( (term)
-    term = car(setof(x inst~>master~>terminals
-                     upperCase(x~>name) == upperCase(termName)))
-    when( term
-      dbTransformPoint(centerBox(car(term~>pins)~>fig~>bBox) inst~>transform) )
-  )
-)
-
-;; place lib/cell so that pin termName sits exactly on target
-procedure( csPlace(cv lib cellName name orient termName target)
-  let( (master inst p origin)
-    master = dbOpenCellViewByType(lib cellName "symbol")
-    unless( master
-      error("Cannot open symbol %s/%s -- check the library/cell name\n" lib cellName) )
-    inst = schCreateInst(cv master name list(0.0 0.0) orient)
-    p = csPinPt(inst termName)
-    unless( p
-      error("%s (%s/%s): no terminal named %s\n" name lib cellName termName) )
-    origin = list(xCoord(target) - xCoord(p)  yCoord(target) - yCoord(p))
-    dbDeleteObject(inst)
-    schCreateInst(cv master name origin orient)
-  )
-)
-
-;; wire from a to b: straight if aligned, otherwise horizontal then vertical
-procedure( csWire(cv a b @optional (label nil))
-  let( (pts wires mx my)
-    if( xCoord(a) == xCoord(b) || yCoord(a) == yCoord(b) then
-      pts = list(a b)
-    else
-      pts = list(a list(xCoord(b) yCoord(a)) b)
-    )
-    wires = schCreateWire(cv "draw" "full" pts 0.0625 0.0625 0.0)
-    when( label && wires
-      mx = (xCoord(car(pts)) + xCoord(cadr(pts))) / 2.0 + 0.0625
-      my = (yCoord(car(pts)) + yCoord(cadr(pts))) / 2.0 + 0.0625
-      schCreateWireLabel(cv car(wires) list(mx my) label "lowerLeft" "R0" "stick" csLabelH nil)
-    )
-    wires
-  )
-)
-
-;; ground symbol half a unit below pt, wired to pt
-procedure( csGnd(cv name pt)
-  let( (g)
-    g = csPlace(cv "analogLib" "gnd" name "R0" "gnd!" csDown(pt 0.5))
-    csWire(cv pt csPinPt(g "gnd!"))
-    g
-  )
-)
-
-;; short labelled stub on a pin (used for the global sub! net)
-procedure( csStub(cv inst termName netName)
-  let( (pt end wires)
-    pt = csPinPt(inst termName)
-    when( pt
-      end = csUp(pt 0.25)
-      wires = schCreateWire(cv "draw" "full" list(pt end) 0.0625 0.0625 0.0)
-      schCreateWireLabel(cv car(wires) end netName "lowerLeft" "R0" "stick" csLabelH nil)
-    )
-  )
-)
-
-procedure( csSetParam(inst name val)
-  let( (cdf p)
-    cdf = cdfGetInstCDF(inst)
-    p = and(cdf cdfFindParamByName(cdf name))
-    if( p then
-      p~>value = val
-    else
-      warn("%s: CDF parameter %s not found, skipped\n" inst~>name name)
-    )
-  )
-)
-
-;; ---------- main ----------
-procedure( csBuild(lib cell nLib nCell @key (vbias "0.6") (rlarge "1G") (vamp "10m") (nParams nil))
-  let( (cv m0 pG pD pS rd pRDt vdd n c0 pCp rl pRb vb v0 vsub chk)
-    unless( ddGetObj(lib)
-      error("Library %s does not exist. Create it in Library Manager first.\n" lib) )
-    cv = dbOpenCellViewByType(lib cell "schematic" "schematic" "w")
-    unless( cv
-      error("Cannot open %s/%s/schematic for writing.\n" lib cell) )
+procedure( csBuild(lib cell @key (rlarge "1G") (vamp "10m") (nParams nil)
+                                 (nLib acPdk->lib) (nCell acPdk->nmos))
+  let( (cv m0 pG pD pS rd pRDt vdd n c0 pCp rl pRb vb v0)
+    cv = acOpenSch(lib cell)
 
     ;; transistor, gate pin at the origin
-    m0 = csPlace(cv nLib nCell "M0" "R0" "G" list(0.0 0.0))
-    foreach(pv nParams csSetParam(m0 car(pv) cadr(pv)))
-    pG = csPinPt(m0 "G")
-    pD = csPinPt(m0 "D")
-    pS = csPinPt(m0 "S")
+    m0 = acPlace(cv nLib nCell "M0" "R0" "G" list(0.0 0.0))
+    foreach(pv nParams acSetParam(m0 car(pv) cadr(pv)))
+    pG = acPinPt(m0 "G")
+    pD = acPinPt(m0 "D")
+    pS = acPinPt(m0 "S")
 
     ;; load resistor above the drain, 2 V supply to its right
-    rd = csPlace(cv "analogLib" "res" "RD" "R0" "MINUS" csUp(pD 0.5))
-    csSetParam(rd "r" "100K")
-    csWire(cv pD csPinPt(rd "MINUS") "vout")
-    pRDt = csPinPt(rd "PLUS")
-    vdd = csPlace(cv "analogLib" "vdc" "VDD" "R0" "PLUS" csRight(pRDt 2.0))
-    csSetParam(vdd "vdc" "2")
-    csWire(cv pRDt csPinPt(vdd "PLUS") "vdd")
-    csGnd(cv "GND1" csPinPt(vdd "MINUS"))
+    rd = acPlace(cv "analogLib" "res" "RD" "R0" "MINUS" acUp(pD 0.5))
+    acSetParam(rd "r" "100K")
+    acWire(cv pD acPinPt(rd "MINUS") "vout")
+    pRDt = acPinPt(rd "PLUS")
+    vdd = acPlace(cv "analogLib" "vdc" "VDD" "R0" "PLUS" acRight(pRDt 2.0))
+    acSetParam(vdd "vdc" "2")
+    acWire(cv pRDt acPinPt(vdd "PLUS") "vdd")
+    acGnd(cv "GND1" acPinPt(vdd "MINUS"))
 
     ;; source to ground
-    csGnd(cv "GND2" pS)
+    acGnd(cv "GND2" pS)
 
     ;; gate node: coupling cap from the left, bias resistor below
-    n = csLeft(pG 1.0)
-    csWire(cv pG n "vg")
-    c0 = csPlace(cv "analogLib" "cap" "C0" "R90" "MINUS" csLeft(n 0.5))
-    csSetParam(c0 "c" "100f")
-    csWire(cv csPinPt(c0 "MINUS") n)
-    rl = csPlace(cv "analogLib" "res" "RLARGE" "R0" "PLUS" csDown(n 0.75))
-    csSetParam(rl "r" rlarge)
-    csWire(cv n csPinPt(rl "PLUS"))
-    pRb = csPinPt(rl "MINUS")
-    vb = csPlace(cv "analogLib" "vdc" "VBIAS" "R0" "PLUS" csDown(pRb 0.5))
-    csSetParam(vb "vdc" vbias)
-    csWire(cv pRb csPinPt(vb "PLUS") "vb")
-    csGnd(cv "GND3" csPinPt(vb "MINUS"))
+    n = acLeft(pG 1.0)
+    acWire(cv pG n "vg")
+    c0 = acPlace(cv "analogLib" "cap" "C0" "R90" "MINUS" acLeft(n 0.5))
+    acSetParam(c0 "c" "100f")
+    acWire(cv acPinPt(c0 "MINUS") n)
+    rl = acPlace(cv "analogLib" "res" "RLARGE" "R0" "PLUS" acDown(n 0.75))
+    acSetParam(rl "r" rlarge)
+    acWire(cv n acPinPt(rl "PLUS"))
+    pRb = acPinPt(rl "MINUS")
+    vb = acPlace(cv "analogLib" "vdc" "VBIAS" "R0" "PLUS" acDown(pRb 0.5))
+    acSetParam(vb "vdc" "vbias")
+    acWire(cv pRb acPinPt(vb "PLUS") "vb")
+    acGnd(cv "GND3" acPinPt(vb "MINUS"))
 
     ;; 2 MHz input source, lower left
-    pCp = csPinPt(c0 "PLUS")
-    v0 = csPlace(cv "analogLib" "vsin" "V0" "R0" "PLUS" csDown(csLeft(pCp 1.0) 1.0))
+    pCp = acPinPt(c0 "PLUS")
+    v0 = acPlace(cv "analogLib" "vsin" "V0" "R0" "PLUS" acDown(acLeft(pCp 1.0) 1.0))
     foreach(pv list(list("vo" "0") list("va" vamp) list("freq" "2M") list("acm" "1"))
-      csSetParam(v0 car(pv) cadr(pv)))
-    csWire(cv pCp csPinPt(v0 "PLUS") "vin")
-    csGnd(cv "GND4" csPinPt(v0 "MINUS"))
+      acSetParam(v0 car(pv) cadr(pv)))
+    acWire(cv pCp acPinPt(v0 "PLUS") "vin")
+    acGnd(cv "GND4" acPinPt(v0 "MINUS"))
 
-    ;; IBM PDKs tie the device substrate to global net sub!; short it to ground
-    vsub = csPlace(cv "analogLib" "vdc" "VSUB" "R0" "PLUS" csRight(csPinPt(vdd "PLUS") 1.5))
-    csSetParam(vsub "vdc" "0")
-    csStub(cv vsub "PLUS" "sub!")
-    csGnd(cv "GND5" csPinPt(vsub "MINUS"))
+    ;; substrate tie, far right
+    acSubTie(cv acRight(acPinPt(vdd "PLUS") 1.5))
 
-    chk = schCheck(cv)
-    printf("schCheck (errors warnings): %L\n" chk)
-    dbSave(cv)
-    geOpen(?lib lib ?cell cell ?view "schematic" ?mode "a")
-    printf("Built %s/%s/schematic\n" lib cell)
-    t
+    acFinish(cv lib cell)
   )
 )
 
-printf("cs_amp.il v3 loaded. Run: csBuild(\"SelfPractice\" \"cs_amp\" \"cmrf7sf\" \"nfet\")\n")
+;; DC operating point + AC sweep + transient, then print key numbers.
+;; tstop is in seconds (5u = 10 periods of the 2 MHz input).
+procedure( csSim(@key (lib "SelfPractice") (cell "cs_amp") (vbias 0.6)
+                      (tstop 5e-6) (corner "tt") (plots t))
+  let( (vout vg vd gain pp vinpp gm id)
+    acSimSetup(lib cell corner)
+    desVar("vbias" vbias)
+    analysis('dc ?saveOppoint t)
+    analysis('ac ?start "1k" ?stop "10G" ?dec "20")
+    analysis('tran ?stop sprintf(nil "%g" tstop))
+    run()
+
+    ;; each measurement is guarded so one failure does not hide the rest
+    vg    = car(errset(v("/vg"   ?result "dcOp") nil))
+    vout  = car(errset(v("/vout" ?result "dcOp") nil))
+    gain  = car(errset(value(mag(v("/vout" ?result "ac")) 2e6) nil))
+    pp    = car(errset(peakToPeak(clip(v("/vout" ?result "tran") tstop/2 tstop)) nil))
+    vinpp = car(errset(peakToPeak(clip(v("/vin"  ?result "tran") tstop/2 tstop)) nil))
+    gm    = car(errset(pv("M0" "gm" ?result "dcOpInfo") nil))
+    id    = car(errset(pv("M0" "id" ?result "dcOpInfo") nil))
+
+    printf("\n========== cs_amp  (vbias = %g V, corner %s) ==========\n" vbias corner)
+    printf("DC   V(vg)   = %s V\n" acNum(vg))
+    printf("DC   V(vout) = %s V\n" acNum(vout))
+    printf("DC   M0 gm   = %s S     Id = %s A\n" acNum(gm) acNum(id))
+    printf("AC   |vout/vin| @ 2 MHz = %s V/V  (%s dB)\n"
+           acNum(gain)
+           if( numberp(gain) && gain > 0 then acNum(20.0 * log10(gain) "%.2f") else "n/a" ))
+    printf("TRAN vout p-p = %s V   (vin p-p = %s V, 2nd half of the run)\n" acNum(pp) acNum(vinpp))
+    printf("=======================================================\n")
+
+    when( plots
+      errset(
+        progn(
+          newWindow()
+          plot(v("/vin" ?result "tran") v("/vout" ?result "tran"))
+          newWindow()
+          plot(db20(v("/vout" ?result "ac")))
+        )
+        t)
+    )
+    list(vout gain pp)
+  )
+)
