@@ -24,6 +24,13 @@ csSim()                            ; simulate and print results
 csSim(?vbias 0.55)                 ; another bias point
 ```
 
+Width sweep at constant 10 uA (HW1 P2 c/d/e):
+
+```lisp
+csWSweep()                          ; table in CIW + ~/AutoCircuit_results/cs_wsweep.csv + plots
+acDumpParams("SelfPractice" "cs_amp_w" "M0")   ; check the NMOS CDF parameter names
+```
+
 ## Layout
 
 | File | What |
@@ -33,5 +40,6 @@ csSim(?vbias 0.55)                 ; another bias point
 | `lib_draw.il` | drawing helpers: place by pin, wires, grounds, substrate tie |
 | `lib_sim.il` | OCEAN helpers: simulation setup with PDK models |
 | `cs_amp.il` | common-source amp: `csBuild`, `csSim` |
+| `cs_wsweep.il` | W sweep at constant Id: `csWSweep` |
 
 New circuit: add `name.il` and list it in `acFiles` in `ac.il`.

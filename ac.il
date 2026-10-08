@@ -10,7 +10,7 @@ acRoot = strcat(getShellEnvVar("HOME") "/AutoCircuit")
 
 ;; order matters: PDK config, then libraries, then circuits
 acFiles = '("pdk_cmrf7sf.il" "lib_draw.il" "lib_sim.il"
-            "cs_amp.il")
+            "cs_amp.il" "cs_wsweep.il")
 
 procedure( acLoadAll()
   foreach(f acFiles

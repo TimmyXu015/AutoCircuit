@@ -19,12 +19,16 @@
 ;; add vbias under Variables (Variables -> Copy From Cellview).
 
 procedure( csBuild(lib cell @key (rlarge "1G") (vamp "10m") (nParams nil)
+                                 (nW nil) (nL nil)
                                  (nLib acPdk->lib) (nCell acPdk->nmos))
   let( (cv m0 pG pD pS rd pRDt vdd n c0 pCp rl pRb vb v0)
     cv = acOpenSch(lib cell)
 
     ;; transistor, gate pin at the origin
     m0 = acPlace(cv nLib nCell "M0" "R0" "G" list(0.0 0.0))
+    ;; W / L, e.g. ?nW "wn" makes the width the design variable wn
+    when( nW acSetParam(m0 acPdk->nmosW nW) )
+    when( nL acSetParam(m0 acPdk->nmosL nL) )
     foreach(pv nParams acSetParam(m0 car(pv) cadr(pv)))
     pG = acPinPt(m0 "G")
     pD = acPinPt(m0 "D")

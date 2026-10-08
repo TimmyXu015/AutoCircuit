@@ -93,6 +93,23 @@ procedure( acSetParam(inst name val)
   )
 )
 
+;; print every CDF parameter of an instance (name, prompt, value) -- for learning a PDK
+;;   acDumpParams("SelfPractice" "cs_amp" "M0")
+procedure( acDumpParams(lib cell instName)
+  let( (cv inst cdf)
+    cv = dbOpenCellViewByType(lib cell "schematic")
+    inst = and(cv car(setof(i cv~>instances i~>name == instName)))
+    if( inst then
+      cdf = cdfGetInstCDF(inst)
+      printf("CDF parameters of %s (%s/%s):\n" instName inst~>libName inst~>cellName)
+      foreach(p cdf~>parameters
+        printf("  %-16s %L  = %L\n" p~>name p~>prompt p~>value))
+    else
+      warn("No instance %s in %s/%s/schematic\n" instName lib cell)
+    )
+  )
+)
+
 ;; 0 V source tying the PDK substrate net to ground, placed at pt (its + pin)
 procedure( acSubTie(cv pt)
   let( (vs)

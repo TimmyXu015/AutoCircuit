@@ -7,6 +7,8 @@ acPdk = list(nil
   'lib        "cmrf7sf"      ; library holding the devices
   'nmos       "nfet"         ; terminals D G S, substrate via global net sub!
   'pmos       "pfet"         ; not yet verified
+  'nmosW      "w"            ; CDF name of the width  -- not yet verified, check with acDumpParams
+  'nmosL      "l"            ; CDF name of the length -- not yet verified
   'subNet     "sub!"         ; global substrate net created by the PDK; tied to gnd
   'modelPath  "/acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models"
   ;; (file section) -- a section of "" means no section; "tt" is replaced by the chosen corner
