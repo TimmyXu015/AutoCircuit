@@ -27,7 +27,10 @@ unless( boundp('acLogPort) acLogPort = nil )
 
 procedure( acSay(fmt @rest args)
   let( (msg)
-    msg = apply('sprintf cons(nil cons(fmt args)))
+    ;; lsprintf is the lambda form of sprintf: apply() must not re-evaluate the args
+    msg = if( isCallable('lsprintf)
+            then apply('lsprintf cons(fmt args))
+            else apply('sprintf append(list(nil fmt) mapcar(lambda((a) list('quote a)) args))))
     printf("AC> %s" msg)
     when( acLogPort
       fprintf(acLogPort "%s" msg)
@@ -79,6 +82,7 @@ procedure( acGo(job)
     dir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results")
     unless( isDir(dir) createDir(dir) )
     file = strcat(dir "/ciw_" get_pname(job) ".txt")
+    when( acLogPort errset(close(acLogPort) nil) )   ; left open by an interrupted run
     acLogPort = outfile(file "w")
     acSay("acGo %L  steps %L\n" job steps)
     unless( steps acSay("unknown job %L -- known jobs: %L\n" job acJobs) )
