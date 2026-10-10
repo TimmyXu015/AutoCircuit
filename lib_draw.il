@@ -90,7 +90,8 @@ procedure( acSetParam(inst name val @optional (quiet nil))
       p~>value = val
       when( stringp(p~>callback) && p~>callback != ""
         cdfgData = cdf
-        cdfgForm = nil
+        ;; some PDK callbacks read cdfgForm->param->value; the CDF object answers the same way
+        cdfgForm = cdf
         unless( errset(evalstring(p~>callback) nil)
           acSay("%s.%s: CDF callback %L failed: %L\n"
                 inst~>name name p~>callback errset.errset))
