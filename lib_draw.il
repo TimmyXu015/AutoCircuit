@@ -91,7 +91,9 @@ procedure( acSetParam(inst name val @optional (quiet nil))
       when( stringp(p~>callback) && p~>callback != ""
         cdfgData = cdf
         cdfgForm = nil
-        errset(evalstring(p~>callback) nil)
+        unless( errset(evalstring(p~>callback) nil)
+          acSay("%s.%s: CDF callback %L failed: %L\n"
+                inst~>name name p~>callback errset.errset))
       )
       t
     else

@@ -8,8 +8,10 @@
 ;;   (= vgs, swept)
 ;;
 ;; Batch (SSH):   ~/AutoCircuit/run.sh p1a
-;; In the CIW:    p1aRun()          build + simulate + export (same as batch)
+;; In the CIW:    acGo("p1a")       everything: pull, build, simulate, export, plot, ADE L state
+;;                p1aRun()          build + simulate + export (same as batch)
 ;;                p1aPlot()         plot the saved results again, no re-simulation
+;;                p1aAde()          open ADE L on the cell, fill it in, save state "p1a_auto"
 ;;
 ;; Outputs:
 ;;   schematic   HW1_203 / p1_nfetx / schematic
@@ -190,5 +192,26 @@ procedure( p1aPlot(@optional (cfg p1aCfg))
     else
       warn("No stored DC results for %s -- run p1aRun() or run.sh p1a first\n" cfg->cell)
     )
+  )
+)
+
+;; open ADE L on the cell, fill in models / variables / DC sweep, save as state "p1a_auto"
+procedure( p1aAde(@optional (cfg p1aCfg))
+  let( (sess)
+    sess = acAdeStart(cfg->lib cfg->cell)
+    unless( sess error("Could not get an ADE L session\n") )
+    acAdeModels(sess "tt")
+    acAdeVars(sess list(list("vgs" "0") list("vds" sprintf(nil "%g" cfg->vds))))
+    ;; DC sweep of design variable vgs. Field names are a best guess; the
+    ;; probe file lists the real ones if some of these fail.
+    acAdeAnalysis(sess 'dc
+      list(list('saveOppoint t)
+           list('param "vgs")
+           list('start sprintf(nil "%g" cfg->vgsStart))
+           list('stop  sprintf(nil "%g" cfg->vgsStop))
+           list('step  sprintf(nil "%g" cfg->vgsStep))))
+    acAdeProbe(sess 'dc)
+    acAdeSave(sess cfg->lib cfg->cell "p1a_auto")
+    sess
   )
 )

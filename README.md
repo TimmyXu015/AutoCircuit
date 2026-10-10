@@ -13,6 +13,16 @@ Results land in the library, in `~/simulation/<cell>/...` (ADE L's folder) and i
 `~/AutoCircuit_results/<job>.{txt,csv,log}`. Later, in the CIW, `p1aPlot()` plots them
 without simulating again. Close the schematic in the GUI before re-running a job on it.
 
+## One line in the CIW (remote desktop)
+
+```lisp
+load("~/AutoCircuit/ac.il") acGo("p1a")
+```
+
+Pulls, reloads, builds, simulates, plots, opens ADE L filled in and saves it as state
+`p1a_auto`. The report is written to `~/AutoCircuit_results/ciw_p1a.txt` -- read it over
+SSH with `cat ~/AutoCircuit_results/ciw_p1a.txt`.
+
 ## Use (in the CIW)
 
 First time in a Virtuoso session:
@@ -50,6 +60,7 @@ acDumpParams("SelfPractice" "cs_amp_w" "M0")   ; check the NMOS CDF parameter na
 | `pdk_cmrf7sf.il` | PDK specifics: device names, model files, PDK variables |
 | `lib_draw.il` | drawing helpers: place by pin, wires, grounds, substrate tie |
 | `lib_sim.il` | OCEAN helpers: simulation setup with PDK models |
+| `lib_ade.il` | ADE L helpers: open, models, variables, analyses, save state, API probe |
 | `cs_amp.il` | common-source amp: `csBuild`, `csSim` |
 | `cs_wsweep.il` | W sweep at constant Id: `csWSweep` |
 | `hw1_p1a.il` | HW1 P1a: nfetx 5/1, Ids vs VGS at VDS = 1.8 V: `p1aRun`, `p1aPlot` |
