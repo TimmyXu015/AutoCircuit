@@ -42,6 +42,9 @@ procedure( p1aBuild(@optional (cfg p1aCfg))
     m0 = acPlace(cv cfg->devLib cfg->dev "M0" "R0" "G" list(0.0 0.0))
     usedW = acSetFirstParam(m0 '("w" "W" "wr" "width" "Width") cfg->w)
     usedL = acSetFirstParam(m0 '("l" "L" "lr" "length" "Length") cfg->l)
+    ;; the PDK callback that keeps "wt" (total width) in step fails outside the form;
+    ;; with one finger the total width equals the finger width
+    acSetParam(m0 "wt" cfg->w t)
     printf("M0 size: width param %L = %s, length param %L = %s\n" usedW cfg->w usedL cfg->l)
 
     tD = acTerm(m0 '("D" "drain"))
@@ -202,14 +205,21 @@ procedure( p1aAde(@optional (cfg p1aCfg))
     unless( sess error("Could not get an ADE L session\n") )
     acAdeModels(sess "tt")
     acAdeVars(sess list(list("vgs" "0") list("vds" sprintf(nil "%g" cfg->vds))))
-    ;; DC sweep of design variable vgs. Field names are a best guess; the
-    ;; probe file lists the real ones if some of these fail.
-    acAdeAnalysis(sess 'dc
-      list(list('saveOppoint t)
-           list('param "vgs")
-           list('start sprintf(nil "%g" cfg->vgsStart))
-           list('stop  sprintf(nil "%g" cfg->vgsStop))
-           list('step  sprintf(nil "%g" cfg->vgsStep))))
+    ;; DC sweep of design variable vgs (field names from this installation's dc form)
+    let( (ana)
+      ana = acAdeAnalysis(sess 'dc
+        list(list('saveOppoint t)
+             list('designVar "vgs")
+             list('start sprintf(nil "%g" cfg->vgsStart))
+             list('stop  sprintf(nil "%g" cfg->vgsStop))
+             list('step  sprintf(nil "%g" cfg->vgsStep))))
+      when( ana
+        acAdeChoice(ana 'sweep "design")
+        acAdeChoice(ana 'rangeType "start")
+        acAdeChoice(ana 'incrType "linear")
+        acAdeChoice(ana 'stepTypeLin "step")
+      )
+    )
     acAdeSaveCurrents(sess)
     acAdeOutput(acAdeSev "Ids" "abs(getData(\"/VDS/PLUS\" ?result \"dc\"))")
     acAdeOutput(acAdeSev "log10_Ids" "log10(abs(getData(\"/VDS/PLUS\" ?result \"dc\")))")

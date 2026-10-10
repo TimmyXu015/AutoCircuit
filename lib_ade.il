@@ -78,23 +78,44 @@ procedure( acAdeAnalysis(sess anaType fields)
   )
 )
 
+;; set a choice-type field to the allowed choice that contains `hint` (case-insensitive)
+procedure( acAdeChoice(ana field hint)
+  let( (choices pick ok)
+    choices = car(errset(asiGetAnalysisFieldChoices(ana field) nil))
+    foreach(c choices
+      when( !pick && stringp(c) && index(lowerCase(c) lowerCase(hint))
+        pick = c))
+    unless( pick pick = hint )
+    ok = errset(asiSetAnalysisFieldVal(ana field pick) nil)
+    acSay("ADE:   field %L choices %L -> %L %s, reads back %L\n" field choices pick
+          if( ok "ok" "FAILED") car(errset(asiGetAnalysisFieldVal(ana field) nil)))
+    ok
+  )
+)
+
 ;; add an output expression to the ADE L Outputs list (needs the sev session)
 procedure( acAdeOutput(sev name expr)
   let( (ok)
-    ok = errset(sevAddExpression(sev name expr) t)
+    ok = errset(sevAddExpression(sev name expr ?plottingEnabled t) t)
     acSay("ADE: output %s = %s -> %L\n" name expr ok)
     ok
   )
 )
 
-;; ask spectre to save all terminal currents (so current outputs can be plotted)
+;; ask spectre to save all terminal currents (so current outputs can be plotted).
+;; The setter's name differs between versions, so try the candidates and report.
 procedure( acAdeSaveCurrents(sess)
-  let( (ok)
-    ok = and(isCallable('asiSetEnvOptionVal)
-             errset(asiSetEnvOptionVal(sess 'currents "all") nil))
-    acSay("ADE: save all currents -> %L (now %L)\n" ok
-          car(errset(asiGetEnvOptionVal(sess 'currents) nil)))
-    ok
+  let( (done)
+    foreach(c '((asiSetKeepOptionVal currents "all")
+                (asiSetEnvOptionVal  currents "all")
+                (asiSetKeepOptionVal save "all"))
+      unless( done
+        when( isCallable(car(c))
+          done = car(errset(funcall(car(c) sess cadr(c) caddr(c)) nil))
+          acSay("ADE: %L(%L %L) -> %L\n" car(c) cadr(c) caddr(c) done))))
+    unless( done
+      acSay("ADE: could not switch on saving all currents -- in ADE L: Outputs -> Save All -> all terminal currents\n"))
+    done
   )
 )
 
@@ -115,7 +136,7 @@ procedure( acAdeProbe(sess @optional (anaType 'dc))
   let( (port file names ana keys)
     file = strcat(acResultsDir() "/ade_probe.txt")
     port = outfile(file "w")
-    keys = '("Anal" "Output" "Expr" "State" "Temp" "Model" "DesignVar" "Session" "Plot" "EnvOption" "Save")
+    keys = '("Anal" "Output" "Expr" "State" "Temp" "Model" "DesignVar" "Session" "Plot" "EnvOption" "Save" "Keep" "Option")
     names = setof(f listFunctions("^asi")
                   exists(k keys index(get_pname(f) k)))
     fprintf(port "== asi functions (%d)\n" length(names))
