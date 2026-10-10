@@ -13,20 +13,7 @@ acFiles = '("pdk_cmrf7sf.il" "lib_draw.il" "lib_sim.il"
             "cs_amp.il" "cs_wsweep.il"
             "hw1_p1a.il")
 
-procedure( ;; run a job function in batch mode (run.sh): errors are reported, never left hanging
-procedure( acBatch(fn)
-  let( (ok)
-    ok = errset(funcall(fn) t)
-    if( ok then
-      printf("AC_BATCH_DONE\n")
-    else
-      printf("AC_BATCH_FAILED: %L\n" errset.errset)
-    )
-    ok
-  )
-)
-
-acLoadAll()
+procedure( acLoadAll()
   foreach(f acFiles
     load(strcat(acRoot "/" f)))
   printf("AutoCircuit loaded (%d files) from %s\n" length(acFiles) acRoot)

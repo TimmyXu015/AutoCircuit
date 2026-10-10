@@ -42,6 +42,7 @@ mkdir -p "$RES"
 LOG="$RES/$JOB.log"
 echo "[run] running job '$JOB' (log: $LOG) ..."
 START=$(date +%s)
+STAMP="$RES/.$JOB.stamp"; touch "$STAMP"
 ( cd "$WORK" && AC_ROOT="$ROOT" virtuoso -nograph -log "$LOG.cds" < "$ROOT/batch/$JOB.il" > "$LOG" 2>&1 )
 echo "[run] finished in $(( $(date +%s) - START )) s"
 
@@ -53,11 +54,13 @@ else
 fi
 echo "------------------------------------------------------------"
 grep -E "\*Error\*|\*WARNING\*|AC_BATCH_FAILED|^INFO: |M0 size|schCheck|Wrote |Built " "$LOG" \
-  | grep -v "ddGetObj: invalid libId" | head -40
+  | grep -v -e "ddGetObj: invalid libId" -e "Could not open display" -e "/tmp/.X[0-9]*-lock" \
+          -e "redefines" | head -40
 echo "------------------------------------------------------------"
 [ -f "$RES/$JOB.txt" ] && cat "$RES/$JOB.txt"
 NET="$HOME/simulation"
-NETFILE=$(ls -t "$NET"/*/spectre/schematic/netlist/input.scs 2>/dev/null | head -1)
+# only a netlist written by this run
+NETFILE=$(find "$NET" -path "*/netlist/input.scs" -newer "$STAMP" 2>/dev/null | head -1)
 if [ -n "$NETFILE" ]; then
   echo "------------------------------------------------------------"
   echo "[run] transistor line in netlist ($NETFILE):"
