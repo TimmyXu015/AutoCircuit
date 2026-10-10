@@ -52,9 +52,11 @@ procedure( acAdeVars(sess vars)
   )
 )
 
-;; set fields of one analysis, read each back, and enable it
-;; fields = list(list('name value) ...)
-procedure( acAdeAnalysis(sess anaType fields)
+;; set fields of one analysis, read each back, and enable it LAST (ADE builds the
+;; Arguments text in its window when the analysis is enabled).
+;; choices = list(list('field "hint") ...) for choice-type fields, applied first
+;; fields  = list(list('field value) ...)
+procedure( acAdeAnalysis(sess anaType fields @optional (choices nil))
   let( (ana ok back names)
     ana = car(errset(asiGetAnalysis(sess anaType) t))
     acSay("ADE: analysis %L object -> %L\n" anaType ana)
@@ -63,6 +65,8 @@ procedure( acAdeAnalysis(sess anaType fields)
       unless( names
         names = car(errset(mapcar(lambda((f) f->name) asiGetAnalysisFieldList(ana)) nil)) )
       acSay("ADE:   field names: %L\n" names)
+      errset(asiDisableAnalysis(ana) nil)
+      foreach(c choices acAdeChoice(ana car(c) cadr(c)))
       foreach(f fields
         ok = errset(asiSetAnalysisFieldVal(ana car(f) cadr(f)) nil)
         back = car(errset(asiGetAnalysisFieldVal(ana car(f)) nil))
@@ -72,7 +76,6 @@ procedure( acAdeAnalysis(sess anaType fields)
                   "  (not in field list)" "")))
       ok = errset(asiEnableAnalysis(ana) t)
       acSay("ADE:   enable -> %L, enabled now %L\n" ok car(errset(asiIsAnalysisEnabled(ana) nil)))
-      acSay("ADE:   enabled analyses: %L\n" car(errset(asiGetEnabledAnalysisList(sess) nil)))
     )
     ana
   )
