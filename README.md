@@ -2,6 +2,17 @@
 
 SKILL/OCEAN scripts that draw and simulate circuits in Cadence Virtuoso (UCSD ieng6, IBM cmrf7sf PDK).
 
+## Batch over SSH (no remote desktop needed)
+
+```bash
+ECE203_FA26_001              # course environment, once per login
+~/AutoCircuit/run.sh p1a     # pulls, runs the job in a windowless Virtuoso, prints the results
+```
+
+Results land in the library, in `~/simulation/<cell>/...` (ADE L's folder) and in
+`~/AutoCircuit_results/<job>.{txt,csv,log}`. Later, in the CIW, `p1aPlot()` plots them
+without simulating again. Close the schematic in the GUI before re-running a job on it.
+
 ## Use (in the CIW)
 
 First time in a Virtuoso session:
@@ -41,5 +52,7 @@ acDumpParams("SelfPractice" "cs_amp_w" "M0")   ; check the NMOS CDF parameter na
 | `lib_sim.il` | OCEAN helpers: simulation setup with PDK models |
 | `cs_amp.il` | common-source amp: `csBuild`, `csSim` |
 | `cs_wsweep.il` | W sweep at constant Id: `csWSweep` |
+| `hw1_p1a.il` | HW1 P1a: nfetx 5/1, Ids vs VGS at VDS = 1.8 V: `p1aRun`, `p1aPlot` |
+| `run.sh`, `batch/` | SSH batch runner and its jobs |
 
 New circuit: add `name.il` and list it in `acFiles` in `ac.il`.

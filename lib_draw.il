@@ -80,15 +80,64 @@ procedure( acStub(cv inst termName netName)
   )
 )
 
-;; set a CDF parameter on an instance, warn if the PDK calls it something else
-procedure( acSetParam(inst name val)
+;; set a CDF parameter on an instance and run its CDF callback (PDKs such as
+;; IBM's recompute derived parameters there). Warns if the name does not exist.
+procedure( acSetParam(inst name val @optional (quiet nil))
   let( (cdf p)
     cdf = cdfGetInstCDF(inst)
     p = and(cdf cdfFindParamByName(cdf name))
     if( p then
       p~>value = val
+      when( stringp(p~>callback) && p~>callback != ""
+        cdfgData = cdf
+        cdfgForm = nil
+        errset(evalstring(p~>callback) nil)
+      )
+      t
     else
-      warn("%s: CDF parameter %s not found, skipped\n" inst~>name name)
+      unless( quiet
+        warn("%s: CDF parameter %s not found, skipped\n" inst~>name name) )
+      nil
+    )
+  )
+)
+
+;; try several possible parameter names, set the first that exists; returns its name
+procedure( acSetFirstParam(inst names val)
+  let( (used)
+    foreach(n names
+      unless( used
+        when( acSetParam(inst n val t) used = n ) ))
+    unless( used
+      warn("%s: none of the CDF parameters %L exist, value %L not set\n" inst~>name names val) )
+    used
+  )
+)
+
+;; first terminal name of inst matching one of the candidates (case-insensitive)
+procedure( acTerm(inst candidates)
+  let( (names hit)
+    names = inst~>master~>terminals~>name
+    foreach(c candidates
+      unless( hit
+        hit = car(setof(n names upperCase(n) == upperCase(c))) ))
+    hit
+  )
+)
+
+;; write the CDF parameters of inst to port; only size-related ones unless all = t
+procedure( acReportParams(inst port @optional (all nil))
+  let( (cdf key)
+    cdf = cdfGetInstCDF(inst)
+    when( cdf
+      foreach(p cdf~>parameters
+        key = lowerCase(strcat(p~>name " " if( stringp(p~>prompt) p~>prompt "")))
+        when( all || member(lowerCase(p~>name) '("w" "l" "nf" "m" "wr" "lr" "wf"))
+                  || index(key "width") || index(key "length")
+                  || index(key "finger") || index(key "multiplier")
+          fprintf(port "  %-14s %L = %L\n" p~>name p~>prompt p~>value)
+        )
+      )
     )
   )
 )
@@ -141,7 +190,9 @@ procedure( acFinish(cv lib cell)
     chk = schCheck(cv)
     printf("schCheck (errors warnings): %L\n" chk)
     dbSave(cv)
-    geOpen(?lib lib ?cell cell ?view "schematic" ?mode "a")
+    ;; no window in batch (-nograph) mode
+    when( hiGraphicMode()
+      geOpen(?lib lib ?cell cell ?view "schematic" ?mode "a") )
     printf("Built %s/%s/schematic\n" lib cell)
     t
   )
