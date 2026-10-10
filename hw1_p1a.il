@@ -209,6 +209,8 @@ procedure( p1aAde(@optional (cfg p1aCfg))
     acAdeAnalysis(sess 'dc
       list(list('saveOppoint t)
            list('designVar "vgs")
+           ;; the form copies designVar into param on OK; the netlister reads param
+           list('param "vgs")
            list('start sprintf(nil "%g" cfg->vgsStart))
            list('stop  sprintf(nil "%g" cfg->vgsStop))
            list('step  sprintf(nil "%g" cfg->vgsStep)))
