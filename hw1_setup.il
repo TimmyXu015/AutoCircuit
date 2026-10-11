@@ -12,6 +12,7 @@
 ;;   hw1_p2_cs     DC operating point + AC 1 kHz..10 GHz; outputs Vout_dc, Id, gain/attenuation at 2 MHz, gain_dB
 ;;
 ;; Build + ADE states (needs a display; run.sh runs it on a virtual one):  ~/AutoCircuit/run.sh hw1setup
+;; Simulate each cell once with OCEAN, no GUI:                            ~/AutoCircuit/run.sh hw1check
 ;; Helpers for the CIW after loading ac.il:
 ;;   hw1P1cFamily()           P1c: Ids vs VGS for VDS = 0.1 .. 1.8 V, plotted as a family (OCEAN)
 ;;   hw1P1cFamily(?pmos t)    same for the PMOS
@@ -125,10 +126,20 @@ procedure( hw1Check()
   t
 )
 
-;; everything: schematics, OCEAN checks, then ADE states (ADE needs a display)
+;; answer Cadence's "Next License" question in advance: a modal dialog on a virtual
+;; display can never be clicked and would freeze the job
+procedure( hw1NoLicensePrompts()
+  foreach(v '("VSEL_UseNextLicense" "VSEXL_UseNextLicense" "ADEL_UseNextLicense"
+              "ADE_UseNextLicense" "VIVA_UseNextLicense" "VLS_UseNextLicense"
+              "VSE_UseNextLicense" "VLSXL_UseNextLicense")
+    when( car(errset(envSetVal("license" v 'string "always") nil))
+      acSay("license %s = always\n" v)))
+)
+
+;; GUI job: schematics, then ADE states (ADE needs a display)
 procedure( hw1Setup()
+  hw1NoLicensePrompts()
   hw1Build()
-  hw1Check()
   if( hiGraphicMode() then hw1Ade()
   else acSay("hw1: no display -- schematics built, ADE states skipped\n"))
   t

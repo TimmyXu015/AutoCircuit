@@ -23,6 +23,7 @@ acJobs = list(nil
   'gmid '(gmidRun)
   'wsub '(wsubRun)
   'hw1 '(hw1Setup)
+  'hw1check '(hw1Check)
 )
 
 ;; ---------- reporting ----------
