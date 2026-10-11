@@ -66,7 +66,7 @@ if grep -q "@gui" "$ROOT/batch/$JOB.il"; then
   for _ in $(seq 1 600); do
     sleep 1
     kill -0 $VPID 2>/dev/null || break
-    if grep -aq "AC_BATCH_" "$LOG.cds" 2>/dev/null; then
+    if grep -aq "^.o AC_BATCH_" "$LOG.cds" 2>/dev/null; then   # output lines only, not echoed input
       sleep 10
       pkill -u "$USER" -f "replay $ROOT/batch/$JOB.il" 2>/dev/null
       sleep 2
