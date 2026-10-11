@@ -59,7 +59,9 @@ procedure( indbBuild(@optional (cfg indbCfg))
     acSetParam(rs "r" cfg->rs)
     acWire(cv acPinPt(l0 "MINUS") acPinPt(rs "PLUS"))
     p2 = acRight(acPinPt(rs "MINUS") 1.0)
-    acWire(cv acPinPt(rs "MINUS") p2 "p2")
+    ;; no net label here: p2 is grounded below, and a net named both p2 and gnd!
+    ;; is a schematic error
+    acWire(cv acPinPt(rs "MINUS") p2)
 
     ;; Cs across L + Rs, on top
     top1 = acUp(p1 1.0)
