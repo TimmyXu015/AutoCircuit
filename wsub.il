@@ -20,7 +20,7 @@ wsubCfg = list(nil
   'w "wn"  'l "1u"
   'vds 1.8
   'vgsStart -0.2  'vgsStop 1.8  'vgsStep 0.002
-  'widths  '(0.5 1 2 5 10 20 50 100)        ; um
+  'widths  '(0.5 1.0 2.0 5.0 10.0 20.0 50.0 100.0)   ; um (floats: SKILL %g rejects integers)
   'targets '(1e-8 1e-7 1e-6 1e-5)           ; A
 )
 
@@ -54,10 +54,11 @@ procedure( wsubGm(vg id n k)
 )
 
 procedure( wsubRun(@optional (cfg wsubCfg))
-  let( (sw vg id n rows best g dir csv txt port k f v gm nEst phit)
+  let( (sw vg id n rows best g dir csv txt port k f v gm nEst phit wu)
     phit = 0.02585
     p1aBuild(cfg)
-    foreach(wu cfg->widths
+    foreach(w0 cfg->widths
+      wu = float(w0)
       sw = wsubSweep(cfg wu)
       vg = car(sw)  id = cadr(sw)  n = caddr(sw)
       unless( n > 2 error("No DC results at W = %g um\n" wu) )
