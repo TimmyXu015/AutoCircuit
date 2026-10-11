@@ -21,7 +21,7 @@ hw1Lib = "HW1_203"
 hw1Nmos = list(nil 'lib hw1Lib 'cell "p1_nmos" 'devLib "cmrf7sf" 'dev "nfetx" 'w "5u" 'l "1u"
                'vds 1.8 'vgsStart 0.0 'vgsStop 1.8 'vgsStep 0.005)
 hw1Pmos = list(nil 'lib hw1Lib 'cell "p1_pmos" 'devLib "cmrf7sf" 'dev "pfetx" 'w "5u" 'l "1u"
-               'vgsExpr "-vsg" 'vdsExpr "-vsd")
+               'vgsExpr "-vsg" 'vdsExpr "-vsd" 'orient "MX")
 
 ;; ---------- schematics ----------
 procedure( hw1Build()

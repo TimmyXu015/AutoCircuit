@@ -39,7 +39,8 @@ procedure( p1aBuild(@optional (cfg p1aCfg))
     cell = cfg->cell
     cv = acOpenSch(lib cell)
 
-    m0 = acPlace(cv cfg->devLib cfg->dev "M0" "R0" "G" list(0.0 0.0))
+    ;; orient: PMOS symbols have the source on top; "MX" flips them to drain-up like the NMOS
+    m0 = acPlace(cv cfg->devLib cfg->dev "M0" or(cfg->orient "R0") "G" list(0.0 0.0))
     usedW = acSetFirstParam(m0 '("w" "W" "wr" "width" "Width") cfg->w)
     usedL = acSetFirstParam(m0 '("l" "L" "lr" "length" "Length") cfg->l)
     ;; the PDK callback that keeps "wt" (total width) in step fails outside the form;

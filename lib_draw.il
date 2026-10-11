@@ -50,6 +50,8 @@ procedure( acWire(cv a b @optional (label nil))
       pts = list(a list(xCoord(b) yCoord(a)) b)
     )
     wires = schCreateWire(cv "draw" "full" pts 0.0625 0.0625 0.0)
+    ;; in the GUI the editor may merge new wires into existing ones and free them
+    wires = setof(w wires dbValidP(w))
     when( label && wires
       mx = (xCoord(car(pts)) + xCoord(cadr(pts))) / 2.0 + 0.0625
       my = (yCoord(car(pts)) + yCoord(cadr(pts))) / 2.0 + 0.0625
