@@ -53,7 +53,7 @@ else
   echo "[run] status: FAILED -- messages:"
 fi
 echo "------------------------------------------------------------"
-grep -E "\*Error\*|\*WARNING\*|AC_BATCH_FAILED|^INFO: |M0 size|schCheck|Wrote |Built " "$LOG" \
+grep -E "\*Error\*|AC_BATCH_FAILED|^INFO: |^AC> |M0 size|schCheck|Wrote |Built " "$LOG" \
   | grep -v -e "ddGetObj: invalid libId" -e "Could not open display" -e "/tmp/.X[0-9]*-lock" \
           -e "redefines" | head -40
 echo "------------------------------------------------------------"
