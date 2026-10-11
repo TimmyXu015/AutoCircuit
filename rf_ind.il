@@ -14,8 +14,8 @@
 ;;
 ;; Batch (SSH):  ~/AutoCircuit/run.sh indb
 ;; Outputs in ~/AutoCircuit_results/:
-;;   indb_hw.csv    0.5 .. 6 GHz, log, 50 points/decade (the homework sweep)
-;;   indb_wide.csv  10 MHz .. 30 GHz, log, 40 points/decade (the bigger picture)
+;;   indb_hw.csv    0.5 .. 6 GHz, log, 200 points/decade (the homework sweep)
+;;   indb_wide.csv  10 MHz .. 30 GHz, log, 100 points/decade (the bigger picture)
 ;;   indb.txt       summary; columns f, R, X, |Z|, phase, Q = |X|/R
 
 indbCfg = list(nil
@@ -92,9 +92,10 @@ procedure( indbRun(@optional (cfg indbCfg))
     indbBuild(cfg)
     dir = acResultsDir()
     ;; wide sweep first, homework sweep last (its results stay in psf for ADE / plotting)
-    zw = acZinAc(cfg->lib cfg->cell "/p1" "10M" "30G" ?dec "40")
+    zw = acZinAc(cfg->lib cfg->cell "/p1" "10M" "30G" ?dec "100")
     rowsW = when( zw acWriteZ(zw strcat(dir "/indb_wide.csv")) )
-    zh = acZinAc(cfg->lib cfg->cell "/p1" "500M" "6G" ?dec "50")
+    ;; 200 points/decade: the self-resonance is sharp and needs the resolution
+    zh = acZinAc(cfg->lib cfg->cell "/p1" "500M" "6G" ?dec "200")
     rowsH = when( zh acWriteZ(zh strcat(dir "/indb_hw.csv")) )
     unless( zh error("No AC results for /p1 -- did the simulation run?\n") )
 
@@ -102,17 +103,17 @@ procedure( indbRun(@optional (cfg indbCfg))
     port = outfile(txt "w")
     fprintf(port "Planar inductor, port 2 grounded: L = %s, Rs = %s, Cs = %s, Cp = %s, Rp = %s  (%s/%s)\n\n"
             cfg->l cfg->rs cfg->cs cfg->cp cfg->rp cfg->lib cfg->cell)
-    fprintf(port "Homework sweep 0.5 .. 6 GHz, log (every 2nd of %d points):\n" length(rowsH))
+    fprintf(port "Homework sweep 0.5 .. 6 GHz, log (every 8th of %d points):\n" length(rowsH))
     acZHeader(port)
     k = 0
     foreach(row rowsH
-      when( zerop(mod(k 2)) acZRow(port row) )
+      when( zerop(mod(k 8)) acZRow(port row) )
       k++)
-    fprintf(port "\nWide view 10 MHz .. 30 GHz (every 4th of %d points):\n" length(rowsW))
+    fprintf(port "\nWide view 10 MHz .. 30 GHz (every 10th of %d points):\n" length(rowsW))
     acZHeader(port)
     k = 0
     foreach(row rowsW
-      when( zerop(mod(k 4)) acZRow(port row) )
+      when( zerop(mod(k 10)) acZRow(port row) )
       k++)
     fprintf(port "\nFiles: %s/indb_hw.csv, indb_wide.csv\n" dir)
     close(port)

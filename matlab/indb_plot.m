@@ -40,7 +40,13 @@ semilogx(fG, hw.Q, 'm-', 'LineWidth', 1.6); hold on;
 [qmax, iq] = max(hw.Q .* (hw.X_ohm > 0));      % peak Q on the inductive side
 plot(fG(iq), qmax, 'ko', 'MarkerFaceColor', 'y');
 text(fG(iq), qmax, sprintf('  peak Q = %.2f at %.2f GHz', qmax, fG(iq)), 'VerticalAlignment', 'bottom');
-if ~isempty(fsr) && fsr <= 6e9, xline(fsr/1e9, 'k--'); end
+if ~isempty(fsr) && fsr <= 6e9
+    xline(fsr/1e9, 'k--');
+    % above the self-resonance X < 0: the part behaves as a capacitor, so |X|/R there
+    % is not an inductor Q
+    xregion(fsr/1e9, 6, 'FaceColor', [.85 .85 .85]);
+    text(sqrt(fsr/1e9*6), max(hw.Q)*0.9, {'capacitive', '(X < 0)'}, 'HorizontalAlignment', 'center');
+end
 xlim([0.5 6]); grid on;
 xlabel('f (GHz)'); ylabel('Q = |X| / R');
 
@@ -77,7 +83,7 @@ h3 = plot(real(G(1)), imag(G(1)), 'ko', 'MarkerFaceColor', 'g');
 h4 = plot(real(G(end)), imag(G(end)), 'ko', 'MarkerFaceColor', 'm');
 legend([h1 h2 h3 h4], {'10 MHz - 30 GHz', '0.5 - 6 GHz', '10 MHz', '30 GHz'}, ...
        'Location', 'southoutside');
-title('Z_{in}, Z_0 = 50 \Omega');
+title('Z_{in}, Z_0 = 50 \Omega', 'Units', 'normalized', 'Position', [0.5 1.06]);
 
 %% ---------- Smith chart grid ----------
 function smithGrid()
