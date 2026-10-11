@@ -57,8 +57,24 @@ if grep -q "@gui" "$ROOT/batch/$JOB.il"; then
   # full Virtuoso on a virtual display (ADE L needs a GUI); the CDS log is the output.
   # timeout: a dialog nobody can click must not hang the job forever
   echo "[run] GUI job: virtual display via xvfb-run"
+  rm -f "$LOG.cds"
   ( cd "$WORK" && AC_ROOT="$ROOT" timeout 600 xvfb-run -a -s "-screen 0 1600x1200x24" virtuoso -replay "$ROOT/batch/$JOB.il" \
-        -log "$LOG.cds" > "$LOG.stdout" 2>&1 )
+        -log "$LOG.cds" > "$LOG.stdout" 2>&1 ) &
+  VPID=$!
+  # exit() in a GUI session can stop at an "unsaved changes?" dialog nobody can click,
+  # so once the job reports done/failed, give it a moment and then stop it ourselves
+  for _ in $(seq 1 600); do
+    sleep 1
+    kill -0 $VPID 2>/dev/null || break
+    if grep -aq "AC_BATCH_" "$LOG.cds" 2>/dev/null; then
+      sleep 10
+      pkill -u "$USER" -f "replay $ROOT/batch/$JOB.il" 2>/dev/null
+      sleep 2
+      pkill -9 -u "$USER" -f "replay $ROOT/batch/$JOB.il" 2>/dev/null
+      break
+    fi
+  done
+  wait $VPID 2>/dev/null
   # CDS log lines start with \o (output), \i (input), \w (warning) ... -- strip those tags
   sed 's/^\\[a-z] \{0,1\}//' "$LOG.cds" > "$LOG"
 else
