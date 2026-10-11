@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "title": "AutoCircuit automation playbook",
+    "purpose": "Everything a new conversation or agent needs to drive Cadence Virtuoso/Spectre on UCSD ieng6 for this repo without rediscovering it: how to reach the server, how to run jobs, how results come back, and the traps already hit.",
+    "last_updated": "2026-10-11",
+    "repo": "https://github.com/TimmyXu015/AutoCircuit (public -- never commit keys, IBM PDK model contents, or homework answers)",
+    "read_order": [
+      "user_and_policies",
+      "access_paths",
+      "standard_loop",
+      "run_sh",
+      "skill_framework",
+      "gotchas"
+    ]
+  },
+  "user_and_policies": {
+    "who": "UCSD student, ECE 203 (Fall 2026). Writes in Chinese; reply in Chinese. Self-described weak software and device-physics fundamentals: explain, do not just dump.",
+    "homework_rule": "The user does the homework reasoning. Build tooling, run simulations, return data + plots, point to where/how to read a quantity; do NOT hand over final homework answers unless the user explicitly delegates that part (e.g. they delegated tedious PDK-file grepping for P1e/P1g Vt).",
+    "results_folder": {
+      "path": "C:\\Users\\<win_user>\\AutoCircuit_Results\\<YYYY-MM-DD>_<job>_<short_desc>\\  (on the user's Windows PC; win_user is Timmy)",
+      "rule": "Put every chart/CSV/script for the user there, one subfolder per experiment. NEVER delete anything in it -- the user deletes themselves."
+    },
+    "server_processes": "The user often has their own GUI Virtuoso running on the same ieng6 host (it holds .cdslck locks and spectre sessions). Never kill the user's processes without asking.",
+    "style": "Deliver results, not narration. Final reply: what came out, the file, one next step."
+  },
+  "access_paths": {
+    "summary": "The cloud container (Bash tool) cannot reach ieng6. The device_bash Linux VM on the user's PC has proxy-only network (no ssh). The working path is the MATLAB MCP server on the user's Windows PC: mcp__remote-devices__MATLAB__evaluate_matlab_code running system('ssh ...') with Windows OpenSSH.",
+    "ssh": {
+      "user_host": "lix015@ieng6-ece-10.ucsd.edu  (ieng6-ece-20.ucsd.edu also in known_hosts; plain ieng6.ucsd.edu FAILS with 'Host key verification failed' under BatchMode)",
+      "key": "C:\\Users\\Timmy\\.ssh\\id_ed25519 (passwordless). Public key line in ieng6 ~/.ssh/authorized_keys, comment autocircuit-DESKTOP-IECEG8R -- removing that line revokes access.",
+      "template_matlab": "[s,o]=system('ssh -o BatchMode=yes -o ConnectTimeout=15 lix015@ieng6-ece-10.ucsd.edu \"cmd1; cmd2\"'); disp(o)",
+      "quoting_rules": [
+        "system() goes through cmd.exe: the remote command sits inside one pair of double quotes; inside it use NO further double quotes and avoid pipes combined with escaped quotes (\\\" breaks, '%' gets expanded).",
+        "Use pgrep -a -f, head, tail instead of 'ps | grep \"...\"'.",
+        "Anything non-trivial: write a script file into the results folder (device_bash heredoc), scp it up, then ssh 'bash script.sh'. Strip CR (char(13)) from files written on Windows before running them on Linux."
+      ],
+      "environment": "Non-interactive ssh has no module environment: wrap Cadence commands in bash -lc '...' (single quotes doubled inside a MATLAB string: ''...''). run.sh also loads the course module itself if MODULESHOME is set.",
+      "long_jobs": "Bridge calls time out at ~60 s and the device connection drops now and then. Start jobs detached and poll: ssh host \"cd <workdir> && nohup bash -lc '~/AutoCircuit/run.sh <job>' > ~/AutoCircuit_results/<job>_run.out 2>&1 < /dev/null & echo started\"; then tail that file in later calls. Never put pause() + ssh in one call longer than ~45 s.",
+      "file_transfer": "scp one remote file per call: scp -o BatchMode=yes -q lix015@ieng6-ece-10.ucsd.edu:<remote_path> \"C:\\...\\folder\". Several remote paths in one quoted argument failed ('No such file').",
+      "after_disconnect": "If the device disconnects mid-call, the remote job may still have run: check its output file before re-running anything."
+    },
+    "viewing_results": "To look at a PNG yourself: mcp__remote-devices__device_stage_files (path under a connected folder) -> Read the staged path -> SendUserFile it to the user.",
+    "matlab_tips": "exportgraphics(gcf, '<abs path>.png', 'Resolution', 130). Plot scripts start with 'clear', so use absolute paths after run(), not variables set before it. readtable(..., 'VariableNamingRule','preserve') keeps CSV headers."
+  },
+  "server": {
+    "home": "/home/linux/ieng6/oce/7f/lix015",
+    "cadence_workdir": "/home/linux/ieng6/ECE203_FA26_001/lix015  (holds cds.lib; start Virtuoso / run.sh from here)",
+    "course_module": "module use /home/linux/ieng6/ECE203_FA26_001/public/modulefiles; module load ECE203_FA26_001  (interactive shortcut: type ECE203_FA26_001)",
+    "tools": "Virtuoso IC-618 (/software/ECE/IC-618/tools/dfII/bin/virtuoso), Spectre MMSIM151",
+    "repo_clone": "~/AutoCircuit (run.sh git-pulls it every run)",
+    "results": "~/AutoCircuit_results/  (<job>.log, ciw_<job>.txt, CSVs such as p1c_<cell>.csv)",
+    "sim_dirs": "~/simulation/<cell>/spectre/schematic/...  (ADE L's own folder; OCEAN helpers use a suffix, e.g. schematic_family, so they never overwrite ADE L results)",
+    "pdk_models": "/acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models  (design.scs, wafer.scs, allModels.scs section=tt). Files are IBM CONFIDENTIAL: copy only to the user's PC, never into this repo."
+  },
+  "standard_loop": [
+    "1. Edit/add SKILL in this repo (cloud container), commit, push. If remote says the repo moved, set origin to https://github.com/TimmyXu015/AutoCircuit.git.",
+    "2. Start the job detached on ieng6 via MATLAB system('ssh ... nohup bash -lc ''~/AutoCircuit/run.sh <job>'' ...') from the cadence workdir.",
+    "3. Poll ~/AutoCircuit_results/<job>_run.out until '[run] status: OK|FAILED'.",
+    "4. scp the CSV(s) into C:\\Users\\Timmy\\AutoCircuit_Results\\<date>_<job>_<desc>\\.",
+    "5. Write a MATLAB plot script next to the data, run it, exportgraphics to PNG.",
+    "6. Stage + Read the PNG to check it, then SendUserFile. Tell the user how to read the quantity they need; leave the conclusion to them."
+  ],
+  "run_sh": {
+    "usage": "~/AutoCircuit/run.sh <job>   (job = batch/<job>.il)",
+    "what_it_does": [
+      "git pull first (so new jobs are found), then loads the course module if virtuoso is missing",
+      "finds cds.lib in: current dir, /home/linux/ieng6/ECE203_FA26_001/$USER, $HOME",
+      "non-GUI job: virtuoso -nograph with the batch file on stdin",
+      "GUI job (batch file contains '@gui', needed for ADE L): xvfb-run -a -s '-screen 0 1600x1200x24' virtuoso -replay <file>; a watcher kills Virtuoso ~10 s after a CDS-log output line matching '^.o AC_BATCH_'",
+      "sets AC_BATCH=1 (acFinish then dbClose's cellviews instead of opening windows -> no stale locks)",
+      "prints status (AC_BATCH_DONE / AC_BATCH_FAILED), all 'AC>' lines, *Error* lines, and the M0 line of the fresh netlist"
+    ],
+    "batch_file_pattern": ";; comment\nload(strcat(or(getShellEnvVar(\"AC_ROOT\") strcat(getShellEnvVar(\"HOME\") \"/AutoCircuit\")) \"/ac.il\"))\nacBatch('fnName)\nexit()        ; omit exit() in @gui jobs",
+    "jobs": {
+      "p1a": "HW1 P1a nfetx 5u/1u Ids vs VGS (+ ADE state p1a_auto in GUI)",
+      "hw1setup": "@gui: builds HW1_203 cells p1_nmos, p1_pmos, p2_cs_amp and saves ADE L states hw1_p1_nmos, hw1_p1_pmos, hw1_p2_cs",
+      "hw1check": "OCEAN sanity run of the three HW1 cells",
+      "p1c": "NMOS Ids vs VGS family for VDS 0.1..1.8 -> ~/AutoCircuit_results/p1c_p1_nmos.csv",
+      "p1cp": "PMOS |Id| vs VSG family for VSD 0.1..1.8 -> p1c_p1_pmos.csv",
+      "gmid": "gm/Id of nfet in SelfPractice/gmid_nfet",
+      "wsub": "gm vs W at locked Ids (weak inversion study)",
+      "capc": "RF capacitor Z(f) (real_cap, real_cap_sp)",
+      "indb": "planar inductor Z(f)"
+    }
+  },
+  "skill_framework": {
+    "entry": "ac.il: acRoot from $AC_ROOT or ~/AutoCircuit; acFiles load order (pdk -> libs -> circuits); acJobs maps job symbol -> list of zero-arg step functions; acGo(\"job\") in the CIW = pull + reload + run + report to ~/AutoCircuit_results/ciw_<job>.txt; acReload(); acBatch(fn) for run.sh.",
+    "add_a_job": [
+      "write <name>.il with a zero-arg entry function and add it to acFiles in ac.il",
+      "add 'job '(fn) to acJobs",
+      "add batch/<job>.il (pattern above); '@gui' in a comment if it needs ADE L / a display"
+    ],
+    "libraries": {
+      "pdk_cmrf7sf.il": "acPdk: device lib cmrf7sf, model path, modelFiles ((design.scs \"\") (wafer.scs \"\") (allModels.scs \"tt\")), PDK desVars p5vonly/phires = 0, subNet sub!",
+      "lib_draw.il": "acPinPt, acPlace (place instance so a named pin lands on a point), acWire (with label; filters freed wires), acGnd, acStub, acSetParam (runs CDF callback), acSetFirstParam, acSubTie (0 V source sub!->gnd), acOpenSch, acFinish (schCheck + markers report, save, close in batch), acDumpParams",
+      "lib_sim.il": "acSimSetup(lib cell corner dirSuffix), acNum, acLog10, acResultsDir, acWavePoints (waveform -> list of (x y)), acZinAc",
+      "lib_ade.il": "acAdeStart, acAdeModels, acAdeVars, acAdeAnalysis(sess type fields choices), acAdeChoice, acAdeOutput, acAdeSaveCurrents, acAdeSave, acAdeProbe (dumps the asi API of this install), acAutoOkStart (timer that answers modal dialogs)",
+      "acSay": "printf + log file; uses lsprintf (never apply('sprintf ...))"
+    },
+    "hw1_helpers": "hw1_setup.il: hw1Nmos/hw1Pmos configs, hw1Build, hw1Ade, hw1Check, hw1P1cFamily(?pmos t ?vdsList ... ?vAt 0.25 ?plots t) -- one ordinary DC run per VDS, curves copied to memory, CSV + plotted family in the GUI"
+  },
+  "ade_l_api_verified": {
+    "start": "sevStartSession(?lib ?cell ?view \"schematic\") -> sev; sevEnvironment(sev) -> asi session",
+    "models": "asiRemoveAllModelLibSelection(sess); asiAddModelLibSelection(sess path section)",
+    "vars": "asiSetDesignVarList(sess list(list(\"vgs\" \"0\") ...))  (include PDK vars p5vonly, phires)",
+    "analysis": "ana = asiGetAnalysis(sess 'dc); set choice fields FIRST (sweep \"Design Variable\", rangeType start/stop, incrType linear, stepTypeLin step) via asiGetAnalysisFieldChoices + asiSetAnalysisFieldVal; then fields designVar AND param (netlister reads 'param, otherwise spectre: 'Missing sweep parameter'), start, stop, step, saveOppoint; asiEnableAnalysis(ana) LAST (takes the analysis object).",
+    "ac_analysis": "fields start stop dec; choices sweep freq, rangeType start, incrType log, stepTypeLog decade",
+    "currents": "asiSetKeepOptionVal(sess 'currents \"all\")",
+    "outputs": "sevAddExpression(sev name expr ?plottingEnabled t)",
+    "save_state": "asiSaveState(sess ?name name ?option 'cellview ?lib lib ?cell cell)",
+    "license_dialog": "envSetVal(\"license\" \"ADEXL_UseNextLicense\" 'string \"always\") before opening ADE, otherwise a modal 'Next License' dialog freezes headless runs; acAutoOkStart() as backup."
+  },
+  "pdk_notes_cmrf7sf": {
+    "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
+    "substrate": "Global net sub! must be tied (acSubTie: 0 V vdc sub!->gnd), and never label a net that is also gnd! (schCheck errors).",
+    "cdf_callbacks": "PDK callbacks (e.g. bicmos7wlfetWidthp) fail outside a form (concat error) -> ad/as/pd/ps may be stale; acSetParam sets cdfgData/cdfgForm and logs failures. Simulation results were still correct for W/L checks.",
+    "pmos_bench": "p1_pmos: source+bulk to gnd, drain at -vsd, gate at -vsg (orient MX) so sweep variable vsg and currents stay positive.",
+    "model_file_structure": "allModels.scs section X includes fixed_corner.scs section=X, process.scs, process_psp.scs, models.scs. Parameters like vth0 are expressions in process.scs: base constant + statistical term + fixed-corner adder (fixcnr*skewfix(...)) + wafer-specific term (k_wafer). In section tt fixcnr=0 and every adder evaluates to 0 (cor_*=0, k_wafer=0, mismatch mvth0=0), so the tt value is the base constant. Grep the model dir for <param>_n / <param>_p to find them."
+  },
+  "gotchas": [
+    "sprintf via apply() re-evaluates args -> use lsprintf.",
+    "%g rejects integers in SKILL format strings -> pass floats (5.0 not 5).",
+    "'t' is reserved in SKILL; do not use it as a variable.",
+    "Text replacements in ac.il once landed inside acLoadAll's header -> edit by exact blocks and re-read the file.",
+    "GUI schematic editing auto-merges wires and frees wire objects -> filter with dbValidP before labelling.",
+    "Xvfb must be 24-bit ('-screen 0 1600x1200x24'); 8-bit breaks Virtuoso.",
+    "exit() inside a -replay file fires mid-job -> no exit() in @gui jobs; the run.sh watcher stops Virtuoso.",
+    "The watcher must match output lines ('^.o AC_BATCH_'), not the echoed source that contains the same text.",
+    "Killed batch Virtuoso leaves .cdslck lock files -> GUI opens the cell read-only. Batch now dbClose's; stale locks can be removed only when no Virtuoso owns them (ask before killing a user process).",
+    "OCEAN paramRun: the top-level result index referenced a log file only run 1 had, so the family read back as one curve -> loop ordinary run()s and copy each waveform to memory (acWavePoints) right after its run.",
+    "OCEAN results dir: use a suffix dir (acSimSetup ... \"_family\") so ADE L's own results are not overwritten.",
+    "cmd.exe on the PC: '%' and nested \\\" break commands (see access_paths.ssh.quoting_rules).",
+    "Over ssh, '*Error* eval: unbound variable - f' sometimes appears in run logs before the job; it has been harmless (status still OK).",
+    "Bridge: 60 s per call; device may disconnect -> detach long work with nohup and poll."
+  ],
+  "open_items": [
+    "Auto-load ac.il via ~/.cdsinit (offered, not done).",
+    "Axis labels on GUI family plots (hw1P1cFamily).",
+    "P2 AC setup inside an interactive ADE L run is untested (OCEAN check passed).",
+    "Consider making the repo private + deploy key, or keep it public and keep personal/PDK data out."
+  ]
+}
