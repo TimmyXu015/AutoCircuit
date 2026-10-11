@@ -147,36 +147,58 @@ procedure( hw1Setup()
   t
 )
 
-;; ---------- P1c helper: Ids vs VGS for several VDS (OCEAN parametric) ----------
-;; Results go to their own folder (<cell>_family) so an open ADE L session on the same
-;; cell cannot reload over them. Each VDS curve is pulled out of the family and plotted
-;; separately with its own label, and |Id| at VGS = 0.25 V is printed for every VDS.
+;; ---------- P1c helper: Ids vs VGS for several VDS ----------
+;; One ordinary DC sweep per VDS value (OCEAN's paramRun left the result index pointing
+;; at log files only the first run had, so the family read back as a single curve).
+;; Each curve is copied into memory right after its run, so later runs cannot touch it;
+;; plots are drawn from those copies. Results go to <cell>_family, away from ADE L.
+;; Writes ~/AutoCircuit_results/p1c_<cell>.csv (vgs plus one |Id| column per VDS) and
+;; prints |Id| at VGS = vAt for every VDS.
 procedure( hw1P1cFamily(@key (pmos nil) (vdsList '(0.1 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8))
                              (vAt 0.25) (plots t))
-  let( (cfg var other fam leaf idAt)
+  let( (cfg var other curves pts idAt csv port n xs ys)
     cfg   = if( pmos hw1Pmos hw1Nmos)
     var   = if( pmos "vsg" "vgs")
     other = if( pmos "vsd" "vds")
-    acSimSetup(cfg->lib cfg->cell "tt" "_family")
-    desVar(var 0)
-    desVar(other 1.8)
-    save('i "/VDS/PLUS")
-    analysis('dc ?param var ?start "0" ?stop "1.8" ?step "0.005")
-    paramAnalysis(other ?values vdsList)
-    paramRun()
-    selectResult('dc)
-    fam = car(errset(abs(i("/VDS/PLUS" ?result "dc")) t))
-    acSay("P1c %s: family sweeps %L, %L = %L\n" cfg->cell
-          car(errset(sweepNames(fam) nil)) other car(errset(sweepValues(fam) nil)))
-    acSay("%8s %16s\n" other sprintf(nil "|Id| @ %s=%gV" var vAt))
-    when( plots && hiGraphicMode() newWindow() )
     foreach(vv vdsList
-      leaf = car(errset(famValue(fam vv) nil))
-      idAt = and(leaf car(errset(value(leaf vAt) nil)))
-      acSay("%8g %16s\n" vv acNum(idAt "%.4e"))
-      when( leaf && plots && hiGraphicMode()
-        plot(log10(leaf) ?expr list(sprintf(nil "%s = %g V" other vv)))))
-    t
+      acSimSetup(cfg->lib cfg->cell "tt" "_family")
+      desVar(var 0)
+      desVar(other vv)
+      save('i "/VDS/PLUS")
+      analysis('dc ?param var ?start "0" ?stop "1.8" ?step "0.005")
+      run()
+      pts = acWavePoints(car(errset(abs(i("/VDS/PLUS" ?result "dc")) nil)))
+      idAt = car(errset(value(abs(i("/VDS/PLUS" ?result "dc")) vAt) nil))
+      curves = cons(list(vv pts idAt) curves))
+    curves = reverse(curves)
+
+    acSay("P1c %s: |Id| at %s = %g V\n" cfg->cell var vAt)
+    acSay("%8s %14s %8s\n" other "|Id| (A)" "points")
+    foreach(c curves
+      acSay("%8g %14s %8d\n" car(c) acNum(caddr(c) "%.4e") length(cadr(c))))
+
+    ;; CSV: vgs, then one column per VDS
+    csv = strcat(acResultsDir() "/p1c_" cfg->cell ".csv")
+    port = outfile(csv "w")
+    fprintf(port "%s_V" var)
+    foreach(c curves fprintf(port ",Id_at_%s_%g" other car(c)))
+    fprintf(port "\n")
+    n = length(cadr(car(curves)))
+    for(k 0 n - 1
+      fprintf(port "%g" car(nth(k cadr(car(curves)))))
+      foreach(c curves
+        fprintf(port ",%s" acNum(cadr(nth(k cadr(c))) "%g")))
+      fprintf(port "\n"))
+    close(port)
+    acSay("P1c: wrote %s\n" csv)
+
+    when( plots && hiGraphicMode()
+      newWindow()
+      foreach(c curves
+        xs = drCreateVec('double mapcar('car cadr(c)))
+        ys = drCreateVec('double mapcar(lambda((p) acLog10(cadr(p))) cadr(c)))
+        plot(drCreateWaveform(xs ys) ?expr list(sprintf(nil "%s = %g V" other car(c))))))
+    curves
   )
 )
 
