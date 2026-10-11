@@ -8,11 +8,13 @@
 ;;   acNum( value(v("/vout" ?result "dcOp")) )  ; numbers, "n/a" if anything fails
 
 ;; start a spectre session on lib/cell/schematic with the PDK models
-procedure( acSimSetup(lib cell @optional (corner "tt"))
+procedure( acSimSetup(lib cell @optional (corner "tt") (dirSuffix ""))
   let( (mf)
     simulator('spectre)
     design(lib cell "schematic")
-    resultsDir(acSimDir(cell))
+    ;; dirSuffix keeps a run out of the folder ADE L uses for this cell (an open ADE
+    ;; session reloads that folder and can swap the results under an OCEAN plot)
+    resultsDir(strcat(acSimDir(cell) dirSuffix))
     path(acPdk->modelPath)
     mf = mapcar(lambda((m) if( cadr(m) == "" then m else list(car(m) corner) ))
                 acPdk->modelFiles)

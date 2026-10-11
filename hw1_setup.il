@@ -148,22 +148,37 @@ procedure( hw1Setup()
 )
 
 ;; ---------- P1c helper: Ids vs VGS for several VDS (OCEAN parametric) ----------
-procedure( hw1P1cFamily(@key (pmos nil) (vdsList '(0.1 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8)))
-  let( (cfg var other)
+;; Results go to their own folder (<cell>_family) so an open ADE L session on the same
+;; cell cannot reload over them. Each VDS curve is pulled out of the family and plotted
+;; separately with its own label, and |Id| at VGS = 0.25 V is printed for every VDS.
+procedure( hw1P1cFamily(@key (pmos nil) (vdsList '(0.1 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8))
+                             (vAt 0.25) (plots t))
+  let( (cfg var other fam leaf idAt)
     cfg   = if( pmos hw1Pmos hw1Nmos)
     var   = if( pmos "vsg" "vgs")
     other = if( pmos "vsd" "vds")
-    acSimSetup(cfg->lib cfg->cell)
+    acSimSetup(cfg->lib cfg->cell "tt" "_family")
     desVar(var 0)
     desVar(other 1.8)
     save('i "/VDS/PLUS")
     analysis('dc ?param var ?start "0" ?stop "1.8" ?step "0.005")
     paramAnalysis(other ?values vdsList)
     paramRun()
-    when( hiGraphicMode()
-      newWindow()
-      plot(log10(abs(i("/VDS/PLUS" ?result "dc"))) ?expr list("log10(|Id|) family")))
-    acSay("P1c family done for %s, %s = %L\n" cfg->cell other vdsList)
+    selectResult('dc)
+    fam = car(errset(abs(i("/VDS/PLUS" ?result "dc")) t))
+    acSay("P1c %s: family sweeps %L, %L = %L\n" cfg->cell
+          car(errset(sweepNames(fam) nil)) other car(errset(sweepValues(fam) nil)))
+    acSay("%8s %16s\n" other sprintf(nil "|Id| @ %s=%gV" var vAt))
+    when( plots && hiGraphicMode() newWindow() )
+    foreach(vv vdsList
+      leaf = car(errset(famValue(fam vv) nil))
+      idAt = and(leaf car(errset(value(leaf vAt) nil)))
+      acSay("%8g %16s\n" vv acNum(idAt "%.4e"))
+      when( leaf && plots && hiGraphicMode()
+        plot(log10(leaf) ?expr list(sprintf(nil "%s = %g V" other vv)))))
     t
   )
 )
+
+;; batch test of the P1c family (no plots)
+procedure( hw1P1cTest() hw1P1cFamily(?plots nil) )
