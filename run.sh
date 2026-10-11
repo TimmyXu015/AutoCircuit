@@ -53,7 +53,17 @@ LOG="$RES/$JOB.log"
 echo "[run] running job '$JOB' (log: $LOG) ..."
 START=$(date +%s)
 STAMP="$RES/.$JOB.stamp"; touch "$STAMP"
-( cd "$WORK" && AC_ROOT="$ROOT" virtuoso -nograph -log "$LOG.cds" < "$ROOT/batch/$JOB.il" > "$LOG" 2>&1 )
+if grep -q "@gui" "$ROOT/batch/$JOB.il"; then
+  # full Virtuoso on a virtual display (ADE L needs a GUI); the CDS log is the output.
+  # timeout: a dialog nobody can click must not hang the job forever
+  echo "[run] GUI job: virtual display via xvfb-run"
+  ( cd "$WORK" && AC_ROOT="$ROOT" timeout 600 xvfb-run -a virtuoso -replay "$ROOT/batch/$JOB.il" \
+        -log "$LOG.cds" > "$LOG.stdout" 2>&1 )
+  # CDS log lines start with \o (output), \i (input), \w (warning) ... -- strip those tags
+  sed 's/^\\[a-z] \{0,1\}//' "$LOG.cds" > "$LOG"
+else
+  ( cd "$WORK" && AC_ROOT="$ROOT" virtuoso -nograph -log "$LOG.cds" < "$ROOT/batch/$JOB.il" > "$LOG" 2>&1 )
+fi
 echo "[run] finished in $(( $(date +%s) - START )) s"
 
 # 5. report
