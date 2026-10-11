@@ -202,5 +202,6 @@ procedure( hw1P1cFamily(@key (pmos nil) (vdsList '(0.1 0.2 0.4 0.6 0.8 1.0 1.2 1
   )
 )
 
-;; batch test of the P1c family (no plots)
+;; batch tests of the P1c family (no plots)
 procedure( hw1P1cTest() hw1P1cFamily(?plots nil) )
+procedure( hw1P1cTestP() hw1P1cFamily(?pmos t ?plots nil) )

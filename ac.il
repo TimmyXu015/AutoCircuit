@@ -25,6 +25,7 @@ acJobs = list(nil
   'hw1 '(hw1Setup)
   'hw1check '(hw1Check)
   'p1c '(hw1P1cTest)
+  'p1cp '(hw1P1cTestP)
 )
 
 ;; ---------- reporting ----------
