@@ -19,11 +19,21 @@ if [ -z "$JOB" ] || [ ! -f "$ROOT/batch/$JOB.il" ]; then
   exit 1
 fi
 
-# 2. Cadence environment
+# 2. Cadence environment: load the course module ourselves if it is not loaded yet
+#    (same as typing ECE203_FA26_001; works in non-interactive ssh sessions too)
+if ! command -v virtuoso >/dev/null 2>&1; then
+  [ -n "$MODULESHOME" ] && . "$MODULESHOME/init/bash" 2>/dev/null
+  if type module >/dev/null 2>&1; then
+    module use /home/linux/ieng6/ECE203_FA26_001/public/modulefiles 2>/dev/null
+    module load ECE203_FA26_001 >/dev/null 2>&1
+    command -v virtuoso >/dev/null 2>&1 || module load cadence-ic618 >/dev/null 2>&1
+  fi
+fi
 if ! command -v virtuoso >/dev/null 2>&1; then
   echo "[run] virtuoso not found. Type the course name first:  ECE203_FA26_001"
   exit 1
 fi
+echo "[run] virtuoso: $(command -v virtuoso)"
 
 # 3. folder with cds.lib
 WORK=""
