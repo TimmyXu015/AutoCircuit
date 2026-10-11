@@ -165,3 +165,25 @@ procedure( acAdeProbe(sess @optional (anaType 'dc))
     file
   )
 )
+
+;; ---------- unattended GUI runs ----------
+;; Modal dialogs (e.g. Cadence's "Next License" question) freeze a run on a virtual
+;; display. A timer keeps firing inside the dialog's event loop and presses OK on the
+;; dialogs we know about. acAutoOkStart() / acAutoOkStop().
+acAutoOkDialogs = '(_icLicLicenseQuestionDBox)
+unless( boundp('acAutoOkOn) acAutoOkOn = nil )
+
+procedure( acAutoOkTick()
+  when( acAutoOkOn
+    foreach(d acAutoOkDialogs
+      when( car(errset(hiDBoxOK(d) nil))
+        acSay("auto-OK: pressed OK on dialog %L\n" d)))
+    hiRegTimer("acAutoOkTick()" 20))      ; again in 2 s
+)
+
+procedure( acAutoOkStart()
+  acAutoOkOn = t
+  hiRegTimer("acAutoOkTick()" 20)
+)
+
+procedure( acAutoOkStop() acAutoOkOn = nil )
