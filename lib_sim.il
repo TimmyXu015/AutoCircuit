@@ -60,3 +60,54 @@ procedure( acWavePoints(w)
 procedure( acSimDir(cell)
   strcat(getShellEnvVar("HOME") "/simulation/" cell "/spectre/schematic")
 )
+
+;; ---------- impedance measurements (passive one-ports) ----------
+;; AC sweep of lib/cell; returns V(node) as a complex waveform. With a 1 A AC current
+;; source driving the node this IS Zin. If Re(Zin) comes out negative at the first
+;; frequency the source pushes the other way, so the sign is flipped.
+procedure( acZinAc(lib cell node start stop @key step dec)
+  let( (z r0)
+    acSimSetup(lib cell)
+    if( dec
+      then analysis('ac ?start start ?stop stop ?dec dec)
+      else analysis('ac ?start start ?stop stop ?step step))
+    run()
+    z = car(errset(v(node ?result "ac") nil))
+    when( z
+      r0 = car(errset(value(real(z) xmin(z)) nil))
+      when( numberp(r0) && r0 < 0
+        acSay("%s: source pushes the other way, Zin sign flipped\n" cell)
+        z = z * -1))
+    z
+  )
+)
+
+;; write f, R, X, |Z|, phase(deg), Q = |X|/R of a Zin waveform to a CSV; returns the rows
+procedure( acWriteZ(z file)
+  let( (fr fx fm fp rows port r x q)
+    fr = acWavePoints(real(z))
+    fx = acWavePoints(imag(z))
+    fm = acWavePoints(mag(z))
+    fp = acWavePoints(phase(z))
+    port = outfile(file "w")
+    fprintf(port "f_Hz,R_ohm,X_ohm,absZ_ohm,phase_deg,Q\n")
+    for(k 0 length(fr) - 1
+      r = cadr(nth(k fr))
+      x = cadr(nth(k fx))
+      q = if( r != 0 then abs(x) / r else nil )
+      rows = cons(list(car(nth(k fr)) r x cadr(nth(k fm)) cadr(nth(k fp)) q) rows)
+      fprintf(port "%g,%g,%g,%g,%g,%s\n" car(nth(k fr)) r x cadr(nth(k fm)) cadr(nth(k fp))
+              acNum(q "%g")))
+    close(port)
+    reverse(rows)
+  )
+)
+
+;; one table row of acWriteZ output; acZHeader prints the matching header
+procedure( acZHeader(port)
+  fprintf(port "%10s %11s %11s %11s %9s %10s\n" "f(Hz)" "R(ohm)" "X(ohm)" "|Z|(ohm)" "ph(deg)" "Q=|X|/R")
+)
+procedure( acZRow(port row)
+  fprintf(port "%10.4g %11.4g %11.4g %11.4g %9.2f %10s\n"
+          nth(0 row) nth(1 row) nth(2 row) nth(3 row) nth(4 row) acNum(nth(5 row) "%.4g"))
+)
