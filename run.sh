@@ -11,13 +11,13 @@ JOB="${1:-}"
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 START_DIR="$PWD"
 
+# 1. latest scripts first, so jobs added on GitHub are found
+( cd "$ROOT" && git pull -q ) && echo "[run] git pull ok" || echo "[run] git pull failed, using local copy"
+
 if [ -z "$JOB" ] || [ ! -f "$ROOT/batch/$JOB.il" ]; then
   echo "usage: $0 <job>     jobs:" $(ls "$ROOT/batch" 2>/dev/null | sed 's/\.il$//')
   exit 1
 fi
-
-# 1. latest scripts
-( cd "$ROOT" && git pull -q ) && echo "[run] git pull ok" || echo "[run] git pull failed, using local copy"
 
 # 2. Cadence environment
 if ! command -v virtuoso >/dev/null 2>&1; then
