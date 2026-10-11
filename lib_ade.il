@@ -184,8 +184,18 @@ procedure( acAutoOkTick()
       foreach(d acAutoOkDialogs
         ;; the name may be the dialog itself or a variable holding its handle
         h = car(errset(symeval(d) nil))
-        ok = or(car(errset(hiDBoxOK(d) acAutoOkTicks < 3))
-                and(h car(errset(hiDBoxOK(h) acAutoOkTicks < 3))))
+        ok = nil
+        ;; license question: the handle is a list of button callbacks; run "Always (remember)"
+        when( listp(h) && h
+          let( (cb)
+            cb = car(setof(x h stringp(x) && index(x "\"always\" t")))
+            unless( cb cb = car(setof(x h stringp(x) && index(x "always"))) )
+            when( cb
+              ok = car(errset(evalstring(cb) acAutoOkTicks < 3))
+              acSay("auto-OK: ran %s -> %L\n" cb ok))))
+        unless( ok
+          ok = or(car(errset(hiDBoxOK(d) nil))
+                  and(h !listp(h) car(errset(hiDBoxOK(h) nil)))))
         when( ok acSay("auto-OK: pressed OK on dialog %L\n" d)))
       hiRegTimer("acAutoOkTick()" 20))      ; again in 2 s
   )

@@ -129,7 +129,8 @@ procedure( hw1Check()
 ;; answer Cadence's "Next License" question in advance: a modal dialog on a virtual
 ;; display can never be clicked and would freeze the job
 procedure( hw1NoLicensePrompts()
-  foreach(v '("VSEL_UseNextLicense" "VSEXL_UseNextLicense" "ADEL_UseNextLicense"
+  ;; ADEXL_UseNextLicense: ADE L asks to borrow an ADE XL license (seen in the dialog's buttons)
+  foreach(v '("ADEXL_UseNextLicense" "VSEL_UseNextLicense" "VSEXL_UseNextLicense" "ADEL_UseNextLicense"
               "ADE_UseNextLicense" "VIVA_UseNextLicense" "VLS_UseNextLicense"
               "VSE_UseNextLicense" "VLSXL_UseNextLicense")
     when( car(errset(envSetVal("license" v 'string "always") nil))
