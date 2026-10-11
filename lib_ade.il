@@ -173,16 +173,27 @@ procedure( acAdeProbe(sess @optional (anaType 'dc))
 acAutoOkDialogs = '(_icLicLicenseQuestionDBox)
 unless( boundp('acAutoOkOn) acAutoOkOn = nil )
 
+unless( boundp('acAutoOkTicks) acAutoOkTicks = 0 )
+
 procedure( acAutoOkTick()
-  when( acAutoOkOn
-    foreach(d acAutoOkDialogs
-      when( car(errset(hiDBoxOK(d) nil))
-        acSay("auto-OK: pressed OK on dialog %L\n" d)))
-    hiRegTimer("acAutoOkTick()" 20))      ; again in 2 s
+  let( (ok h)
+    when( acAutoOkOn
+      acAutoOkTicks = acAutoOkTicks + 1
+      when( acAutoOkTicks == 1 || zerop(mod(acAutoOkTicks 15))
+        acSay("auto-OK timer alive (tick %d)\n" acAutoOkTicks))
+      foreach(d acAutoOkDialogs
+        ;; the name may be the dialog itself or a variable holding its handle
+        h = car(errset(symeval(d) nil))
+        ok = or(car(errset(hiDBoxOK(d) acAutoOkTicks < 3))
+                and(h car(errset(hiDBoxOK(h) acAutoOkTicks < 3))))
+        when( ok acSay("auto-OK: pressed OK on dialog %L\n" d)))
+      hiRegTimer("acAutoOkTick()" 20))      ; again in 2 s
+  )
 )
 
 procedure( acAutoOkStart()
   acAutoOkOn = t
+  acAutoOkTicks = 0
   hiRegTimer("acAutoOkTick()" 20)
 )
 
