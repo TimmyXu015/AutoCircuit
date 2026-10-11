@@ -61,7 +61,7 @@ h2 = yline(1/(n*phit), 'r--', 'LineWidth', 1.4);
 vs = vg(vg > Vt + 0.05);
 h3 = plot(vs, 2./(vs - Vt), 'm:', 'LineWidth', 1.8);
 plot(vg(ip), gpk, 'ko', 'MarkerFaceColor', 'y');
-text(vg(ip) + 0.03, gpk - 1.6, sprintf('peak %.1f V^{-1}  (n = %.2f)', gpk, n));
+text(vg(ip) + 0.03, gpk + 2.2, sprintf('peak %.1f V^{-1}  (n = %.2f)', gpk, n));
 xline(Vt, 'k:');
 ylim([0 1.3*gpk]); xlim([vg(1) vg(end)]); grid on;
 xlabel('V_{GS} (V)'); ylabel('g_m / I_D  (V^{-1})');
