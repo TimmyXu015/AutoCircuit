@@ -15,7 +15,7 @@ gmidCfg = list(nil
   'devLib "cmrf7sf"  'dev "nfetx"
   'w "5u"  'l "1u"
   'vds 1.8
-  'vgsStart 0.0  'vgsStop 1.8  'vgsStep 0.005
+  'vgsStart -0.3  'vgsStop 1.8  'vgsStep 0.005   ; start below 0 to see the subthreshold plateau
 )
 
 procedure( gmidRun(@optional (cfg gmidCfg))
@@ -39,7 +39,8 @@ procedure( gmidRun(@optional (cfg gmidCfg))
 
     best = 0.0  bestK = 0
     for(k 0 n - 1
-      when( numberp(gmid[k]) && gmid[k] > best  best = gmid[k]  bestK = k ))
+      ;; skip the two end points (one-sided differences)
+      when( k > 0 && k < n - 1 && numberp(gmid[k]) && gmid[k] > best  best = gmid[k]  bestK = k ))
 
     dir = acResultsDir()
     csv = strcat(dir "/gmid.csv")
