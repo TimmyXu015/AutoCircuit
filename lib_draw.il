@@ -199,9 +199,13 @@ procedure( acFinish(cv lib cell)
       acSay("schCheck %L: %L\n" car(errset(m~>severity nil))
             or(car(errset(m~>msg nil)) car(errset(m~>shortMsg nil)))))
     dbSave(cv)
-    ;; no window in batch (-nograph) mode
-    when( hiGraphicMode()
-      geOpen(?lib lib ?cell cell ?view "schematic" ?mode "a") )
+    if( hiGraphicMode() && !getShellEnvVar("AC_BATCH") then
+      geOpen(?lib lib ?cell cell ?view "schematic" ?mode "a")
+    else
+      ;; batch runs (run.sh) end by being stopped; an edit-mode cellview left open would
+      ;; leave a .cdslck lock that keeps the schematic read-only for the GUI
+      dbClose(cv)
+    )
     printf("Built %s/%s/schematic\n" lib cell)
     t
   )

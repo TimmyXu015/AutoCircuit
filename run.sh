@@ -58,7 +58,7 @@ if grep -q "@gui" "$ROOT/batch/$JOB.il"; then
   # timeout: a dialog nobody can click must not hang the job forever
   echo "[run] GUI job: virtual display via xvfb-run"
   rm -f "$LOG.cds"
-  ( cd "$WORK" && AC_ROOT="$ROOT" timeout 600 xvfb-run -a -s "-screen 0 1600x1200x24" virtuoso -replay "$ROOT/batch/$JOB.il" \
+  ( cd "$WORK" && AC_ROOT="$ROOT" AC_BATCH=1 timeout 600 xvfb-run -a -s "-screen 0 1600x1200x24" virtuoso -replay "$ROOT/batch/$JOB.il" \
         -log "$LOG.cds" > "$LOG.stdout" 2>&1 ) &
   VPID=$!
   # exit() in a GUI session can stop at an "unsaved changes?" dialog nobody can click,
@@ -78,7 +78,7 @@ if grep -q "@gui" "$ROOT/batch/$JOB.il"; then
   # CDS log lines start with \o (output), \i (input), \w (warning) ... -- strip those tags
   sed 's/^\\[a-z] \{0,1\}//' "$LOG.cds" > "$LOG"
 else
-  ( cd "$WORK" && AC_ROOT="$ROOT" virtuoso -nograph -log "$LOG.cds" < "$ROOT/batch/$JOB.il" > "$LOG" 2>&1 )
+  ( cd "$WORK" && AC_ROOT="$ROOT" AC_BATCH=1 virtuoso -nograph -log "$LOG.cds" < "$ROOT/batch/$JOB.il" > "$LOG" 2>&1 )
 fi
 echo "[run] finished in $(( $(date +%s) - START )) s"
 
