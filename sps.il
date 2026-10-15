@@ -69,6 +69,9 @@ procedure( spsSetup(cell wn vbias fin)
   desVar("vbias" vbias)
   desVar("vamp" spsCfg->vamp)
   desVar("fin" fin)
+  ;; gate-driven cells (spsg.il) also have rs and cl; harmless for the others
+  desVar("rs" 1)
+  desVar("cl" 0)
 )
 
 ;; VBIAS that gives Id = idTarget (vout = vdd - Id*RD), by a fine DC sweep of vbias
