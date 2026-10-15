@@ -270,7 +270,9 @@ procedure( spsAdeCell(cell)
                   list("vamp" sprintf(nil "%g" spsCfg->vamp))
                   list("fin" sprintf(nil "%g" cadr(fc))))
       acAdeVars(sess vars)
-      acAdeAnalysis(sess 'tran list(list('stop caddr(fc)) list('maxstep nth(3 fc))))
+      ;; ADE L rejects 'maxstep here (it lives in the tran Options form); 'step (spectre's
+      ;; "waveform aesthetics" step) + conservative accuracy keep the sine smooth instead
+      acAdeAnalysis(sess 'tran list(list('stop caddr(fc)) list('step nth(3 fc)) list('errpreset "conservative")))
       acAdeSave(sess spsCfg->lib cell strcat("sps_" car(fc))))
     sess
   )
