@@ -28,17 +28,41 @@ spsCfg = list(nil
   'scanCell "sps_wscan"
   'scanWidths '(0.75 1.5 3.0 6.0 12.0 25.0 50.0 100.0 200.0 400.0 800.0)   ; um (floats)
   ;; (cell W) -- chosen from the W scan
-  'circuits '(("cs_strong" "1.5u") ("cs_sub" "400u"))
+  'circuits '(("cs_strong" 1.5) ("cs_sub" 400.0))     ; W in um
   ;; (label fin tstop maxstep): 5 periods of 100 Hz, 10 periods of 1 MHz
   'fins '(("100Hz" 100.0 "50m" "20u") ("1MHz" 1e6 "10u" "2n"))
   'acStart "1"  'acStop "10G"  'acDec "20"
 )
 
 ;; small-signal OP parameters to read from the transistor (spectre BSIM3 names)
+;; the PDK subckt adds wiring caps (M0.cw*) next to the intrinsic device: read their "c"
+spsExtraParams = '(("M0.cwgs" "c") ("M0.cwgd" "c") ("M0.cwds" "c"))
 spsOpParams = '("id" "ids" "gm" "gds" "gmbs" "vgs" "vds" "vth" "vdsat" "region"
                 "cgg" "cgs" "cgd" "cgb" "cdd" "cdg" "cdb" "cbd" "cjd" "ft")
 
 ;; ---------- helpers ----------
+;; acNum for anything: integers (e.g. region = 2) are turned into floats first
+procedure( spsNum(x @optional (fmt "%.6g"))
+  acNum(if( integerp(x) float(x) x) fmt)
+)
+
+;; drain/source diffusion of the nfet. The PDK's CDF callbacks fail outside a form, so
+;; ad/as/pd/ps would stay at the defaults of a 0.43u device -- far too small for a wide
+;; transistor (the junction caps at the drain set the bandwidth here). Set them the way
+;; the PDK default does: diffusion length 0.54u, ad = W*0.54u, pd = 2*(W + 0.54u).
+;; w is a number (m) or a design-variable name.
+procedure( spsDiffParams(w)
+  let( (ad pd)
+    if( numberp(w) then
+      ad = sprintf(nil "%g" w * 0.54e-6)
+      pd = sprintf(nil "%g" 2.0 * (w + 0.54e-6))
+    else
+      ad = sprintf(nil "%s*0.54e-6" w)
+      pd = sprintf(nil "2*(%s+0.54e-6)" w))
+    list(list("ad" ad) list("as" ad) list("pd" pd) list("ps" pd))
+  )
+)
+
 procedure( spsSetup(cell wn vbias fin)
   acSimSetup(spsCfg->lib cell "tt" "_sps")
   when( wn desVar("wn" wn) )
@@ -76,6 +100,8 @@ procedure( spsOp(cell wn vbias)
     run()
     cands = spsM0Names()
     acSay("%s: dcOpInfo names starting with M0: %L\n" cell cands)
+    acSay("%s: other dcOpInfo names: %L\n" cell
+          setof(n car(errset(outputs() nil)) stringp(n) && !member(n cands)))
     cands = append(cands '("M0"))
     foreach(c cands
       unless( inst
@@ -88,6 +114,10 @@ procedure( spsOp(cell wn vbias)
       foreach(p spsOpParams
         val = car(errset(pv(inst p ?result "dcOpInfo") nil))
         putprop(res val stringToSymbol(p))))
+    acSay("%s: OP read from instance %L\n" cell inst)
+    foreach(e spsExtraParams
+      putprop(res car(errset(pv(car(e) cadr(e) ?result "dcOpInfo") nil))
+              stringToSymbol(strcat(car(e) "_" cadr(e)))))
     unless( inst acSay("%s: no OP parameters found for M0 (tried %L)\n" cell cands) )
     res
   )
@@ -97,16 +127,19 @@ procedure( spsOp(cell wn vbias)
 procedure( spsOpHeader(port)
   fprintf(port "cell,W,vbias_V,vout_V,Id_A,gm_over_Id_per_V")
   foreach(p spsOpParams fprintf(port ",%s" p))
+  foreach(e spsExtraParams fprintf(port ",%s_%s" car(e) cadr(e)))
   fprintf(port "\n")
 )
 procedure( spsOpRow(port cell w vb op)
   let( (id gm)
     id = if( numberp(op->vout) (spsCfg->vdd - op->vout) / spsCfg->rd nil)
     gm = op->gm
-    fprintf(port "%s,%s,%s,%s,%s,%s" cell w acNum(vb "%.6g") acNum(op->vout "%.6g") acNum(id "%.6g")
-            if( numberp(gm) && numberp(id) && id > 0 acNum(gm / id "%.5g") "n/a"))
+    fprintf(port "%s,%s,%s,%s,%s,%s" cell w spsNum(vb) spsNum(op->vout) spsNum(id)
+            if( numberp(gm) && numberp(id) && id > 0 spsNum(gm / id "%.5g") "n/a"))
     foreach(p spsOpParams
-      fprintf(port ",%s" acNum(get(op stringToSymbol(p)) "%.6g")))
+      fprintf(port ",%s" spsNum(get(op stringToSymbol(p)))))
+    foreach(e spsExtraParams
+      fprintf(port ",%s" spsNum(get(op stringToSymbol(strcat(car(e) "_" cadr(e)))))))
     fprintf(port "\n")
   )
 )
@@ -132,7 +165,8 @@ procedure( spsWriteWaves(file header waves)
 procedure( spsScan()
   let( (cell port vb op file)
     cell = spsCfg->scanCell
-    csBuild(spsCfg->lib cell ?nW "wn" ?nL spsCfg->l ?vamp "vamp" ?vfreq "fin")
+    csBuild(spsCfg->lib cell ?nW "wn" ?nL spsCfg->l ?vamp "vamp" ?vfreq "fin"
+            ?nParams spsDiffParams("wn"))
     file = strcat(acResultsDir() "/sps_wscan.csv")
     port = outfile(file "w")
     spsOpHeader(port)
@@ -143,7 +177,7 @@ procedure( spsScan()
         spsOpRow(port cell sprintf(nil "%gu" wu) vb op)
         acSay("W = %g um: vbias %s V, gm %s S, gm/Id %s, region %s\n" wu acNum(vb "%.4f")
               acNum(op->gm) if( numberp(op->gm) acNum(op->gm / spsCfg->idTarget "%.2f") "n/a")
-              acNum(op->region))
+              spsNum(op->region "%g"))
       else
         acSay("W = %g um: Id = 10 uA not reached in the vbias sweep\n" wu))
       drain(port))
@@ -188,7 +222,8 @@ procedure( spsSimCell(cell w port)
 
 procedure( spsBuild()
   foreach(c spsCfg->circuits
-    csBuild(spsCfg->lib car(c) ?nW cadr(c) ?nL spsCfg->l ?vamp "vamp" ?vfreq "fin"))
+    csBuild(spsCfg->lib car(c) ?nW sprintf(nil "%gu" cadr(c)) ?nL spsCfg->l ?vamp "vamp" ?vfreq "fin"
+            ?nParams spsDiffParams(cadr(c) * 1e-6)))
   t
 )
 
@@ -199,7 +234,7 @@ procedure( spsRun()
     port = outfile(file "w")
     spsOpHeader(port)
     foreach(c spsCfg->circuits
-      spsSimCell(car(c) cadr(c) port))
+      spsSimCell(car(c) sprintf(nil "%gu" cadr(c)) port))
     close(port)
     acSay("wrote %s\n" file)
     t
