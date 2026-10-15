@@ -14,11 +14,12 @@
 ;;   csSim(?vbias 0.55)                                ; another bias point
 ;;   csSim(?vbias 0.55 ?plots nil)                     ; numbers only
 ;;   csBuild("SelfPractice" "cs_amp" ?nParams list(list("nf" "2")))   ; NMOS parameters
+;;   csBuild("SelfPractice" "cs_x" ?vamp "vamp" ?vfreq "fin")   ; input amplitude/frequency as design variables
 ;;
 ;; VBIAS is the design variable "vbias". If you open this cell in ADE L by hand,
 ;; add vbias under Variables (Variables -> Copy From Cellview).
 
-procedure( csBuild(lib cell @key (rlarge "1G") (vamp "10m") (nParams nil)
+procedure( csBuild(lib cell @key (rlarge "1G") (vamp "10m") (vfreq "2M") (nParams nil)
                                  (nW nil) (nL nil)
                                  (nLib acPdk->lib) (nCell acPdk->nmos))
   let( (cv m0 pG pD pS rd pRDt vdd n c0 pCp rl pRb vb v0)
@@ -65,7 +66,7 @@ procedure( csBuild(lib cell @key (rlarge "1G") (vamp "10m") (nParams nil)
     ;; 2 MHz input source, lower left
     pCp = acPinPt(c0 "PLUS")
     v0 = acPlace(cv "analogLib" "vsin" "V0" "R0" "PLUS" acDown(acLeft(pCp 1.0) 1.0))
-    foreach(pv list(list("vo" "0") list("va" vamp) list("freq" "2M") list("acm" "1"))
+    foreach(pv list(list("vo" "0") list("va" vamp) list("freq" vfreq) list("acm" "1"))
       acSetParam(v0 car(pv) cadr(pv)))
     acWire(cv pCp acPinPt(v0 "PLUS") "vin")
     acGnd(cv "GND4" acPinPt(v0 "MINUS"))
