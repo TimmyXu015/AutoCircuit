@@ -31,6 +31,7 @@ acJobs = list(nil
   'spsade '(spsAde)
   'spsg '(spsgRun)
   'spsgade '(spsgAde)
+  'spsgsum '(spsgSummary)
 )
 
 ;; ---------- reporting ----------

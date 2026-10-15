@@ -167,3 +167,62 @@ procedure( spsgAde()
   foreach(c spsgCfg->circuits spsgAdeCell(car(c)))
   t
 )
+
+;; ---------- job 3: one table of every configuration (no GUI) ----------
+;; For both cells and configurations A, B, C plus D (rs = 10k, cl = 10p, heavy load):
+;; OP (gm, Id, gm/Id, Vov, region) and from AC: low-f gain, -3 dB of vout/vin,
+;; -3 dB of vout/vg (output node) and of vg/vin (input node), GBW.
+;; -> ~/AutoCircuit_results/spsg_summary.txt
+procedure( spsgCross(w level)
+  car(errset(cross(w level 1 "falling") nil))
+)
+procedure( spsgSummary()
+  let( (cfgs vb port file vo vg av g0 a0 fo fv fi gm id vov rg)
+    cfgs = '(("A_ideal" 1.0 0.0) ("B_rs" 10e3 0.0) ("C_rs_cl" 10e3 100e-15) ("D_rs_cl10p" 10e3 10e-12))
+    file = strcat(acResultsDir() "/spsg_summary.txt")
+    port = outfile(file "w")
+    fprintf(port "%-15s %-11s %7s %7s %7s %6s %8s %11s %11s %11s %11s\n"
+            "cell" "config" "gm_uS" "gm/Id" "Vov_V" "region" "gain" "f3dB_Hz" "fout_Hz" "fin_Hz" "GBW_Hz")
+    foreach(c spsgCfg->circuits
+      vb = spsFindVbias(car(c))
+      foreach(cf cfgs
+        spsSetup(car(c) nil vb 1e6)
+        desVar("rs" cadr(cf))
+        desVar("cl" caddr(cf))
+        analysis('dc ?saveOppoint t)
+        analysis('ac ?start spsCfg->acStart ?stop spsCfg->acStop ?dec spsCfg->acDec)
+        run()
+        vo = mag(v("/vout" ?result "ac"))
+        vg = mag(v("/vg" ?result "ac"))
+        av = vo / vg
+        g0 = value(vo 1.0)
+        a0 = value(av 1.0)
+        fo = spsgCross(vo g0 / sqrt(2.0))
+        fv = spsgCross(av a0 / sqrt(2.0))
+        fi = spsgCross(vg 1.0 / sqrt(2.0))
+        gm  = car(errset(pv("M0" "gm" ?result "dcOpInfo") nil))
+        id  = car(errset(pv("M0" "id" ?result "dcOpInfo") nil))
+        vov = car(errset(pv("M0" "vgs" ?result "dcOpInfo") - pv("M0" "vth" ?result "dcOpInfo") nil))
+        rg  = car(errset(pv("M0" "region" ?result "dcOpInfo") nil))
+        fprintf(port "%-15s %-11s %7s %7s %7s %6s %8s %11s %11s %11s %11s\n"
+                car(c) car(cf) spsNum(gm * 1e6 "%.1f") spsNum(gm / id "%.2f") spsNum(vov "%.3f")
+                spsNum(rg "%g") spsNum(g0 "%.3f") spsNum(fo "%.4g") spsNum(fv "%.4g") spsNum(fi "%.4g")
+                if( numberp(fo) spsNum(g0 * fo "%.4g") "n/a"))
+        drain(port)))
+    ;; extra caps at the drain of each device (OP of the PDK subckt parts)
+    fprintf(port "\nOP caps (fF): cgg cgd cdd cdb | wiring M0.cwds M0.cwgd | junction M0.ddb\n")
+    foreach(c spsgCfg->circuits
+      spsSetup(car(c) nil spsFindVbias(car(c)) 1e6)
+      analysis('dc ?saveOppoint t)
+      run()
+      fprintf(port "%-15s" car(c))
+      foreach(p '(("M0" "cgg") ("M0" "cgd") ("M0" "cdd") ("M0" "cdb") ("M0.cwds" "c") ("M0.cwgd" "c")
+                  ("M0.ddb" "cj") ("M0.ddb" "cap") ("M0.ddb" "c"))
+        fprintf(port " %s.%s=%s" car(p) cadr(p)
+                spsNum(car(errset(pv(car(p) cadr(p) ?result "dcOpInfo") * 1e15 nil)) "%.4g")))
+      fprintf(port "\n  M0.ddb params: %L\n" car(errset(pv("M0.ddb" "?" ?result "dcOpInfo") nil))))
+    close(port)
+    acSay("wrote %s\n" file)
+    t
+  )
+)
