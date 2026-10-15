@@ -83,7 +83,9 @@
       "indb": "planar inductor Z(f)",
       "spsscan": "self-practice sub vs strong CS amp: W scan at Id = 10 uA (VBIAS, gm, gm/Id, region, caps) -> sps_wscan.csv",
       "sps": "builds SelfPractice/cs_strong (W 0.75u) + cs_sub (W 400u), finds VBIAS for 10 uA, OP + AC 1..10G + tran 100 Hz/1 MHz -> sps_op.csv, sps_ac_<cell>.csv, sps_tran_<cell>_<f>.csv",
-      "spsade": "@gui: ADE L states sps_100Hz / sps_1MHz (dc op + ac + tran, vars vbias/vamp/fin) in cs_strong and cs_sub"
+      "spsade": "@gui: ADE L states sps_100Hz / sps_1MHz (dc op + ac + tran, vars vbias/vamp/fin) in cs_strong and cs_sub",
+      "spsg": "gate-driven sub vs strong CS amp: builds SelfPractice/cs_strong_gate (0.75u) + cs_sub_gate (400u) with RS = rs, CL = cl, V0 dc = vbias; OCEAN pass/fail check only",
+      "spsgade": "@gui: ADE L states A_ideal/B_rs/C_rs_cl x 100Hz/1MHz in both gate-driven cells; outputs include OP(\"/M0\" ...) gm/Id, bandwidth(VF(\"/vout\") 3 \"low\"), GBW"
     }
   },
   "skill_framework": {
@@ -112,7 +114,8 @@
     "outputs": "sevAddExpression(sev name expr ?plottingEnabled t)",
     "save_state": "asiSaveState(sess ?name name ?option 'cellview ?lib lib ?cell cell)",
     "license_dialog": "envSetVal(\"license\" \"ADEXL_UseNextLicense\" 'string \"always\") before opening ADE, otherwise a modal 'Next License' dialog freezes headless runs; acAutoOkStart() as backup.",
-    "tran_analysis": "field 'stop works. 'maxstep and 'step are in the field list but asiSetAnalysisFieldVal does not take them (ADE-5704 / reads back nil). Setting 'errpreset \"conservative\" froze a headless GUI job until the 600 s timeout -- do not set it."
+    "tran_analysis": "field 'stop works. 'maxstep and 'step are in the field list but asiSetAnalysisFieldVal does not take them (ADE-5704 / reads back nil). Setting 'errpreset \"conservative\" froze a headless GUI job until the 600 s timeout -- do not set it.",
+    "outputs_op": "sevAddExpression accepts OP(\"/M0\" \"gm\") style expressions and bandwidth(VF(\"/vout\") 3 \"low\"), VAR(\"fin\") (added without error; evaluated by the user in ADE)."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
