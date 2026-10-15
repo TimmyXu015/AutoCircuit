@@ -66,6 +66,7 @@ acDumpParams("SelfPractice" "cs_amp_w" "M0")   ; check the NMOS CDF parameter na
 | `cs_amp.il` | common-source amp: `csBuild`, `csSim` |
 | `cs_wsweep.il` | W sweep at constant Id: `csWSweep` |
 | `hw1_p1a.il` | HW1 P1a: nfetx 5/1, Ids vs VGS at VDS = 1.8 V: `p1aRun`, `p1aPlot` |
+| `sps.il` | self-practice: subthreshold vs strong-inversion CS amp at the same Id (`run.sh spsscan`, `sps`, `spsade`) |
 | `run.sh`, `batch/` | SSH batch runner and its jobs |
 
 New circuit: add `name.il` and list it in `acFiles` in `ac.il`.

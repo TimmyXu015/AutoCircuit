@@ -270,9 +270,10 @@ procedure( spsAdeCell(cell)
                   list("vamp" sprintf(nil "%g" spsCfg->vamp))
                   list("fin" sprintf(nil "%g" cadr(fc))))
       acAdeVars(sess vars)
-      ;; ADE L rejects 'maxstep here (it lives in the tran Options form); 'step (spectre's
-      ;; "waveform aesthetics" step) + conservative accuracy keep the sine smooth instead
-      acAdeAnalysis(sess 'tran list(list('stop caddr(fc)) list('step nth(3 fc)) list('errpreset "conservative")))
+      ;; only 'stop: 'maxstep / 'step do not take via asiSetAnalysisFieldVal (they live in the
+      ;; tran Options form) and setting 'errpreset froze the headless GUI. If the 100 Hz sine
+      ;; looks jagged in ADE: Analyses -> tran -> Options -> maxstep 20u.
+      acAdeAnalysis(sess 'tran list(list('stop caddr(fc))))
       acAdeSave(sess spsCfg->lib cell strcat("sps_" car(fc))))
     sess
   )

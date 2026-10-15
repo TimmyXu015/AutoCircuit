@@ -2,7 +2,7 @@
   "meta": {
     "title": "AutoCircuit automation playbook",
     "purpose": "Everything a new conversation or agent needs to drive Cadence Virtuoso/Spectre on UCSD ieng6 for this repo without rediscovering it: how to reach the server, how to run jobs, how results come back, and the traps already hit.",
-    "last_updated": "2026-10-11",
+    "last_updated": "2026-10-14",
     "repo": "https://github.com/TimmyXu015/AutoCircuit (public -- never commit keys, IBM PDK model contents, or homework answers)",
     "read_order": [
       "user_and_policies",
@@ -80,7 +80,10 @@
       "gmid": "gm/Id of nfet in SelfPractice/gmid_nfet",
       "wsub": "gm vs W at locked Ids (weak inversion study)",
       "capc": "RF capacitor Z(f) (real_cap, real_cap_sp)",
-      "indb": "planar inductor Z(f)"
+      "indb": "planar inductor Z(f)",
+      "spsscan": "self-practice sub vs strong CS amp: W scan at Id = 10 uA (VBIAS, gm, gm/Id, region, caps) -> sps_wscan.csv",
+      "sps": "builds SelfPractice/cs_strong (W 0.75u) + cs_sub (W 400u), finds VBIAS for 10 uA, OP + AC 1..10G + tran 100 Hz/1 MHz -> sps_op.csv, sps_ac_<cell>.csv, sps_tran_<cell>_<f>.csv",
+      "spsade": "@gui: ADE L states sps_100Hz / sps_1MHz (dc op + ac + tran, vars vbias/vamp/fin) in cs_strong and cs_sub"
     }
   },
   "skill_framework": {
@@ -108,14 +111,17 @@
     "currents": "asiSetKeepOptionVal(sess 'currents \"all\")",
     "outputs": "sevAddExpression(sev name expr ?plottingEnabled t)",
     "save_state": "asiSaveState(sess ?name name ?option 'cellview ?lib lib ?cell cell)",
-    "license_dialog": "envSetVal(\"license\" \"ADEXL_UseNextLicense\" 'string \"always\") before opening ADE, otherwise a modal 'Next License' dialog freezes headless runs; acAutoOkStart() as backup."
+    "license_dialog": "envSetVal(\"license\" \"ADEXL_UseNextLicense\" 'string \"always\") before opening ADE, otherwise a modal 'Next License' dialog freezes headless runs; acAutoOkStart() as backup.",
+    "tran_analysis": "field 'stop works. 'maxstep and 'step are in the field list but asiSetAnalysisFieldVal does not take them (ADE-5704 / reads back nil). Setting 'errpreset \"conservative\" froze a headless GUI job until the 600 s timeout -- do not set it."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
     "substrate": "Global net sub! must be tied (acSubTie: 0 V vdc sub!->gnd), and never label a net that is also gnd! (schCheck errors).",
     "cdf_callbacks": "PDK callbacks (e.g. bicmos7wlfetWidthp) fail outside a form (concat error) -> ad/as/pd/ps may be stale; acSetParam sets cdfgData/cdfgForm and logs failures. Simulation results were still correct for W/L checks.",
     "pmos_bench": "p1_pmos: source+bulk to gnd, drain at -vsd, gate at -vsg (orient MX) so sweep variable vsg and currents stay positive.",
-    "model_file_structure": "allModels.scs section X includes fixed_corner.scs section=X, process.scs, process_psp.scs, models.scs. Parameters like vth0 are expressions in process.scs: base constant + statistical term + fixed-corner adder (fixcnr*skewfix(...)) + wafer-specific term (k_wafer). In section tt fixcnr=0 and every adder evaluates to 0 (cor_*=0, k_wafer=0, mismatch mvth0=0), so the tt value is the base constant. Grep the model dir for <param>_n / <param>_p to find them."
+    "model_file_structure": "allModels.scs section X includes fixed_corner.scs section=X, process.scs, process_psp.scs, models.scs. Parameters like vth0 are expressions in process.scs: base constant + statistical term + fixed-corner adder (fixcnr*skewfix(...)) + wafer-specific term (k_wafer). In section tt fixcnr=0 and every adder evaluates to 0 (cor_*=0, k_wafer=0, mismatch mvth0=0), so the tt value is the base constant. Grep the model dir for <param>_n / <param>_p to find them.",
+    "diffusion_params": "CDF callbacks fail outside a form, so ad/as/pd/ps stay at the 0.43u-default values (ad=2.322e-13) whatever W is -> drain junction caps far too small for wide devices. Set them yourself: ad = as = W*0.54u, pd = ps = 2*(W+0.54u) (sps.il spsDiffParams; works with a design variable too: ad=wn*0.54e-6).",
+    "op_readout": "pv(\"M0\" <param> ?result \"dcOpInfo\") works for the nfet subckt (gm, gds, id, vth, vdsat, region, cgg, cgs, cgd, cdd, cdb, cjd ...). region: 2 = saturation, 3 = subthreshold. Other dcOpInfo names under M0 are the PDK's parasitics: M0.cwgs/cwgd/cwds (wiring caps), M0.ddb/dsb (junction diodes), M0.rgate/rsext/rdext. Integers (region) need float() before %g formatting."
   },
   "gotchas": [
     "sprintf via apply() re-evaluates args -> use lsprintf.",
@@ -131,7 +137,10 @@
     "OCEAN results dir: use a suffix dir (acSimSetup ... \"_family\") so ADE L's own results are not overwritten.",
     "cmd.exe on the PC: '%' and nested \\\" break commands (see access_paths.ssh.quoting_rules).",
     "Over ssh, '*Error* eval: unbound variable - f' sometimes appears in run logs before the job; it has been harmless (status still OK).",
-    "Bridge: 60 s per call; device may disconnect -> detach long work with nohup and poll."
+    "Bridge: 60 s per call; device may disconnect -> detach long work with nohup and poll.",
+    "Starting a detached job (nohup ... &) over ssh from MATLAB system() sometimes still blocks the bridge until the job ends (> 60 s timeout). The job runs anyway: never re-launch after a timeout, check <job>_run.out first. 'ssh -n' + setsid + disown helped once but not always.",
+    "While a MATLAB system() call is still running, further evaluate_matlab_code calls return empty output (not an error) -- wait and retry.",
+    "Transferring a script to the PC: base64 it and write with fwrite(fid, matlab.net.base64decode('...')) in one evaluate call -- no quote escaping."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
