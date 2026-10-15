@@ -28,7 +28,7 @@ spsCfg = list(nil
   'scanCell "sps_wscan"
   'scanWidths '(0.75 1.5 3.0 6.0 12.0 25.0 50.0 100.0 200.0 400.0 800.0)   ; um (floats)
   ;; (cell W) -- chosen from the W scan
-  'circuits '(("cs_strong" 1.5) ("cs_sub" 400.0))     ; W in um
+  'circuits '(("cs_strong" 0.75) ("cs_sub" 400.0))    ; W in um: gm/Id 4.7 (region 2) vs 24.3 (region 3) in the scan
   ;; (label fin tstop maxstep): 5 periods of 100 Hz, 10 periods of 1 MHz
   'fins '(("100Hz" 100.0 "50m" "20u") ("1MHz" 1e6 "10u" "2n"))
   'acStart "1"  'acStop "10G"  'acDec "20"
