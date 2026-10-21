@@ -1,0 +1,4 @@
+# The server runs these files on Linux: keep LF line endings even when edited on Windows
+* text=auto eol=lf
+*.png binary
+*.pdf binary

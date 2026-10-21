@@ -157,5 +157,12 @@
     "Axis labels on GUI family plots (hw1P1cFamily).",
     "P2 AC setup inside an interactive ADE L run is untested (OCEAN check passed).",
     "Consider making the repo private + deploy key, or keep it public and keep personal/PDK data out."
-  ]
+  ],
+  "local_code_mode": {
+    "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",
+    "workspace_files": "The notebook folder holds CLAUDE.md (local-session instructions) and _tools/ (acrun.sh, fetch.sh, plot.sh). Masters live in this repo under local_workspace/; after changing them, copy them into the notebook folder.",
+    "repo_clone_on_pc": "C:\\Users\\Timmy\\AutoCircuit (git clone over https; first push may open a GitHub login window for the user).",
+    "pc_facts": "Git for Windows 2.54 (Git Bash ssh/scp read C:\\Users\\Timmy\\.ssh; add -o LogLevel=ERROR to hide the post-quantum warning), MATLAB R2025b on PATH (matlab -batch), no gh CLI.",
+    "not_set_up": "No .claude/settings.json permission allowlist was written: pre-approving ssh/scp is the user's decision."
+  }
 }

@@ -3,6 +3,7 @@
 SKILL/OCEAN scripts that draw and simulate circuits in Cadence Virtuoso (UCSD ieng6, IBM cmrf7sf PDK).
 
 Agents: start with [`AGENTS.md`](AGENTS.md) and [`docs/automation_playbook.json`](docs/automation_playbook.json).
+Local Claude Code workspace (the user's lab-notebook folder): [`local_workspace/`](local_workspace/).
 
 ## Batch over SSH (no remote desktop needed)
 
