@@ -7,7 +7,9 @@ repo, the ADE L API calls that are known to work, and the traps already hit.
 
 Ground rules (details in the playbook, `user_and_policies`):
 - The user does the homework reasoning: deliver tools, data and plots, not final answers.
-- Results for the user go to `C:\Users\Timmy\AutoCircuit_Results\<date>_<job>_<desc>\`; never delete there.
+- Results for the user go to the lab notebook `C:\Users\Timmy\AutoCircuit_Results\`: each experiment folder holds only
+  `log.md` + PNGs, raw files go to `_raw\<same folder>\`, and `LOG.md` gets one row per experiment.
+  Never delete there.
 - Never kill the user's own Virtuoso/spectre processes without asking.
 - This repo is public: no keys, no IBM PDK model contents, no homework results.
 

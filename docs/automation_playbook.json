@@ -2,7 +2,7 @@
   "meta": {
     "title": "AutoCircuit automation playbook",
     "purpose": "Everything a new conversation or agent needs to drive Cadence Virtuoso/Spectre on UCSD ieng6 for this repo without rediscovering it: how to reach the server, how to run jobs, how results come back, and the traps already hit.",
-    "last_updated": "2026-10-14",
+    "last_updated": "2026-10-21",
     "repo": "https://github.com/TimmyXu015/AutoCircuit (public -- never commit keys, IBM PDK model contents, or homework answers)",
     "read_order": [
       "user_and_policies",
@@ -17,8 +17,14 @@
     "who": "UCSD student, ECE 203 (Fall 2026). Writes in Chinese; reply in Chinese. Self-described weak software and device-physics fundamentals: explain, do not just dump.",
     "homework_rule": "The user does the homework reasoning. Build tooling, run simulations, return data + plots, point to where/how to read a quantity; do NOT hand over final homework answers unless the user explicitly delegates that part (e.g. they delegated tedious PDK-file grepping for P1e/P1g Vt).",
     "results_folder": {
-      "path": "C:\\Users\\<win_user>\\AutoCircuit_Results\\<YYYY-MM-DD>_<job>_<short_desc>\\  (on the user's Windows PC; win_user is Timmy)",
-      "rule": "Put every chart/CSV/script for the user there, one subfolder per experiment. NEVER delete anything in it -- the user deletes themselves."
+      "path": "C:\\Users\\Timmy\\AutoCircuit_Results\\  (connected folder on the user's Windows PC; device_bash sees it as $HOME/mnt/AutoCircuit_Results)",
+      "layout": {
+        "LOG.md": "index table: date | [title](<exp>/log.md) | figure names. Add one row per new experiment (escape '|' in titles as \\|).",
+        "<YYYY-MM-DD>_<job>_<short_desc>/": "ONLY log.md + PNG figures. Nothing else.",
+        "<exp>/log.md": "short Chinese record: '# title', a line '`<exp>` · 原始数据与脚本：`_raw/<exp>/`', then bullets 电路 / 仿真 / 运行 (run.sh job, CIW call) / 图 (each PNG with a few words) / 记录 (facts seen in the data, or how to read a quantity). For homework items: setup + how to read, not the answer unless the user delegated it.",
+        "_raw/<exp>/": "CSVs, MATLAB plot scripts, text reports, model copies, netlists. Plot scripts read data from their own folder (here = fileparts(mfilename('fullpath'))) and export PNGs to the experiment folder: [~,e]=fileparts(here); out=fullfile(fileparts(fileparts(here)),e)."
+      },
+      "rule": "The user wants a tidy lab notebook, not chat dumps: every experiment ends with log.md + PNGs + a LOG.md row. NEVER delete anything there -- the user deletes (they may delete _raw entirely). Moving within the folder is fine."
     },
     "server_processes": "The user often has their own GUI Virtuoso running on the same ieng6 host (it holds .cdslck locks and spectre sessions). Never kill the user's processes without asking.",
     "style": "Deliver results, not narration. Final reply: what came out, the file, one next step."
@@ -40,7 +46,7 @@
       "after_disconnect": "If the device disconnects mid-call, the remote job may still have run: check its output file before re-running anything."
     },
     "viewing_results": "To look at a PNG yourself: mcp__remote-devices__device_stage_files (path under a connected folder) -> Read the staged path -> SendUserFile it to the user.",
-    "matlab_tips": "exportgraphics(gcf, '<abs path>.png', 'Resolution', 130). Plot scripts start with 'clear', so use absolute paths after run(), not variables set before it. readtable(..., 'VariableNamingRule','preserve') keeps CSV headers."
+    "matlab_tips": "exportgraphics(gcf, '<abs path>.png', 'Resolution', 130). Plot scripts start with 'clear', so compute paths inside the script (mfilename) or use literal absolute paths after run(). readtable(..., 'VariableNamingRule','preserve') keeps CSV headers. Several figures: findall(0,'Type','figure') and export each by its Name."
   },
   "server": {
     "home": "/home/linux/ieng6/oce/7f/lix015",
@@ -56,9 +62,10 @@
     "1. Edit/add SKILL in this repo (cloud container), commit, push. If remote says the repo moved, set origin to https://github.com/TimmyXu015/AutoCircuit.git.",
     "2. Start the job detached on ieng6 via MATLAB system('ssh ... nohup bash -lc ''~/AutoCircuit/run.sh <job>'' ...') from the cadence workdir.",
     "3. Poll ~/AutoCircuit_results/<job>_run.out until '[run] status: OK|FAILED'.",
-    "4. scp the CSV(s) into C:\\Users\\Timmy\\AutoCircuit_Results\\<date>_<job>_<desc>\\.",
-    "5. Write a MATLAB plot script next to the data, run it, exportgraphics to PNG.",
-    "6. Stage + Read the PNG to check it, then SendUserFile. Tell the user how to read the quantity they need; leave the conclusion to them."
+    "4. scp the CSV(s) into C:\\Users\\Timmy\\AutoCircuit_Results\\_raw\\<date>_<job>_<desc>\\.",
+    "5. Put the plot script (keep a copy in matlab/ of this repo) next to the data in _raw, run it; it exports PNGs into C:\\Users\\Timmy\\AutoCircuit_Results\\<date>_<job>_<desc>\\.",
+    "6. Write <exp>/log.md and add a row to LOG.md (see user_and_policies.results_folder.layout).",
+    "7. Stage + Read the PNG to check it, then SendUserFile. In chat keep it short: what came out, how to read it; leave homework conclusions to the user."
   ],
   "run_sh": {
     "usage": "~/AutoCircuit/run.sh <job>   (job = batch/<job>.il)",
