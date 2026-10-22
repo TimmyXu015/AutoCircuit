@@ -13,6 +13,9 @@
 ;;     Id, gm, gm_over_Id, cgg, cgs, cgd, cgb, region (spectre's OP values of M0)
 ;;     h21_dB = db20(IF(/VDS/PLUS)/IF(/VGS/PLUS))       current gain vs frequency
 ;;     ft     = cross(h21_dB 0 1 "falling")             scalar: f where the gain is 0 dB
+;;     ft_extrap = |h21(1 Hz)| x 1 Hz                   the -20 dB/dec line extrapolated to 0 dB;
+;;              still defined when |h21| levels off above 0 dB and never crosses (seen for
+;;              2u/0.18u in weak inversion), where ft (cross) is empty
 ;;   Part d: Tools -> Parametric Analysis, variable vgs, 0 .. 1.8 -> plots ft vs vgs.
 ;;
 ;; Jobs (run.sh):  hw2setup (@gui: cells + ADE states)   hw2check (OCEAN at vgs = 0.25)
@@ -37,6 +40,7 @@ hw2Cells = list(hw2Cfg("p1_ft_5u1u" "5u" "1u" 5e-6)
 ;; expressions shared by ADE L and the OCEAN checks
 hw2H21 = "db20(IF(\"/VDS/PLUS\") / IF(\"/VGS/PLUS\"))"
 hw2Ft  = strcat("cross(" hw2H21 " 0 1 \"falling\")")
+hw2FtX = "value(mag(IF(\"/VDS/PLUS\") / IF(\"/VGS/PLUS\")) 1) * 1"
 
 procedure( hw2Build()
   foreach(c hw2Cells
@@ -65,6 +69,7 @@ procedure( hw2AdeFt(cfg)
     acAdeOutput(acAdeSev "gm_over_Id" "OP(\"/M0\" \"gm\") / OP(\"/M0\" \"id\")")
     acAdeOutput(acAdeSev "h21_dB" hw2H21)
     acAdeOutput(acAdeSev "ft" hw2Ft)
+    acAdeOutput(acAdeSev "ft_extrap" hw2FtX)
     acAdeSave(sess cfg->lib cfg->cell "hw2_p1_ft")
     sess
   )
@@ -82,7 +87,7 @@ procedure( hw2Setup()
 )
 
 ;; ---------- OCEAN ----------
-;; one dc-op + ac run at the given vgs; returns DPL: id gm cgg cgs cgd cgb region ft ftop
+;; one dc-op + ac run at the given vgs; returns DPL: id gm cgg cgs cgd cgb region ft ftx ftop hmin
 procedure( hw2Point(cfg vgs)
   let( (res h inst)
     acSimSetup(cfg->lib cfg->cell "tt" "_hw2")
@@ -99,6 +104,8 @@ procedure( hw2Point(cfg vgs)
       putprop(res and(inst car(errset(pv(inst p ?result "dcOpInfo") nil))) stringToSymbol(p)))
     h = car(errset(i("/VDS/PLUS" ?result "ac") / i("/VGS/PLUS" ?result "ac") nil))
     putprop(res and(h car(errset(cross(db20(h) 0 1 "falling") nil))) 'ft)
+    putprop(res and(h car(errset(value(mag(h) 1.0) nil))) 'ftx)       ; x 1 Hz
+    putprop(res and(h car(errset(ymin(db20(h)) nil))) 'hmin)          ; lowest |h21| in dB
     ;; the same estimate from the OP values: gm / (2 pi Cgg)
     putprop(res when( numberp(res->gm) && numberp(res->cgg) && res->cgg != 0
                   res->gm / (2.0 * 3.14159265 * abs(res->cgg))) 'ftop)
@@ -110,9 +117,9 @@ procedure( hw2Check()
   let( (r)
     foreach(c hw2Cells
       r = hw2Point(c 0.25)
-      acSay("check %s (vgs 0.25, vdd 1.8): Id %s A, gm %s S, Cgg %s F, region %s, ft(AC) %s Hz, gm/(2pi Cgg) %s Hz\n"
+      acSay("check %s (vgs 0.25, vdd 1.8): Id %s A, gm %s S, Cgg %s F, region %s, ft(cross) %s Hz, ft(extrap) %s Hz, gm/(2pi Cgg) %s Hz, min |h21| %s dB\n"
             c->cell spsNum(r->id) spsNum(r->gm) spsNum(r->cgg) spsNum(r->region)
-            spsNum(r->ft) spsNum(r->ftop)))
+            spsNum(r->ft) spsNum(r->ftx) spsNum(r->ftop) spsNum(r->hmin)))
     t
   )
 )
@@ -126,14 +133,15 @@ procedure( hw2FtSweep(@key (vgsList nil))
     foreach(c hw2Cells
       file = strcat(acResultsDir() "/hw2_ft_" c->cell ".csv")
       port = outfile(file "w")
-      fprintf(port "vgs_V,Id_A,gm_S,cgg_F,cgs_F,cgd_F,cgb_F,region,ft_ac_Hz,gm_over_2piCgg_Hz\n")
+      fprintf(port "vgs_V,Id_A,gm_S,cgg_F,cgs_F,cgd_F,cgb_F,region,ft_cross_Hz,ft_extrap_Hz,gm_over_2piCgg_Hz,h21_min_dB\n")
       n = 0
       foreach(vg vgsList
         r = hw2Point(c vg)
         when( numberp(r->ft) n++ )
-        fprintf(port "%g,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" vg
+        fprintf(port "%g,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" vg
                 spsNum(r->id) spsNum(r->gm) spsNum(r->cgg) spsNum(r->cgs) spsNum(r->cgd)
-                spsNum(r->cgb) spsNum(r->region) spsNum(r->ft) spsNum(r->ftop))
+                spsNum(r->cgb) spsNum(r->region) spsNum(r->ft) spsNum(r->ftx) spsNum(r->ftop)
+                spsNum(r->hmin))
         drain(port))
       close(port)
       acSay("hw2 sweep %s: %d of %d points have an f_t crossing -> %s\n" c->cell n length(vgsList) file))
