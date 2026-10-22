@@ -157,7 +157,8 @@
     "f_t from cross(db20(IF(/VDS/PLUS)/IF(/VGS/PLUS)) 0 1 \"falling\") can be empty: for nfetx 2u/0.18u in weak inversion |h21| levels off at about +1.8 dB at high frequency (BSIM3 transcapacitance |Cdg| > Cgg seen by the AC solution) and never reaches 0 dB. hw2 setups add ft_extrap = |h21(1 Hz)| x 1 Hz.",
     "run.sh prints only the first 40 report lines; the full log is ~/AutoCircuit_results/<job>.log.",
     "Ad-hoc Virtuoso over ssh: 'bash -lc virtuoso' does NOT find virtuoso -- source $MODULESHOME/init/bash, module use .../ECE203_FA26_001/public/modulefiles, module load ECE203_FA26_001 in a small script first (or use run.sh).",
-    "PDK CDF callbacks bicmos7wlfetWidthp/Length/Width fail in batch (concat error); set ad/as/pd/ps explicitly (W*0.54u, 2*(W+0.54u)) via cfg->nParams."
+    "PDK CDF callbacks bicmos7wlfetWidthp/Length/Width fail in batch (concat error); set ad/as/pd/ps explicitly (W*0.54u, 2*(W+0.54u)) via cfg->nParams.",
+    "Re-saving an ADE L state that already exists opens a modal 'sevblockingDialogBox' Warning (overwrite?) that hangs GUI batch jobs (the auto-OK timer stops ticking too). acAdeSave now deletes the old state (ddGetObj(lib cell stateName) -> ddDeleteObj) before asiSaveState. If a GUI job shows no progress for minutes, look for 'Displaying modal dbox' in ~/AutoCircuit_results/<job>.log.cds and kill only that job's own processes."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",

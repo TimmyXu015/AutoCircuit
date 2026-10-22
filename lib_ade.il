@@ -124,7 +124,13 @@ procedure( acAdeSaveCurrents(sess)
 
 ;; save the session as a cellview state (Session -> Load State -> Cellview)
 procedure( acAdeSave(sess lib cell name)
-  let( (ok)
+  let( (ok old)
+    ;; saving over an existing state opens a modal "overwrite?" warning (sevblockingDialogBox)
+    ;; that nobody can click in a batch run -> remove the old state of this name first
+    old = ddGetObj(lib cell name)
+    when( old
+      acSay("ADE: replacing existing state %s in %s/%s -> %L\n" name lib cell
+            car(errset(ddDeleteObj(old) t))))
     ok = errset(asiSaveState(sess ?name name ?option 'cellview ?lib lib ?cell cell) t)
     acSay("ADE: save state %s in %s/%s -> %L\n" name lib cell ok)
     unless( car(ok)
