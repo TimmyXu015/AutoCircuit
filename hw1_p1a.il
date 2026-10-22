@@ -46,6 +46,8 @@ procedure( p1aBuild(@optional (cfg p1aCfg))
     ;; the PDK callback that keeps "wt" (total width) in step fails outside the form;
     ;; with one finger the total width equals the finger width
     acSetParam(m0 "wt" cfg->w t)
+    ;; extra device parameters, e.g. junction areas the failing PDK callback leaves stale
+    foreach(pv cfg->nParams acSetParam(m0 car(pv) cadr(pv)))
     printf("M0 size: width param %L = %s, length param %L = %s\n" usedW cfg->w usedL cfg->l)
 
     tD = acTerm(m0 '("D" "drain"))
@@ -63,6 +65,8 @@ procedure( p1aBuild(@optional (cfg p1aCfg))
     acWire(cv pG n "vg")
     vgs = acPlace(cv "analogLib" "vdc" "VGS" "R0" "PLUS" acDown(n 0.5))
     acSetParam(vgs "vdc" or(cfg->vgsExpr "vgs"))
+    ;; AC magnitude on the gate source (small-signal / f_t test benches)
+    when( cfg->vgsAcm acSetParam(vgs "acm" cfg->vgsAcm) )
     acWire(cv n acPinPt(vgs "PLUS"))
     acGnd(cv "GND1" acPinPt(vgs "MINUS"))
 
