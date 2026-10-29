@@ -164,12 +164,20 @@ procedure( acDumpParams(lib cell instName)
   )
 )
 
+;; In this installation an analogLib vdc netlists with mag=1 (AC magnitude 1) unless acm is set,
+;; so every supply/bias source would also drive AC and noise-gain analyses. Call this on every
+;; DC-only source; give acm = 1 only to the intended AC input.
+procedure( acDcOnly(inst)
+  acSetParam(inst "acm" "0" t)
+)
+
 ;; 0 V source tying the PDK substrate net to ground, placed at pt (its + pin)
 procedure( acSubTie(cv pt)
   let( (vs)
     when( acPdk->subNet
       vs = acPlace(cv "analogLib" "vdc" "VSUB" "R0" "PLUS" pt)
       acSetParam(vs "vdc" "0")
+      acDcOnly(vs)
       acStub(cv vs "PLUS" acPdk->subNet)
       acGnd(cv "GNDSUB" acPinPt(vs "MINUS"))
       vs

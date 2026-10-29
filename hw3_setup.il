@@ -78,6 +78,7 @@ procedure( hw3Build()
     acWire(cv acPinPt(rl "PLUS") pTop)
     vdd = acPlace(cv "analogLib" "vdc" "VDD" "R0" "PLUS" acRight(pTop 2.5))
     acSetParam(vdd "vdc" "vdd")
+    acDcOnly(vdd)
     acWire(cv pTop acPinPt(vdd "PLUS") "vdd")
     acGnd(cv "GND2" acPinPt(vdd "MINUS"))
     cl = acPlace(cv "analogLib" "cap" "CL" "R0" "PLUS" acRight(d 1.25))
@@ -197,7 +198,7 @@ procedure( hw3AdeNoise()
     ;; inType voltage|current|port|none, inVsrc = the input voltage source
     acAdeAnalysis(sess 'noise
       list(list('start hw3Cfg->fStart) list('stop hw3Cfg->fStop) list('dec hw3Cfg->dec)
-           list('p "/vout") list('n "/gnd!") list('inVsrc "/VIN"))
+           list('p "/vout") list('n "/gnd!") list('inVsrc "/VIN") list('iprobe "/VIN"))
       list(list('sweep "freq") list('rangeType "start")
            list('incrType "log") list('stepTypeLog "decade")
            list('outType "voltage") list('inType "voltage")))
@@ -221,46 +222,37 @@ procedure( hw3Ade()
   t
 )
 
-;; netlist + run the noise session from ADE once and print its analysis lines, so the
-;; saved setup is checked by what ADE itself writes (not only by OCEAN)
+;; netlist + run the noise session from ADE once, wait for spectre, and print the analysis
+;; lines it wrote -- checks the saved setup by what ADE itself produces (not only by OCEAN)
 procedure( hw3AdeNetlistCheck()
-  let( (file port line)
+  let( (dir file port line done k)
+    dir = strcat(getShellEnvVar("HOME") "/simulation/" hw3Cell "/spectre/schematic")
     acSay("ADE: sevNetlistAndRun -> %L\n" car(errset(sevNetlistAndRun(acAdeSev) t)))
-    file = strcat(getShellEnvVar("HOME") "/simulation/" hw3Cell "/spectre/schematic/netlist/input.scs")
-    if( isFile(file) then
-      port = infile(file)
-      while( gets(line port)
-        when( rexMatchp("^(noise|ac |dcOp|dcOpInfo|M0|VIN|RL|CL|VDD)" line)
-          acSay("ADE netlist: %s" line)))
-      close(port)
-    else
-      acSay("ADE netlist: %s not found\n" file))
+    ;; spectre runs as its own process; wait (max 90 s) for it to finish
+    k = 0
+    while( !done && k < 90
+      ipcSleep(1)
+      k++
+      done = isFile(strcat(dir "/psf/spectre.out")) &&
+             (exists(ln car(errset(hw3ReadLines(strcat(dir "/psf/spectre.out")) nil))
+                     index(ln "spectre completes")) && t))
+    acSay("ADE: spectre finished after %d s: %L\n" k done)
+    file = strcat(dir "/netlist/input.scs")
+    foreach(ln car(errset(hw3ReadLines(file) nil))
+      when( rexMatchp("^(noise|ac |dcOp |M0|VIN|VDD|VSUB|RL|CL)" ln)
+        acSay("ADE netlist: %s" ln)))
+    foreach(ln car(errset(hw3ReadLines(strcat(dir "/psf/spectre.out")) nil))
+      when( index(ln "spectre completes") || index(ln "ERROR") acSay("ADE spectre: %s" ln)))
+    t
   )
 )
 
-;; ---------- OCEAN noise check ----------
-procedure( hw3Check()
-  let( (vin res file)
-    vin = hw3Vin()
-    acSimSetup(hw3Lib hw3Cell "tt" "_hw3")
-    desVar("vdd" hw3Cfg->vdd) desVar("vin" vin)
-    analysis('dc ?saveOppoint t)
-    analysis('ac ?start hw3Cfg->fStart ?stop hw3Cfg->fStop ?dec hw3Cfg->dec)
-    analysis('noise ?start hw3Cfg->fStart ?stop hw3Cfg->fStop ?dec hw3Cfg->dec
-             ?p "/vout" ?n "/gnd!" ?iprobe "/VIN")
-    run()
-    acSay("hw3 check: vin %s V, Id %s A, gm %s S, region %s, |gain| at 1 kHz %s\n" acNum(vin "%.6f")
-          acNum(car(errset(pv("M0" "id" ?result "dcOpInfo") nil)))
-          acNum(car(errset(pv("M0" "gm" ?result "dcOpInfo") nil)))
-          spsNum(car(errset(pv("M0" "region" ?result "dcOpInfo") nil)))
-          acNum(car(errset(value(mag(v("/vout" ?result "ac")) 1e3) nil))))
-    res = list(car(errset(mag(v("/vout" ?result "ac")) nil))
-               car(errset(getData("out" ?result "noise") nil))
-               car(errset(getData("in" ?result "noise") nil)))
-    acSay("hw3 check: waves gain %L out %L in %L\n" car(res) cadr(res) caddr(res))
-    file = strcat(acResultsDir() "/hw3_noise.csv")
-    spsWriteWaves(file "f_Hz,gain_mag,out_noise_V_rtHz,in_noise_V_rtHz" res)
-    acSay("hw3 check: wrote %s\n" file)
-    t
+procedure( hw3ReadLines(file)
+  let( (port line lines)
+    when( isFile(file)
+      port = infile(file)
+      while( gets(line port) lines = cons(line lines))
+      close(port))
+    reverse(lines)
   )
 )

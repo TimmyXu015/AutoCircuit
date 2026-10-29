@@ -42,6 +42,7 @@ procedure( csBuild(lib cell @key (rlarge "1G") (vamp "10m") (vfreq "2M") (nParam
     pRDt = acPinPt(rd "PLUS")
     vdd = acPlace(cv "analogLib" "vdc" "VDD" "R0" "PLUS" acRight(pRDt 2.0))
     acSetParam(vdd "vdc" "2")
+    acDcOnly(vdd)
     acWire(cv pRDt acPinPt(vdd "PLUS") "vdd")
     acGnd(cv "GND1" acPinPt(vdd "MINUS"))
 
@@ -60,6 +61,7 @@ procedure( csBuild(lib cell @key (rlarge "1G") (vamp "10m") (vfreq "2M") (nParam
     pRb = acPinPt(rl "MINUS")
     vb = acPlace(cv "analogLib" "vdc" "VBIAS" "R0" "PLUS" acDown(pRb 0.5))
     acSetParam(vb "vdc" "vbias")
+    acDcOnly(vb)
     acWire(cv pRb acPinPt(vb "PLUS") "vb")
     acGnd(cv "GND3" acPinPt(vb "MINUS"))
 

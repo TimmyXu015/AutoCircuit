@@ -55,6 +55,7 @@ procedure( spsgBuild(lib cell wUm)
     pRDt = acPinPt(rd "PLUS")
     vdd = acPlace(cv "analogLib" "vdc" "VDD" "R0" "PLUS" acRight(pRDt 2.0))
     acSetParam(vdd "vdc" "2")
+    acDcOnly(vdd)
     acWire(cv pRDt acPinPt(vdd "PLUS") "vdd")
     acGnd(cv "GND1" acPinPt(vdd "MINUS"))
 
