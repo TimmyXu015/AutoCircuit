@@ -217,7 +217,25 @@ procedure( hw3Ade()
   unless( hiGraphicMode() error("hw3Ade needs the GUI (run.sh hw3ade)\n") )
   hw3AdeSweep()
   hw3AdeNoise()
+  hw3AdeNetlistCheck()
   t
+)
+
+;; netlist + run the noise session from ADE once and print its analysis lines, so the
+;; saved setup is checked by what ADE itself writes (not only by OCEAN)
+procedure( hw3AdeNetlistCheck()
+  let( (file port line)
+    acSay("ADE: sevNetlistAndRun -> %L\n" car(errset(sevNetlistAndRun(acAdeSev) t)))
+    file = strcat(getShellEnvVar("HOME") "/simulation/" hw3Cell "/spectre/schematic/netlist/input.scs")
+    if( isFile(file) then
+      port = infile(file)
+      while( gets(line port)
+        when( rexMatchp("^(noise|ac |dcOp|dcOpInfo|M0|VIN|RL|CL|VDD)" line)
+          acSay("ADE netlist: %s" line)))
+      close(port)
+    else
+      acSay("ADE netlist: %s not found\n" file))
+  )
 )
 
 ;; ---------- OCEAN noise check ----------
