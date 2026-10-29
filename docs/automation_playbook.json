@@ -164,7 +164,11 @@
     "run.sh prints only the first 40 report lines; the full log is ~/AutoCircuit_results/<job>.log.",
     "Ad-hoc Virtuoso over ssh: 'bash -lc virtuoso' does NOT find virtuoso -- source $MODULESHOME/init/bash, module use .../ECE203_FA26_001/public/modulefiles, module load ECE203_FA26_001 in a small script first (or use run.sh).",
     "PDK CDF callbacks bicmos7wlfetWidthp/Length/Width fail in batch (concat error); set ad/as/pd/ps explicitly (W*0.54u, 2*(W+0.54u)) via cfg->nParams.",
-    "Re-saving an ADE L state that already exists opens a modal 'sevblockingDialogBox' Warning (overwrite?) that hangs GUI batch jobs (the auto-OK timer stops ticking too). acAdeSave now deletes the old state (ddGetObj(lib cell stateName) -> ddDeleteObj) before asiSaveState. If a GUI job shows no progress for minutes, look for 'Displaying modal dbox' in ~/AutoCircuit_results/<job>.log.cds and kill only that job's own processes."
+    "Re-saving an ADE L state that already exists opens a modal 'sevblockingDialogBox' Warning (overwrite?) that hangs GUI batch jobs (the auto-OK timer stops ticking too). acAdeSave now deletes the old state (ddGetObj(lib cell stateName) -> ddDeleteObj) before asiSaveState. If a GUI job shows no progress for minutes, look for 'Displaying modal dbox' in ~/AutoCircuit_results/<job>.log.cds and kill only that job's own processes.",
+    "analogLib vdc netlists 'mag=1' (AC magnitude 1) when acm is left at its default in this installation, so every supply/bias/VSUB source also drove AC analyses (HW1 P2 gain, HW2 f_t h21, sps/spsg AC results before 2026-10-28 are affected). acDcOnly(inst) sets acm = 0; every builder now calls it on DC-only sources. Always grep the netlist for 'mag=' after building an AC bench.",
+    "ipcSleep() inside a GUI job blocks the event loop, so an ADE run started with sevNetlistAndRun never completes (spectre is killed when run.sh stops Virtuoso). Verify ADE setups by the netlist it writes (~/simulation/<cell>/spectre/schematic/netlist/input.scs), simulate with OCEAN.",
+    "SKILL rexMatchp has no '|' alternation; use several index()/rexMatchp calls.",
+    "Python edits that cut 'from marker to end of file' can silently drop later procedures -- check that every acJobs function still exists (grep 'procedure( name') before pushing."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
