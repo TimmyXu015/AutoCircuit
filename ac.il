@@ -13,7 +13,7 @@ acRoot = or(getShellEnvVar("AC_ROOT") strcat(getShellEnvVar("HOME") "/AutoCircui
 ;; order matters: PDK config, then libraries, then circuits
 acFiles = '("pdk_cmrf7sf.il" "lib_draw.il" "lib_sim.il" "lib_ade.il"
             "cs_amp.il" "cs_wsweep.il"
-            "hw1_p1a.il" "rf_cap.il" "rf_ind.il" "gmid.il" "wsub.il" "hw1_setup.il" "sps.il" "spsg.il" "hw2_setup.il")
+            "hw1_p1a.il" "rf_cap.il" "rf_ind.il" "gmid.il" "wsub.il" "hw1_setup.il" "sps.il" "spsg.il" "hw2_setup.il" "hw3_setup.il")
 
 ;; steps per job for acGo, run in order; each step is a function of no arguments
 acJobs = list(nil
@@ -35,6 +35,9 @@ acJobs = list(nil
   'hw2setup '(hw2Setup)
   'hw2check '(hw2Check)
   'hw2ftsweep '(hw2FtSweep)
+  'hw3build '(hw3BuildAll)
+  'hw3ade '(hw3Ade)
+  'hw3check '(hw3Check)
 )
 
 ;; ---------- reporting ----------
