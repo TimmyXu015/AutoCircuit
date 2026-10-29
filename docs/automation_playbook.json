@@ -2,7 +2,7 @@
   "meta": {
     "title": "AutoCircuit automation playbook",
     "purpose": "Everything a new conversation or agent needs to drive Cadence Virtuoso/Spectre on UCSD ieng6 for this repo without rediscovering it: how to reach the server, how to run jobs, how results come back, and the traps already hit.",
-    "last_updated": "2026-10-21",
+    "last_updated": "2026-10-28",
     "repo": "https://github.com/TimmyXu015/AutoCircuit (public -- never commit keys, IBM PDK model contents, or homework answers)",
     "read_order": [
       "user_and_policies",
@@ -160,7 +160,7 @@
     "Starting a detached job (nohup ... &) over ssh from MATLAB system() sometimes still blocks the bridge until the job ends (> 60 s timeout). The job runs anyway: never re-launch after a timeout, check <job>_run.out first. 'ssh -n' + setsid + disown helped once but not always.",
     "While a MATLAB system() call is still running, further evaluate_matlab_code calls return empty output (not an error) -- wait and retry.",
     "Transferring a script to the PC: base64 it and write with fwrite(fid, matlab.net.base64decode('...')) in one evaluate call -- no quote escaping.",
-    "f_t from cross(db20(IF(/VDS/PLUS)/IF(/VGS/PLUS)) 0 1 \"falling\") can be empty: for nfetx 2u/0.18u in weak inversion |h21| levels off at about +1.8 dB at high frequency (BSIM3 transcapacitance |Cdg| > Cgg seen by the AC solution) and never reaches 0 dB. hw2 setups add ft_extrap = |h21(1 Hz)| x 1 Hz.",
+    "f_t via cross(db20(IF(/VDS/PLUS)/IF(/VGS/PLUS)) 0 1 \"falling\") needs the drain source to be AC-quiet (acm = 0). With VDS at mag=1 the h21 'plateau' sat above 0 dB for 2u/0.18u and cross returned nothing. ft_extrap = |h21(1 Hz)| x 1 Hz is kept as a cross-check.",
     "run.sh prints only the first 40 report lines; the full log is ~/AutoCircuit_results/<job>.log.",
     "Ad-hoc Virtuoso over ssh: 'bash -lc virtuoso' does NOT find virtuoso -- source $MODULESHOME/init/bash, module use .../ECE203_FA26_001/public/modulefiles, module load ECE203_FA26_001 in a small script first (or use run.sh).",
     "PDK CDF callbacks bicmos7wlfetWidthp/Length/Width fail in batch (concat error); set ad/as/pd/ps explicitly (W*0.54u, 2*(W+0.54u)) via cfg->nParams.",
@@ -168,7 +168,8 @@
     "analogLib vdc netlists 'mag=1' (AC magnitude 1) when acm is left at its default in this installation, so every supply/bias/VSUB source also drove AC analyses (HW1 P2 gain, HW2 f_t h21, sps/spsg AC results before 2026-10-28 are affected). acDcOnly(inst) sets acm = 0; every builder now calls it on DC-only sources. Always grep the netlist for 'mag=' after building an AC bench.",
     "ipcSleep() inside a GUI job blocks the event loop, so an ADE run started with sevNetlistAndRun never completes (spectre is killed when run.sh stops Virtuoso). Verify ADE setups by the netlist it writes (~/simulation/<cell>/spectre/schematic/netlist/input.scs), simulate with OCEAN.",
     "SKILL rexMatchp has no '|' alternation; use several index()/rexMatchp calls.",
-    "Python edits that cut 'from marker to end of file' can silently drop later procedures -- check that every acJobs function still exists (grep 'procedure( name') before pushing."
+    "Python edits that cut 'from marker to end of file' can silently drop later procedures -- check that every acJobs function still exists (grep 'procedure( name') before pushing.",
+    "HW2 f_t results before 2026-10-28 were taken with VDS/VSUB at mag=1; corrected (5u/1u ft at vgs 0.25: 37.4 MHz cross, matches gm/(2pi Cgg) 37.0 MHz; the 'h21 levels off above 0 dB' finding for 2u/0.18u was an artifact of that, not device physics)."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
