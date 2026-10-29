@@ -193,14 +193,14 @@ procedure( hw3AdeNoise()
       list(list('start hw3Cfg->fStart) list('stop hw3Cfg->fStop) list('dec hw3Cfg->dec))
       list(list('sweep "freq") list('rangeType "start")
            list('incrType "log") list('stepTypeLog "decade")))
-    hw3ProbeAnalysis(sess 'noise)
+    ;; field names of this install (probed): outType voltage|probe, p/n output nodes,
+    ;; inType voltage|current|port|none, inVsrc = the input voltage source
     acAdeAnalysis(sess 'noise
       list(list('start hw3Cfg->fStart) list('stop hw3Cfg->fStop) list('dec hw3Cfg->dec)
-           list('p "/vout") list('n "/gnd!") list('iprobe "/VIN"))
+           list('p "/vout") list('n "/gnd!") list('inVsrc "/VIN"))
       list(list('sweep "freq") list('rangeType "start")
            list('incrType "log") list('stepTypeLog "decade")
-           list('outputType "voltage") list('inputType "source")))
-    hw3ProbeAnalysis(sess 'noise)
+           list('outType "voltage") list('inType "voltage")))
     foreach(p '(("Id" "id") ("gm" "gm") ("gds" "gds") ("region" "region") ("vgs" "vgs") ("vth" "vth"))
       acAdeOutput(acAdeSev car(p) sprintf(nil "OP(\"/M0\" \"%s\")" cadr(p))))
     acAdeOutput(acAdeSev "gain_dB" "db20(VF(\"/vout\"))")

@@ -95,7 +95,10 @@
       "spsgade": "@gui: ADE L states A_ideal/B_rs/C_rs_cl x 100Hz/1MHz in both gate-driven cells; outputs include OP(\"/M0\" ...) gm/Id, bandwidth(VF(\"/vout\") 3 \"low\"), GBW",
       "hw2setup": "@gui: HW2_203 cells p1_ft_5u1u + p1_ft_2u018 (nfetx, VGS dc=vgs acm=1, VDS dc=vdd) and ADE L state hw2_p1_ft in each (dc op + ac 1..1T, OP outputs, h21_dB, ft (cross), ft_extrap)",
       "hw2check": "OCEAN: both f_t cells at vgs 0.25 -> Id, gm, Cgg, ft(cross), ft(extrap), gm/(2pi Cgg), min |h21|",
-      "hw2ftsweep": "OCEAN loop vgs 0..1.8 (50 mV) for both cells -> ~/AutoCircuit_results/hw2_ft_<cell>.csv"
+      "hw2ftsweep": "OCEAN loop vgs 0..1.8 (50 mV) for both cells -> ~/AutoCircuit_results/hw2_ft_<cell>.csv",
+      "hw3build": "HW3 P2: creates library HW3_203 (tech cmrf7sf), cell p2_cs_noise (nfetx 50u/5u, RL 50k to vdd, CL 500f, VIN dc=vin acm=1), finds vin for Id = 15 uA -> ~/AutoCircuit_results/hw3_vin.txt",
+      "hw3ade": "@gui: ADE L states hw3_p2_vin_sweep (dc sweep vin, Id, vin_at_15uA) and hw3_p2_noise (dc op + ac + noise 0.1 Hz..1 GHz, out/in noise, gain_dB, OP values)",
+      "hw3check": "OCEAN dc op + ac + noise at the found vin -> ~/AutoCircuit_results/hw3_noise.csv (f, |gain|, out noise, in noise)"
     }
   },
   "skill_framework": {
@@ -125,7 +128,10 @@
     "save_state": "asiSaveState(sess ?name name ?option 'cellview ?lib lib ?cell cell)",
     "license_dialog": "envSetVal(\"license\" \"ADEXL_UseNextLicense\" 'string \"always\") before opening ADE, otherwise a modal 'Next License' dialog freezes headless runs; acAutoOkStart() as backup.",
     "tran_analysis": "field 'stop works. 'maxstep and 'step are in the field list but asiSetAnalysisFieldVal does not take them (ADE-5704 / reads back nil). Setting 'errpreset \"conservative\" froze a headless GUI job until the 600 s timeout -- do not set it.",
-    "outputs_op": "sevAddExpression accepts OP(\"/M0\" \"gm\") style expressions and bandwidth(VF(\"/vout\") 3 \"low\"), VAR(\"fin\") (added without error; evaluated by the user in ADE)."
+    "outputs_op": "sevAddExpression accepts OP(\"/M0\" \"gm\") style expressions and bandwidth(VF(\"/vout\") 3 \"low\"), VAR(\"fin\") (added without error; evaluated by the user in ADE).",
+    "noise_analysis": "asiGetAnalysis(sess 'noise): choice fields sweep Frequency, rangeType Start-Stop, incrType Logarithmic, stepTypeLog 'Points Per Decade', outType ('voltage' | 'probe', default probe!), inType ('voltage' | 'current' | 'port' | 'none', default port); text fields start stop dec, p '/vout', n '/gnd!', inVsrc '/VIN' (input voltage source; iprobe is NOT the field ADE uses for a voltage input). Outputs: getData(\"out\" ?result \"noise\"), getData(\"in\" ?result \"noise\") in V/sqrt(Hz). OCEAN: analysis('noise ?start ?stop ?dec ?p \"/vout\" ?n \"/gnd!\" ?iprobe \"/VIN\") works.",
+    "create_library": "ddCreateLib(name dir) creates the library AND adds DEFINE to the cds.lib of the working dir; attach technology with techSetTechLibName(ddGetObj(name) \"cmrf7sf\") (check with techGetTechLibName). Back up cds.lib first.",
+    "probe_fields": "To learn an analysis' field names: asiGetAnalysisParamNameList(ana) + asiGetAnalysisFieldChoices(ana f) for each (hw3ProbeAnalysis). Some listed names (readns, force, save, oppoint ...) raise ADE-5704 when read -- harmless."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
