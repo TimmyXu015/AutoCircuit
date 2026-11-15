@@ -17,7 +17,7 @@ Do **not** ask to redesign the system or implement a clock. No chopper, switched
 | Topic | Current choice | Status |
 | --- | --- | --- |
 | Amplifier blocks | Two identical first-stage **PMOS-input single-ended cascode OTA** instances A1/A2, then one **single-ended 5T differential-input OTA** A3 | **Candidate physical topology**; prove with PDK and 1.8V headroom |
-| Input amplification | Each A1/A2 in **inverting capacitive feedback**, nominal −25 midband per path; A3 subtracts paths ×4 -> overall |×100| =40dB | **Architecture choice**; this is NOT the original non-inverting three-op-amp INA |
+| Input amplification | Each A1/A2 in **inverting capacitive feedback**, nominal −25 midband per path; A3 subtracts paths ×4 -> overall gain magnitude 100 (40dB) | **Architecture choice**; this is NOT the original non-inverting three-op-amp INA |
 | High-pass | `Cc` at input; `Cf || Rp` between summing input and OTA output, with VREF on OTA (+); `Rp` initially an **ideal resistor** | **Architecture choice**; **test the COMPLETE closed loop with VCVS first**, then extract `ece203_hp_fb` three-pin passive sub-cell |
 | High-pass first numbers | Per branch Cc=100pF, Cf=4pF, Rp≈398GΩ -> nominal fL≈0.1Hz and gain −25 | **Starting numbers, NOT validated** |
 | Pseudo-R | Standalone **two-terminal** MOS pseudo-resistor cell later replaces ideal Rp; test I–V, differential resistance and nonlinearity independently | **Exploratory PDK module**; do not let it block ideal HP or OTAs |
