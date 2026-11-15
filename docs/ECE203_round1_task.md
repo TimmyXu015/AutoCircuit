@@ -6,14 +6,15 @@ Status: **approved first-pass plan; NOT final verified circuit.** Created 2026-1
 
 Read `CLAUDE.md`, `AGENTS.md`, and `docs/automation_playbook.json` FIRST. Reuse the existing `ac.il` / `lib_draw.il` / `lib_sim.il` / `lib_ade.il` / `run.sh` pattern. Do not overwrite existing HW cells, scripts, results, or processes. Keep the IBM PDK model text and all credentials out of this **public** repo. On successful discovery of a new working API, document it in the playbook. Prefer independent batch jobs so one failure does not block the other experiments.
 
-The user's specific Round 1 request: **build transistor-level A1/A2 and A3 as independent reusable Cadence blocks IN PARALLEL with a separate complete ECG behavioral schematic that substitutes ideal VCVS-based amplifiers.** These are **three distinct experiments**, NOT an instruction to immediately assemble actual transistors into the ECG top-level. No clock, chopper, switched-capacitor block or PSS work.
+The user's specific Round 1 request: **build transistor-level A1/A2 and A3 as independent reusable Cadence blocks IN PARALLEL with a separate complete ECG behavioral schematic that substitutes ideal VCVS-based amplifiers.** These are **three main experiments plus one modular high-pass / pseudo-R workstream**, NOT an instruction to immediately assemble actual transistors into the ECG top-level. Highest hands-on priority: real A1/A2 cascode OTA and real A3 differential-amplifier OTA, then feedback RC high-pass block. The ideal full ECG is a separate concurrent system sanity check. No clock, chopper, switched-capacitor block or PSS work.
 
 ### Required deliverables
 
 1. **`ece203_a12_ota`**: one reusable real PDK schematic/cell, later instantiated twice as A1 and A2. Also an independent testbench.
 2. **`ece203_a3_ota`**: one reusable real PDK 5T OTA schematic/cell, plus independent testbench.
 3. **`ece203_ideal_ecg`**: separate complete behavioral block-level schematic built from ideal VCVSs and actual/passive-equivalent networks; NO PDK transistor OTAs in this cell. Include body, two signal electrodes, right-leg electrode, DRL, CM sense, A1/A2 feedback, A3 subtraction.
-4. Three individually runnable `run.sh` jobs, relevant SKILL files registered in `ac.il`, and numerical/CSV results plus a compact summary. Clearly distinguish **script created**, **netlist/sim tested**, and **not yet tested**. Prefer saving schematic cellviews and ADE states where feasible. Do not claim simulations passed without a run log.
+4. **`ece203_hp_fb` modular 3-terminal feedback RC network**, with Cc from VIN to SUM and (Cf || Rp) from SUM to VOUT; use linear ideal Rp first, then a reusable PDK-based two-terminal `ece203_pseudor` cell. Provide separate testbench(s). This is NOT a free-standing two-terminal high-pass: its transfer function requires an amplifier holding SUM approximately at virtual ground. Target Cc=100pF, Cf=4pF, Rp~398GΩ; test nominal -25 gain/0.1Hz when connected to a finite-gain VCVS.
+5. Independently runnable `run.sh` jobs, SKILL files registered in `ac.il`, and numerical/CSV results plus compact summary. Clearly distinguish **script created**, **netlist/sim tested**, and **not yet tested**. Prefer saving schematic cellviews and ADE states where feasible. Do not claim simulations passed without a run log.
 
 Do not invent PDK names, device pin names or CDF field names: `pdk_cmrf7sf.il` notes that PMOS `pfet` and width/length bindings are *not verified*. Probe available PDK instances/parameters, inspect fresh netlist and OP, then commit reproducible scripts. Treat all device dimensions as tunable first guesses.
 
@@ -60,6 +61,17 @@ Do not invent PDK names, device pin names or CDF field names: `pdk_cmrf7sf.il` n
 - **Do not trust behavioral rail/swing/noise/power**: high-gain VCVS can output 10s of volts without saturation. The DRL OFF simulation may produce mathematically valid but physically impossible voltages. Annotate these as limitations; no hard-spec 'PASS' for power, input-referred total noise, linear swing, or final DRL PM from ideal amplifier model. Passive resistor thermal noise can be examined separately.
 - First sweep pure ideal A(s), then optionally A(s) with finite DC gain and a first-order pole to test sensitivity; never hide the pole assumption.
 
+## Track D — modular pseudo-resistor and feedback high-pass (newly requested)
+
+The user wants **LEGO-style reusable schematic cells** for the real amplifiers, pseudo-resistor, and their RC high-pass network rather than a one-off hardwired top level. Prioritize clean symbol pins and standalone tests.
+
+- **`ece203_hp_fb`** is a **three-terminal** reusable feedback network with VIN, SUM, VOUT: `Cc` between VIN and SUM, `Cf` and `Rp` in parallel from SUM to VOUT. The **amplifier's noninverting VREF and negative feedback** are external; this network cannot be characterized as an independent RC high-pass unless plugged into an OTA/VCVS testbench. Nominal values Cc=100pF, Cf=4pF, Rp=398GΩ.
+- **`ece203_pseudor`** is a **two-terminal** cell intended to replace Rp (ideally a MOS-bipolar/subthreshold pseudo-R using actual PDK FETs as taught in class), with no clock. Begin with `analogLib/res` equivalent as a distinct behavioral variant for validation. Make the actual transistor-based variant **an independent test/attempt in Round 1**, but do not allow PDK/CDF difficulty to block the high-priority A1/A2 and A3 OTA cells.
+- For the PDK pseudo-R, test operating point and `I(V)` around zero differential terminal voltage, differential resistance `r_d=(dI/dV)^-1` (nominal target 398GΩ, i.e. ~2.5pS differential conductance), bias conditions, leakage and current as a function of ±10mV and ±50mV. Real MOS pseudo-R may be nonlinear, asymmetric and temperature/process sensitive; do not claim a specific resistance until extracted.
+- With the behavioral `ece203_hp_fb` plus finite-gain VCVS, plot gain vs frequency, estimate fL ≈0.1Hz, input |Z| at 10Hz, high-frequency noise gain and behavior of the DC operating point. In this topology the 0.1Hz pole is from `Rp*Cf`, **not** `Rp*Cc`.
+- When the transistor `ece203_pseudor` is available, replace **only the resistor sub-cell** in the feedback macro; compare AC cutoff and nonlinear transient at different signal amplitudes, plus noise where Spectre supports it. Mark a physical pseudo-R as unverified if it fails simulation.
+- Keep reusable cells separately named (`ece203_a12_ota`, `ece203_a3_ota`, `ece203_pseudor`, `ece203_hp_fb`); A1 and A2 share one OTA cell. Symbol pin compatibility and clean readable hierarchy matter more than drawing convenience.
+
 ## Proposed verification matrix (first pass)
 
 | Job | Schematic | Required measured artifacts |
@@ -67,16 +79,17 @@ Do not invent PDK names, device pin names or CDF field names: `pdk_cmrf7sf.il` n
 | ece203_a12 | physical A1/A2 cell + testbench | OP table, supply current, A0, UGF, PM, noise PSD and integrated input noise, known limitations |
 | ece203_a3 | physical A3 cell + testbench | OP, current, closed loop ×4, −3dB f, C needed, PM, noise where feasible |
 | ece203_ideal | VCVS A1/A2/A3/DRL + electrodes + RCs | differential AC response (0.01–10kHz), Zin @10Hz, 60Hz body CM and CMRR OFF/ON, DRL polarity, on-chip capacitor tally |
+| ece203_hp | 3-terminal feedback RC (ideal Rp), with independent VCVS testbench; separate MOS pseudo-R 2-terminal sub-cell/testbench | 0.1Hz closed-loop HP response, 25× gain, pseudo-R extracted small-signal resistance/I-V and pending physical verification status |
 
-Do not fake outputs if Cadence is inaccessible. For the first milestone, the minimum value is **three Cadence schematics + three testbenches + reproducible logs/CSVs**. PDK test results and behavioral test results must be explicitly labeled. Prefer recording in the local AutoCircuit_Results lab-notebook convention specified by the playbook if available.
+Do not fake outputs if Cadence is inaccessible. For the first milestone, the minimum value is **A1/A2, A3, ideal full ECG, and modular RC feedback network schematics with their independent testbenches, plus a pseudo-R two-terminal cell / verification attempt and reproducible logs/CSVs**. PDK test results and behavioral test results must be explicitly labeled. Prefer recording in the local AutoCircuit_Results lab-notebook convention specified by the playbook if available.
 
 ## Task sequencing for Claude
 
 1. Inspect existing scripts, check PDK symbols/CDF, prepare new job names and independent schematic/testbench cells, create isolated file additions.
-2. Get the **ideal complete ECG system** to netlist and run AC first; catch wiring and source-reference issues.
-3. Independently implement A3 (simpler 5T) and A1/A2 (single-ended PMOS-input cascode candidate). Run OP and small-signal tests independently.
+2. Start parallel tracks: get the **ideal complete ECG system** to netlist and run AC; independently build A3 (simpler 5T) and A1/A2 (single-ended PMOS-input cascode candidate). Real OTA blocks remain the highest-priority physical modules.
+3. Build reusable 3-pin `ece203_hp_fb` network and 2-pin `ece203_pseudor` interface. Test ideal resistor first; attempt real PDK MOS pseudo-R only as a separate independent milestone, without blocking the amplifiers.
 4. Provide compact status with exact job commands, CSV paths, plots, errors, and *design decisions that require user/GPT review*. Do not automatically alter the block architecture to fix a failing spec.
-5. Do NOT implement final Pseudo-R transistor, transistor DRL, chopper, PVT corner sweeps, or Monte Carlo in Round 1 without another instruction.
+5. Do NOT implement transistor DRL, chopper, PVT corner sweeps, or Monte Carlo in Round 1 without another instruction. A **preliminary PDK transistor pseudo-R standalone test** is explicitly authorized; do not claim its implementation is final or calibrated.
 
 ## Engineering cautions carried forward
 
