@@ -15,3 +15,9 @@ Ground rules (details in the playbook, `user_and_policies`):
 
 When you learn something new (a working API call, a fix, a trap), add it to the playbook
 in the same commit.
+
+## Current ECE203 design project (2026-11-15 handoff)
+
+For active ECE203 ECG work, **read [docs/ECE203_HANDOFF.md](docs/ECE203_HANDOFF.md) before writing scripts**, then [docs/ECE203_round1_task.md](docs/ECE203_round1_task.md) for detail. These contain the **latest user decisions**; use the dated handoff as the Round-1 priority/architecture authority if earlier dialogue notes differ.
+
+Round 1: transistor A1/A2 and A3 as reusable isolated cells; ideal VCVS closed-loop high-pass **first**, then extract feedback RC network/pseudo-R cell; passive output 250Hz RC **outside** A3 feedback; ideal whole ECG includes **VCVS DRL only**. No transistor DRL, clock, chopper, new framework, or final integration yet. Record real test results and failures, not assumed success.
