@@ -1,5 +1,11 @@
 # AutoCircuit
 
+## Current active project: ECE203 ECG (2026 Fall)
+
+**Claude Code: begin with [ECE203 handoff](docs/ECE203_HANDOFF.md).** This short document states the latest design choices, Round-1 priorities, naming and execution checks. The detailed [Round-1 task](docs/ECE203_round1_task.md) provides full specs; [automation playbook](docs/automation_playbook.json) explains the existing Cadence automation environment.
+
+Round 1 works on reusable real A1/A2 cascode and A3 5T OTA cells, a VCVS-validated capacitive feedback high-pass/pseudo-R macro, a passive 250Hz output RC, and an **entirely ideal-VCVS ECG** with **ideal VCVS DRL only**. **There are no completed ECE203 Cadence results in this handoff.** Preserve historical homework scripts; add new `ece203_*` files rather than overwriting them.
+
 SKILL/OCEAN scripts that draw and simulate circuits in Cadence Virtuoso (UCSD ieng6, IBM cmrf7sf PDK).
 
 Agents: start with [`AGENTS.md`](AGENTS.md) and [`docs/automation_playbook.json`](docs/automation_playbook.json).
