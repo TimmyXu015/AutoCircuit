@@ -1,5 +1,7 @@
 # ECE203 ECG Project — Round 1 parallel build brief
 
+> **For Claude Code handoff, read [ECE203_HANDOFF.md](ECE203_HANDOFF.md) first.** It summarizes the latest approved decisions, clear priorities, and module completion criteria. This document is the detailed engineering reference. As of handoff, code and Spectre results for ECE203 Round 1 are **not yet created or verified**.
+
 Status: **approved first-pass plan; NOT final verified circuit.** Created 2026-11-15 for GPT ↔ GitHub ↔ Claude Code ↔ Cadence collaboration.
 
 ## Agent instructions and scope
