@@ -228,3 +228,27 @@ procedure( r5StageA()
     t
   )
 )
+
+;; ---------- Stage B: real output stages ----------
+;; B1 CD: NMOS source follower MSF 4u/1u (D VDD2, G oa1, S oa2, bulk gnd) + NMOS sink MSB 2u/4u gated by the
+;;        OTA1 IBIAS node (mirror of the 50 nA reference). OTA1 must sit ~one Vgs above 0.9 V (expected ~1.3-1.4 V).
+;; B2 CS: PMOS common source MCS 4u/2u (S VDD2, G oa1, D oa2) + NMOS sink MCL 2u/4u (mirror), Miller CM2 oa1<->oa2.
+;;        Inverting -> OTA1 inputs swapped in the bench. Compensation: cm2 = 0.5 pF, ONE change to 2 pF if PM < 55 deg.
+;; B3 (CS -> CD) only if B2 still shows output-loading loss; otherwise NOT RUN.
+procedure( r5StageB()
+  let( (port cs cs2)
+    r5BuildTb("cd" "d2")
+    r5BuildTb("cs" "d2")
+    port = r5Open("r5_stageB.csv" r5Cols)
+    r5Run(port "cd" "d2" "B1_CD_LP" nil t t)
+    r5Zout(port "cd" "d2" "B1_zout_CD" nil)
+    cs = r5Run(port "cs" "d2" "B2_CS_cm0p5_LP" list(list("cm2" 0.5e-12)) t t)
+    r5Zout(port "cs" "d2" "B2_zout_CS_cm0p5" list(list("cm2" 0.5e-12)))
+    when( !numberp(cs->pm) || cs->pm < 55.0
+      acSay("r5B: CS PM %L < 55 deg -> the one Miller change to 2 pF\n" cs->pm)
+      cs2 = r5Run(port "cs" "d2" "B2_CS_cm2p_LP" list(list("cm2" 2e-12)) t t)
+      r5Zout(port "cs" "d2" "B2_zout_CS_cm2p" list(list("cm2" 2e-12))))
+    close(port)
+    t
+  )
+)
