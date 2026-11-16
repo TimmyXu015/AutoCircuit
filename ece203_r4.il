@@ -542,3 +542,127 @@ procedure( r4C4Read()
     t
   )
 )
+
+
+;; ---------------- Stage D: chopper bonus -- real C OTA + ideal switches at ONE justified clock ----------------
+;; fch = 4 kHz: 16x the 250 Hz band edge, above the measured C-OTA 1/f corner (~2.9 kHz from the Round-3E fit),
+;; half period 125 us ~ 7 closed-loop time constants of C (fH 8.8 kHz). Round-3D topology (relay commutator,
+;; ideal EINV demodulator, non-overlapping clock with 10 ns dead time), S2 network with ideal Rfb, VCAS 1.10.
+;; Signal check first (1 mV step, 20 ms); PSS + PNoise + PAC only if the chopped step gain is within 10 % of static.
+r4Cells->chop = "ece203_r4_chop_c_tb"
+procedure( r4Clk(name v1 v2 td pw net)
+  list("analogLib" "vpulse" name
+       list(list("dc" v1) list("v1" v1) list("v2" v2) list("td" td) list("tr" "1n") list("tf" "1n")
+            list("pw" pw) list("per" "tch") list("acm" "0") list("pacm" "0") list("pacp" "0"))
+       list(list("PLUS" net) list("MINUS" "gnd!")))
+)
+procedure( r4ChopSpecs()
+  list(otaV("VREF" "vref" "0" "vref" "gnd!")
+       cnPulse("VINP" "vref" "vref+vst/2" "0.5" "0" "vinp")
+       cnPulse("VINN" "vref" "vref-vst/2" "-0.5" "180" "vinn")
+       r4Clk("VCK1" "1.8" "1.8*(1-chen)" "tch/2" "tch/2-1n" "ck1")
+       r4Clk("VCK2" "0" "1.8*chen" "tch/2+10n" "tch/2-21n" "ck2")
+       otaC("CCP" "cc" "vinp" "p")  otaC("CCN" "cc" "vinn" "n")
+       otaC("CFP" "cfb" "p" "vref") otaR("RFP" "rfb" "p" "vref")
+       otaC("CFN" "cfb" "n" "o")    otaR("RFN" "rfb" "n" "o")
+       chSw("S1P" "p" "ia" "ck1") chSw("S1N" "n" "ib_" "ck1")
+       chSw("S2P" "n" "ia" "ck2") chSw("S2N" "p" "ib_" "ck2")
+       ldE("EINV" "oa" "vref" "oinv" "vref" "-1")
+       chSw("S3" "oa" "o" "ck1") chSw("S4" "oinv" "o" "ck2")
+       otaC("CL" "cl" "o" "gnd!")
+       otaV("VDD" "vdd" "0" "vdd" "gnd!")
+       otaI("IB" "ib3" "vdd" "ib")
+       otaV("VCAS" "vcas" "0" "vcas" "gnd!")
+       list(ece203Lib r4Cells->ota "XA" nil
+            '(("INP" "ia") ("INN" "ib_") ("OUT" "oa") ("VDD" "vdd") ("GND" "gnd!") ("IBIAS" "ib") ("VCAS" "vcas"))))
+)
+r4DVars = list(list("vdd" 1.8) list("vref" 0.9) list("ib3" 50e-9) list("vcas" 1.10) list("cc" 50e-12) list("cfb" 0.5e-12)
+               list("rfb" 3.1831e12) list("cl" 0.0) list("tch" 250e-6) list("vst" 1e-3) list("tst" 5e-3))
+r4DCols = '(case chen fch status reason o_pre o_post step_gain ripple_pp oa_min oa_max ia_ib_pp
+  pac_10 pac_100 out_rms app_in deemb_in in_1Hz in_100Hz)
+
+procedure( r4DStep(port name chen)
+  let( (r ok o oa d)
+    r = list(nil 'case name 'chen chen 'fch 4000.0 'status "ok")
+    ok = errset(
+      progn(
+        ece203Setup(r4Cells->chop strcat("_" name))
+        r4Tight()
+        analysis('dc ?saveOppoint t)
+        analysis('tran ?stop "20m" ?maxstep "0.5u")
+        ece203Vars(r4DVars) desVar("chen" chen)
+        run()
+        o = car(errset(v("/o" ?result "tran") nil))
+        oa = car(errset(v("/oa" ?result "tran") nil))
+        d = car(errset(v("/ia" ?result "tran") - v("/ib_" ?result "tran") nil))
+        unless( o error("no tran"))
+        r->o_pre = chAvg(o 3e-3 5e-3) r->o_post = chAvg(o 18e-3 20e-3)
+        r->step_gain = (r->o_post - r->o_pre) / 1e-3
+        r->ripple_pp = chPp(o 19e-3 20e-3)
+        r->oa_min = car(errset(ymin(clip(oa 19e-3 20e-3)) nil)) r->oa_max = car(errset(ymax(clip(oa 19e-3 20e-3)) nil))
+        r->ia_ib_pp = chPp(d 19e-3 20e-3)
+        spsWriteWaves(strcat(r4Dir "/" name "_tran.csv") "t_s,o_V,oa_V,ia_minus_ib_V" list(o oa d))
+        t)
+      t)
+    unless( ok r->status = "failed" r->reason = sprintf(nil "%L" errset.errset))
+    acSay("r4D %s: %s %s | o pre %s post %s step gain %s | ripple %s | oa %s..%s | ia-ib pp %s\n" name r->status or(r->reason "")
+          r4Num(r->o_pre "%.6g") r4Num(r->o_post "%.6g") r4Num(r->step_gain "%.4g") r4Num(r->ripple_pp "%.4g")
+          r4Num(r->oa_min "%.4g") r4Num(r->oa_max "%.4g") r4Num(r->ia_ib_pp "%.4g"))
+    r4Row(port r4DCols r)
+    r
+  )
+)
+
+procedure( r4DNoise(port name chen)
+  let( (r ok h nout nin)
+    r = list(nil 'case name 'chen chen 'fch 4000.0 'status "ok")
+    ok = errset(
+      progn(
+        ece203Setup(r4Cells->chop strcat("_" name))
+        r4Tight()
+        analysis('pss ?fund "4k" ?harms "30" ?errpreset "moderate")
+        analysis('pac ?sweeptype "relative" ?relharmnum "0" ?start "0.1" ?stop "250" ?dec "20" ?maxsideband "3")
+        analysis('pnoise ?sweeptype "relative" ?relharmnum "0" ?start "0.1" ?stop "250" ?dec "20"
+                 ?maxsideband "30" ?p "/o" ?n "/gnd!")
+        ece203Vars(r4DVars) desVar("chen" chen) desVar("vst" 0.0) desVar("tst" 1.0)
+        run()
+        acSay("r4D %s: results %L\n" name car(errset(results() nil)))
+        h = cnPacH()
+        nout = car(errset(getData("out" ?result "pnoise") nil))
+        nin = and(nout h car(errset(nout / mag(h) nil)))
+        r->pac_10 = ldMag(h 10.0) r->pac_100 = ldMag(h 100.0)
+        r->out_rms = nsRms(nout 0.1 250.0)
+        r->app_in = and(r->out_rms r->pac_100 r->out_rms / r->pac_100)
+        r->deemb_in = nsRms(nin 0.1 250.0)
+        r->in_1Hz = ece203V(nin 1.0) r->in_100Hz = ece203V(nin 100.0)
+        spsWriteWaves(strcat(r4Dir "/" name "_pnoise.csv") "f_Hz,out_V_rtHz,absH_pac,deemb_in_V_rtHz" list(nout ece203Mag(h) nin))
+        ece203SaveNetlist(r4Cells->chop strcat("ece203_r4_" name))
+        t)
+      t)
+    unless( ok r->status = "failed" r->reason = sprintf(nil "%L" errset.errset))
+    acSay("r4D %s: %s %s | PAC 10/100 %s %s | out rms %s | app in %s | deemb in %s | in @1/100 Hz %s %s\n" name r->status or(r->reason "")
+          r4Num(r->pac_10 "%.4g") r4Num(r->pac_100 "%.4g") r4Num(r->out_rms "%.4g") r4Num(r->app_in "%.4g")
+          r4Num(r->deemb_in "%.4g") r4Num(r->in_1Hz "%.4g") r4Num(r->in_100Hz "%.4g"))
+    r4Row(port r4DCols r)
+    r
+  )
+)
+
+procedure( r4StageD()
+  let( (port st ch ok)
+    ece203LibInfo()
+    otaTb(r4Cells->chop r4ChopSpecs())
+    port = r4Open("r4_D_chopper.csv" r4DCols)
+    st = r4DStep(port "D_static_step" 0.0)
+    ch = r4DStep(port "D_chop4k_step" 1.0)
+    ok = and(numberp(st->step_gain) numberp(ch->step_gain) st->step_gain > 0
+             abs(ch->step_gain / st->step_gain - 1.0) < 0.1)
+    acSay("r4D: chopped/static step gain %s -> noise gate %L\n"
+          r4Num(and(numberp(st->step_gain) numberp(ch->step_gain) ch->step_gain / st->step_gain) "%.4g") ok)
+    when( ok
+      r4DNoise(port "D_static_pnoise" 0.0)
+      r4DNoise(port "D_chop4k_pnoise" 1.0))
+    close(port)
+    t
+  )
+)

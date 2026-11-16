@@ -74,6 +74,7 @@ acJobs = list(nil
   'ece203_r4_c3 '(r4C3)
   'ece203_r4_c4 '(r4C4)
   'ece203_r4_c4read '(r4C4Read)
+  'ece203_r4_d '(r4StageD)
 )
 
 ;; ---------- reporting ----------
