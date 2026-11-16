@@ -2,7 +2,7 @@
   "meta": {
     "title": "AutoCircuit automation playbook",
     "purpose": "Everything a new conversation or agent needs to drive Cadence Virtuoso/Spectre on UCSD ieng6 for this repo without rediscovering it: how to reach the server, how to run jobs, how results come back, and the traps already hit.",
-    "last_updated": "2026-10-28",
+    "last_updated": "2026-11-15",
     "repo": "https://github.com/TimmyXu015/AutoCircuit (public -- never commit keys, IBM PDK model contents, or homework answers)",
     "read_order": [
       "user_and_policies",
@@ -56,7 +56,8 @@
     "repo_clone": "~/AutoCircuit (run.sh git-pulls it every run)",
     "results": "~/AutoCircuit_results/  (<job>.log, ciw_<job>.txt, CSVs such as p1c_<cell>.csv)",
     "sim_dirs": "~/simulation/<cell>/spectre/schematic/...  (ADE L's own folder; OCEAN helpers use a suffix, e.g. schematic_family, so they never overwrite ADE L results)",
-    "pdk_models": "/acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models  (design.scs, wafer.scs, allModels.scs section=tt). Files are IBM CONFIDENTIAL: copy only to the user's PC, never into this repo."
+    "pdk_models": "/acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models  (design.scs, wafer.scs, allModels.scs section=tt). Files are IBM CONFIDENTIAL: copy only to the user's PC, never into this repo.",
+    "project_lib": "Project -- the user's library for the ECE203 ECG project (DEFINE in the workdir cds.lib, created 2026-11-15 in Library Manager). Put every ece203_* cell here. No cmrf7sf tech attached at creation: check before placing PDK devices."
   },
   "standard_loop": [
     "1. Edit/add SKILL in this repo (cloud container), commit, push. If remote says the repo moved, set origin to https://github.com/TimmyXu015/AutoCircuit.git.",
@@ -98,7 +99,8 @@
       "hw2ftsweep": "OCEAN loop vgs 0..1.8 (50 mV) for both cells -> ~/AutoCircuit_results/hw2_ft_<cell>.csv",
       "hw3build": "HW3 P2: creates library HW3_203 (tech cmrf7sf), cell p2_cs_noise (nfetx 50u/5u, RL 50k to vdd, CL 500f, VIN dc=vin acm=1), finds vin for Id = 15 uA -> ~/AutoCircuit_results/hw3_vin.txt",
       "hw3ade": "@gui: ADE L states hw3_p2_vin_sweep (dc sweep vin, Id, vin_at_15uA) and hw3_p2_noise (dc op + ac + noise 0.1 Hz..1 GHz, out/in noise, gain_dB, OP values)",
-      "hw3check": "OCEAN dc op + ac + noise at the found vin -> ~/AutoCircuit_results/hw3_noise.csv (f, |gain|, out noise, in noise)"
+      "hw3check": "OCEAN dc op + ac + noise at the found vin -> ~/AutoCircuit_results/hw3_noise.csv (f, |gain|, out noise, in noise)",
+      "ece203_hp": "ECE203 Track D step 1: builds Project/ece203_hp_ideal_tb (VCVS E1 + CC/CF/RP + VREF, design vars vref aol cc cf rp), OCEAN dc op + ac 1m..10k at aol 1e5, then aol 1e3/1e4/1e6 -> ece203_hp.txt, ece203_hp_ac.csv, ece203_hp_aol.csv, ece203_hp_netlist.scs"
     }
   },
   "skill_framework": {
@@ -113,7 +115,8 @@
       "lib_draw.il": "acPinPt, acPlace (place instance so a named pin lands on a point), acWire (with label; filters freed wires), acGnd, acStub, acSetParam (runs CDF callback), acSetFirstParam, acSubTie (0 V source sub!->gnd), acOpenSch, acFinish (schCheck + markers report, save, close in batch), acDumpParams",
       "lib_sim.il": "acSimSetup(lib cell corner dirSuffix), acNum, acLog10, acResultsDir, acWavePoints (waveform -> list of (x y)), acZinAc",
       "lib_ade.il": "acAdeStart, acAdeModels, acAdeVars, acAdeAnalysis(sess type fields choices), acAdeChoice, acAdeOutput, acAdeSaveCurrents, acAdeSave, acAdeProbe (dumps the asi API of this install), acAutoOkStart (timer that answers modal dialogs)",
-      "acSay": "printf + log file; uses lsprintf (never apply('sprintf ...))"
+      "acSay": "printf + log file; uses lsprintf (never apply('sprintf ...))",
+      "ece203_hp.il": "ece203Stub(cv inst term net): short labelled wire from a pin pointing away from the instance centre (connect by labels without wires crossing other pins); ece203LibInfo reports the Project tech lib."
     },
     "hw1_helpers": "hw1_setup.il: hw1Nmos/hw1Pmos configs, hw1Build, hw1Ade, hw1Check, hw1P1cFamily(?pmos t ?vdsList ... ?vAt 0.25 ?plots t) -- one ordinary DC run per VDS, curves copied to memory, CSV + plotted family in the GUI"
   },
@@ -140,7 +143,8 @@
     "pmos_bench": "p1_pmos: source+bulk to gnd, drain at -vsd, gate at -vsg (orient MX) so sweep variable vsg and currents stay positive.",
     "model_file_structure": "allModels.scs section X includes fixed_corner.scs section=X, process.scs, process_psp.scs, models.scs. Parameters like vth0 are expressions in process.scs: base constant + statistical term + fixed-corner adder (fixcnr*skewfix(...)) + wafer-specific term (k_wafer). In section tt fixcnr=0 and every adder evaluates to 0 (cor_*=0, k_wafer=0, mismatch mvth0=0), so the tt value is the base constant. Grep the model dir for <param>_n / <param>_p to find them.",
     "diffusion_params": "CDF callbacks fail outside a form, so ad/as/pd/ps stay at the 0.43u-default values (ad=2.322e-13) whatever W is -> drain junction caps far too small for wide devices. Set them yourself: ad = as = W*0.54u, pd = ps = 2*(W+0.54u) (sps.il spsDiffParams; works with a design variable too: ad=wn*0.54e-6).",
-    "op_readout": "pv(\"M0\" <param> ?result \"dcOpInfo\") works for the nfet subckt (gm, gds, id, vth, vdsat, region, cgg, cgs, cgd, cdd, cdb, cjd ...). region: 2 = saturation, 3 = subthreshold. Other dcOpInfo names under M0 are the PDK's parasitics: M0.cwgs/cwgd/cwds (wiring caps), M0.ddb/dsb (junction diodes), M0.rgate/rsext/rdext. Integers (region) need float() before %g formatting."
+    "op_readout": "pv(\"M0\" <param> ?result \"dcOpInfo\") works for the nfet subckt (gm, gds, id, vth, vdsat, region, cgg, cgs, cgd, cdd, cdb, cjd ...). region: 2 = saturation, 3 = subthreshold. Other dcOpInfo names under M0 are the PDK's parasitics: M0.cwgs/cwgd/cwds (wiring caps), M0.ddb/dsb (junction diodes), M0.rgate/rsext/rdext. Integers (region) need float() before %g formatting.",
+    "cell_list": "Device cells are in /acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/cdslib/cmrf7sf (nfet, nfetx, pfet, pfetx, *_rf, 25/33/50 V variants, resistors such as opppcres/oprppres/rppres families, mim/dualmim caps). pfetx (4-terminal) was already used and simulated in HW1 P1g, so the 'pmos not verified' note in pdk_cmrf7sf.il is stale for pfetx."
   },
   "gotchas": [
     "sprintf via apply() re-evaluates args -> use lsprintf.",
