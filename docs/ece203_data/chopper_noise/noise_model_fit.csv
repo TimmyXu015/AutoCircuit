@@ -1,0 +1,16 @@
+source,Round3C C OTA c_noise.csv out_over_absHdm (deembedded diff input PSD); fit 1 Hz-100 kHz log-domain LSQ; S_e=K/f^alpha+Sw (one-sided V^2/Hz)
+K,3.451141677922061e-11
+alpha,1.0381388091865171
+Sw_V2_per_Hz,1.1879871469517083e-14
+Sw_nV_rtHz,108.9948231317299
+meas_deemb_rms_0p1_250_uV,16.517823619669
+model_OTA_only_rms_0p1_250_uV,16.057864815463017
+
+f_Hz,measured_deemb_V_rtHz,model_V_rtHz,deviation_pct
+0.1,2.3063e-05,1.9411e-05,-15.83
+1,6.1341e-06,5.8757e-06,-4.21
+10,1.7554e-06,1.7813e-06,1.47
+100,5.4206e-07,5.49e-07,1.28
+1000,1.9933e-07,1.9595e-07,-1.69
+10000,1.2002e-07,1.1962e-07,-0.33
+100000,1.0803e-07,1.1001e-07,1.83
