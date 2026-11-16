@@ -1,0 +1,95 @@
+
+Device           Param    Noise Contribution    % Of Total
+
+/XA/M1           fn       6.99882e-07           30.24     
+/XA/M2           fn       6.06024e-07           26.18     
+/XA/M4           fn       4.90149e-07           21.18     
+/XA/M3           fn       4.85648e-07           20.98     
+/XA/M3           id       7.55556e-09           0.33      
+/XA/M4           id       7.54192e-09           0.33      
+/XA/M2           id       5.26501e-09           0.23      
+/XA/M1           id       4.9119e-09            0.21      
+/RFP             rn       3.77913e-09           0.16      
+/RFN             rn       3.76461e-09           0.16      
+/XA/MC           fn       3.15332e-11           0.00      
+XA.M4.rgate      rn       7.41819e-12           0.00      
+XA.M3.rgate      rn       7.338e-12             0.00      
+XA.M1.rgate      rn       4.07543e-12           0.00      
+XA.M2.rgate      rn       4.05977e-12           0.00      
+/XA/MREF         fn       1.92731e-12           0.00      
+/XA/MT           fn       4.97331e-13           0.00      
+XA.M2.rsext      rn       2.00799e-13           0.00      
+XA.M1.rsext      rn       2.00798e-13           0.00      
+XA.M4.rsext      rn       1.36426e-13           0.00      
+XA.M3.rsext      rn       1.35002e-13           0.00      
+XA.M4.rsb        rn       8.13962e-14           0.00      
+XA.M3.rsb        rn       8.05396e-14           0.00      
+/XA/MC           id       7.22247e-14           0.00      
+XA.M1.rsb        rn       5.76099e-14           0.00      
+XA.M2.rsb        rn       5.73645e-14           0.00      
+/XA/MREF         id       4.00066e-15           0.00      
+/XA/MT           id       8.95471e-16           0.00      
+XA.MC.rgate      rn       4.48342e-17           0.00      
+XA.MC.rsext      rn       3.90683e-18           0.00      
+XA.M2.rdext      rn       3.9068e-18            0.00      
+XA.MREF.rgate    rn       1.21927e-18           0.00      
+XA.M1.rdext      rn       1.21431e-18           0.00      
+XA.MC.rsb        rn       1.00995e-18           0.00      
+XA.MT.rgate      rn       7.03289e-19           0.00      
+XA.M1.ddb        id       1.37696e-19           0.00      
+XA.MC.ddb        id       1.37625e-19           0.00      
+XA.M2.ddb        id       1.36483e-19           0.00      
+XA.MC.dsb        id       1.36476e-19           0.00      
+XA.M3.rdext      rn       9.2518e-20            0.00      
+XA.M4.rdext      rn       6.21375e-20           0.00      
+XA.MT.rsext      rn       6.20323e-20           0.00      
+XA.MREF.rsext    rn       6.10205e-20           0.00      
+XA.M3.ddb        id       2.59273e-20           0.00      
+XA.M4.ddb        id       2.5915e-20            0.00      
+XA.MT.rsb        rn       2.49425e-20           0.00      
+XA.MREF.rsb      rn       2.38707e-20           0.00      
+XA.MC.rdext      rn       8.96357e-23           0.00      
+XA.M2.ddb        rs       1.96899e-24           0.00      
+XA.MC.dsb        rs       1.96889e-24           0.00      
+XA.MC.ddb        rs       1.71526e-24           0.00      
+XA.M1.ddb        rs       1.40106e-24           0.00      
+XA.MREF.rdext    rn       1.26567e-24           0.00      
+XA.MT.rdext      rn       1.18288e-24           0.00      
+XA.M3.ddb        rs       8.53607e-25           0.00      
+XA.M4.ddb        rs       7.13612e-25           0.00      
+XA.MREF.ddb      id       5.43781e-26           0.00      
+XA.M2.dsb        id       1.33044e-26           0.00      
+XA.MT.ddb        id       8.47264e-27           0.00      
+XA.M1.dsb        id       7.91879e-27           0.00      
+XA.MREF.ddb      rs       1.02744e-30           0.00      
+XA.M2.dsb        rs       2.13532e-31           0.00      
+XA.MT.ddb        rs       1.35985e-31           0.00      
+XA.M1.dsb        rs       1.2741e-31            0.00      
+XA.M4.dsb        rs       1.7692e-33            0.00      
+XA.M3.dsb        rs       1.75062e-33           0.00      
+XA.M4.dsb        id       1.13516e-33           0.00      
+XA.M3.dsb        id       1.11629e-33           0.00      
+XA.MT.dsb        id       2.06432e-39           0.00      
+XA.MT.dsb        rs       1.48848e-39           0.00      
+XA.MREF.dsb      rs       4.34018e-40           0.00      
+XA.MREF.dsb      id       1.51916e-40           0.00      
+/XA/M1           rs       0                     0.00      
+/XA/M1           rd       0                     0.00      
+/XA/M2           rs       0                     0.00      
+/XA/M2           rd       0                     0.00      
+/XA/M3           rs       0                     0.00      
+/XA/M3           rd       0                     0.00      
+/XA/M4           rs       0                     0.00      
+/XA/M4           rd       0                     0.00      
+/XA/MC           rs       0                     0.00      
+/XA/MC           rd       0                     0.00      
+/XA/MREF         rs       0                     0.00      
+/XA/MREF         rd       0                     0.00      
+/XA/MT           rs       0                     0.00      
+/XA/MT           rd       0                     0.00      
+
+Integrated Noise Summary (in V^2) Sorted By Noise Contributors
+Total Summarized Noise = 2.31458e-06
+Total Input Referred Noise = 2.75708e-10
+The above noise summary info is for noise-noise data
+
