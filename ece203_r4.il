@@ -438,3 +438,45 @@ procedure( r4C3()
     t
   )
 )
+
+;; ---------------- C4: mismatch Monte Carlo (N = 12) on the frozen final config ----------------
+;; PDK process.scs has a statistics { ... mismatch { } } block. OCEAN monteCarlo with analysisVariation
+;; 'mismatch, same seed for the DM and the CM run so sample k is the same circuit in both.
+procedure( r4Mc(tag kind exprs)
+  let( (ok over file)
+    over = append(append(append(r4LP r4RealOn) r4RbVars)
+                  if( kind == 'dm list(list("adm" 1.0) list("vcmin" 0.0) list("icm" 0.0) list("dcc" 0.0))
+                                 list(list("adm" 0.0) list("vcmin" 1.0) list("icm" 0.0) list("dcc" 0.0))))
+    ece203Setup(r4Cells->rbpr strcat("_" tag))
+    r4Tight()
+    analysis('ac ?start "1m" ?stop "100k" ?dec "20")
+    r4Set(over)
+    file = strcat(r4Dir "/" tag "_mc.txt")
+    ok = errset(
+      progn(
+        monteCarlo(?numIters "12" ?startIter "1" ?analysisVariation 'mismatch ?saveData t ?nominalRun "no" ?seed "12345")
+        foreach(e exprs monteExpr(car(e) cadr(e)))
+        monteOutputFile(file)
+        monteRun()
+        t)
+      t)
+    acSay("r4C4 %s: monteCarlo -> %L, output file %s exists %L\n" tag ok file isFile(file))
+    when( isFile(file) sh(sprintf(nil "sed 's/^/AC> mc %s: /' %s | head -40" tag file)))
+    ok
+  )
+)
+
+procedure( r4C4()
+  let( (h)
+    h = "(VF(\"/out\") / (VF(\"/ep\") - VF(\"/en\")))"
+    r4Mc("C4_dm" 'dm
+      list(list("g100" sprintf(nil "value(mag(%s) 100)" h))
+           list("g60" sprintf(nil "value(mag(%s) 60)" h))
+           list("fL" sprintf(nil "cross(db20(mag(%s)) (ymax(db20(mag(%s))) - 3) 1 \"rising\")" h h))
+           list("fH" sprintf(nil "cross(db20(mag(%s)) (ymax(db20(mag(%s))) - 3) 1 \"falling\")" h h))
+           list("dc_o" "VDC(\"/o\")")))
+    r4Mc("C4_cm" 'cm
+      list(list("acm60" "value(mag(VF(\"/out\")) 60)")))
+    t
+  )
+)
