@@ -18,38 +18,9 @@
 ;; Outputs in ~/AutoCircuit_results:  ece203_hp.txt (summary), ece203_hp_ac.csv (curves, aol 1e5),
 ;;                                    ece203_hp_aol.csv (one row per aol), ece203_hp_netlist.scs
 
-ece203Lib = "Project"
 hpCell = "ece203_hp_ideal_tb"
 hpCfg = list(nil 'vref 0.9 'aol 1e5 'cc 100e-12 'cf 4e-12 'rp 398e9
              'aolList '(1e3 1e4 1e6) 'fStart "1m" 'fStop "10k" 'dec "20" 'fMid 100.0 'fZin 10.0)
-
-;; short labelled wire from a pin, pointing away from the instance centre (avoids touching
-;; neighbouring pins); returns the far end
-procedure( ece203Stub(cv inst term net @optional (len 0.375))
-  let( (p c dx dy end)
-    p = acPinPt(inst term)
-    unless( p error("%s: no terminal %s\n" inst~>name term) )
-    c = centerBox(inst~>bBox)
-    dx = xCoord(p) - xCoord(c)
-    dy = yCoord(p) - yCoord(c)
-    end = if( abs(dx) >= abs(dy)
-            then if( dx < 0 acLeft(p len) acRight(p len))
-            else if( dy < 0 acDown(p len) acUp(p len)))
-    acWire(cv p end net)
-    end
-  )
-)
-
-;; report the technology library of the project library (needed later for PDK cells; not changed here)
-procedure( ece203LibInfo()
-  let( (lib)
-    lib = ddGetObj(ece203Lib)
-    unless( lib error("Library %s not found in cds.lib\n" ece203Lib) )
-    acSay("ece203: library %s at %s, tech library = %L\n" ece203Lib lib~>readPath
-          car(errset(techGetTechLibName(lib) nil)))
-    lib
-  )
-)
 
 ;; ---------- schematic ----------
 procedure( hpBuild()
@@ -139,10 +110,10 @@ procedure( hpMeasure(h zin)
   )
 )
 
-procedure( hpSim()
-  let( (res r h zin m port mg ph db zm sumDc voutDc vinDc dir nl rows)
+procedure( hpSim(@optional (cell hpCell) (tag "hp"))
+  let( (res r h zin m port mg ph db zm sumDc voutDc vinDc rows)
     res = acResultsDir()
-    acSimSetup(ece203Lib hpCell "tt" "_hp")
+    ece203Setup(cell strcat("_" tag))
     analysis('dc ?saveOppoint t)
     analysis('ac ?start hpCfg->fStart ?stop hpCfg->fStop ?dec hpCfg->dec)
     acSay("hp: save VIN current -> %L\n" car(errset(save('i "/VIN/PLUS") t)))
@@ -155,10 +126,10 @@ procedure( hpSim()
     voutDc = car(errset(v("/vout" ?result "dcOp") nil))
     vinDc = car(errset(v("/vin" ?result "dcOp") nil))
     m = hpMeasure(h zin)
-    acSay("hp: DC op  V(vin) = %s  V(sum) = %s  V(vout) = %s V\n"
-          acNum(vinDc "%.6g") acNum(sumDc "%.6g") acNum(voutDc "%.6g"))
-    acSay("hp: aol %g: |H(%g Hz)| = %s (%s dB), phase %s deg, f_L(-3 dB) = %s Hz, |Zin(%g Hz)| = %s ohm\n"
-          float(hpCfg->aol) hpCfg->fMid acNum(m->mid "%.5g") acNum(and(m->mid 20.0 * log(m->mid) / log(10.0)) "%.4f")
+    acSay("%s: DC op  V(vin) = %s  V(sum) = %s  V(vout) = %s V\n"
+          tag acNum(vinDc "%.6g") acNum(sumDc "%.6g") acNum(voutDc "%.6g"))
+    acSay("%s: aol %g: |H(%g Hz)| = %s (%s dB), phase %s deg, f_L(-3 dB) = %s Hz, |Zin(%g Hz)| = %s ohm\n"
+          tag float(hpCfg->aol) hpCfg->fMid acNum(m->mid "%.5g") acNum(and(m->mid 20.0 * log(m->mid) / log(10.0)) "%.4f")
           acNum(m->ph "%.2f") acNum(m->fl "%.5g") hpCfg->fZin acNum(m->z10 "%.5g"))
 
     ;; curves of the nominal run
@@ -166,34 +137,27 @@ procedure( hpSim()
     db = acWavePoints(db20(h))
     ph = acWavePoints(phase(h))
     zm = if( zin acWavePoints(mag(zin)) nil )
-    port = outfile(strcat(res "/ece203_hp_ac.csv") "w")
+    port = outfile(strcat(res strcat("/ece203_" tag "_ac.csv")) "w")
     fprintf(port "f_Hz,absH,H_dB,phase_deg,absZin_ohm\n")
     for(k 0 length(mg) - 1
       fprintf(port "%g,%g,%g,%g,%s\n" car(nth(k mg)) cadr(nth(k mg)) cadr(nth(k db))
               cadr(nth(k ph)) if( zm acNum(cadr(nth(k zm)) "%g") "")))
     close(port)
 
-    ;; netlist of this run (check that only VIN has mag=)
-    ;; OCEAN writes the netlist in the cell's default folder, not the "_hp" results folder
-    dir = acSimDir(hpCell)
-    nl = strcat(res "/ece203_hp_netlist.scs")
-    sh(sprintf(nil "f=$(find %s -name input.scs | head -1); [ -n \"$f\" ] && cp \"$f\" %s" dir nl))
-    acSay("hp: netlist copied: %L; lines with mag=:\n" isFile(nl))
-    when( isFile(nl)
-      sh(sprintf(nil "grep -n 'mag=' %s | sed 's/^/AC>   /'" nl)))
+    ece203SaveNetlist(cell strcat("ece203_" tag))
 
     ;; finite-gain sensitivity
     rows = list(list(hpCfg->aol m))
     foreach(a hpCfg->aolList
       r = hpRun(a)
       m = hpMeasure(car(r) cadr(r))
-      acSay("hp: aol %g: |H(%g Hz)| = %s, phase %s deg, f_L = %s Hz, |Zin(%g Hz)| = %s ohm\n"
-            float(a) hpCfg->fMid acNum(m->mid "%.5g") acNum(m->ph "%.2f") acNum(m->fl "%.5g")
+      acSay("%s: aol %g: |H(%g Hz)| = %s, phase %s deg, f_L = %s Hz, |Zin(%g Hz)| = %s ohm\n"
+            tag float(a) hpCfg->fMid acNum(m->mid "%.5g") acNum(m->ph "%.2f") acNum(m->fl "%.5g")
             hpCfg->fZin acNum(m->z10 "%.5g"))
       rows = cons(list(a m) rows))
     ;; sort is destructive: keep its result
     rows = sort(rows lambda((x y) car(x) < car(y)))
-    port = outfile(strcat(res "/ece203_hp_aol.csv") "w")
+    port = outfile(strcat(res strcat("/ece203_" tag "_aol.csv")) "w")
     fprintf(port "aol,absH_mid,phase_mid_deg,fL_Hz,absZin10_ohm\n")
     foreach(row rows
       m = cadr(row)
@@ -203,8 +167,8 @@ procedure( hpSim()
     hpVars(hpCfg->aol)
 
     ;; summary file
-    port = outfile(strcat(res "/ece203_hp.txt") "w")
-    fprintf(port "ece203_hp_ideal_tb  (Project library)  %s\n" getCurrentTime())
+    port = outfile(strcat(res strcat("/ece203_" tag ".txt")) "w")
+    fprintf(port "%s  (Project library)  %s\n" cell getCurrentTime())
     fprintf(port "vars: vref %g  aol %g  cc %g  cf %g  rp %g\n" hpCfg->vref float(hpCfg->aol)
             hpCfg->cc hpCfg->cf hpCfg->rp)
     fprintf(port "DC op: V(vin) %s  V(sum) %s  V(vout) %s\n"
@@ -222,5 +186,48 @@ procedure( hpSim()
 procedure( hpAll()
   hpBuild()
   hpSim()
+  t
+)
+
+;; ---------- Track D step 2: the passive feedback network as its own cell ----------
+;; Project/ece203_hp_fb: pins VIN, SUM, VOUT. CC (cc) VIN-SUM, CF (cf) || RP (rp) SUM-VOUT.
+;; Values are the design variables cc, cf, rp of the testbench (Spectre subcircuits see the
+;; top-level parameters), so A1 and A2 share one value set. Not a stand-alone high-pass:
+;; it needs an amplifier holding SUM at virtual ground.
+hpFbCell = "ece203_hp_fb"
+hpFbTbCell = "ece203_hp_fb_tb"
+
+procedure( hpFbBuild()
+  let( (cv)
+    cv = acOpenSch(ece203Lib hpFbCell)
+    ece203Pins(cv '(("VIN" "inputOutput") ("SUM" "inputOutput") ("VOUT" "inputOutput")))
+    ece203Place(cv list(
+      list("analogLib" "cap" "CC" '(("c" "cc")) '(("PLUS" "VIN") ("MINUS" "SUM")))
+      list("analogLib" "cap" "CF" '(("c" "cf")) '(("PLUS" "SUM") ("MINUS" "VOUT")))
+      list("analogLib" "res" "RP" '(("r" "rp")) '(("PLUS" "SUM") ("MINUS" "VOUT")))))
+    acFinish(cv ece203Lib hpFbCell)
+    ece203Symbol(ece203Lib hpFbCell)
+  )
+)
+
+;; same circuit as ece203_hp_ideal_tb, with the network replaced by one ece203_hp_fb instance
+procedure( hpFbTbBuild()
+  let( (cv)
+    cv = acOpenSch(ece203Lib hpFbTbCell)
+    ece203Place(cv list(
+      list("analogLib" "vdc" "VIN" '(("vdc" "vref") ("acm" "1")) '(("PLUS" "vin") ("MINUS" "gnd!")))
+      list("analogLib" "vdc" "VREF" '(("vdc" "vref") ("acm" "0")) '(("PLUS" "vref") ("MINUS" "gnd!")))
+      list("analogLib" "vcvs" "E1" '(("egain" "aol")) '(("NC+" "vref") ("NC-" "sum") ("PLUS" "vout") ("MINUS" "gnd!")))
+      list(ece203Lib hpFbCell "XFB" nil '(("VIN" "vin") ("SUM" "sum") ("VOUT" "vout")))))
+    ece203GndRef(cv list(-2.0 0.0))
+    acFinish(cv ece203Lib hpFbTbCell)
+  )
+)
+
+procedure( hpFbAll()
+  ece203LibInfo()
+  hpFbBuild()
+  hpFbTbBuild()
+  hpSim(hpFbTbCell "hpfb")
   t
 )
