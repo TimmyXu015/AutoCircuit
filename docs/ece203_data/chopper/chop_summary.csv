@@ -1,0 +1,4 @@
+case,cell,chen,status,reason,o_pre,o_post,step_gain,o_ripple_pp_post,oa_min_post,oa_max_post,ia_minus_ib_pp_post,dc_o,dc_oa,dc_n,dc_p,I_VDD
+A_ideal_vcvs_chop1MHz,ece203_ss_chop_ideal_tb,1,ok,n/a,0.900881,1.00077,99.8899,0.00181677,-8.88178e-16,0.999889,9.99889e-06,0.899991,0.899991,0.899991,0.9,n/a
+A_realC_chop1MHz,ece203_ss_chop_c_tb,1,ok,n/a,0.78687,0.798848,11.9773,0.338704,0.728795,1.08443,0.00335153,0.902314,0.902314,0.902314,0.9,2.83139e-07
+A_realC_static,ece203_ss_chop_c_tb,0,ok,n/a,0.902314,0.996441,94.1272,1.64374e-05,0.996432,0.996449,1.68141e-07,0.902314,0.902314,0.902314,0.9,2.83139e-07

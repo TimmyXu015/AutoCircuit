@@ -141,3 +141,36 @@ procedure( chRunJob()
     t
   )
 )
+
+;; ---------------- ADE L states (GUI job): tran 200u, tight options ----------------
+procedure( chAdeTb(cell real)
+  let( (sess)
+    sess = acAdeStart(ece203Lib cell)
+    unless( sess error("No ADE session for %s\n" cell) )
+    acAdeModels(sess "tt")
+    when( real acAdeSaveCurrents(sess))
+    foreach(o '((gmin "1e-18") (iabstol "1e-18") (reltol "1e-6"))
+      acSay("ADE: sim option %L -> %L\n" car(o) car(errset(asiSetSimOptionVal(sess car(o) cadr(o)) nil))))
+    acAdeAnalysis(sess 'dc list(list('saveOppoint t)))
+    acAdeAnalysis(sess 'tran list(list('stop "200u")))
+    acAdeOutput(acAdeSev "o" "VT(\"/o\")")
+    acAdeOutput(acAdeSev "oa" "VT(\"/oa\")")
+    acAdeOutput(acAdeSev "ck1" "VT(\"/ck1\")")
+    acAdeOutput(acAdeSev "step_gain" "(average(clip(VT(\"/o\") 190u 200u)) - average(clip(VT(\"/o\") 40u 50u))) / 1m")
+    acAdeVars(sess
+      append(list(list("vref" "0.9") list("cc" "50p") list("cfb" "500f") list("rfb" "3.1831T") list("cl" "0")
+                  list("vst" "1m") list("tst" "50u") list("chen" "1"))
+             if( real list(list("vdd" "1.8") list("ib3" "50n") list("vcas" "1.05")) list(list("aol" "1e5")))))
+    acAdeSave(sess ece203Lib cell "chop_1MHz_step")
+    sess
+  )
+)
+
+procedure( chAde()
+  hw1NoLicensePrompts()
+  when( hiGraphicMode() acAutoOkStart() )
+  unless( hiGraphicMode() error("chAde needs the GUI (run.sh ece203_ss_chop_ade)\n") )
+  chAdeTb(chCells->ideal nil)
+  chAdeTb(chCells->real t)
+  t
+)
