@@ -295,16 +295,17 @@ procedure( r4Tran(cell tag over)
 )
 procedure( r4Pp(w a b) car(errset(ymax(clip(w a b)) - ymin(clip(w a b)) nil)) )
 
-procedure( r4BCase(port mode dcc)
+procedure( r4BCase(port mode dcc @optional (extra nil) (pre "B") (cell nil))
   let( (r over dm cm it st tr ok tag)
-    tag = sprintf(nil "B_%s_dcc%g" mode dcc * 100.0)
-    over = append(append(r4LP r4DrlOver(mode)) list(list("dcc" dcc)))
+    unless( cell cell = r4Cells->tb )
+    tag = sprintf(nil "%s_%s_dcc%g" pre mode dcc * 100.0)
+    over = append(append(append(r4LP r4DrlOver(mode)) list(list("dcc" dcc))) extra)
     r = list(nil 'tag tag 'drl mode 'dcc dcc 'status "ok")
     ok = errset(
       progn(
-        dm = r4Ac(r4Cells->tb strcat(tag "_dm") 'dm over nil)
-        cm = r4Ac(r4Cells->tb strcat(tag "_cm") 'cm over nil)
-        it = r4Ac(r4Cells->tb strcat(tag "_int") 'int over nil)
+        dm = r4Ac(cell strcat(tag "_dm") 'dm over nil)
+        cm = r4Ac(cell strcat(tag "_cm") 'cm over nil)
+        it = r4Ac(cell strcat(tag "_int") 'int over nil)
         r->Adm60 = dm->Hout_60
         r->Acm60 = ldMag(cm->out 60.0)
         r->CMRR60_dB = and(numberp(r->Adm60) numberp(r->Acm60) r->Acm60 > 0 ece203Db(r->Adm60 / r->Acm60))
@@ -316,12 +317,12 @@ procedure( r4BCase(port mode dcc)
         foreach(k '(dc_o dc_cm dc_body dc_drlr dc_drli I_VDD I_VDDD margin_A worst_A margin_D worst_D)
           putprop(r get(dm k) k))
         when( mode != "off"
-          st = car(errset(r4Stb(r4Cells->tb strcat(tag "_stb") over) t))
+          st = car(errset(r4Stb(cell strcat(tag "_stb") over) t))
           when( st
             r->ugf = nth(0 st) r->pm = nth(1 st) r->lg60 = nth(2 st) r->lg_dc = nth(3 st) r->ph0 = nth(4 st)
             ldWriteCurves(strcat(r4Dir "/" tag "_stb.csv") list(list("LG" nth(5 st))))))
         when( dcc > 0.0
-          tr = car(errset(r4Tran(r4Cells->tb strcat(tag "_tran") over) t))
+          tr = car(errset(r4Tran(cell strcat(tag "_tran") over) t))
           when( tr
             r->tr_body_pp = r4Pp(tr->b 0.0333 0.05)
             r->tr_o_min = car(errset(ymin(clip(tr->o 0.0333 0.05)) nil)) r->tr_o_max = car(errset(ymax(clip(tr->o 0.0333 0.05)) nil))
@@ -377,6 +378,20 @@ procedure( r4C1()
             r4Num(r->fL_out "%.4g") r4Num(r->fH_out "%.4g") r4Num(r->Ho_100 "%.4g") r4Num(r->fH_o "%.4g") r4Num(r->dc_o "%.5g")
             r4Num(r->margin_A "%.3f") or(r->worst_A "") r4Num(r->vds_M2 "%.4g") r4Num(r->vds_MC "%.4g") r4Num(r->margin_MC "%.3f"))
       r4Row(port r4CCols r))
+    close(port)
+    t
+  )
+)
+
+;; C2: the one DRL change -- CM-sense compensation ccm = 1 pF across each 10 GOhm sense resistor (zero ~16 Hz
+;; against the ~5 GOhm x DRL-OTA input-cap pole). Real DRL OTA, VCAS 1.10 (C1 choice), LP 31.8M/20p, ideal Rfb.
+r4Vcas = 1.10
+procedure( r4C2()
+  let( (port)
+    r4Build()
+    port = r4Open("r4_C2_drlcomp.csv" r4BCols)
+    r4BCase(port "real" 0.01 list(list("vcas" r4Vcas) list("ccm" 0.0)) "C2before")
+    r4BCase(port "real" 0.01 list(list("vcas" r4Vcas) list("ccm" 1e-12)) "C2after")
     close(port)
     t
   )
