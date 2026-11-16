@@ -23,9 +23,9 @@ in the same commit.
 
 **Results (2026-11-16): [docs/ECE203_round3e_ideal_chopper_noise_results.md](docs/ECE203_round3e_ideal_chopper_noise_results.md)** (data in docs/ece203_data/chopper_noise/; cell Project/ece203_ss_chop_noise_tb, job ece203_ss_chop_noise). Noisy ideal OTA (unlimited BW, VN noisefile = fit of Round-3C C PSD: K 3.45e-11, alpha 1.038, white 109 nV/rtHz), Spectre PSS + PNoise (maxsideband 49): 0.1-250 Hz app. input noise U 15.85 uV -> C (1 MHz chopped) 2.01 uV (7.9x RMS, 62x power, PAC gain 99.90 both); analytic folding OTA-only 1.72 uV (white +-50%: 1.22-2.10 uV). Model ceiling only, not the real OTA. Stopped.
 
-## Active task — ECE203 Round 4 integrated ECG system (user approved full A->B->C->D, 2026-11-16, IN PROGRESS)
+## Completed Round 4 — ECE203 integrated ECG system (A->B->C->D done, 2026-11-16)
 
-Script `ece203_r4.il`, jobs `ece203_r4_a` .. ; results land in docs/ece203_data/round4/ and docs/ECE203_round4_integrated_results.md (stage by stage).
+**Results: [docs/ECE203_round4_integrated_results.md](docs/ECE203_round4_integrated_results.md)** (script `ece203_r4.il`, jobs ece203_r4_a/b/c1/c2/c3/c4/c4read/d/dpss/ade; data docs/ece203_data/round4/; cells Project/ece203_r4_*; ADE states r4_final, r4_final_idealRfb, r4_A1_baseline_drloff, r4_C2_idealbias_realDRL). FINAL (real bias: VDD + one 100 nA ref, pseudo-R, real DRL OTA + ccm 1p, LP 31.8M/20p, VCAS 1.10): gain 37.17 dB (FAIL), fL 0.073 Hz (FAIL), fH 121 Hz (FAIL), noise 16.6 uV (FAIL), CMRR60 91.4 dB DRL ON (PASS; OFF 53.9), body interference no clipping with DRL (PASS), Zin(10 Hz) >= 168 MOhm (PASS), 1.30 uW (PASS), 143 pF (PASS), DRL PM 90 deg, MC12 done. Main blocker: single-stage OTA cannot drive the passive 250 Hz LP; flicker noise. Bonus: real C + ideal 4 kHz chopper PSS/PNoise 16.2 -> 5.58 uV app (10.6 pointwise), 0.41 V pp ripple. Stopped; waiting for user + GPT decision.
 
 ### Task text (was pending)
 

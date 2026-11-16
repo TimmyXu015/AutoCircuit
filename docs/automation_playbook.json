@@ -126,7 +126,8 @@
       "ece203_ss_ota_cmp_ade": "@gui: ADE L states cmp_s2 (dc op + ac + noise, tight sim options) in the three ece203_ss_ota_cmp_*_tb",
       "ece203_ss_chop": "ECE203 Round 3D: Project/ece203_ss_chop_ideal_tb (VCVS) + ece203_ss_chop_c_tb (Round-3C C OTA): ideal 1 MHz non-overlapping two-phase clock, analogLib switch (relay) commutator + output demodulator with ideal EINV, S2 network; 200 us tran with 1 mV diff step at 50 us -> ~/AutoCircuit_results/ece203_ss_chop/chop_summary.csv",
       "ece203_ss_chop_ade": "@gui: ADE L states chop_1MHz_step (tran 200u, tight options) in both chop tbs",
-      "ece203_ss_chop_noise": "ECE203 Round 3E: Project/ece203_ss_chop_noise_tb (Round-3D ideal chopper + VCVS with series VN noisefile source fitted to Round-3C C PSD): U static noise, U and C PSS (1 MHz) + PAC + PNoise (maxsideband 49) -> ~/AutoCircuit_results/ece203_ss_chop_noise/spectre_compare.csv"
+      "ece203_ss_chop_noise": "ECE203 Round 3E: Project/ece203_ss_chop_noise_tb (Round-3D ideal chopper + VCVS with series VN noisefile source fitted to Round-3C C PSD): U static noise, U and C PSS (1 MHz) + PAC + PNoise (maxsideband 49) -> ~/AutoCircuit_results/ece203_ss_chop_noise/spectre_compare.csv",
+      "ece203_r4_*": "ECE203 Round 4 integrated ECG (see docs/ECE203_round4_integrated_results.md): a signal chain, b DRL, c1 VCAS, c2 DRL comp, c3 real-bias final, c4 MC, c4read, d 4 kHz chopper bonus, dpss, ade (@gui)"
     }
   },
   "skill_framework": {
@@ -177,7 +178,9 @@
     "sim_options": "asiSetSimOptionVal(sess 'gmin \"1e-18\") (also 'iabstol, 'reltol) works and reads back with asiGetSimOptionVal; saved into the ADE state (ece203_ss_pr_ade, 2026-11-16).",
     "analoglib_switch": "analogLib switch: pins N+ N- (switched) NC+ NC- (control), CDF vt1 (open voltage) vt2 (closed voltage) ro rc; netlists as Spectre relay vt1 vt2 ropen rclosed. analogLib vpulse CDF: v1 v2 td tr tf pw per dc acm. No analogLib 'relay' cell.",
     "ocean_pss_pnoise": "OCEAN: analysis('pss ?fund \"1M\" ?harms \"50\" ?errpreset \"moderate\"), analysis('pac ?sweeptype \"relative\" ?relharmnum \"0\" ?start ?stop ?dec ?maxsideband \"3\"), analysis('pnoise ?sweeptype \"relative\" ?relharmnum \"0\" ?start ?stop ?dec ?maxsideband \"49\" ?p \"/o\" ?n \"/gnd!\") work; results() -> (pss_td pss_fd pac pnoise ...); harmonic(v(\"/o\" ?result \"pac\") 0) = baseband transfer; getData(\"out\" ?result \"pnoise\") = output PSD (V/rtHz). ?noisetype did not appear in the netlist (Spectre default used).",
-    "vsource_noisefile": "Custom noise PSD on a source: analogLib vdc CDF 'noisefile' = absolute path of a text file 'freq V^2/Hz' per line -> netlists as noisefile=\"...\" and shows in NoiseSummary as ext_file_noise. The F1..F50/N1..N50 + FNpairs fields did NOT reach the netlist in batch."
+    "vsource_noisefile": "Custom noise PSD on a source: analogLib vdc CDF 'noisefile' = absolute path of a text file 'freq V^2/Hz' per line -> netlists as noisefile=\"...\" and shows in NoiseSummary as ext_file_noise. The F1..F50/N1..N50 + FNpairs fields did NOT reach the netlist in batch.",
+    "ocean_mismatch_mc": "OCEAN monteCarlo keys here: numIters startIter seed analysisVariation sweptParam sweptParamVals saveData saveProcessParams nomRun samplingMethod numBins append (no ?nominalRun). monteCarlo(?numIters \"12\" ?startIter \"1\" ?analysisVariation 'mismatch ?saveData t ?seed \"12345\") + monteRun() runs (PDK process.scs has statistics{ mismatch{} }). monteOutputFile does not exist and iterVsValue returned nil; read the results instead with openResults(<psf dir>) selectResult('ac) -> waves with sweep (\"iteration\" \"freq\"); value(mag(w) f) / cross() give iteration-indexed waves (ece203_r4_c4read).",
+    "pss_td_read": "PSS steady state: openResults(psf) selectResult('pss_td) v(\"/o\") -> one-period waveform (ece203_r4_dpss)."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
@@ -245,7 +248,8 @@
     "The user also pushes to main (task docs). Always git pull --rebase before pushing; a rejected push means run.sh on the server will NOT see the new job -- relaunch after the push succeeds.",
     "Spectre: vsource pacmag must be >= 0 (use pacphase 180 for a negative drive). analogLib vpulse instances placed by SKILL inherited a previous instance's pacm (-0.5) when pacm was not set -> set pacm explicitly on every vpulse.",
     "MATLAB system() + ssh: a remote command whose file variable expands empty (e.g. grep pattern $f with no file) makes grep read stdin forever and blocks the MATLAB session (all later calls return empty). Always use 'ssh -n' and '< /dev/null' for inspection commands; recovery needed the user to press Ctrl+C in MATLAB.",
-    "SKILL append() takes exactly two lists -- nest append(append(a b) c) for three."
+    "SKILL append() takes exactly two lists -- nest append(append(a b) c) for three.",
+    "Single-stage cap-feedback OTA (Zout_cl ~ tens of MOhm) cannot drive a passive 250 Hz output LP of 3.18 MOhm/200 pF: fH collapsed to 20 Hz (Round 4 A). Check output loading before adding passive filters."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",

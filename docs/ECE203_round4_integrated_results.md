@@ -137,3 +137,56 @@
 | 失配 MC | N > 10 | N = 12 | 已完成 |
 
 以上全部为 Spectre 仿真结果（tt，27 °C），没有 PVT。
+
+## D — Chopper 加分项：真实 C OTA + 理想开关，单一频率 4 kHz（`stageD/r4_D_chopper.csv`）
+
+- **测试台：** `Project/ece203_r4_chop_c_tb`。沿用 Round 3D 的理想 chopper 结构（relay 开关、10 ns 不交叠死区、理想 EINV 反相器作非物理辅助、反馈从解调后接回），S2 网络用理想 Rfb。OTA 是**真实 `ece203_r4_ota`**（C 版，VCAS 1.10 V，理想偏置）。这里只测前向单级，**不含电极、DRL 和 LP**。Round 3E 的 1 MHz 理想实验没有重复。
+- **为什么选 4 kHz（只选这一个，不扫频）：**
+  - 是 250 Hz 带宽上限的 16 倍。
+  - 高于 C 实测噪声谱的 1/f 拐点，约 2.9 kHz（来自 Round 3E 的拟合）。
+  - 半周期 125 µs，约等于 C 闭环时间常数（fH 8.8 kHz，τ ≈ 18 µs）的 7 倍。
+- **信号检查（1 mV 阶跃，20 ms 瞬态）：**
+  - 不斩波：阶跃增益 93.4。
+  - 4 kHz 斩波：阶跃增益 97.5，比值 1.044，在 10% 以内，所以接着做了噪声测试。
+  - 但斩波后有两处异常：
+    - 瞬态 o 的平均值比 VREF 低 224 mV。从 PSS 周期稳态看，这主要是 τ = 1.6 s 的启动过程没走完，稳态平均值只低 25 mV。
+    - **纹波很大：** 稳态下 0.41 V pp，o 在 0.69–1.11 V 之间。OTA 输入差 4 mV pp，说明每次翻相后都在重新建立。
+  - 没有打到电源轨，但纹波要靠后面的 250 Hz LP 滤掉（这一点本节没有测）。
+- **PSS（fund 4 kHz，harms 30）+ PAC + PNoise（maxsideband 30，真实晶体管噪声），一次就成功，没有修正：**
+
+| 情况 | PAC \|H\| @100 Hz | 输出 rms 0.1–250 Hz | 应用型输入噪声 | 逐点 de-embed 型 | 输入噪声谱 @1 Hz / 100 Hz |
+|---|---|---|---|---|---|
+| 不斩波（同一测试台） | 94.22 | 1.527 mV | 16.2 µV | 16.7 µV | 6.15 µV/√Hz / 545 nV/√Hz |
+| **4 kHz 斩波** | 93.09 | 0.520 mV | **5.58 µV** | **10.6 µV** | 3.17 µV/√Hz / 162 nV/√Hz |
+
+- **解读：**
+  - RMS 改善：应用型 2.9 倍，逐点型 1.6 倍。斩波后仍**高于 3 µV**，所以 **SPEC FAIL**。
+  - 两种定义差别很大。原因是斩波后低频（<1 Hz）残余噪声很高：1 Hz 处 3.17 µV/√Hz，Round 3E 理想模型中只有 0.36 µV/√Hz。
+  - 推测这部分残余与 OTA 每半周期的建立误差、0.41 V 的大纹波，以及未被斩波的支路有关，**没有进一步验证**（不在本轮限额内）。
+  - 证据等级：Spectre 真实晶体管 PSS + PNoise。noisetype 用的是 Spectre 默认值。理想开关和理想反相器属于非物理元件。
+- **状态：** BONUS 已运行，噪声改善有限且有条件。真实开关、时钟、电荷注入和纹波抑制都没有做。
+
+## Cadence 与复现
+
+- **新 cell（library Project，旧 cell 没有改动）：**
+  - OTA：`ece203_r4_ota`、`ece203_r4_drl_ota`。
+  - 测试台：`ece203_r4_ecg_tb`（理想偏置，理想 Rfb）、`ece203_r4_ecg_pr_tb`（理想偏置，pseudo-R）、`ece203_r4_ecg_rb_tb`（真实偏置，理想 Rfb）、`ece203_r4_ecg_rbpr_tb`（**最终系统**）、`ece203_r4_chop_c_tb`。
+- **ADE L state（都已设 gmin = iabstol = 1e-18、reltol 1e-6）：**
+  - `ece203_r4_ecg_rbpr_tb`：`r4_final`（dc + ac + noise + DRL stb + 50 ms 干扰 tran）。
+  - `ece203_r4_ecg_rb_tb`：`r4_final_idealRfb`。
+  - `ece203_r4_ecg_tb`：`r4_A1_baseline_drloff` 和 `r4_C2_idealbias_realDRL`。
+  - ADE 的 tran 无法通过 API 设置 maxstep，手动运行时请设为 20 µs。
+- **job（`~/AutoCircuit/run.sh <job>`）：** `ece203_r4_a`、`ece203_r4_b`、`ece203_r4_c1`、`ece203_r4_c2`、`ece203_r4_c3`、`ece203_r4_c4`（MC）、`ece203_r4_c4read`（读取 MC 数据，不重新仿真）、`ece203_r4_d`、`ece203_r4_dpss`、`ece203_r4_ade`（GUI 方式）。
+- **数据：** `docs/ece203_data/round4/`，含 `r4_spec_matrix.csv`、`r4_system_cases.csv`、`r4_drl_60hz.csv`、`r4_mc12_table.csv`、`r4_summary.png`，以及 `stageA` 到 `stageD` 各阶段的原始数据。
+
+## 最终三行总结
+
+1. **已经 PASS 的（真实晶体管 OTA 和 DRL，加真实偏置，仅用 VDD + 一个 100 nA 参考）：**
+   - CMRR@60 Hz 为 91.4 dB（Cc 1% 失配；MC12 范围 91.7–93.0 dB）。
+   - DRL 开启时 0.1 µA 人体干扰不削顶，DRL PM 90°。
+   - Zin@10 Hz 大于 168 MΩ，功耗 1.30 µW，设计电容 143 pF。
+2. **最严重的剩余问题：**
+   - 单级 OTA 的闭环输出阻抗太高，驱动不了无源 250 Hz LP。增益只有 37.2 dB，fH 只有 121 Hz。
+   - 主 OTA 的 flicker 噪声 16.6 µV，远高于 3 µV；4 kHz 斩波后为 5.6 / 10.6 µV，仍不达标。
+   - pseudo-R 下 fL 为 0.073 Hz，偏低。
+3. **下一个最小的单点实验：** 只解决 LP 负载这一个问题，在 OTA 和 LP 之间比较两种做法：（a）把 LP 放进反馈网络，在 Cfb 上并 Rfb 形成主极点；（b）用低 Zout 的输出级或 buffer。两者都需要你们 + GPT 批准。之后再单独研究噪声，包括 4 kHz 斩波后低频残余噪声的来源。

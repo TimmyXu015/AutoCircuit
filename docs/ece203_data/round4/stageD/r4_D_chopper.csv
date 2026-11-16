@@ -1,0 +1,5 @@
+case,chen,fch,status,reason,o_pre,o_post,step_gain,ripple_pp,oa_min,oa_max,ia_ib_pp,pac_10,pac_100,out_rms,app_in,deemb_in,in_1Hz,in_100Hz
+D_static_step,0,4000,ok,n/a,0.90213,0.995524,93.3932,5.52192e-05,0.995468,0.995524,3.4449e-08,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+D_chop4k_step,1,4000,ok,n/a,0.678507,0.776,97.4932,0.404757,0.61996,1.19913,0.00379898,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+D_static_pnoise,0,4000,ok,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,94.2178,94.216,0.00152737,1.62113e-05,1.66846e-05,6.15371e-06,5.45097e-07
+D_chop4k_pnoise,1,4000,ok,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,92.9287,93.0895,0.000519545,5.58114e-06,1.06327e-05,3.16584e-06,1.61879e-07
