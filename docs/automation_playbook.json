@@ -244,7 +244,8 @@
     "run.sh called through a plain 'ssh host cmd' (no login shell) fails with 'virtuoso not found'; wrap it as bash -lc '~/AutoCircuit/run.sh job' like the nohup launches.",
     "The user also pushes to main (task docs). Always git pull --rebase before pushing; a rejected push means run.sh on the server will NOT see the new job -- relaunch after the push succeeds.",
     "Spectre: vsource pacmag must be >= 0 (use pacphase 180 for a negative drive). analogLib vpulse instances placed by SKILL inherited a previous instance's pacm (-0.5) when pacm was not set -> set pacm explicitly on every vpulse.",
-    "MATLAB system() + ssh: a remote command whose file variable expands empty (e.g. grep pattern $f with no file) makes grep read stdin forever and blocks the MATLAB session (all later calls return empty). Always use 'ssh -n' and '< /dev/null' for inspection commands; recovery needed the user to press Ctrl+C in MATLAB."
+    "MATLAB system() + ssh: a remote command whose file variable expands empty (e.g. grep pattern $f with no file) makes grep read stdin forever and blocks the MATLAB session (all later calls return empty). Always use 'ssh -n' and '< /dev/null' for inspection commands; recovery needed the user to press Ctrl+C in MATLAB.",
+    "SKILL append() takes exactly two lists -- nest append(append(a b) c) for three."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",

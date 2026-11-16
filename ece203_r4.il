@@ -61,7 +61,7 @@ procedure( r4BuildOta(cell c)
 )
 
 procedure( r4Specs(pr)
-  append(
+  append(append(
     list(
       otaV("VREF" "vref" "0" "vref" "gnd!")
       otaV("VCAS" "vcas" "0" "vcas" "gnd!")
@@ -85,7 +85,7 @@ procedure( r4Specs(pr)
     if( pr
       list(list(ece203Lib "ece203_ss_pr_cell" "XPP" nil '(("A" "p") ("B" "vref")))
            list(ece203Lib "ece203_ss_pr_cell" "XPN" nil '(("A" "n") ("B" "o"))))
-      list(otaR("RFP" "rfb" "p" "vref") otaR("RFN" "rfb" "n" "o")))
+      list(otaR("RFP" "rfb" "p" "vref") otaR("RFN" "rfb" "n" "o"))))
     list(
       list(ece203Lib r4Cells->ota "XA" nil
            '(("INP" "p") ("INN" "n") ("OUT" "oa") ("VDD" "vdd") ("GND" "gnd!") ("IBIAS" "ib") ("VCAS" "vcas")))
