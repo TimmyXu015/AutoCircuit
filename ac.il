@@ -60,6 +60,7 @@ acJobs = list(nil
   'ece203_ss_pr_a '(prStageAJob)
   'ece203_ss_pr_a2 '(prStageA2Job)
   'ece203_ss_pr_b '(prStageBJob)
+  'ece203_ss_pr_ade '(prAde)
 )
 
 ;; ---------- reporting ----------

@@ -220,3 +220,66 @@ procedure( prStageBJob()
     t
   )
 )
+
+;; ---------------- ADE L states (GUI job): DC op + AC, tight simulator options ----------------
+;; Spectre default gmin (1e-12 S) swamps a TOhm pseudo-R (fL 18.9 Hz instead of 0.057 Hz), so the
+;; states try to carry gmin = iabstol = 1e-18, reltol = 1e-6. The setter's name is probed; if none works
+;; the log says so and the user must set them in ADE: Simulation -> Options -> Analog.
+procedure( prAdeOptions(sess)
+  let( (done)
+    foreach(fn '(asiSetSimOptionVal asiSetAnalogSimulatorOptionVal)
+      when( isCallable(fn)
+        foreach(o '((gmin "1e-18") (iabstol "1e-18") (reltol "1e-6"))
+          done = car(errset(funcall(fn sess car(o) cadr(o)) nil))
+          acSay("ADE: %s(%L %L) -> %L, reads back %L\n" fn car(o) cadr(o) done
+                car(errset(funcall(if( fn == 'asiSetSimOptionVal 'asiGetSimOptionVal 'asiGetAnalogSimulatorOptionVal)
+                                   sess car(o)) nil))))))
+    done
+  )
+)
+
+procedure( prAdeTb(cell s2)
+  let( (sess)
+    sess = acAdeStart(ece203Lib cell)
+    unless( sess error("No ADE session for %s\n" cell) )
+    acAdeModels(sess "tt")
+    acAdeSaveCurrents(sess)
+    prAdeOptions(sess)
+    acAdeAnalysis(sess 'dc list(list('saveOppoint t)))
+    acAdeAnalysis(sess 'ac
+      list(list('start "1m") list('stop if( s2 "100k" "10m")) list('dec if( s2 "20" "1")))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")))
+    if( s2
+      then
+        acAdeOutput(acAdeSev "Hdm_dB" "db20((VF(\"/o\") / (VF(\"/vinp\") - VF(\"/vinn\"))))")
+        acAdeOutput(acAdeSev "Hdm_100Hz" "value(mag((VF(\"/o\") / (VF(\"/vinp\") - VF(\"/vinn\")))) 100)")
+        acAdeOutput(acAdeSev "PRN_id" "OP(\"/XPN/MP\" \"id\")")
+        acAdeAcVars(sess t)
+      else
+        acAdeOutput(acAdeSev "I_A_dc" "IDC(\"/VA/PLUS\")")
+        acAdeOutput(acAdeSev "g_ac" "-real(IF(\"/VA/PLUS\"))")
+        acAdeOutput(acAdeSev "MP_id" "OP(\"/XP/MP\" \"id\")")
+        acAdeAcVars(sess nil))
+    acAdeSave(sess ece203Lib cell "pr_w3u")
+    sess
+  )
+)
+
+procedure( acAdeAcVars(sess s2)
+  acAdeVars(sess
+    append(list(list("prw" "3u") list("prl" "2u"))
+           if( s2
+             list(list("vdd" "1.8") list("vref" "0.9") list("ib3" "50n") list("lin" "8u")
+                  list("cc" "50p") list("cfb" "500f") list("cl" "0")
+                  list("ap" "0.5") list("an" "-0.5") list("vtp" "0") list("ftr" "10"))
+             list(list("vcm" "0.9") list("vd" "0")))))
+)
+
+procedure( prAde()
+  hw1NoLicensePrompts()
+  when( hiGraphicMode() acAutoOkStart() )
+  unless( hiGraphicMode() error("prAde needs the GUI (run.sh ece203_ss_pr_ade)\n") )
+  prAdeTb(prCells->iv nil)
+  prAdeTb(prCells->s2 t)
+  t
+)
