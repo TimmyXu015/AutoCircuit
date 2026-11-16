@@ -7,19 +7,36 @@
 
 ece203Lib = "Project"
 
-;; short labelled wire from a pin, pointing away from the instance centre; returns the far end
+;; short labelled wire from a pin, pointing out of the box spanned by the instance's pins:
+;; pins on the left/right edge of that box go left/right, otherwise up/down by edge.
+;; (The instance bBox includes text, so "away from the bBox centre" is NOT safe: on cmrf7sf
+;; nfetx/pfetx the S, B, D pins all sit at x = 0.25 and a B stub pointing down crossed S.)
 procedure( ece203Stub(cv inst term net @optional (len 0.375))
-  let( (p c dx dy end)
+  let( (p pts xs ys xmin xmax ymin ymax eps end)
     p = acPinPt(inst term)
     unless( p error("%s: no terminal %s\n" inst~>name term) )
-    c = centerBox(inst~>bBox)
-    dx = xCoord(p) - xCoord(c)
-    dy = yCoord(p) - yCoord(c)
-    end = if( abs(dx) >= abs(dy)
-            then if( dx < 0 acLeft(p len) acRight(p len))
-            else if( dy < 0 acDown(p len) acUp(p len)))
+    pts = setof(q mapcar(lambda((tn) acPinPt(inst tn)) inst~>master~>terminals~>name) q)
+    xs = mapcar('xCoord pts) ys = mapcar('yCoord pts)
+    xmin = apply('min xs) xmax = apply('max xs) ymin = apply('min ys) ymax = apply('max ys)
+    eps = 1e-4
+    end = cond(
+      ( (xmax - xmin) > eps && abs(xCoord(p) - xmin) < eps  acLeft(p len))
+      ( (xmax - xmin) > eps && abs(xCoord(p) - xmax) < eps  acRight(p len))
+      ( abs(yCoord(p) - ymax) < eps  acUp(p len))
+      ( t  acDown(p len)))
     acWire(cv p end net)
     end
+  )
+)
+
+;; schCheck + save; abort the job if the schematic has errors (shorts, etc.)
+procedure( ece203Finish(cv lib cell)
+  let( (chk)
+    chk = schCheck(cv)
+    acFinish(cv lib cell)
+    when( listp(chk) && numberp(car(chk)) && car(chk) > 0
+      error("%s: schCheck found %d error(s) -- not simulating\n" cell car(chk)))
+    t
   )
 )
 
