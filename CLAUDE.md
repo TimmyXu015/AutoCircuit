@@ -17,7 +17,11 @@ When you learn something new (a working API call, a fix, a trap), add it to the 
 in the same commit.
 
 
-## Active next task — ECE203 Round 3B pseudo-resistor microtest (2026-11-16)
+## Active next task — ECE203 Round 3C: PMOS input and local cascode OTA comparison (2026-11-16)
+
+**User-approved bounded test:** [docs/ECE203_round3c_ota_pmos_cascode_microcompare.md](docs/ECE203_round3c_ota_pmos_cascode_microcompare.md). Copy the existing single-stage S2 5T OTA into separate new cells and compare **B: baseline NMOS L=8µm, P: PMOS-input 5T, C: single output-branch NMOS cascode**. Only one viable setup per variant (one necessary correction max). At the same supply/current and **same ideal-Rfb S2 bench**, run **DC + AC gain + 0.1–250Hz Noise Summary**, record **both** application-band output-RMS/midband-gain and pointwise-deembedded input RMS. Check actual PDK device type, sign, bias, headroom and input area. **No full Harrison, no chopper, no pseudo-R changes, no extra designs, no parameter scans, no STB/tran/Monte Carlo. Stop with a short three-row comparative report and ask user/GPT which route to keep.** Preserve all previous cell/results and user GUI processes.
+
+## Completed Round 3B — pseudo-resistor microtest (2026-11-16)
 
 **User-approved next tiny experiment:** [docs/ECE203_round3b_pseudoresistor_microtest.md](docs/ECE203_round3b_pseudoresistor_microtest.md). Pause OTA gain optimization. First make one **real PDK MOS–bipolar pseudo-resistor** following the ECE203 lecture and measure standalone ±50 mV I–V / differential R near 0.9 V CM; verify device/bulk and numerical precision. **Only if standalone works**, replace both ideal feedback Rfb of the single-stage S2 BioAmp, using **frozen 5T NMOS input L=8 µm** and unchanged Cc/Cfb, and compare DC + AC against ideal. No Noise/STB/tran/MC/extra topology or big sweeps; stop after one comparison. Preserve all previous cells and user data; record short results and report blockers honestly.
 
