@@ -228,3 +228,19 @@ procedure( ece203Setup(cell suffix)
 ;; nil-safe wave transforms for CSV writing
 procedure( ece203Mag(w) and(w car(errset(mag(w) nil))) )
 procedure( ece203Ph(w) and(w car(errset(phase(w) nil))) )
+
+;; print pin centres (relative to the instance origin, R0) and bBox of symbols -- for stub rules
+procedure( ece203ProbeSymbols()
+  foreach(lc '(("cmrf7sf" "nfetx") ("cmrf7sf" "pfetx") ("analogLib" "vcvs") ("analogLib" "iprobe")
+               ("analogLib" "idc") ("analogLib" "vdc") ("analogLib" "res") ("analogLib" "cap"))
+    let( (m)
+      m = dbOpenCellViewByType(car(lc) cadr(lc) "symbol")
+      if( m then
+        acSay("sym %s/%s bBox %L\n" car(lc) cadr(lc) m~>bBox)
+        foreach(tm m~>terminals
+          acSay("sym %s/%s pin %s at %L\n" car(lc) cadr(lc) tm~>name
+                mapcar(lambda((p) centerBox(p~>fig~>bBox)) tm~>pins)))
+      else
+        acSay("sym %s/%s: cannot open\n" car(lc) cadr(lc)))))
+  t
+)

@@ -45,6 +45,7 @@ acJobs = list(nil
   'ece203_a3 '(a3All)
   'ece203_a12bias '(a12BiasAll)
   'ece203_a12 '(a12All)
+  'ece203_probe '(ece203ProbeSymbols)
 )
 
 ;; ---------- reporting ----------
