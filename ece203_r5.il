@@ -100,6 +100,14 @@ procedure( r5BuildTb(stage slot)
 
 ;; ---------- measurement ----------
 procedure( r5Set(over) ece203Vars(r5Vars) ece203Vars(over) )
+procedure( r5Open(name cols)
+  let( (port)
+    unless( isDir(r5Dir) createDir(r5Dir) )
+    port = outfile(strcat(r5Dir "/" name) "w")
+    fprintf(port "%s\n" buildString(mapcar('symbolToString cols) ","))
+    port
+  )
+)
 r5Insts = '("XA.M1" "XA.M2" "XA.M3" "XA.M4" "XA.MC" "XA.MT" "XA.MREF" "X2.MSF" "X2.MSB" "X2.MCS" "X2.MCL")
 
 ;; noise sub-bands (log) for pointwise de-embedding per source
@@ -210,7 +218,7 @@ procedure( r5StageA()
   let( (port)
     r5BuildTb("none" "d2")
     r5BuildTb("ibuf" "d2")
-    port = r4Open("r5_stageA.csv" r5Cols)
+    port = r5Open("r5_stageA.csv" r5Cols)
     r5Run(port "none" "d2" "A_noLP" list(list("rlp" 1e15)) nil t)
     r5Run(port "none" "d2" "A_LP" nil t t)
     r5Run(port "ibuf" "d2" "A_LP_idealBUF" nil t t)
