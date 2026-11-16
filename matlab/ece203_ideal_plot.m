@@ -13,10 +13,10 @@ fig = figure('Name', 'ideal_dm', 'Position', [100 100 760 640]);
 subplot(2,1,1);
 semilogx(f, 20*log10(D.absHdm), 'LineWidth', 1.8); hold on; grid on;
 semilogx(f, 20*log10(D.absH_o3), '--', 'LineWidth', 1.2);
-yline([38 42], ':', {'38 dB', '42 dB'});
+yline([38 42], ':', {'38 dB', '42 dB'}, 'LabelHorizontalAlignment', 'left');
 xline([0.09 0.11 225 275], '-', 'Color', [0.8 0.3 0.3]);
 [m, ~] = max(D.absHdm);
-yline(20*log10(m) - 3, '--', sprintf('max - 3 dB (max %.3f dB)', 20*log10(m)));
+yline(20*log10(m) - 3, '--', sprintf('max - 3 dB (max %.3f dB)', 20*log10(m)), 'LabelHorizontalAlignment', 'center', 'LabelVerticalAlignment', 'bottom');
 ylim([-10 45]); ylabel('|V_{out} / (V_{inp} - V_{inn})| (dB)');
 legend('out (after output RC)', 'o3 (A3 output, before RC)', 'Location', 'south');
 title('Ideal ECG, differential gain measured after the electrodes (DRL on, matched)');
@@ -41,8 +41,9 @@ title('Input impedance at the amplifier input (after the electrode), DM excitati
 exportgraphics(fig, fullfile(out, 'ideal_zin.png'), 'Resolution', 130);
 
 % --- common mode ---
-cases = {'matched', 'dcc1pct', 'delec10pct'};
-labels = {'matched', 'Cc mismatch 1 %', 'electrode Z mismatch 10 %'};
+% matched case: out is at the numerical floor (DRL on: exactly 0), so it is not plotted
+cases = {'dcc1pct', 'delec10pct'};
+labels = {'Cc mismatch 1 %', 'electrode Z mismatch 10 %'};
 fig = figure('Name', 'ideal_cm', 'Position', [100 100 760 700]);
 C = rd('ece203_ideal_cm_dcc1pct.csv');
 subplot(2,1,1);
@@ -65,6 +66,6 @@ for k = 1:numel(cases)
 end
 grid on; yline(85, ':', '85 dB spec', 'HandleVisibility', 'off'); xline(60, ':', 'HandleVisibility', 'off');
 ylabel('CMRR (dB) = |A_{dm}| / (|out| / |v_{cm,DRL off}|)'); xlabel('f (Hz)');
-legend('Location', 'eastoutside'); ylim([0 260]);
-title('Matched + DRL on gives out = 0 exactly (curve absent)');
+legend('Location', 'southwest'); ylim([0 260]); xlim([1e-3 1e4]);
+title('CMRR vs f (matched case omitted: |out| at numerical floor)');
 exportgraphics(fig, fullfile(out, 'ideal_cm.png'), 'Resolution', 130);
