@@ -157,12 +157,19 @@ procedure( ece203OpNames()
 ;; dcOpInfo name for a (hierarchical) instance, e.g. "XA.M1": exact or the shortest
 ;; "XA.M1.<...>" that has a numeric gm
 procedure( ece203OpFind(names inst)
-  let( (pref cands)
+  prog( (r)
+  r = let( (pref cands slash)
+    ;; Spectre names a device inside an instance "/XA/M1" in dcOpInfo ("XA.M1.<x>" are the
+    ;; PDK's parasitic sub-elements such as rgate, ddb, cwgs)
+    slash = strcat("/" buildString(parseString(inst ".") "/"))
+    when( member(slash names) && numberp(car(errset(pv(slash "gm" ?result "dcOpInfo") nil)))
+      return(slash))
     pref = strcat(inst ".")
     cands = setof(n names stringp(n) && (n == inst || strncmp(n pref strlen(pref)) == 0))
     cands = sort(cands lambda((a b) strlen(a) < strlen(b)))
     car(setof(n cands numberp(car(errset(pv(n "gm" ?result "dcOpInfo") nil)))))
   )
+  return(r))
 )
 
 ece203OpParams = '("id" "gm" "gds" "vgs" "vds" "vth" "vdsat" "region")
