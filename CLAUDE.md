@@ -16,6 +16,11 @@ Ground rules (details in the playbook, `user_and_policies`):
 When you learn something new (a working API call, a fix, a trap), add it to the playbook
 in the same commit.
 
+
+## Active next task — ECE203 Round 2A noise scan (2026-11-15)
+
+**User-approved next experiment:** [docs/ECE203_round2_noise_scan.md](docs/ECE203_round2_noise_scan.md). First diagnose A1/A2 device-resolved noise, then run a controlled input-PMOS W/L matrix at fixed 100nA reference; report noise, OP, gain, BW, PM, power and tradeoffs. **Do not autonomously change the architecture, DRL, A3, or the known-good baseline cells.** This Round-2A order supersedes earlier Round-1 implementation priorities only for the current experiment. Read the Round-1 results and automation playbook as prerequisites.
+
 ## Current ECE203 design project (2026-11-15 handoff)
 
 Latest measured status: [docs/ECE203_round1_results.md](docs/ECE203_round1_results.md) (data in docs/ece203_data/).
