@@ -1,0 +1,53 @@
+[run] git pull ok
+[run] virtuoso: /software/ECE/IC-618/tools/dfII/bin/virtuoso
+[run] working folder: /home/linux/ieng6/ECE203_FA26_001/lix015
+[run] running job 'ece203_load_isolate' (log: /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load_isolate.log) ...
+[run] finished in 110 s
+[run] status: OK
+------------------------------------------------------------
+*Error* eval: unbound variable - f
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/B1_a1_cl0_ac.csv (141 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/B1_a1_cl0_stb.csv (111 rows)
+AC> ld B1_a1_cl0 [A1 alone A1 alone, no load]: ok | |o1/vin| 100 Hz 24.953 ph -180.5, fL 0.1 fH 1.033e+04, Zout_cl 10/100 Hz 4.006e+06 4.006e+06, PM 90.0, I 6.683e-07, margin 0.057 XA1.M2, dc o1 0.89997
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/B1_a1_rld1M_ac.csv (141 rows)
+AC> ld B1_a1_rld1M [A1 alone A1 alone, 1 MOhm to vref (standalone approx. of port A)]: ok | |o1/vin| 100 Hz 4.9849 ph -180.1, fL 0.02313 fH 5.401e+04, Zout_cl 10/100 Hz 8.002e+05 8.002e+05, PM n/a, I 6.683e-07, margin 0.057 XA1.M2, dc o1 0.89998
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/B1_a1_rld5M_ac.csv (141 rows)
+AC> ld B1_a1_rld5M [A1 alone A1 alone, 5 MOhm to vref (standalone approx. of port B)]: ok | |o1/vin| 100 Hz 13.854 ph -180.3, fL 0.05736 fH 1.868e+04, Zout_cl 10/100 Hz 2.224e+06 2.224e+06, PM n/a, I 6.683e-07, margin 0.057 XA1.M2, dc o1 0.89998
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/B1_a1ol_zout_ac.csv (141 rows)
+AC> ld B1_a1ol_zout [open loop ece203_load_a1ol_tb]: ok | A(10 mHz) 14191, Zout_ol 10/100 Hz 2.19e+09 2.19e+09
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/B1_chain_buf_C0_ac.csv (141 rows)
+AC> ece203_B1_chain_buf_C0: netlist copied t; lines with mag=:
+AC>   102:VDD3 (vdd3 0) vsource dc=vdd mag=0 type=dc
+AC>   103:VDD2 (vdd2 0) vsource dc=vdd mag=0 type=dc
+AC>   104:VDD1 (vdd1 0) vsource dc=vdd mag=0 type=dc
+AC>   105:VCN (vcn 0) vsource dc=vcn mag=0 type=dc
+AC>   106:VCP (vcp 0) vsource dc=vcp mag=0 type=dc
+AC>   107:VREF (vref 0) vsource dc=vref mag=0 type=dc
+AC>   108:VSN (inn 0) vsource dc=vref mag=an type=sine sinedc=vref ampl=-vtp \
+AC>   110:VSP (inp 0) vsource dc=vref mag=ap type=sine sinedc=vref ampl=vtp freq=ftr
+AC>   115:IB3 (vdd3 ib3) isource dc=ib3 mag=0 type=dc
+AC>   116:IB2 (ib2 0) isource dc=ib12 mag=0 type=dc
+AC>   117:IB1 (ib1 0) isource dc=ib12 mag=0 type=dc
+AC> ld B1_chain_buf_C0 [ece203_load_chain_buf_tb real chain + ideal unity buffers at A1/A2 outputs (diagnostic)]: ok  | |Hout| 10/60/100 Hz 68.86 65.54 60.56 (35.644 dB, ph -29.1) fL 0.09993 fH 183.3 | A1P 24.95 A2N 24.95 G12 24.95 | A3 2.614 (ph -6.8) after RC 2.427 | Zload A/B @10 7.665e+05 5e+06 | I 6.683e-07 6.683e-07 2.883e-07 | PM n/a n/a n/a | margins n/a n/a n/a | tran gain n/a n/a | noise n/a
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/B2_chain_a3vcvs_C0_ac.csv (141 rows)
+AC> ece203_B2_chain_a3vcvs_C0: netlist copied t; lines with mag=:
+AC>   77:VDD2 (vdd2 0) vsource dc=vdd mag=0 type=dc
+AC>   78:VDD1 (vdd1 0) vsource dc=vdd mag=0 type=dc
+AC>   79:VCN (vcn 0) vsource dc=vcn mag=0 type=dc
+AC>   80:VCP (vcp 0) vsource dc=vcp mag=0 type=dc
+AC>   81:VREF (vref 0) vsource dc=vref mag=0 type=dc
+AC>   82:VSN (inn 0) vsource dc=vref mag=an type=sine sinedc=vref ampl=-vtp \
+AC>   84:VSP (inp 0) vsource dc=vref mag=ap type=sine sinedc=vref ampl=vtp freq=ftr
+AC>   89:IB2 (ib2 0) isource dc=ib12 mag=0 type=dc
+AC>   90:IB1 (ib1 0) isource dc=ib12 mag=0 type=dc
+AC> ld B2_chain_a3vcvs_C0 [ece203_load_chain_a3v_tb real A1/A2 + VCVS A3, same network + RC]: ok  | |Hout| 10/60/100 Hz 19.92 19.39 18.52 (25.351 dB, ph -21.9) fL 0.02312 fH 249.7 | A1P 4.985 A2N 13.85 G12 4.985 | A3 4 (ph 0.0) after RC 3.714 | Zload A/B @10 5.395e+05 5e+06 | I 6.683e-07 6.683e-07 n/a | PM n/a n/a n/a | margins n/a n/a n/a | tran gain n/a n/a | noise n/a
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/B2_a3ol_zout_ac.csv (141 rows)
+AC> ld B2_a3ol_zout [open loop ece203_load_a3ol_tb]: ok | A(10 mHz) 71.101, Zout_ol 10/100 Hz 2.278e+07 2.278e+07
+AC> op XA1.M0 /XA1/M0      id -5.683e-07 gm 9.277e-06 vgs -0.4655 vds -0.5622 vdsat -0.0845 region 2
+AC> op XA1.M1 /XA1/M1      id -2.859e-07 gm 6.554e-06 vgs -0.3378 vds -0.1593 vdsat -0.04547 region 3
+------------------------------------------------------------
+------------------------------------------------------------
+[run] transistor line in netlist (/home/linux/ieng6/oce/7f/lix015/simulation/ece203_load_chain_tb/spectre/schematic/netlist/input.scs):
+44:    M0 (tail IBIAS VDD VDD) pfet l=4u w=12u nf=1 m=1 par=1 ad=6.48e-12 \
+45-        as=6.48e-12 pd=25.080u ps=25.080u nrd=0.5909091 nrs=0.5909091 \
+46-        gcon=1 rf=0 rsx=50 dtemp=0

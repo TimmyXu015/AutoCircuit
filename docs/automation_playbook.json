@@ -109,7 +109,11 @@
       "ece203_probe": "prints pin positions/bBox of nfetx, pfetx, vcvs, iprobe, idc, vdc, res, cap symbols",
       "ece203_noise_probe": "Round 2A: builds Project/ece203_a12n_ota (M1/M2 W/L = w12in/l12in, M7/M8 = w78in/l78in), ece203_a12n_cl_tb, ece203_a12n_ol_tb; baseline run; probes noiseSummary -> ~/AutoCircuit_results/ece203_ns/",
       "ece203_noise_scan": "Round 2A: Stage 1 noise breakdown + 12-point M1/M2 W/L grid + M7/M8 area x2/x4 + combo + 50 pt/dec convergence (~5 min) -> ece203_ns/ece203_ns_sweep.csv, ece203_noise_breakdown.csv, <tag>_{noise,ac,stb,op}.csv, <tag>_summary_*.txt",
-      "ece203_noise_rebias": "Round 2A follow-up: bounded VCP/VCN rescan (40 dc op per point, ~2 min each) for negative-margin points -> ece203_ns/ece203_ns_rebias.csv"
+      "ece203_noise_rebias": "Round 2A follow-up: bounded VCP/VCN rescan (40 dc op per point, ~2 min each) for negative-margin points -> ece203_ns/ece203_ns_rebias.csv",
+      "ece203_load_probe": "Round 2B: builds 9 Project/ece203_load_* cells (real 3-OTA chain, Round-2A-geometry chain, all-VCVS chain, VCVS-A3 chain, buffered chain, A1/A3 closed- and open-loop tbs) + one C0 DM point -> ~/AutoCircuit_results/ece203_load/",
+      "ece203_load_chain": "Round 2B Stage A (C0): real chain DM/P/N/CM, stb per loop, 10 Hz tran x2, noise; ideal chain; A1/A3 alone (~2 min)",
+      "ece203_load_isolate": "Round 2B Stage B (C0): A1 alone / with 1M, 5M to vref / OL Zout; buffered chain; VCVS-A3 chain; A3 OL Zout; RC removed (~2 min)",
+      "ece203_load_sweep": "Round 2B Stage C: R1/R2 = 1M/4M, 10M/40M, 100M/400M full chain + ideal + A3 alone; Round-2A geometry chain at C0/C2 (~8 min)"
     }
   },
   "skill_framework": {
@@ -203,7 +207,14 @@
     "Results files from the notebook reach the cloud container with device_stage_files (paths under C:\\Users\\Timmy\\AutoCircuit_Results), e.g. to copy summaries into docs/ece203_data/.",
     "Pushing from the cloud container needs the repo attached to the session with push access (add_repo access=push); before that the git proxy returns 403.",
     "Spectre dcOpInfo 'region' = 3 (subthreshold) says nothing about Vds: in Round 2A M1/M2 had |Vds| = 76 mV (A0 down 4x) and still reported region 3. Check |Vds| - max(|Vdsat|, ~0.1 V) and A0, not only region.",
-    "OCEAN noiseSummary/getData read the LAST run: rerun the point before asking for its summary (nsAll reruns the baseline before the spot summaries)."
+    "OCEAN noiseSummary/getData read the LAST run: rerun the point before asking for its summary (nsAll reruns the baseline before the spot summaries).",
+    "ieng6 DISK QUOTA is 5 GB per user across ALL course dirs on /home/linux/ieng6 (quota -v). On 2026-11-15 it was full (old ECE260B_WI26 dir 4.0 GB + home 1.1 GB): OCEAN then fails with 'Disk quota exceeded' / 'Could not create directory' while run.sh still says status OK. Check quota before long jobs. Each OCEAN resultsDir suffix creates its own psf folder (1-14 MB, tran more): delete this round's ~/simulation/<cell> folders after the data is exported (user-approved for ECE203 load runs). Never delete design sources; ask the user.",
+    "run.sh prints 'status: OK' when the SKILL job finished even if individual OCEAN runs failed (no ac result, quota). Always check the produced CSV rows / 'no ac result' lines in the log (log may need grep -a: it can contain binary bytes).",
+    "Shell variables ($j, $1, awk $2) do not survive MATLAB system() -> cmd -> ssh -> bash -lc '...' quoting: a for-loop over job names ran nothing. Write the job names out explicitly; avoid $ in remote one-liners (use find -printf, du, cut instead of awk).",
+    "SKILL has one global namespace for procedures: a second procedure( ldA3(...) ) silently replaced an earlier helper of the same name (error appeared only as 'too many arguments'). Keep helper names unique across all ece203_*.il files.",
+    "CSV fields written from SKILL that may contain commas (free-text 'variant') must be quoted; ece203_load.il ldWriteRow now quotes them.",
+    "stb phase at the UGF can come back wrapped (-212 deg = +148 deg): otaStb now adds 360 when negative. In a multi-loop chain probe one loop at a time (other probes are 0 V and keep their loops closed).",
+    "scp -r of a whole results folder is one connection (use it instead of many scp calls); device_stage_files accepts at most 50 files per call."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",

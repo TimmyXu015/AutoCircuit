@@ -1,0 +1,53 @@
+[run] git pull ok
+[run] virtuoso: /software/ECE/IC-618/tools/dfII/bin/virtuoso
+[run] working folder: /home/linux/ieng6/ECE203_FA26_001/lix015
+[run] running job 'ece203_load_chain' (log: /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load_chain.log) ...
+[run] finished in 86 s
+[run] status: OK
+------------------------------------------------------------
+*Error* eval: unbound variable - f
+AC> op XA1.M0 /XA1/M0      id -5.683e-07 gm 9.277e-06 vgs -0.4655 vds -0.5622 vdsat -0.0845 region 2
+AC> op XA1.M1 /XA1/M1      id -2.859e-07 gm 6.554e-06 vgs -0.3378 vds -0.1593 vdsat -0.04547 region 3
+AC> op XA1.M2 /XA1/M2      id -2.824e-07 gm 6.48e-06 vgs -0.3372 vds -0.1573 vdsat -0.0454 region 3
+AC> op XA1.M3 /XA1/M3      id -2.859e-07 gm 6.085e-06 vgs -0.3785 vds -0.5926 vdsat -0.0521 region 3
+AC> op XA1.M4 /XA1/M4      id -2.824e-07 gm 5.992e-06 vgs -0.3805 vds -0.1799 vdsat -0.05256 region 3
+AC> op XA1.M5 /XA1/M5      id 2.859e-07 gm 6.335e-06 vgs 0.4221 vds 0.1579 vdsat 0.05476 region 3
+AC> op XA1.M6 /XA1/M6      id 2.86e-07 gm 6.368e-06 vgs 0.4168 vds 0.5673 vdsat 0.05346 region 3
+AC> op XA1.M7 /XA1/M7      id 2.859e-07 gm 3.423e-06 vgs 0.4858 vds 0.3279 vdsat 0.1421 region 2
+AC> op XA1.M8 /XA1/M8      id 2.86e-07 gm 3.424e-06 vgs 0.4858 vds 0.3332 vdsat 0.1421 region 2
+AC> op XA1.MREF /XA1/MREF    id -1e-07 gm 1.592e-06 vgs -0.4656 vds -0.4655 vdsat -0.08441 region 2
+AC> op XA2.M0 /XA2/M0      id -5.683e-07 gm 9.278e-06 vgs -0.4655 vds -0.5625 vdsat -0.0845 region 2
+AC> op XA2.M1 /XA2/M1      id -2.841e-07 gm 6.516e-06 vgs -0.3375 vds -0.1593 vdsat -0.04543 region 3
+AC> op XA2.M2 /XA2/M2      id -2.842e-07 gm 6.518e-06 vgs -0.3375 vds -0.1567 vdsat -0.04544 region 3
+AC> op XA2.M3 /XA2/M3      id -2.841e-07 gm 6.051e-06 vgs -0.3782 vds -0.5929 vdsat -0.05204 region 3
+AC> op XA2.M4 /XA2/M4      id -2.842e-07 gm 6.026e-06 vgs -0.3808 vds -0.1808 vdsat -0.05263 region 3
+AC> op XA2.M5 /XA2/M5      id 2.841e-07 gm 6.299e-06 vgs 0.4219 vds 0.1572 vdsat 0.0547 region 3
+AC> op XA2.M6 /XA2/M6      id 2.842e-07 gm 6.332e-06 vgs 0.4166 vds 0.5666 vdsat 0.05341 region 3
+AC> op XA2.M7 /XA2/M7      id 2.841e-07 gm 3.41e-06 vgs 0.4853 vds 0.3281 vdsat 0.1418 region 2
+AC> op XA2.M8 /XA2/M8      id 2.842e-07 gm 3.411e-06 vgs 0.4853 vds 0.3334 vdsat 0.1418 region 2
+AC> op XA2.MREF /XA2/MREF    id -1e-07 gm 1.592e-06 vgs -0.4656 vds -0.4655 vdsat -0.08441 region 2
+AC> op XA3.M1 /XA3/M1      id 1.186e-07 gm 3.185e-06 vgs 0.3461 vds 0.7696 vdsat 0.0433 region 3
+AC> op XA3.M2 /XA3/M2      id 1.157e-07 gm 3.094e-06 vgs 0.3502 vds 0.3644 vdsat 0.04341 region 3
+AC> op XA3.M3 /XA3/M3      id -1.186e-07 gm 1.807e-06 vgs -0.4765 vds -0.4765 vdsat -0.08999 region 2
+AC> op XA3.M4 /XA3/M4      id -1.193e-07 gm 1.817e-06 vgs -0.4765 vds -0.8817 vdsat -0.08999 region 2
+AC> op XA3.MT /XA3/MT      id 2.343e-07 gm 5.252e-06 vgs 0.3086 vds 0.5539 vdsat 0.04978 region 3
+AC> op XA3.MREF /XA3/MREF    id 5e-08 gm 1.13e-06 vgs 0.3086 vds 0.3086 vdsat 0.04988 region 3
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/A_chain_C0_noise.csv (161 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/A_chain_C0_ac.csv (141 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/A_chain_C0_stb.csv (111 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/A_chain_C0_tran1.csv (1601 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_load/A_chain_C0_tran2.csv (1601 rows)
+AC> ece203_A_chain_C0: netlist copied t; lines with mag=:
+AC>   102:VDD3 (vdd3 0) vsource dc=vdd mag=0 type=dc
+AC>   103:VDD2 (vdd2 0) vsource dc=vdd mag=0 type=dc
+AC>   104:VDD1 (vdd1 0) vsource dc=vdd mag=0 type=dc
+AC>   105:VCN (vcn 0) vsource dc=vcn mag=0 type=dc
+AC>   106:VCP (vcp 0) vsource dc=vcp mag=0 type=dc
+AC>   107:VREF (vref 0) vsource dc=vref mag=0 type=dc
+AC>   108:VSN (inn 0) vsource dc=vref mag=an type=sine sinedc=vref ampl=-vtp \
+------------------------------------------------------------
+------------------------------------------------------------
+[run] transistor line in netlist (/home/linux/ieng6/oce/7f/lix015/simulation/ece203_load_chain_tb/spectre/schematic/netlist/input.scs):
+44:    M0 (tail IBIAS VDD VDD) pfet l=4u w=12u nf=1 m=1 par=1 ad=6.48e-12 \
+45-        as=6.48e-12 pd=25.080u ps=25.080u nrd=0.5909091 nrs=0.5909091 \
+46-        gcon=1 rf=0 rsx=50 dtemp=0
