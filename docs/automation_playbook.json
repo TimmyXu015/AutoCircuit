@@ -115,7 +115,9 @@
       "ece203_load_isolate": "Round 2B Stage B (C0): A1 alone / with 1M, 5M to vref / OL Zout; buffered chain; VCVS-A3 chain; A3 OL Zout; RC removed (~2 min)",
       "ece203_load_sweep": "Round 2B Stage C: R1/R2 = 1M/4M, 10M/40M, 100M/400M full chain + ideal + A3 alone; Round-2A geometry chain at C0/C2 (~8 min)",
       "ece203_ss_run": "ECE203 Round 3: builds Project/ece203_ss_ideal_tb (VCVS aol) + ece203_ss_real_tb (frozen ece203_a3_ota), OCEAN S1/S2: diff/P/N/CM ac, CL 5p, dcop, noise (+noiseSummary), stb at IPRB, 10 Hz tran 1/5 mVpk -> ~/AutoCircuit_results/ece203_ss/",
-      "ece203_ss_ade": "@gui: ADE L states ss_S1 / ss_S2 in both ece203_ss tbs (dc op, ac, noise inVsrc /VINP, tran 0.5 s, stb probe /IPRB, outputs Hdm, gain_100Hz, loopGain, I_VDD, OP(/XA/M1 ...))"
+      "ece203_ss_ade": "@gui: ADE L states ss_S1 / ss_S2 in both ece203_ss tbs (dc op, ac, noise inVsrc /VINP, tran 0.5 s, stb probe /IPRB, outputs Hdm, gain_100Hz, loopGain, I_VDD, OP(/XA/M1 ...))",
+      "ece203_ss_lscan": "ECE203 Round 3A: Project/ece203_ss_lscan_ota (5T copy, M1/M2 L = var lin), S2 closed loop tb + open-loop A0 tb; DC op + AC for L 1/2/4/8 um -> ~/AutoCircuit_results/ece203_ss_lscan/length_scan.csv",
+      "ece203_ss_lscan_ade": "@gui: ADE L states lscan_L1u..L8u (dc op + ac) in ece203_ss_lscan_tb and ece203_ss_lscan_ol_tb"
     }
   },
   "skill_framework": {
