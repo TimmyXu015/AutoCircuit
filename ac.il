@@ -14,7 +14,7 @@ acRoot = or(getShellEnvVar("AC_ROOT") strcat(getShellEnvVar("HOME") "/AutoCircui
 acFiles = '("pdk_cmrf7sf.il" "lib_draw.il" "lib_sim.il" "lib_ade.il"
             "cs_amp.il" "cs_wsweep.il"
             "hw1_p1a.il" "rf_cap.il" "rf_ind.il" "gmid.il" "wsub.il" "hw1_setup.il" "sps.il" "spsg.il" "hw2_setup.il" "hw3_setup.il"
-            "ece203_lib.il" "ece203_hp.il" "ece203_ideal.il" "ece203_ota.il" "ece203_noise_scan.il" "ece203_load.il" "ece203_ss.il" "ece203_ss_lscan.il" "ece203_ss_pr.il" "ece203_ss_otacmp.il" "ece203_ss_chop.il" "ece203_ss_chop_noise.il")
+            "ece203_lib.il" "ece203_hp.il" "ece203_ideal.il" "ece203_ota.il" "ece203_noise_scan.il" "ece203_load.il" "ece203_ss.il" "ece203_ss_lscan.il" "ece203_ss_pr.il" "ece203_ss_otacmp.il" "ece203_ss_chop.il" "ece203_ss_chop_noise.il" "ece203_r4.il")
 
 ;; steps per job for acGo, run in order; each step is a function of no arguments
 acJobs = list(nil
@@ -67,6 +67,7 @@ acJobs = list(nil
   'ece203_ss_chop '(chRunJob)
   'ece203_ss_chop_ade '(chAde)
   'ece203_ss_chop_noise '(cnRunJob)
+  'ece203_r4_a '(r4StageA)
 )
 
 ;; ---------- reporting ----------

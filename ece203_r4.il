@@ -1,0 +1,250 @@
+;; ece203_r4.il -- ECE203 Round 4: integrated ECG system (electrodes/body + single-stage C OTA + LP + DRL).
+;; Work order: docs/ECE203_round4_ecg_integrated_bigrun.md. New cells ece203_r4_*; old cells untouched.
+;;
+;; Cells (library Project):
+;;   ece203_r4_ota       copy of Round-3C C OTA (NMOS 10u/8u input, PMOS mirror 2u/4u, NMOS cascode MC 10u/4u on
+;;                       M2, NMOS tail 8u/4u + ref 2u/4u), pins GND IBIAS INN INP OUT VCAS VDD
+;;   ece203_r4_drl_ota   copy of Round-3C B 5T (NMOS 10u/8u input) for the real DRL driver
+;;   ece203_r4_ecg_tb    whole system, ideal Rfb            ece203_r4_ecg_pr_tb   same, two Round-3B pseudo-R
+;; Testbench (both):
+;;   body: CBODY (cbody) to gnd; IINT 60 Hz interferer (ac current icm, gnd -> body)
+;;   ECG/CM test sources: VSP body->ep (ac adm/2 + vcmin), VSN body->en (ac -adm/2 + vcmin)
+;;   electrodes (each): rs in series with (re || ce); VPP/VPN 0 V probes electrode -> amp input (inp/inn)
+;;   amp: inp -CCP(cc)- p, CCX (cc*dcc, Cc mismatch) inp-p; inn -CCN(cc)- n;
+;;        p -(CFP cfb || RFP rfb / pseudo-R)- vref; n -(CFN cfb || RFN rfb / pseudo-R)- o
+;;        XA ece203_r4_ota: INP p, INN n, OUT oa; IPRB oa->o (main loop probe); CL (cl) o-gnd
+;;   output LP (outside the OTA feedback, after the sampling node o): RLP (rlp) o->out, CLP (clp) out-gnd
+;;   CM sense BEFORE the coupling caps: RCMP/RCMN (rcm) inp,inn -> cm
+;;   DRL ideal (diagnostic): EDRL drli - vref = adrl (vref - cm); RDRI (rdi) drli -> rl0
+;;   DRL real: XD ece203_r4_drl_ota INP vref, INN cm, OUT drlr (open-loop inverting gain A0); RDRR (rdr) drlr -> rl0
+;;   IPRD rl0 -> rl0b (DRL loop probe); right-leg electrode rl0b -RSR(rs)- rl1 -(RER re || CER ce)- body
+;;   DRL OFF: rdi = rdr = 1e15 (path kept, disconnected)
+;;   supplies: VDD (main OTA + IB), VDDD (DRL OTA + IBD) separately metered; VREF, VCAS ideal (diagnostic)
+;; Tolerances: gmin = iabstol = 1e-18, reltol 1e-6 for every run (Round 3B).
+
+r4Dir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_r4")
+r4Cells = list(nil 'ota "ece203_r4_ota" 'drl "ece203_r4_drl_ota" 'tb "ece203_r4_ecg_tb" 'pr "ece203_r4_ecg_pr_tb")
+r4Vars = list(list("vdd" 1.8) list("vref" 0.9) list("ib3" 50e-9) list("ibd" 50e-9) list("vcas" 1.05)
+  list("cc" 50e-12) list("cfb" 0.5e-12) list("rfb" 3.1831e12) list("prw" 3e-6) list("prl" 2e-6) list("cl" 0.0)
+  list("rlp" 3.18e6) list("clp" 200e-12) list("rcm" 10e9) list("rs" 2e3) list("re" 1e6) list("ce" 50e-9)
+  list("cbody" 200e-12) list("icm" 0.0) list("adm" 1.0) list("vcmin" 0.0) list("dcc" 0.0)
+  list("adrl" 100.0) list("rdi" 1e15) list("rdr" 1e15) list("rdrl0" 1e6))
+r4Off = list(list("rdi" 1e15) list("rdr" 1e15))
+r4IdealOn = list(list("rdi" 1e6) list("rdr" 1e15))
+r4RealOn = list(list("rdi" 1e15) list("rdr" 1e6))
+
+procedure( r4OtaDevs(c)
+  if( c
+    list(list("pfetx" "M3" 2e-6 4e-6 "n1" "n1" "VDD" "VDD")
+         list("pfetx" "M4" 2e-6 4e-6 "OUT" "n1" "VDD" "VDD")
+         list("nfetx" "M1" 10e-6 8e-6 "n1" "INP" "tail" "GND")
+         list("nfetx" "M2" 10e-6 8e-6 "x" "INN" "tail" "GND")
+         list("nfetx" "MC" 10e-6 4e-6 "OUT" "VCAS" "x" "GND")
+         list("nfetx" "MT" 8e-6 4e-6 "tail" "IBIAS" "GND" "GND")
+         list("nfetx" "MREF" 2e-6 4e-6 "IBIAS" "IBIAS" "GND" "GND"))
+    list(list("pfetx" "M3" 2e-6 4e-6 "n1" "n1" "VDD" "VDD")
+         list("pfetx" "M4" 2e-6 4e-6 "OUT" "n1" "VDD" "VDD")
+         list("nfetx" "M1" 10e-6 8e-6 "n1" "INP" "tail" "GND")
+         list("nfetx" "M2" 10e-6 8e-6 "OUT" "INN" "tail" "GND")
+         list("nfetx" "MT" 8e-6 4e-6 "tail" "IBIAS" "GND" "GND")
+         list("nfetx" "MREF" 2e-6 4e-6 "IBIAS" "IBIAS" "GND" "GND")))
+)
+
+procedure( r4BuildOta(cell c)
+  let( (cv)
+    cv = acOpenSch(ece203Lib cell)
+    ece203Pins(cv append(a3Cfg->pins if( c '(("VCAS" "input")) nil)))
+    ece203Place(cv mapcar(lambda((d) apply('ece203FetSpec d)) r4OtaDevs(c)))
+    ece203Finish(cv ece203Lib cell)
+    ece203Symbol(ece203Lib cell)
+  )
+)
+
+procedure( r4Specs(pr)
+  append(
+    list(
+      otaV("VREF" "vref" "0" "vref" "gnd!")
+      otaV("VCAS" "vcas" "0" "vcas" "gnd!")
+      otaV("VDD" "vdd" "0" "vdd" "gnd!")
+      otaV("VDDD" "vdd" "0" "vddd" "gnd!")
+      otaI("IB" "ib3" "vdd" "ib")
+      otaI("IBD" "ibd" "vddd" "ibd")
+      ;; body + sources
+      otaC("CBODY" "cbody" "body" "gnd!")
+      list("analogLib" "idc" "IINT" '(("idc" "0") ("acm" "icm")) '(("PLUS" "gnd!") ("MINUS" "body")))
+      otaV("VSP" "0" "adm/2+vcmin" "ep" "body")
+      otaV("VSN" "0" "-adm/2+vcmin" "en" "body")
+      ;; electrodes
+      otaR("RSP" "rs" "ep" "ep1") otaR("REP" "re" "ep1" "inpr") otaC("CEP" "ce" "ep1" "inpr")
+      otaR("RSN" "rs" "en" "en1") otaR("REN" "re" "en1" "innr") otaC("CEN" "ce" "en1" "innr")
+      otaV("VPP" "0" "0" "inpr" "inp")
+      otaV("VPN" "0" "0" "innr" "inn")
+      ;; amplifier network
+      otaC("CCP" "cc" "inp" "p") otaC("CCX" "cc*dcc" "inp" "p") otaC("CCN" "cc" "inn" "n")
+      otaC("CFP" "cfb" "p" "vref") otaC("CFN" "cfb" "n" "o"))
+    if( pr
+      list(list(ece203Lib "ece203_ss_pr_cell" "XPP" nil '(("A" "p") ("B" "vref")))
+           list(ece203Lib "ece203_ss_pr_cell" "XPN" nil '(("A" "n") ("B" "o"))))
+      list(otaR("RFP" "rfb" "p" "vref") otaR("RFN" "rfb" "n" "o")))
+    list(
+      list(ece203Lib r4Cells->ota "XA" nil
+           '(("INP" "p") ("INN" "n") ("OUT" "oa") ("VDD" "vdd") ("GND" "gnd!") ("IBIAS" "ib") ("VCAS" "vcas")))
+      ldProbe("IPRB" "oa" "o")
+      otaC("CL" "cl" "o" "gnd!")
+      otaR("RLP" "rlp" "o" "out") otaC("CLP" "clp" "out" "gnd!")
+      ;; CM sense + DRL
+      otaR("RCMP" "rcm" "inp" "cm") otaR("RCMN" "rcm" "inn" "cm")
+      ldE("EDRL" "vref" "cm" "drli" "vref" "adrl")
+      otaR("RDRI" "rdi" "drli" "rl0")
+      list(ece203Lib r4Cells->drl "XD" nil
+           '(("INP" "vref") ("INN" "cm") ("OUT" "drlr") ("VDD" "vddd") ("GND" "gnd!") ("IBIAS" "ibd")))
+      otaR("RDRR" "rdr" "drlr" "rl0")
+      list("analogLib" "iprobe" "IPRD" nil '(("PLUS" "rl0") ("MINUS" "rl0b")))
+      otaR("RSR" "rs" "rl0b" "rl1") otaR("RER" "re" "rl1" "body") otaC("CER" "ce" "rl1" "body")))
+)
+
+procedure( r4Build()
+  ece203LibInfo()
+  r4BuildOta(r4Cells->ota t)
+  r4BuildOta(r4Cells->drl nil)
+  otaTb(r4Cells->tb r4Specs(nil))
+  otaTb(r4Cells->pr r4Specs(t))
+  t
+)
+
+;; ---------------- measurement helpers ----------------
+procedure( r4Tight() car(errset(option('gmin "1e-18" 'iabstol "1e-18" 'reltol "1e-6") t)) )
+procedure( r4Set(over) ece203Vars(r4Vars) ece203Vars(over) )
+procedure( r4Num(x fmt) acNum(and(numberp(x) float(x)) fmt) )
+
+;; generic row writer: cols list of symbols
+procedure( r4Open(name cols)
+  let( (port)
+    unless( isDir(r4Dir) createDir(r4Dir) )
+    port = outfile(strcat(r4Dir "/" name) "w")
+    fprintf(port "%s\n" buildString(mapcar('symbolToString cols) ","))
+    port
+  )
+)
+procedure( r4Row(port cols r)
+  let( (x first)
+    first = t
+    foreach(c cols
+      x = get(r c)
+      fprintf(port "%s%s" if( first "" ",")
+              cond( (stringp(x) if( rexMatchp("," x) strcat("\"" x "\"") x))
+                    (numberp(x) sprintf(nil "%.6g" float(x))) (t "n/a")))
+      first = nil)
+    fprintf(port "\n") drain(port)
+  )
+)
+
+;; corners of |w| relative to its maximum
+procedure( r4Corners(w)
+  let( (m)
+    m = and(w car(errset(ymax(mag(w)) nil)))
+    list(m and(m car(errset(cross(db20(w) ece203Db(m) - 3.0 1 "rising") nil)))
+           and(m car(errset(cross(db20(w) ece203Db(m) - 3.0 1 "falling") nil))))
+  )
+)
+
+r4OpInsts = '("XA.M1" "XA.M2" "XA.M3" "XA.M4" "XA.MC" "XA.MT" "XA.MREF")
+r4DrlInsts = '("XD.M1" "XD.M2" "XD.M3" "XD.M4" "XD.MT" "XD.MREF")
+
+;; one DM/CM/interference AC (+ optional noise) run. Returns DPL with numbers + waves.
+;; kind: 'dm (adm 1), 'cm (vcmin 1), 'int (icm 0.1u)
+procedure( r4Ac(cell tag kind over noise)
+  let( (r h ho hamp vin dO vp vn zin zinS c co nout nin rows m drl)
+    r = list(nil 'tag tag 'cell cell 'kind kind 'status "ok")
+    ece203Setup(cell strcat("_" tag))
+    r4Tight()
+    analysis('dc ?saveOppoint t)
+    analysis('ac ?start "1m" ?stop "100k" ?dec "20")
+    when( noise
+      analysis('noise ?start "1m" ?stop "100k" ?dec "20" ?p "/out" ?n "/gnd!" ?iprobe "/VSP"))
+    car(errset(save('i "/VDD/PLUS" "/VDDD/PLUS" "/VPP/PLUS" "/VPN/PLUS" "/VSP/PLUS" "/IPRD/PLUS") nil))
+    r4Set(append(cond( (kind == 'dm list(list("adm" 1.0) list("vcmin" 0.0) list("icm" 0.0)))
+                       (kind == 'cm list(list("adm" 0.0) list("vcmin" 1.0) list("icm" 0.0)))
+                       (t list(list("adm" 0.0) list("vcmin" 0.0) list("icm" 0.1e-6))))
+                 over))
+    run()
+    vp = ldAc("inp") vn = ldAc("inn")
+    unless( vp error("no ac result (%s)" tag))
+    r->out = ldAc("out") r->o = ldAc("o") r->body = ldAc("body") r->vcm = (vp + vn) / 2.0
+    vin = car(errset(ldAc("ep") - ldAc("en") nil))
+    r->vin = vin
+    when( kind == 'dm
+      h = ldDiv(r->out vin) ho = ldDiv(r->o vin) hamp = ldDiv(r->out vp - vn)
+      r->h = h r->ho = ho
+      foreach(f '(10.0 60.0 100.0) putprop(r ldMag(h f) stringToSymbol(sprintf(nil "Hout_%d" fix(f)))))
+      foreach(f '(10.0 60.0 100.0) putprop(r ldMag(ho f) stringToSymbol(sprintf(nil "Ho_%d" fix(f)))))
+      r->Hout_100_dB = ece203Db(r->Hout_100) r->Hamp_100 = ldMag(hamp 100.0)
+      c = r4Corners(h) r->Hout_max = car(c) r->Hout_max_dB = ece203Db(car(c)) r->fL_out = cadr(c) r->fH_out = caddr(c)
+      co = r4Corners(ho) r->Ho_max = car(co) r->fL_o = cadr(co) r->fH_o = caddr(co)
+      ;; Zin at the amplifier input (after the electrode model): v(inp) / i(VPP); through the electrode: v(VSP) / i(VSP)
+      zin = car(errset(vp / i("/VPP/PLUS" ?result "ac") nil))
+      zinS = car(errset((ldAc("ep") - ldAc("body")) / i("/VSP/PLUS" ?result "ac") nil))
+      r->Zin_amp_P_10 = ldMag(zin 10.0)
+      r->Zin_amp_N_10 = ldMag(car(errset(vn / i("/VPN/PLUS" ?result "ac") nil)) 10.0)
+      r->Zin_src_P_10 = ldMag(zinS 10.0))
+    ;; DC operating point
+    foreach(n '("o" "out" "p" "n" "inp" "inn" "cm" "body" "drli" "drlr" "rl0" "vref")
+      putprop(r ldDc(n) stringToSymbol(strcat("dc_" n))))
+    r->I_VDD = ldIdc("/VDD/PLUS") r->I_VDDD = ldIdc("/VDDD/PLUS")
+    rows = ece203OpDump(strcat(r4Dir "/" tag "_dcop.csv") append(r4OpInsts r4DrlInsts))
+    m = ldMinMargin(rows "XA.") r->margin_A = car(m) r->worst_A = cadr(m)
+    m = ldMinMargin(rows "XD.") r->margin_D = car(m) r->worst_D = cadr(m)
+    r->vds_M2 = car(errset(pv("/XA/M2" "vds" ?result "dcOpInfo") nil))
+    when( noise
+      nout = car(errset(getData("out" ?result "noise") nil))
+      nin = and(nout r->h car(errset(nout / mag(r->h) nil)))
+      r->noise_out_rms = nsRms(nout 0.1 250.0)
+      r->noise_app_in = and(r->noise_out_rms r->Hout_100 r->noise_out_rms / r->Hout_100)
+      r->noise_deemb_in = nsRms(nin 0.1 250.0)
+      r->noise_vsp_in = nsRms(car(errset(getData("in" ?result "noise") nil)) 0.1 250.0)
+      nsSummary(strcat(r4Dir "/" tag "_noisesummary_0p1_250.txt") 'integrated 0.1 250.0)
+      spsWriteWaves(strcat(r4Dir "/" tag "_noise.csv") "f_Hz,out_V_rtHz,deemb_in_V_rtHz" list(nout nin)))
+    when( kind == 'dm
+      ldWriteCurves(strcat(r4Dir "/" tag "_ac.csv") list(list("Hout" r->h) list("Ho" r->ho))))
+    ece203SaveNetlist(cell strcat("ece203_r4_" tag))
+    r
+  )
+)
+
+;; ---------------- Stage A ----------------
+r4ACols = '(tag cell kind variant status reason Hout_10 Hout_60 Hout_100 Hout_100_dB Hout_max_dB fL_out fH_out
+  Ho_10 Ho_100 fL_o fH_o Hamp_100 Zin_amp_P_10 Zin_amp_N_10 Zin_src_P_10
+  dc_o dc_out dc_p dc_n dc_inp dc_inn dc_cm dc_body I_VDD I_VDDD margin_A worst_A vds_M2 margin_D worst_D
+  noise_out_rms noise_app_in noise_deemb_in noise_vsp_in)
+
+procedure( r4ACase(port cell tag variant over noise)
+  let( (r ok)
+    ok = errset(r = r4Ac(cell tag 'dm over noise) t)
+    unless( ok r = list(nil 'tag tag 'cell cell 'status "failed" 'reason sprintf(nil "%L" errset.errset)))
+    r->variant = variant
+    acSay("r4A %s: %s %s | Hout 10/60/100 %s %s %s (%s dB) max %s dB fL %s fH %s | Ho 100 %s fH_o %s | Hamp100 %s | Zin amp P/N %s %s src %s | DC o %s out %s n %s cm %s body %s | I %s %s | margin A %s %s (M2 vds %s) | noise out %s app %s deemb %s\n"
+          tag r->status or(r->reason "") r4Num(r->Hout_10 "%.4g") r4Num(r->Hout_60 "%.4g") r4Num(r->Hout_100 "%.4g")
+          r4Num(r->Hout_100_dB "%.2f") r4Num(r->Hout_max_dB "%.2f") r4Num(r->fL_out "%.4g") r4Num(r->fH_out "%.4g")
+          r4Num(r->Ho_100 "%.4g") r4Num(r->fH_o "%.4g") r4Num(r->Hamp_100 "%.4g")
+          r4Num(r->Zin_amp_P_10 "%.4g") r4Num(r->Zin_amp_N_10 "%.4g") r4Num(r->Zin_src_P_10 "%.4g")
+          r4Num(r->dc_o "%.5g") r4Num(r->dc_out "%.5g") r4Num(r->dc_n "%.5g") r4Num(r->dc_cm "%.5g") r4Num(r->dc_body "%.5g")
+          r4Num(r->I_VDD "%.4g") r4Num(r->I_VDDD "%.4g") r4Num(r->margin_A "%.3f") or(r->worst_A "") r4Num(r->vds_M2 "%.4g")
+          r4Num(r->noise_out_rms "%.4g") r4Num(r->noise_app_in "%.4g") r4Num(r->noise_deemb_in "%.4g"))
+    r4Row(port r4ACols r)
+    r
+  )
+)
+
+procedure( r4StageA()
+  let( (port)
+    r4Build()
+    port = r4Open("r4_stageA.csv" r4ACols)
+    ;; DRL OFF (forward chain only), baseline LP 3.18M/200p
+    r4ACase(port r4Cells->tb "A1_idealRfb_LP" "ideal Rfb, LP 3.18M/200p, DRL off" r4Off t)
+    r4ACase(port r4Cells->tb "A2_idealRfb_noLP" "ideal Rfb, LP removed (rlp 1e15) - loading reference" append(r4Off list(list("rlp" 1e15))) nil)
+    r4ACase(port r4Cells->tb "A3_idealRfb_LP31M8" "ideal Rfb, LP alternative 31.8M/20p (same tau)" append(r4Off list(list("rlp" 31.8e6) list("clp" 20e-12))) nil)
+    r4ACase(port r4Cells->pr "A4_pseudoR_LP" "pseudo-R W3u/L2u, LP 3.18M/200p, DRL off" r4Off t)
+    close(port)
+    t
+  )
+)
