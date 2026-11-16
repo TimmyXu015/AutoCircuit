@@ -1,0 +1,5 @@
+case,tag,sum_in_uVrms,sum_out_mVrms,OTA1_input_fn_in_uVrms,OTA1_input_fn_pct_in,OTA1_input_thermal_in_uVrms,OTA1_input_thermal_pct_in,OTA1_mirror_fn_in_uVrms,OTA1_mirror_fn_pct_in,OTA1_mirror_thermal_in_uVrms,OTA1_mirror_thermal_pct_in,OTA1_other_in_uVrms,OTA1_other_pct_in,OTA2_fn_in_uVrms,OTA2_fn_pct_in,OTA2_thermal_in_uVrms,OTA2_thermal_pct_in,Rfb_in_uVrms,Rfb_pct_in,other_in_uVrms,other_pct_in
+"static (B1 CD, noise)",B1_CD_LP,16.67,1.464,12.43,55.6,1.061,0.405,10.93,43,1.297,0.606,0.06356,0.00145,0.04208,0.000637,0.0008348,2.51e-07,1.024,0.377,0.1239,0.00552
+D1 chop4k demod after OTA1 (pnoise sb30),D1_pss_pnoise,12.09,0.43,3.815,9.97,7.059,34.1,1.604,1.76,8.74,52.3,0.5649,0.218,1.164,0.927,0.02459,0.000414,1.024,0.718,0.1329,0.0121
+D2 chop4k demod after OTA2 (pnoise sb30),D2_pss_pnoise,11.69,0.4226,3.674,9.88,6.913,35,0.94,0.647,8.56,53.6,0.2699,0.0533,0.0404,0.00119,0.02434,0.000434,1.024,0.768,0.133,0.013
+D2 sideband check (pnoise sb50),D2_pss_pnoise_sb50,14.16,0.5022,3.828,7.3,8.518,36.2,0.9557,0.455,10.54,55.4,0.4634,0.107,0.05537,0.00153,0.0471,0.00111,1.024,0.523,0.1332,0.00884

@@ -423,3 +423,128 @@ procedure( r5StageDsb()
     t
   )
 )
+
+;; ---------- Stage E: best OTA2 back into the Round-4 final real ECG architecture (no chopper) ----------
+;; Base = r4SpecsRB(t): 3 electrodes + body, pseudo-R feedback (unchanged), real DRL OTA + 2x1p ccm, VDD + one
+;; 100 nA reference (PMOS mirrors), VREF/VCAS resistor dividers (VCAS 1.10), LP 31.8M/20p.
+;; Change: XA OUT -> oa1, OTA2 (X2, biased from the real ib node) oa1 -> oa; IPRB oa -> o stays = feedback pickoff
+;; after OTA2 and before the LP. CS: OTA1 inputs swapped + CM2 oa1-oa.
+procedure( r5ECell(stage) sprintf(nil "ece203_r5_ecg_%s_rbpr_tb" stage) )
+procedure( r5SpecsE(stage)
+  let( (base)
+    base = mapcar(lambda((e)
+                    if( caddr(e) == "XA"
+                      list(car(e) cadr(e) "XA" nil
+                           list(list("INP" if( stage == "cs" "n" "p")) list("INN" if( stage == "cs" "p" "n"))
+                                list("OUT" "oa1") list("VDD" "vdd") list("GND" "gnd!") list("IBIAS" "ib") list("VCAS" "vcas")))
+                      e))
+                  r4SpecsRB(t))
+    append(base
+      append(
+        list(list(ece203Lib car(get(r5Ota2 stringToSymbol(stage))) "X2" nil
+                  '(("IN" "oa1") ("OUT" "oa") ("VDD" "vdd") ("GND" "gnd!") ("BIAS" "ib"))))
+        if( stage == "cs" list(otaC("CM2" "cm2" "oa1" "oa")) nil)))
+  )
+)
+procedure( r5EOver(stage) append(append(append(r4LP r4RealOn) r4RbVars) if( stage == "cs" list(list("cm2" 0.5e-12)) nil)) )
+r5ECols = '(tag stage status reason ugf pm lg10 lg100 lg_dc ph0)
+procedure( r5EMainStb(port cell tag over)
+  let( (r ok s)
+    r = list(nil 'tag tag 'status "ok")
+    ok = errset(
+      progn(
+        ece203Setup(cell strcat("_" tag))
+        r4Tight()
+        analysis('stb ?start "1m" ?stop "100M" ?dec "20" ?probe "/IPRB")
+        r4Set(over)
+        run()
+        s = otaStb()
+        r->ugf = nth(0 s) r->pm = nth(1 s) r->ph0 = nth(4 s)
+        r->lg10 = and(nth(3 s) ldMag(nth(3 s) 10.0)) r->lg100 = and(nth(3 s) ldMag(nth(3 s) 100.0))
+        r->lg_dc = and(nth(3 s) ldMag(nth(3 s) 1e-3))
+        ldWriteCurves(strcat(r5Dir "/" tag "_stb.csv") list(list("LG" nth(3 s))))
+        t)
+      t)
+    unless( ok r->status = "failed" r->reason = sprintf(nil "%L" errset.errset))
+    acSay("r5E %s: %s %s | main loop UGF %s PM %s LG10 %s LG100 %s LGdc %s ph0 %s\n" tag r->status or(r->reason "")
+          r4Num(r->ugf "%.4g") r4Num(r->pm "%.1f") r4Num(r->lg10 "%.4g") r4Num(r->lg100 "%.4g") r4Num(r->lg_dc "%.4g") r4Num(r->ph0 "%.1f"))
+    r4Row(port r5ECols r)
+    r
+  )
+)
+procedure( r5StageE(stage)
+  let( (cell over oldDir oldInsts portA portB portS ok)
+    cell = r5ECell(stage)
+    over = r5EOver(stage)
+    ece203LibInfo()
+    r5BuildOta2(stringToSymbol(stage))
+    otaTb(cell r5SpecsE(stage))
+    oldDir = r4Dir oldInsts = r4OpInsts
+    r4Dir = r5Dir
+    r4OpInsts = append(r4OpInsts if( stage == "cs" '("X2.MCS" "X2.MCL") '("X2.MSF" "X2.MSB")))
+    ok = errset(
+      progn(
+        portA = r4Open(sprintf(nil "r5_stageE_%s_dm.csv" stage) r4ACols)
+        r4ACase(portA cell sprintf(nil "E_%s_dm" stage) sprintf(nil "R5 final: R4 real arch + OTA2 %s, DRL ON" stage) over t)
+        acSay("r5E bias: vref %s vcas %s ib %s oa1 %s oa %s\n" r4Num(ldDc("vref") "%.5g") r4Num(ldDc("vcas") "%.5g")
+              r4Num(ldDc("ib") "%.5g") r4Num(ldDc("oa1") "%.5g") r4Num(ldDc("oa") "%.5g"))
+        close(portA)
+        portS = r5Open(sprintf(nil "r5_stageE_%s_mainstb.csv" stage) r5ECols)
+        r5EMainStb(portS cell sprintf(nil "E_%s_mainstb" stage) over)
+        close(portS)
+        portB = r4Open(sprintf(nil "r5_stageE_%s_drl.csv" stage) r4BCols)
+        r4BCase(portB "off" 0.01 append(r4RbVars if( stage == "cs" list(list("cm2" 0.5e-12)) nil)) sprintf(nil "E_%s" stage) cell)
+        r4BCase(portB "real" 0.01 append(r4RbVars if( stage == "cs" list(list("cm2" 0.5e-12)) nil)) sprintf(nil "E_%s" stage) cell)
+        r4BCase(portB "real" 0.0 append(r4RbVars if( stage == "cs" list(list("cm2" 0.5e-12)) nil)) sprintf(nil "E_%s" stage) cell)
+        close(portB)
+        t)
+      t)
+    unless( ok acSay("r5E: failed %L\n" errset.errset))
+    r4Dir = oldDir r4OpInsts = oldInsts
+    t
+  )
+)
+procedure( r5StageEcd() r5StageE("cd") )
+procedure( r5StageEcs() r5StageE("cs") )
+
+;; ---------- ADE L states (GUI job) ----------
+;; final real-architecture candidate(s) + the two isolated S2 benches of stage B (for the report)
+procedure( r5AdeS2(cell state over)
+  let( (sess all)
+    sess = acAdeStart(ece203Lib cell)
+    unless( sess error("No ADE session for %s\n" cell) )
+    acAdeModels(sess "tt")
+    acAdeSaveCurrents(sess)
+    foreach(o '((gmin "1e-18") (iabstol "1e-18") (reltol "1e-6")) car(errset(asiSetSimOptionVal(sess car(o) cadr(o)) nil)))
+    acAdeAnalysis(sess 'dc list(list('saveOppoint t)))
+    acAdeAnalysis(sess 'ac list(list('start "1m") list('stop "100k") list('dec "20"))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")))
+    acAdeAnalysis(sess 'noise
+      list(list('start "100m") list('stop "250") list('dec "20") list('p "/out") list('n "/gnd!") list('inVsrc "/VINP"))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")
+           list('outType "voltage") list('inType "voltage")))
+    acAdeAnalysis(sess 'stb list(list('start "1m") list('stop "100M") list('dec "20") list('probe "/IPRB"))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")))
+    acAdeOutput(acAdeSev "Hdm_out_dB" "db20(VF(\"/out\") / (VF(\"/vinp\") - VF(\"/vinn\")))")
+    acAdeOutput(acAdeSev "Hdm_100Hz" "value(mag(VF(\"/out\") / (VF(\"/vinp\") - VF(\"/vinn\"))) 100)")
+    acAdeOutput(acAdeSev "mainLoopGain" "getData(\"loopGain\" ?result \"stb\")")
+    all = r5Vars
+    foreach(o over all = cons(o setof(x all car(x) != car(o))))
+    acAdeVars(sess mapcar(lambda((x) list(car(x) sprintf(nil "%g" float(cadr(x))))) all))
+    acAdeSave(sess ece203Lib cell state)
+    sess
+  )
+)
+procedure( r5Ade()
+  hw1NoLicensePrompts()
+  when( hiGraphicMode() acAutoOkStart() )
+  unless( hiGraphicMode() error("r5Ade needs the GUI (run.sh ece203_r5_ade)\n") )
+  foreach(st '("cd" "cs")
+    when( ddGetObj(ece203Lib r5ECell(st))
+      r4AdeTb(r5ECell(st) sprintf(nil "r5_final_%s" st)
+              append(r5EOver(st) list(list("dcc" 0.01) list("itr" 1e-7))) t t t)))
+  r5AdeS2(r5Cell("cd" "d2") "r5_B1_CD_S2" list(list("vr1" r5DVr1)))
+  r5AdeS2(r5Cell("cs" "d2") "r5_B2_CS_S2" list(list("cm2" 0.5e-12)))
+  r5AdeS2(r5Cell("cd" "d1") "r5_D1_CD_S2_demodslot1" list(list("vr1" r5DVr1)))
+  t
+)
