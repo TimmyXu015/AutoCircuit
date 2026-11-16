@@ -14,7 +14,7 @@ acRoot = or(getShellEnvVar("AC_ROOT") strcat(getShellEnvVar("HOME") "/AutoCircui
 acFiles = '("pdk_cmrf7sf.il" "lib_draw.il" "lib_sim.il" "lib_ade.il"
             "cs_amp.il" "cs_wsweep.il"
             "hw1_p1a.il" "rf_cap.il" "rf_ind.il" "gmid.il" "wsub.il" "hw1_setup.il" "sps.il" "spsg.il" "hw2_setup.il" "hw3_setup.il"
-            "ece203_lib.il" "ece203_hp.il" "ece203_ideal.il" "ece203_ota.il" "ece203_noise_scan.il" "ece203_load.il" "ece203_ss.il" "ece203_ss_lscan.il")
+            "ece203_lib.il" "ece203_hp.il" "ece203_ideal.il" "ece203_ota.il" "ece203_noise_scan.il" "ece203_load.il" "ece203_ss.il" "ece203_ss_lscan.il" "ece203_ss_pr.il")
 
 ;; steps per job for acGo, run in order; each step is a function of no arguments
 acJobs = list(nil
@@ -57,6 +57,7 @@ acJobs = list(nil
   'ece203_ss_ade '(ssAde)
   'ece203_ss_lscan '(lsRunJob)
   'ece203_ss_lscan_ade '(lsAde)
+  'ece203_ss_pr_a '(prStageAJob)
 )
 
 ;; ---------- reporting ----------
