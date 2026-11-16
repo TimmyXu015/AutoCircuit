@@ -149,12 +149,17 @@ procedure( otaCmSweep(cell tag cfg over)
   )
 )
 
-;; closed-loop stb: loop gain through /IPRB; returns (ugf phase_at_ugf phaseMargin lgWave)
+;; closed-loop stb: loop gain through /IPRB; returns (ugf phase_at_ugf PM lgWave lowPhase)
+;; Spectre's loopGain phase starts at 180 deg for negative feedback (calculator phaseMargin()
+;; assumes it starts at 0 and gave PM - 180), so PM = 180 - (phase at lowest f - phase at UGF),
+;; which does not depend on the convention.
 procedure( otaStb()
-  let( (lg ugf)
+  let( (lg ugf ph0 phu)
     lg = car(errset(getData("loopGain" ?result "stb") nil))
     ugf = and(lg car(errset(cross(db20(lg) 0 1 "falling") nil)))
-    list(ugf and(ugf ece203V(phase(lg) ugf)) and(lg car(errset(phaseMargin(lg) nil))) lg)
+    ph0 = and(lg car(errset(value(phase(lg) xmin(lg)) nil)))
+    phu = and(ugf ece203V(phase(lg) ugf))
+    list(ugf phu and(numberp(ph0) numberp(phu) 180.0 - (ph0 - phu)) lg ph0)
   )
 )
 
@@ -209,7 +214,7 @@ procedure( a3Sim()
       mid = ece203V(mag(h) 10.0)
       bw = and(mid car(errset(cross(db20(h) ece203Db(mid) - 3.0 1 "falling") nil)))
       s = otaStb()
-      acSay("a3cl r1 %g r2 %g: V(o) %s V, |Hcl(10Hz)| %s (ideal %g), -3dB BW at o %s Hz, |H(lpo) 250Hz| %s, loop UGF %s Hz, phase(UGF) %s deg, phaseMargin() %s deg\n"
+      acSay("a3cl r1 %g r2 %g: V(o) %s V, |Hcl(10Hz)| %s (ideal %g), -3dB BW at o %s Hz, |H(lpo) 250Hz| %s, loop UGF %s Hz, phase(UGF) %s deg, PM %s deg\n"
             car(rc) cadr(rc) acNum(car(errset(v("/o" ?result "dcOp") nil)) "%.5g") acNum(mid "%.5g")
             cadr(rc) / car(rc) acNum(bw "%.5g") acNum(ece203V(mag(hl) 250.0) "%.4g")
             acNum(car(s) "%.5g") acNum(cadr(s) "%.2f") acNum(caddr(s) "%.2f"))
@@ -242,7 +247,7 @@ procedure( a3Sim()
             acNum(ece203V(ol->nin 0.1) "%.4g") acNum(ece203V(ol->nin 1.0) "%.4g") acNum(ece203V(ol->nin 10.0) "%.4g")
             acNum(ece203V(ol->nin 100.0) "%.4g") acNum(ece203V(ol->nin 1e3) "%.4g"))
     foreach(r reverse(rows)
-      fprintf(port "x4 closed loop r1 %g r2 %g: |Hcl(10Hz)| %s, BW(-3dB at o) %s Hz, loop UGF %s Hz, phase(UGF) %s, phaseMargin() %s deg\n"
+      fprintf(port "x4 closed loop r1 %g r2 %g: |Hcl(10Hz)| %s, BW(-3dB at o) %s Hz, loop UGF %s Hz, phase(UGF) %s, PM %s deg\n"
               nth(0 r) nth(1 r) acNum(nth(2 r) "%.5g") acNum(nth(3 r) "%.5g")
               acNum(car(nth(4 r)) "%.5g") acNum(cadr(nth(4 r)) "%.2f") acNum(caddr(nth(4 r)) "%.2f")))
     close(port)
@@ -372,7 +377,7 @@ procedure( a12Sim()
     fh = and(mid car(errset(cross(db20(h) ece203Db(mid) - 3.0 1 "falling") nil)))
     s = otaStb()
     nin = car(errset(getData("in" ?result "noise") nil))
-    acSay("a12cl: V(o) %s V(sum) %s V, I(VDD) %s A, |H(100Hz)| %s, phase %s, f_L %s Hz, f_H %s Hz, |Zin(10Hz)| %s, loop UGF %s Hz, phase(UGF) %s, phaseMargin() %s deg, in-noise @1/10/100 Hz %s %s %s V/rtHz\n"
+    acSay("a12cl: V(o) %s V(sum) %s V, I(VDD) %s A, |H(100Hz)| %s, phase %s, f_L %s Hz, f_H %s Hz, |Zin(10Hz)| %s, loop UGF %s Hz, phase(UGF) %s, PM %s deg, in-noise @1/10/100 Hz %s %s %s V/rtHz\n"
           acNum(car(errset(v("/o" ?result "dcOp") nil)) "%.5g") acNum(car(errset(v("/sum" ?result "dcOp") nil)) "%.5g")
           acNum(car(errset(-1.0 * i("/VDD/PLUS" ?result "dcOp") nil)) "%.5g")
           acNum(mid "%.5g") acNum(ece203V(phase(h) 100.0) "%.2f") acNum(fl "%.5g") acNum(fh "%.5g")
@@ -399,7 +404,7 @@ procedure( a12Sim()
     fprintf(port "  OL input noise V/rtHz @0.1/1/10/100/1k Hz: %s %s %s %s %s\n"
             acNum(ece203V(ol->nin 0.1) "%.4g") acNum(ece203V(ol->nin 1.0) "%.4g") acNum(ece203V(ol->nin 10.0) "%.4g")
             acNum(ece203V(ol->nin 100.0) "%.4g") acNum(ece203V(ol->nin 1e3) "%.4g"))
-    fprintf(port "closed loop (ece203_hp_real_tb, CL %g F): |H(100Hz)| %s, f_L %s Hz, f_H %s Hz, loop UGF %s Hz, phase(UGF) %s, phaseMargin() %s deg\n"
+    fprintf(port "closed loop (ece203_hp_real_tb, CL %g F): |H(100Hz)| %s, f_L %s Hz, f_H %s Hz, loop UGF %s Hz, phase(UGF) %s, PM %s deg\n"
             5e-12 acNum(mid "%.5g") acNum(fl "%.5g") acNum(fh "%.5g") acNum(car(s) "%.5g") acNum(cadr(s) "%.2f") acNum(caddr(s) "%.2f"))
     fprintf(port "  CL input-referred noise V/rtHz @0.1/1/10/100 Hz: %s %s %s %s\n"
             acNum(ece203V(nin 0.1) "%.4g") acNum(ece203V(nin 1.0) "%.4g") acNum(ece203V(nin 10.0) "%.4g")

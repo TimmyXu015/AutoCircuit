@@ -173,6 +173,11 @@ procedure( ece203OpRows(insts)
     names = ece203OpNames()
     foreach(inst insts
       n = ece203OpFind(names inst)
+      unless( n
+        acSay("op: no dcOpInfo name for %s; %d names, those containing %s: %L\n" inst length(names)
+              car(last(parseString(inst "."))) 
+              let( (hits) foreach(x names when( stringp(x) && rexMatchp(car(last(parseString(inst "."))) x)
+                                                  hits = cons(x hits))) hits)))
       vals = mapcar(lambda((p) and(n car(errset(pv(n p ?result "dcOpInfo") nil)))) ece203OpParams)
       rows = cons(list(inst n vals) rows))
     reverse(rows)
