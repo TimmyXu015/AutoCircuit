@@ -666,3 +666,19 @@ procedure( r4StageD()
     t
   )
 )
+
+;; read-only: periodic steady state of the chopped run (pss_td) -> o / oa range and average over one period
+procedure( r4DPssRead()
+  let( (d o oa)
+    foreach(nm '("D_chop4k_pnoise" "D_static_pnoise")
+      d = openResults(strcat(getShellEnvVar("HOME") "/simulation/" r4Cells->chop "/spectre/schematic_" nm "/psf"))
+      selectResult('pss_td)
+      o = car(errset(v("/o") nil)) oa = car(errset(v("/oa") nil))
+      acSay("r4Dpss %s: o min %s max %s avg %s | oa min %s max %s | ia-ib pp %s\n" nm
+            r4Num(car(errset(ymin(o) nil)) "%.5g") r4Num(car(errset(ymax(o) nil)) "%.5g") r4Num(car(errset(average(o) nil)) "%.5g")
+            r4Num(car(errset(ymin(oa) nil)) "%.5g") r4Num(car(errset(ymax(oa) nil)) "%.5g")
+            r4Num(car(errset(ymax(v("/ia") - v("/ib_")) - ymin(v("/ia") - v("/ib_")) nil)) "%.4g"))
+      spsWriteWaves(strcat(r4Dir "/" nm "_pss_td.csv") "t_s,o_V,oa_V" list(o oa)))
+    t
+  )
+)
