@@ -1,0 +1,4 @@
+case,cell,tolerances,status,Hdm_10,Hdm_100,Hdm_100_dB,Hdm_0p1,Hdm_max_dB,fL,fH,dc_o,dc_n,dc_p,dc_vref,V_PRN_A_minus_B,V_PRP_A_minus_B,I_PRN_id,I_PRP_id,I_VDD
+ideal_Rfb_tight,ece203_ss_lscan_tb,gmin=iabstol=1e-18 reltol=1e-6,ok,73.1326,73.1318,37.2821,58.9596,37.2824,0.0737882,11387.5,0.901492,0.901492,0.9,0.9,n/a,n/a,n/a,n/a,2.83139e-07
+pseudoR_tight,ece203_ss_pr_tb,gmin=iabstol=1e-18 reltol=1e-6,ok,72.6986,72.6969,37.2303,63.231,37.2306,0.0569435,11365.3,0.901492,0.901492,0.9,0.9,0,0,0,0,2.83139e-07
+pseudoR_default_tol,ece203_ss_pr_tb,spectre default,ok,34.0071,71.3824,37.0718,0.38485,37.2098,18.9213,11411,0.901493,0.901493,0.9,0.9,2.00771e-08,0,-4.8992e-21,0,2.83142e-07

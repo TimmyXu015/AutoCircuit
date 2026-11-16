@@ -117,7 +117,11 @@
       "ece203_ss_run": "ECE203 Round 3: builds Project/ece203_ss_ideal_tb (VCVS aol) + ece203_ss_real_tb (frozen ece203_a3_ota), OCEAN S1/S2: diff/P/N/CM ac, CL 5p, dcop, noise (+noiseSummary), stb at IPRB, 10 Hz tran 1/5 mVpk -> ~/AutoCircuit_results/ece203_ss/",
       "ece203_ss_ade": "@gui: ADE L states ss_S1 / ss_S2 in both ece203_ss tbs (dc op, ac, noise inVsrc /VINP, tran 0.5 s, stb probe /IPRB, outputs Hdm, gain_100Hz, loopGain, I_VDD, OP(/XA/M1 ...))",
       "ece203_ss_lscan": "ECE203 Round 3A: Project/ece203_ss_lscan_ota (5T copy, M1/M2 L = var lin), S2 closed loop tb + open-loop A0 tb; DC op + AC for L 1/2/4/8 um -> ~/AutoCircuit_results/ece203_ss_lscan/length_scan.csv",
-      "ece203_ss_lscan_ade": "@gui: ADE L states lscan_L1u..L8u (dc op + ac) in ece203_ss_lscan_tb and ece203_ss_lscan_ol_tb"
+      "ece203_ss_lscan_ade": "@gui: ADE L states lscan_L1u..L8u (dc op + ac) in ece203_ss_lscan_tb and ece203_ss_lscan_ol_tb",
+      "ece203_ss_pr_a": "ECE203 Round 3B Stage A: Project/ece203_ss_pr_cell (pfet33x pseudo-R, lecture slide 30) + ece203_ss_pr_iv_tb, I-V -50..+50 mV at 0.9 V, default vs tight tolerances -> ~/AutoCircuit_results/ece203_ss_pr/pr_iv.csv",
+      "ece203_ss_pr_a2": "Round 3B Stage A adjustment W 3u (tight) -> pr_iv_w3u.csv",
+      "ece203_ss_pr_b": "Round 3B Stage B: ece203_ss_pr_tb (S2, 5T L 8u, two pseudo-R) vs ideal Rfb (ece203_ss_lscan_tb), DC + AC -> pr_s2_compare.csv",
+      "ece203_ss_pr_ade": "@gui: ADE L states pr_w3u in ece203_ss_pr_iv_tb and ece203_ss_pr_tb (dc op + ac, gmin=iabstol=1e-18)"
     }
   },
   "skill_framework": {
@@ -164,7 +168,8 @@
     "integ": "OCEAN integ(w a b) on a PSD^2 waveform gives the integral in linear Hz (trapezoid): rms = sqrt(integ(nin*nin 0.1 250)). 20 points/decade agreed with 50 points/decade to 0.1 %.",
     "design_var_width": "cmrf7sf pfetx/nfetx accept design-variable W/L (w = \"w12in\"); set ad/as = \"w12in*0.54e-6\" and pd/ps = \"2*(w12in+0.54e-6)\" as expressions. One netlist then serves a whole sweep (desVar per point, no schematic rewrites).",
     "stb_analysis": "asiGetAnalysis(sess 'stb): same sweep choice fields as ac (sweep Frequency, rangeType Start-Stop, incrType Logarithmic, stepTypeLog Points Per Decade), text fields start stop dec, and 'probe \"/IPRB\" (reads back). Other fields: localgnd, usingProbeMode, stbProbeMode (default \"differential\"). Verified 2026-11-16 (ece203_ss_ade).",
-    "noise_inVsrc_only": "Noise with inType voltage: setting only 'inVsrc \"/VINP\" (no 'iprobe) reads back fine."
+    "noise_inVsrc_only": "Noise with inType voltage: setting only 'inVsrc \"/VINP\" (no 'iprobe) reads back fine.",
+    "sim_options": "asiSetSimOptionVal(sess 'gmin \"1e-18\") (also 'iabstol, 'reltol) works and reads back with asiGetSimOptionVal; saved into the ADE state (ece203_ss_pr_ade, 2026-11-16)."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
@@ -223,14 +228,15 @@
     "scp -r of a whole results folder is one connection (use it instead of many scp calls); device_stage_files accepts at most 50 files per call.",
     "Spectre noiseSummary 'Total Input Referred Noise' is referred to the ?iprobe source (single-ended). For a differential-input amp, refer the output PSD by |H_dm| point by point (run noise on the same f grid as ac and divide) -- ece203_ss does both; they agree when |G_P| ~ |H_dm|.",
     "stb on a closed loop whose in-band |T| < 1 (e.g. 5T A0~71 with beta~1/101): cross(db20(lg) 0 1 \"falling\") finds the low-frequency crossing made by the large feedback resistor (~0.1 Hz) -- report 'no in-band UGF', not that PM.",
-    "dcOpInfo 'region' comes back as an integer (e.g. 3): acNum(x \"%g\") / sprintf %g on it aborts the whole job -> float() it first (hit in ece203_ss_lscan)."
+    "dcOpInfo 'region' comes back as an integer (e.g. 3): acNum(x \"%g\") / sprintf %g on it aborts the whole job -> float() it first (hit in ece203_ss_lscan).",
+    "TOhm pseudo-resistors / fA currents: Spectre default gmin 1e-12 S and iabstol 1e-12 A swamp the device (measured r 0.03-0.3 TOhm instead of 4-10 TOhm, S2 fL 18.9 Hz instead of 0.057 Hz). Use OCEAN option('gmin \"1e-18\" 'iabstol \"1e-18\" 'reltol \"1e-6\") after acSimSetup (check simulatorOptions line in the netlist) and verify KCL (I_A == I_B == device id)."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
     "Axis labels on GUI family plots (hw1P1cFamily).",
     "P2 AC setup inside an interactive ADE L run is untested (OCEAN check passed).",
     "Consider making the repo private + deploy key, or keep it public and keep personal/PDK data out.",
-    "ECE203: pseudo-R cell not started; ADE L states exist only for Round 3 ece203_ss tbs (ss_S1/ss_S2), earlier ece203 tbs are OCEAN only."
+    "ECE203: pseudo-R: Round 3B pfet33x cell verified standalone + in S2 (no PVT/mismatch/well leakage); ADE L states exist only for Round 3 ece203_ss tbs (ss_S1/ss_S2), earlier ece203 tbs are OCEAN only."
   ],
   "local_code_mode": {
     "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",
