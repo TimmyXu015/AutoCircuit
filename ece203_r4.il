@@ -454,7 +454,10 @@ procedure( r4Mc(tag kind exprs)
     file = strcat(r4Dir "/" tag "_mc.txt")
     ok = errset(
       progn(
-        monteCarlo(?numIters "12" ?startIter "1" ?analysisVariation 'mismatch ?saveData t ?nominalRun "no" ?seed "12345")
+        acSay("r4C4: monteCarlo arglist %L\n" car(errset(arglist('monteCarlo) nil)))
+        if( member('seed car(errset(arglist('monteCarlo) nil))) || member("seed" car(errset(arglist('monteCarlo) nil)))
+          then monteCarlo(?numIters "12" ?startIter "1" ?analysisVariation 'mismatch ?saveData t ?seed "12345")
+          else monteCarlo(?numIters "12" ?startIter "1" ?analysisVariation 'mismatch ?saveData t))
         foreach(e exprs monteExpr(car(e) cadr(e)))
         monteOutputFile(file)
         monteRun()
