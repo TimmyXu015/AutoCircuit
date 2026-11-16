@@ -682,3 +682,54 @@ procedure( r4DPssRead()
     t
   )
 )
+
+;; ---------------- ADE L states (GUI job) ----------------
+;; one state per main testbench, tight simulator options; analyses dc op + ac (+ noise / stb / tran), all enabled.
+procedure( r4AdeVarList(over)
+  let( (all v)
+    all = r4Vars
+    foreach(o over
+      all = cons(o setof(x all car(x) != car(o))))
+    mapcar(lambda((x) list(car(x) sprintf(nil "%g" float(cadr(x))))) all)
+  )
+)
+procedure( r4AdeTb(cell state over noise stb tran)
+  let( (sess)
+    sess = acAdeStart(ece203Lib cell)
+    unless( sess error("No ADE session for %s\n" cell) )
+    acAdeModels(sess "tt")
+    acAdeSaveCurrents(sess)
+    foreach(o '((gmin "1e-18") (iabstol "1e-18") (reltol "1e-6"))
+      acSay("ADE: sim option %L -> %L\n" car(o) car(errset(asiSetSimOptionVal(sess car(o) cadr(o)) nil))))
+    acAdeAnalysis(sess 'dc list(list('saveOppoint t)))
+    acAdeAnalysis(sess 'ac list(list('start "1m") list('stop "100k") list('dec "20"))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")))
+    when( noise
+      acAdeAnalysis(sess 'noise
+        list(list('start "100m") list('stop "250") list('dec "20") list('p "/out") list('n "/gnd!") list('inVsrc "/VSP"))
+        list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")
+             list('outType "voltage") list('inType "voltage"))))
+    when( stb
+      acAdeAnalysis(sess 'stb list(list('start "10m") list('stop "1M") list('dec "20") list('probe "/IPRD"))
+        list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade"))))
+    when( tran acAdeAnalysis(sess 'tran list(list('stop "50m"))))
+    acAdeOutput(acAdeSev "Hdm_out_dB" "db20(VF(\"/out\") / (VF(\"/ep\") - VF(\"/en\")))")
+    acAdeOutput(acAdeSev "Hdm_100Hz" "value(mag(VF(\"/out\") / (VF(\"/ep\") - VF(\"/en\"))) 100)")
+    acAdeOutput(acAdeSev "I_VDD" "IDC(\"/VDD/PLUS\")")
+    when( stb acAdeOutput(acAdeSev "DRL_loopGain" "getData(\"loopGain\" ?result \"stb\")"))
+    when( tran acAdeOutput(acAdeSev "o_tran" "VT(\"/o\")") acAdeOutput(acAdeSev "body_tran" "VT(\"/body\")"))
+    acAdeVars(sess r4AdeVarList(over))
+    acAdeSave(sess ece203Lib cell state)
+    sess
+  )
+)
+procedure( r4Ade()
+  hw1NoLicensePrompts()
+  when( hiGraphicMode() acAutoOkStart() )
+  unless( hiGraphicMode() error("r4Ade needs the GUI (run.sh ece203_r4_ade)\n") )
+  r4AdeTb(r4Cells->rbpr "r4_final" append(append(append(r4LP r4RealOn) r4RbVars) list(list("dcc" 0.01) list("itr" 1e-7))) t t t)
+  r4AdeTb(r4Cells->rb "r4_final_idealRfb" append(append(r4LP r4RealOn) r4RbVars) t t nil)
+  r4AdeTb(r4Cells->tb "r4_A1_baseline_drloff" r4Off t nil nil)
+  r4AdeTb(r4Cells->tb "r4_C2_idealbias_realDRL" append(append(r4LP r4RealOn) list(list("vcas" 1.10) list("ccm" 1e-12) list("dcc" 0.01) list("itr" 1e-7))) nil t t)
+  t
+)
