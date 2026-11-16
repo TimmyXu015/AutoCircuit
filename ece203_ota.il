@@ -149,17 +149,18 @@ procedure( otaCmSweep(cell tag cfg over)
   )
 )
 
-;; closed-loop stb: loop gain through /IPRB; returns (ugf phase_at_ugf PM lgWave lowPhase)
-;; Spectre's loopGain phase starts at 180 deg for negative feedback (calculator phaseMargin()
-;; assumes it starts at 0 and gave PM - 180), so PM = 180 - (phase at lowest f - phase at UGF),
-;; which does not depend on the convention.
+;; closed-loop stb: loop gain through /IPRB; returns (ugf phase_at_ugf PM lgWave phase_at_first_f)
+;; Spectre's stb loopGain has phase +180 deg for plain negative feedback (the calculator's
+;; phaseMargin() assumes 0 deg and returned PM - 180), so PM = phase(loopGain) at |loopGain| = 1.
+;; Do NOT reference the phase at the lowest frequency: with the capacitive high-pass feedback
+;; network the low-frequency loop phase is not 180 deg (that gave a wrong 104 deg for A1/A2).
 procedure( otaStb()
   let( (lg ugf ph0 phu)
     lg = car(errset(getData("loopGain" ?result "stb") nil))
     ugf = and(lg car(errset(cross(db20(lg) 0 1 "falling") nil)))
     ph0 = and(lg car(errset(value(phase(lg) drGetElem(drGetWaveformXVec(lg) 0)) nil)))
     phu = and(ugf ece203V(phase(lg) ugf))
-    list(ugf phu and(numberp(ph0) numberp(phu) 180.0 - (ph0 - phu)) lg ph0)
+    list(ugf phu phu lg ph0)
   )
 )
 
@@ -350,7 +351,7 @@ procedure( a12ClBuild()
 )
 
 procedure( a12Sim()
-  let( (res bias over ol olr cl h mid fl fh s port nin)
+  let( (res bias over ol olr cl h mid fl fh s port nin zin idd)
     res = acResultsDir()
     bias = a12Bias()
     over = list(list("vcp" car(bias)) list("vcn" cadr(bias)))
@@ -384,6 +385,8 @@ procedure( a12Sim()
           acNum(car(errset(value(mag(v("/vin" ?result "ac") / i("/VIN/PLUS" ?result "ac")) 10.0) nil)) "%.5g")
           acNum(car(s) "%.5g") acNum(cadr(s) "%.2f") acNum(caddr(s) "%.2f")
           acNum(ece203V(nin 1.0) "%.4g") acNum(ece203V(nin 10.0) "%.4g") acNum(ece203V(nin 100.0) "%.4g"))
+    zin = car(errset(value(mag(v("/vin" ?result "ac") / i("/VIN/PLUS" ?result "ac")) 10.0) nil))
+    idd = car(errset(-1.0 * i("/VDD/PLUS" ?result "dcOp") nil))
     ece203OpDump(strcat(res "/ece203_a12cl_op.csv") a12Cfg->insts)
     spsWriteWaves(strcat(res "/ece203_a12cl_ac.csv") "f_Hz,absH,phase_deg" list(ece203Mag(h) ece203Ph(h)))
     spsWriteWaves(strcat(res "/ece203_a12cl_stb.csv") "f_Hz,absLoopGain,phaseLoopGain_deg"
@@ -404,8 +407,8 @@ procedure( a12Sim()
     fprintf(port "  OL input noise V/rtHz @0.1/1/10/100/1k Hz: %s %s %s %s %s\n"
             acNum(ece203V(ol->nin 0.1) "%.4g") acNum(ece203V(ol->nin 1.0) "%.4g") acNum(ece203V(ol->nin 10.0) "%.4g")
             acNum(ece203V(ol->nin 100.0) "%.4g") acNum(ece203V(ol->nin 1e3) "%.4g"))
-    fprintf(port "closed loop (ece203_hp_real_tb, CL %g F): |H(100Hz)| %s, f_L %s Hz, f_H %s Hz, loop UGF %s Hz, phase(UGF) %s, PM %s deg\n"
-            5e-12 acNum(mid "%.5g") acNum(fl "%.5g") acNum(fh "%.5g") acNum(car(s) "%.5g") acNum(cadr(s) "%.2f") acNum(caddr(s) "%.2f"))
+    fprintf(port "closed loop (ece203_hp_real_tb, CL %g F): I(VDD) %s A, |Zin(10Hz)| %s ohm, |H(100Hz)| %s, f_L %s Hz, f_H %s Hz, loop UGF %s Hz, phase(UGF) %s, PM %s deg\n"
+            5e-12 acNum(idd "%.5g") acNum(zin "%.5g") acNum(mid "%.5g") acNum(fl "%.5g") acNum(fh "%.5g") acNum(car(s) "%.5g") acNum(cadr(s) "%.2f") acNum(caddr(s) "%.2f"))
     fprintf(port "  CL input-referred noise V/rtHz @0.1/1/10/100 Hz: %s %s %s %s\n"
             acNum(ece203V(nin 0.1) "%.4g") acNum(ece203V(nin 1.0) "%.4g") acNum(ece203V(nin 10.0) "%.4g")
             acNum(ece203V(nin 100.0) "%.4g"))
