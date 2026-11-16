@@ -1,0 +1,7 @@
+case,method,Hdm_100Hz,out_rms_0p1_250_mV,app_in_rms_uV (out_rms/|Hdm(100)|),deemb_in_rms_uV,RMS_improvement_x,power_improvement_x
+U_unchopped,Spectre noise (static),99.8991,1.5838,15.854,16.270,,
+U_unchopped,Spectre PSS + time-average PNoise,99.8989,1.5838,15.854,16.276,,
+C_chopped_1MHz,Spectre PSS + time-average PNoise (maxsideband 49),99.899,0.2004,2.006,2.065,7.90,62.5
+C_chopped_1MHz,"analytic folding k<=49, OTA-only, white x1.0 (MODEL, not Spectre)",,,1.7173,,9.351,87.44
+C_chopped_1MHz,"analytic folding k<=49, OTA-only, white x0.5 (MODEL, not Spectre)",,,1.2152,,13.176,173.61
+C_chopped_1MHz,"analytic folding k<=49, OTA-only, white x1.5 (MODEL, not Spectre)",,,2.1027,,7.659,58.66

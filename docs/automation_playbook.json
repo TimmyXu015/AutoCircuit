@@ -125,7 +125,8 @@
       "ece203_ss_ota_cmp": "ECE203 Round 3C: builds Project/ece203_ss_ota_cmp_{b,p,c}_{ota,tb,ol} (B NMOS 5T L8u, P PMOS-input 5T, C B + NMOS cascode on M2 with ideal VCAS), S2 ideal-Rfb bench, tight tol, DC + AC + noise 0.1-250 Hz + OL A0 -> ~/AutoCircuit_results/ece203_ss_ota_cmp/bpc_summary.csv",
       "ece203_ss_ota_cmp_ade": "@gui: ADE L states cmp_s2 (dc op + ac + noise, tight sim options) in the three ece203_ss_ota_cmp_*_tb",
       "ece203_ss_chop": "ECE203 Round 3D: Project/ece203_ss_chop_ideal_tb (VCVS) + ece203_ss_chop_c_tb (Round-3C C OTA): ideal 1 MHz non-overlapping two-phase clock, analogLib switch (relay) commutator + output demodulator with ideal EINV, S2 network; 200 us tran with 1 mV diff step at 50 us -> ~/AutoCircuit_results/ece203_ss_chop/chop_summary.csv",
-      "ece203_ss_chop_ade": "@gui: ADE L states chop_1MHz_step (tran 200u, tight options) in both chop tbs"
+      "ece203_ss_chop_ade": "@gui: ADE L states chop_1MHz_step (tran 200u, tight options) in both chop tbs",
+      "ece203_ss_chop_noise": "ECE203 Round 3E: Project/ece203_ss_chop_noise_tb (Round-3D ideal chopper + VCVS with series VN noisefile source fitted to Round-3C C PSD): U static noise, U and C PSS (1 MHz) + PAC + PNoise (maxsideband 49) -> ~/AutoCircuit_results/ece203_ss_chop_noise/spectre_compare.csv"
     }
   },
   "skill_framework": {
@@ -174,7 +175,9 @@
     "stb_analysis": "asiGetAnalysis(sess 'stb): same sweep choice fields as ac (sweep Frequency, rangeType Start-Stop, incrType Logarithmic, stepTypeLog Points Per Decade), text fields start stop dec, and 'probe \"/IPRB\" (reads back). Other fields: localgnd, usingProbeMode, stbProbeMode (default \"differential\"). Verified 2026-11-16 (ece203_ss_ade).",
     "noise_inVsrc_only": "Noise with inType voltage: setting only 'inVsrc \"/VINP\" (no 'iprobe) reads back fine.",
     "sim_options": "asiSetSimOptionVal(sess 'gmin \"1e-18\") (also 'iabstol, 'reltol) works and reads back with asiGetSimOptionVal; saved into the ADE state (ece203_ss_pr_ade, 2026-11-16).",
-    "analoglib_switch": "analogLib switch: pins N+ N- (switched) NC+ NC- (control), CDF vt1 (open voltage) vt2 (closed voltage) ro rc; netlists as Spectre relay vt1 vt2 ropen rclosed. analogLib vpulse CDF: v1 v2 td tr tf pw per dc acm. No analogLib 'relay' cell."
+    "analoglib_switch": "analogLib switch: pins N+ N- (switched) NC+ NC- (control), CDF vt1 (open voltage) vt2 (closed voltage) ro rc; netlists as Spectre relay vt1 vt2 ropen rclosed. analogLib vpulse CDF: v1 v2 td tr tf pw per dc acm. No analogLib 'relay' cell.",
+    "ocean_pss_pnoise": "OCEAN: analysis('pss ?fund \"1M\" ?harms \"50\" ?errpreset \"moderate\"), analysis('pac ?sweeptype \"relative\" ?relharmnum \"0\" ?start ?stop ?dec ?maxsideband \"3\"), analysis('pnoise ?sweeptype \"relative\" ?relharmnum \"0\" ?start ?stop ?dec ?maxsideband \"49\" ?p \"/o\" ?n \"/gnd!\") work; results() -> (pss_td pss_fd pac pnoise ...); harmonic(v(\"/o\" ?result \"pac\") 0) = baseband transfer; getData(\"out\" ?result \"pnoise\") = output PSD (V/rtHz). ?noisetype did not appear in the netlist (Spectre default used).",
+    "vsource_noisefile": "Custom noise PSD on a source: analogLib vdc CDF 'noisefile' = absolute path of a text file 'freq V^2/Hz' per line -> netlists as noisefile=\"...\" and shows in NoiseSummary as ext_file_noise. The F1..F50/N1..N50 + FNpairs fields did NOT reach the netlist in batch."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
@@ -239,7 +242,9 @@
     "PMOS-input 5T in a TB built for NMOS-tail OTAs: the bias current must be SUNK from IBIAS (idc PLUS ib MINUS gnd) because the reference is a PMOS diode to VDD; check the netlist instance pin order (GND IBIAS INN INP OUT VDD).",
     "Ideal chopper with relay switches: two-phase clocks MUST be non-overlapping. With edges crossing at the same instant both phases are half-on: the OTA inputs see (p+n)/2 (VCVS output slams to 0) and p/n are shorted through low-R transitional switches, bleeding the signal charge every edge (step response decayed to ~0). 10 ns dead time fixed it (ECE203 Round 3D).",
     "run.sh called through a plain 'ssh host cmd' (no login shell) fails with 'virtuoso not found'; wrap it as bash -lc '~/AutoCircuit/run.sh job' like the nohup launches.",
-    "The user also pushes to main (task docs). Always git pull --rebase before pushing; a rejected push means run.sh on the server will NOT see the new job -- relaunch after the push succeeds."
+    "The user also pushes to main (task docs). Always git pull --rebase before pushing; a rejected push means run.sh on the server will NOT see the new job -- relaunch after the push succeeds.",
+    "Spectre: vsource pacmag must be >= 0 (use pacphase 180 for a negative drive). analogLib vpulse instances placed by SKILL inherited a previous instance's pacm (-0.5) when pacm was not set -> set pacm explicitly on every vpulse.",
+    "MATLAB system() + ssh: a remote command whose file variable expands empty (e.g. grep pattern $f with no file) makes grep read stdin forever and blocks the MATLAB session (all later calls return empty). Always use 'ssh -n' and '< /dev/null' for inspection commands; recovery needed the user to press Ctrl+C in MATLAB."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
