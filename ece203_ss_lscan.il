@@ -160,7 +160,7 @@ procedure( lsPoint(lum)
           acNum(r->A0_ol_1Hz "%.4g") acNum(r->A0_ol_10Hz "%.4g") acNum(r->A0_ol_10Hz_dB "%.2f")
           acNum(r->A0_est_gm_gds "%.4g") acNum(r->ACL_pred_from_A0ol "%.4g")
           acNum(r->gm_M1 "%.4g") acNum(r->gds_M2 "%.4g") acNum(r->gds_M4 "%.4g") acNum(r->id_M1 "%.4g")
-          acNum(r->gmid_M1 "%.3g") acNum(r->region_M1 "%g") acNum(r->margin "%.3f") or(r->worst "")
+          acNum(r->gmid_M1 "%.3g") acNum(and(numberp(r->region_M1) float(r->region_M1)) "%g") acNum(r->margin "%.3f") or(r->worst "")
           acNum(r->I_VDD "%.4g") acNum(r->dc_o "%.5g") acNum(r->dc_n "%.5g") acNum(r->ol_vout "%.5g")
           acNum(r->ol_margin "%.3f") or(r->netlist_M1 ""))
     r

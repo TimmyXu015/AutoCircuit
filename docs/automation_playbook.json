@@ -220,7 +220,8 @@
     "stb phase at the UGF can come back wrapped (-212 deg = +148 deg): otaStb now adds 360 when negative. In a multi-loop chain probe one loop at a time (other probes are 0 V and keep their loops closed).",
     "scp -r of a whole results folder is one connection (use it instead of many scp calls); device_stage_files accepts at most 50 files per call.",
     "Spectre noiseSummary 'Total Input Referred Noise' is referred to the ?iprobe source (single-ended). For a differential-input amp, refer the output PSD by |H_dm| point by point (run noise on the same f grid as ac and divide) -- ece203_ss does both; they agree when |G_P| ~ |H_dm|.",
-    "stb on a closed loop whose in-band |T| < 1 (e.g. 5T A0~71 with beta~1/101): cross(db20(lg) 0 1 \"falling\") finds the low-frequency crossing made by the large feedback resistor (~0.1 Hz) -- report 'no in-band UGF', not that PM."
+    "stb on a closed loop whose in-band |T| < 1 (e.g. 5T A0~71 with beta~1/101): cross(db20(lg) 0 1 \"falling\") finds the low-frequency crossing made by the large feedback resistor (~0.1 Hz) -- report 'no in-band UGF', not that PM.",
+    "dcOpInfo 'region' comes back as an integer (e.g. 3): acNum(x \"%g\") / sprintf %g on it aborts the whole job -> float() it first (hit in ece203_ss_lscan)."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
