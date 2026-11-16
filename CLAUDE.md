@@ -17,9 +17,11 @@ When you learn something new (a working API call, a fix, a trap), add it to the 
 in the same commit.
 
 
-## Active next task — ECE203 Round 2A noise scan (2026-11-15)
+## Active next task — ECE203 Round 2B loading diagnosis (2026-11-15)
 
-**User-approved next experiment:** [docs/ECE203_round2_noise_scan.md](docs/ECE203_round2_noise_scan.md). **Results (2026-11-15): [docs/ECE203_round2_noise_results.md](docs/ECE203_round2_noise_results.md)** (data in docs/ece203_data/round2a/). First diagnose A1/A2 device-resolved noise, then run a controlled input-PMOS W/L matrix at fixed 100nA reference; report noise, OP, gain, BW, PM, power and tradeoffs. **Do not autonomously change the architecture, DRL, A3, or the known-good baseline cells.** This Round-2A order supersedes earlier Round-1 implementation priorities only for the current experiment. Read the Round-1 results and automation playbook as prerequisites.
+**User-approved next experiment:** [docs/ECE203_round2b_loading_diagnosis.md](docs/ECE203_round2b_loading_diagnosis.md). This supersedes the former Round-2A active-job instruction **only for the next execution round**; preserve all earlier results. **First construct and simulate the actual three-real-OTA closed-loop ECG cascade**, then isolate A1→A3 input loading, A3 finite gain and feedback-resistor loading, and A3 output RC loading. Last, run only the bounded R1/R2 1M/4M, 10M/40M, 100M/400M interface comparison. Freeze transistor topology and noise W/L optimization; do not add buffer/new amplifier topology without user/GPT approval.
+
+**Round-2A completed results:** [docs/ECE203_round2_noise_results.md](docs/ECE203_round2_noise_results.md) and [docs/ECE203_round2_noise_scan.md](docs/ECE203_round2_noise_scan.md). The single-branch best 5.28uVrms noise is NOT a complete-chain pass, and 1MΩ standalone loaded A1 A0=6.48 is NOT the measured real cascade closed-loop gain. Both are hypotheses/benchmarks to investigate, not reasons to invent full-chain results.
 
 ## Current ECE203 design project (2026-11-15 handoff)
 
