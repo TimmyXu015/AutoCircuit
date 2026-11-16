@@ -8,6 +8,9 @@ if ~exist(out, 'dir'), mkdir(out); end
 d = fullfile(here, 'ece203_ns');
 rd = @(f) readtable(fullfile(d, f), 'VariableNamingRule', 'preserve', 'TextType', 'string');
 S = rd('ece203_ns_sweep.csv');
+if exist(fullfile(d, 'ece203_ns_rebias.csv'), 'file')
+    R = rd('ece203_ns_rebias.csv'); S = [S; R(:, S.Properties.VariableNames)];
+end
 B = rd('ece203_noise_breakdown.csv');
 groups = ["inpair" "mirror" "pcas" "ncas" "tailref" "rp" "other"];
 glab = {'input pair M1/M2', 'NMOS mirror M7/M8', 'PMOS cascode M3/M4', 'NMOS cascode M5/M6', ...
@@ -86,7 +89,7 @@ for i = 1:height(S3)
 end
 yline([1 1.5], ':', {'1 \muV', '1.5 \muV'}, 'HandleVisibility', 'off');
 set(gca, 'XScale', 'log'); xticks([20 40 80 160]); xlabel('input pair W (\mum)');
-ylabel('\surd\int_{0.1}^{250} v_{n,in}^2 df (\muV_{rms})'); legend('Location', 'eastoutside');
+ylabel('\surd\int_{0.1}^{250} v_{n,in}^2 df (\muV_{rms})'); legend('Location', 'eastoutside', 'Interpreter', 'none');
 title('Single A1/A2 + feedback: integrated input-referred noise, 0.1-250 Hz');
 subplot(2,1,2); hold on; grid on;
 for k = 1:numel(Ls)
