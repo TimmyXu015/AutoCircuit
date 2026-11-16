@@ -17,37 +17,47 @@ cnA = 1.0381388091865171
 cnSw = 1.1879871469517083e-14
 procedure( cnSe(f) cnK / (f ** cnA) + cnSw )
 
-;; 50 log-spaced points 1 mHz .. 100 MHz
-procedure( cnNoiseParams()
-  let( (ps f)
-    ps = list(list("FNpairs" "50"))
-    for(i 0 49
-      f = 10.0 ** (-3.0 + 11.0 * i / 49.0)
-      ps = append(ps list(list(sprintf(nil "F%d" i + 1) sprintf(nil "%.6g" f))
-                          list(sprintf(nil "N%d" i + 1) sprintf(nil "%.6g" cnSe(f))))))
-    ps
+;; noise table file for the vsource 'noisefile' parameter: 221 log-spaced points 1 mHz .. 100 MHz,
+;; "frequency  V^2/Hz" per line (the analogLib F/N pair fields did not reach the netlist in batch -- first run)
+cnNoiseFile = strcat(cnDir "/vn_noise_table.txt")
+procedure( cnWriteNoiseFile()
+  let( (port f)
+    unless( isDir(cnDir) createDir(cnDir) )
+    port = outfile(cnNoiseFile "w")
+    for(i 0 220
+      f = 10.0 ** (-3.0 + 11.0 * i / 220.0)
+      fprintf(port "%.8g %.8g\n" f cnSe(f)))
+    close(port)
+    cnNoiseFile
   )
 )
 
-procedure( cnPulse(name v1 v2 acm pacm a)
+procedure( cnPulse(name v1 v2 acm pacp a)
   list("analogLib" "vpulse" name
        list(list("dc" v1) list("v1" v1) list("v2" v2) list("td" "tst") list("tr" "1n") list("tf" "1n")
-            list("pw" "1") list("per" "2") list("acm" acm) list("pacm" pacm))
+            list("pw" "1") list("per" "2") list("acm" acm) list("pacm" "0.5") list("pacp" pacp))
        list(list("PLUS" a) list("MINUS" "gnd!")))
+)
+;; clock pulse with PAC magnitude explicitly 0 (first run: the clocks inherited pacmag=-0.5)
+procedure( cnClk(name v1 v2 td pw net)
+  list("analogLib" "vpulse" name
+       list(list("dc" v1) list("v1" v1) list("v2" v2) list("td" td) list("tr" "1n") list("tf" "1n")
+            list("pw" pw) list("per" "1u") list("acm" "0") list("pacm" "0") list("pacp" "0"))
+       list(list("PLUS" net) list("MINUS" "gnd!")))
 )
 
 procedure( cnSpecs()
   list(ldV("VREF" "vref" "0" "vref" "gnd!")
-       cnPulse("VINP" "vref" "vref+vst/2" "0.5" "0.5" "vinp")
-       cnPulse("VINN" "vref" "vref-vst/2" "-0.5" "-0.5" "vinn")
-       chPulse("VCK1" "1.8" "1.8*(1-chen)" "0.5u" "0.499u" "1u" "ck1")
-       chPulse("VCK2" "0" "1.8*chen" "0.51u" "0.479u" "1u" "ck2")
+       cnPulse("VINP" "vref" "vref+vst/2" "0.5" "0" "vinp")
+       cnPulse("VINN" "vref" "vref-vst/2" "-0.5" "180" "vinn")
+       cnClk("VCK1" "1.8" "1.8*(1-chen)" "0.5u" "0.499u" "ck1")
+       cnClk("VCK2" "0" "1.8*chen" "0.51u" "0.479u" "ck2")
        otaC("CCP" "cc" "vinp" "p")  otaC("CCN" "cc" "vinn" "n")
        otaC("CFP" "cfb" "p" "vref") otaR("RFP" "rfb" "p" "vref")
        otaC("CFN" "cfb" "n" "o")    otaR("RFN" "rfb" "n" "o")
        chSw("S1P" "p" "ia" "ck1") chSw("S1N" "n" "ib_" "ck1")
        chSw("S2P" "n" "ia" "ck2") chSw("S2N" "p" "ib_" "ck2")
-       list("analogLib" "vdc" "VN" append(list(list("vdc" "0") list("acm" "0")) cnNoiseParams())
+       list("analogLib" "vdc" "VN" list(list("vdc" "0") list("acm" "0") list("noisefile" cnWriteNoiseFile()))
             list(list("PLUS" "ia2") list("MINUS" "ia")))
        ldE("E1" "ia2" "ib_" "oa" "gnd!" "aol")
        ldE("EINV" "oa" "vref" "oinv" "vref" "-1")
