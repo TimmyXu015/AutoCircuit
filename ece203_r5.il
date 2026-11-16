@@ -252,3 +252,168 @@ procedure( r5StageB()
     t
   )
 )
+
+;; ---------- Stage D: demodulator placement D1 (after OTA1) vs D2 (after OTA2), 4 kHz, ideal relays + ideal EINV ----------
+;; candidate: CD (non-inverting; OTA2 own 1/f ~4.5 uV at its own input = the largest OTA2 term from stage C;
+;;            main-loop UGF 181 kHz >> 4 kHz). Same cell family, same bias/LP/feedback; static = chen 0.
+;; D1 cell ece203_r5_s2_cd_d1: demod around vr1 = static OTA1 output DC (1.31308 V, from B1 dcop) -> CD gate.
+;; D2 cell ece203_r5_s2_cd_d2 (= the B1 cell): demod around VREF after the CD.
+r5DCols = '("tag" "cell" "slot" "chen" "status" "reason" "pre" "post" "slope" "step_gain" "step_ratio" "ripple_out_pp"
+            "ripple_fb_pp" "oa1_min" "oa1_max" "oa1_avg" "d1_min" "d1_max" "oa2_min" "oa2_max" "oa2_avg" "d2_min" "d2_max"
+            "fb_avg" "out_avg" "I_VDD2" "pss_out_avg" "pss_out_pp" "pss_fb_avg" "pss_fb_pp" "pss_oa1_min" "pss_oa1_max"
+            "pss_oa1_avg" "pss_d1_min" "pss_d1_max" "pss_oa2_min" "pss_oa2_max" "pss_oa2_avg" "pss_d2_min" "pss_d2_max"
+            "pac10" "pac100" "pac100_dB" "pacfb100" "pac_ratio" "out_rms" "app_in" "deemb_in"
+            "in_0p1" "in_1" "in_10" "in_100" "in_250" "out_1" "out_10" "out_100" "noisetype")
+r5DVr1 = 1.31308
+procedure( r5Mm(w a b) car(errset(list(ymin(clip(w a b)) ymax(clip(w a b)) average(clip(w a b))) nil)) )
+procedure( r5DTran(port slot tag chen)
+  let( (cell r ok o fb a1 d1 a2 d2 i2 m pre0 s)
+    cell = r5Cell("cd" slot)
+    r = list(nil 'tag tag 'cell cell 'slot slot 'chen chen 'status "ok")
+    ok = errset(
+      progn(
+        ece203Setup(cell strcat("_" tag))
+        r4Tight()
+        analysis('tran ?stop "20m" ?maxstep "0.5u")
+        car(errset(save('i "/VDD2/PLUS") nil))
+        r5Set(list(list("chen" chen) list("vr1" r5DVr1) list("vst" 1e-3) list("tst" 5e-3) list("adm" 0.0)))
+        run()
+        o = car(errset(v("/out" ?result "tran") nil))
+        unless( o error("no tran"))
+        fb = v("/fb" ?result "tran") a1 = v("/oa1" ?result "tran") d1 = v("/d1" ?result "tran")
+        a2 = v("/oa2" ?result "tran") d2 = v("/d2" ?result "tran")
+        i2 = car(errset(i("/VDD2/PLUS" ?result "tran") nil))
+        ;; step gain with drift removal: pre slope from 2-3 ms vs 4-5 ms, post window 9-10 ms (8 LP tau after the step)
+        pre0 = chAvg(o 2e-3 3e-3) r->pre = chAvg(o 4e-3 5e-3) r->post = chAvg(o 9e-3 10e-3)
+        r->slope = (r->pre - pre0) / 2e-3
+        r->step_gain = (r->post - (r->pre + r->slope * 5e-3)) / 1e-3
+        r->ripple_out_pp = chPp(o 19e-3 20e-3) r->ripple_fb_pp = chPp(fb 19e-3 20e-3)
+        m = r5Mm(a1 19e-3 20e-3) r->oa1_min = nth(0 m) r->oa1_max = nth(1 m) r->oa1_avg = nth(2 m)
+        m = r5Mm(d1 19e-3 20e-3) r->d1_min = nth(0 m) r->d1_max = nth(1 m)
+        m = r5Mm(a2 19e-3 20e-3) r->oa2_min = nth(0 m) r->oa2_max = nth(1 m) r->oa2_avg = nth(2 m)
+        m = r5Mm(d2 19e-3 20e-3) r->d2_min = nth(0 m) r->d2_max = nth(1 m)
+        r->fb_avg = chAvg(fb 19e-3 20e-3) r->out_avg = chAvg(o 19e-3 20e-3)
+        r->I_VDD2 = and(i2 chAvg(i2 19e-3 20e-3))
+        spsWriteWaves(strcat(r5Dir "/" tag "_tran.csv") "t_s,out_V,fb_V,oa1_V,d1_V,oa2_V,d2_V" list(o fb a1 d1 a2 d2))
+        t)
+      t)
+    unless( ok r->status = "failed" r->reason = sprintf(nil "%L" errset.errset))
+    acSay("r5D %s: %s %s | step gain %s (pre %s slope %s post %s) | ripple out %s fb %s | oa1 %s..%s avg %s | d1 %s..%s | oa2 %s..%s | d2 %s..%s | fb %s out %s | I2 %s\n"
+          tag r->status or(r->reason "") r4Num(r->step_gain "%.4g") r4Num(r->pre "%.6g") r4Num(r->slope "%.4g")
+          r4Num(r->post "%.6g") r4Num(r->ripple_out_pp "%.4g") r4Num(r->ripple_fb_pp "%.4g")
+          r4Num(r->oa1_min "%.4g") r4Num(r->oa1_max "%.4g") r4Num(r->oa1_avg "%.5g") r4Num(r->d1_min "%.4g") r4Num(r->d1_max "%.4g")
+          r4Num(r->oa2_min "%.4g") r4Num(r->oa2_max "%.4g") r4Num(r->d2_min "%.4g") r4Num(r->d2_max "%.4g")
+          r4Num(r->fb_avg "%.5g") r4Num(r->out_avg "%.5g") r4Num(r->I_VDD2 "%.4g"))
+    r
+  )
+)
+procedure( r5DPss(slot tag r @optional (msb "30"))
+  let( (cell ok w vd h hf nout nin m nl k res)
+    cell = r5Cell("cd" slot)
+    ok = errset(
+      progn(
+        ece203Setup(cell strcat("_" tag))
+        r4Tight()
+        analysis('pss ?fund "4k" ?harms "30" ?errpreset "moderate")
+        analysis('pac ?sweeptype "relative" ?relharmnum "0" ?start "0.1" ?stop "250" ?dec "20" ?maxsideband "3")
+        analysis('pnoise ?sweeptype "relative" ?relharmnum "0" ?start "0.1" ?stop "250" ?dec "20"
+                 ?maxsideband msb ?p "/out" ?n "/gnd!" ?noisetype "timeaverage")
+        r5Set(list(list("chen" 1.0) list("vr1" r5DVr1) list("vst" 0.0) list("tst" 1.0)))
+        run()
+        res = strcat(getShellEnvVar("HOME") "/simulation/" cell "/spectre/schematic_" tag)
+        ;; periodic steady state
+        openResults(strcat(res "/psf")) selectResult('pss_td)
+        foreach(n '("out" "fb" "oa1" "d1" "oa2" "d2")
+          w = car(errset(v(strcat("/" n)) nil))
+          m = car(errset(list(ymin(w) ymax(w) average(w)) nil))
+          when( m
+            putprop(r nth(0 m) stringToSymbol(strcat("pss_" n "_min"))) putprop(r nth(1 m) stringToSymbol(strcat("pss_" n "_max")))
+            putprop(r nth(2 m) stringToSymbol(strcat("pss_" n "_avg")))))
+        r->pss_out_pp = and(numberp(r->pss_out_max) r->pss_out_max - r->pss_out_min)
+        r->pss_fb_pp = and(numberp(r->pss_fb_max) r->pss_fb_max - r->pss_fb_min)
+        spsWriteWaves(strcat(r5Dir "/" tag "_pss_td.csv") "t_s,out_V,fb_V,oa1_V,d1_V,oa2_V,d2_V"
+                      mapcar(lambda((n) car(errset(v(strcat("/" n)) nil))) '("out" "fb" "oa1" "d1" "oa2" "d2")))
+        ;; PAC sideband 0, normalised to the actual differential PAC drive
+        w = car(errset(v("/out" ?result "pac") nil))
+        vd = car(errset(harmonic(v("/vinp" ?result "pac") - v("/vinn" ?result "pac") 0) nil))
+        h = car(errset(harmonic(w 0) nil))
+        when( vd h = h / vd)
+        hf = car(errset(harmonic(v("/fb" ?result "pac") 0) nil))
+        when( and(hf vd) hf = hf / vd)
+        r->pac10 = ldMag(h 10.0) r->pac100 = ldMag(h 100.0) r->pac100_dB = ece203Db(r->pac100) r->pacfb100 = ldMag(hf 100.0)
+        nout = car(errset(getData("out" ?result "pnoise") nil))
+        nin = and(nout h car(errset(nout / mag(h) nil)))
+        r->out_rms = nsRms(nout 0.1 250.0)
+        r->app_in = and(r->out_rms r->pac100 r->out_rms / r->pac100)
+        r->deemb_in = nsRms(nin 0.1 250.0)
+        r->in_0p1 = ece203V(nin 0.1) r->in_1 = ece203V(nin 1.0) r->in_10 = ece203V(nin 10.0)
+        r->in_100 = ece203V(nin 100.0) r->in_250 = ece203V(nin 249.0)
+        r->out_1 = ece203V(nout 1.0) r->out_10 = ece203V(nout 10.0) r->out_100 = ece203V(nout 100.0)
+        spsWriteWaves(strcat(r5Dir "/" tag "_pnoise.csv") "f_Hz,out_V_rtHz,absH_pac,deemb_in_V_rtHz" list(nout ece203Mag(h) nin))
+        ldWriteCurves(strcat(r5Dir "/" tag "_ac.csv") list(list("Hout" h) list("Hfb" hf)))
+        ;; per-source pnoise contributions (if this Spectre/OCEAN version exposes them for pnoise)
+        nl = outfile(strcat(r5Dir "/" tag "_ns_full.txt") "w")
+        k = errset(noiseSummary('integrated ?result 'pnoise ?from 0.1 ?to 250.0 ?output nl) t)
+        close(nl)
+        acSay("r5D %s: pnoise noiseSummary %L\n" tag if( k "ok" errset.errset))
+        when( k
+          for(j 0 length(r5Bins) - 2
+            nl = outfile(strcat(r5Dir "/" tag sprintf(nil "_ns_b%02d.txt" j)) "w")
+            errset(noiseSummary('integrated ?result 'pnoise ?from nth(j r5Bins) ?to nth(j + 1 r5Bins) ?output nl) t)
+            close(nl)))
+        ;; netlist of this exact run: confirm the pnoise noisetype
+        nl = strcat(r5Dir "/" tag "_netlist.scs")
+        sh(sprintf(nil "cp %s/netlist/input.scs %s" res nl))
+        r->noisetype = if( sh(sprintf(nil "grep -q noisetype=timeaverage %s" nl)) "timeaverage(netlist)" "check")
+        acSay("r5D %s netlist pnoise line:\n" tag)
+        sh(sprintf(nil "grep -n 'pnoise\\|pss \\|pac ' %s | sed 's/^/AC>   /'" nl))
+        t)
+      t)
+    unless( ok r->status = "pss failed" r->reason = sprintf(nil "%L" errset.errset))
+    acSay("r5D %s: %s %s | PSS out avg %s pp %s fb avg %s pp %s | oa1 %s..%s | d1 %s..%s | oa2 %s..%s | d2 %s..%s | PAC 10/100 %s %s (%s dB) fb %s | noise out %s app %s deemb %s | in @0.1/1/10/100/250 %s %s %s %s %s | %s\n"
+          tag r->status or(r->reason "") r4Num(r->pss_out_avg "%.5g") r4Num(r->pss_out_pp "%.4g")
+          r4Num(r->pss_fb_avg "%.5g") r4Num(r->pss_fb_pp "%.4g") r4Num(r->pss_oa1_min "%.4g") r4Num(r->pss_oa1_max "%.4g")
+          r4Num(r->pss_d1_min "%.4g") r4Num(r->pss_d1_max "%.4g") r4Num(r->pss_oa2_min "%.4g") r4Num(r->pss_oa2_max "%.4g")
+          r4Num(r->pss_d2_min "%.4g") r4Num(r->pss_d2_max "%.4g")
+          r4Num(r->pac10 "%.4g") r4Num(r->pac100 "%.4g") r4Num(r->pac100_dB "%.2f") r4Num(r->pacfb100 "%.4g")
+          r4Num(r->out_rms "%.4g") r4Num(r->app_in "%.4g") r4Num(r->deemb_in "%.4g")
+          r4Num(r->in_0p1 "%.4g") r4Num(r->in_1 "%.4g") r4Num(r->in_10 "%.4g") r4Num(r->in_100 "%.4g") r4Num(r->in_250 "%.4g")
+          or(r->noisetype ""))
+    r
+  )
+)
+;; gate: |step_gain/static - 1| < 10% and no node within 0.1 V of a rail -> PSS+PAC+PNoise; else BLOCKED (data kept)
+procedure( r5DGate(r st)
+  and(numberp(r->step_gain) numberp(st->step_gain) st->step_gain > 0
+      abs(r->step_gain / st->step_gain - 1.0) < 0.1
+      numberp(r->oa1_min) r->oa1_min > 0.1 r->oa1_max < 1.7 numberp(r->oa2_min) r->oa2_min > 0.1 r->oa2_max < 1.7)
+)
+procedure( r5StageD()
+  let( (port st d1 d2)
+    r5BuildTb("cd" "d1")
+    port = r5Open("r5_stageD.csv" r5DCols)
+    st = r5DTran(port "d2" "D0_static_tran" 0.0)
+    d1 = r5DTran(port "d1" "D1_chop4k_tran" 1.0)
+    d2 = r5DTran(port "d2" "D2_chop4k_tran" 1.0)
+    foreach(r list(st d1 d2) r->step_ratio = and(numberp(r->step_gain) numberp(st->step_gain) r->step_gain / st->step_gain))
+    r4Row(port r5DCols st)
+    foreach(r list(d1 d2)
+      if( r5DGate(r st)
+        r5DPss(r->slot strcat(substring(r->tag 1 2) "_pss_pnoise") r)
+        r->status = "BLOCKED(gate)")
+      r4Row(port r5DCols r))
+    close(port)
+    t
+  )
+)
+;; optional single sideband-convergence check (maxsideband 50) on one case
+procedure( r5StageDsb()
+  let( (port r)
+    port = r5Open("r5_stageD_sb50.csv" r5DCols)
+    r = list(nil 'tag "D1_pss_pnoise_sb50" 'cell r5Cell("cd" "d1") 'slot "d1" 'chen 1.0 'status "ok")
+    r5DPss("d1" "D1_pss_pnoise_sb50" r "50")
+    r4Row(port r5DCols r)
+    close(port)
+    t
+  )
+)
