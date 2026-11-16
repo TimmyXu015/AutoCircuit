@@ -396,3 +396,45 @@ procedure( r4C2()
     t
   )
 )
+
+;; ---------------- C3: real-bias final system ----------------
+;; Only VDD 1.8 V + ONE ideal 100 nA reference (IREF, pref -> gnd). PMOS diode MP0 4u/4u carries it;
+;; MP1 / MP2 2u/4u mirror ~50 nA into the main OTA IBIAS (ib) and the DRL OTA IBIAS (ibd).
+;; VREF = VDD divider RV1/RV2 90M/90M (10 nA) + CVR 20 pF decoupling; VCAS = RC1/RC2 70M/110M (1.10 V, 10 nA).
+;; VDDD is now a 0 V ammeter (vddd <- vdd) for the DRL OTA current. Ideal resistors in the dividers are a
+;; simplification (on-chip ~100 MOhm high-res poly would be large).
+r4Cells->rb = "ece203_r4_ecg_rb_tb"
+r4Cells->rbpr = "ece203_r4_ecg_rbpr_tb"
+r4RbVars = list(list("vcas" 1.10) list("rc1" 70e6) list("rc2" 110e6) list("ccm" 1e-12))
+
+procedure( r4SpecsRB(pr)
+  append(
+    setof(e r4Specs(pr) !member(caddr(e) '("VREF" "VCAS" "IB" "IBD" "VDDD")))
+    list(otaV("VDDD" "0" "0" "vddd" "vdd")
+         otaI("IREF" "iref" "pref" "gnd!")
+         ece203FetSpec("pfetx" "MP0" 4e-6 4e-6 "pref" "pref" "vdd" "vdd")
+         ece203FetSpec("pfetx" "MP1" 2e-6 4e-6 "ib" "pref" "vdd" "vdd")
+         ece203FetSpec("pfetx" "MP2" 2e-6 4e-6 "ibd" "pref" "vdd" "vdd")
+         otaR("RV1" "rv1" "vdd" "vref") otaR("RV2" "rv2" "vref" "gnd!") otaC("CVR" "cvref" "vref" "gnd!")
+         otaR("RC1" "rc1" "vdd" "vcas") otaR("RC2" "rc2" "vcas" "gnd!")))
+)
+
+procedure( r4C3()
+  let( (port portA r)
+    r4Build()
+    otaTb(r4Cells->rb r4SpecsRB(nil))
+    otaTb(r4Cells->rbpr r4SpecsRB(t))
+    portA = r4Open("r4_C3_final_dm.csv" r4ACols)
+    r = r4ACase(portA r4Cells->rbpr "C3_rbpr_dm" "FINAL: real bias + pseudo-R + real DRL (ccm 1p) + LP 31.8M/20p, VCAS div 1.10"
+                append(append(r4LP r4RealOn) r4RbVars) t)
+    acSay("r4C3 bias: vref %s vcas %s ib-node %s\n" r4Num(ldDc("vref") "%.5g") r4Num(ldDc("vcas") "%.5g") r4Num(ldDc("ib") "%.5g"))
+    r4ACase(portA r4Cells->rb "C3_rb_dm" "real bias + ideal Rfb + real DRL (ccm 1p) + LP 31.8M/20p"
+            append(append(r4LP r4RealOn) r4RbVars) t)
+    close(portA)
+    port = r4Open("r4_C3_final_drl.csv" r4BCols)
+    r4BCase(port "real" 0.01 r4RbVars "C3rbpr" r4Cells->rbpr)
+    r4BCase(port "real" 0.0 r4RbVars "C3rbpr" r4Cells->rbpr)
+    close(port)
+    t
+  )
+)
