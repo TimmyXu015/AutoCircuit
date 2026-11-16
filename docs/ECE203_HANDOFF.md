@@ -1,5 +1,7 @@
 # ECE203 ECG — Claude Code handoff (2026-11-15)
 
+> **Round-1 results (2026-11-15): [ECE203_round1_results.md](ECE203_round1_results.md)** — what was built, run commands, measured numbers, open decisions.
+>
 > **START HERE for the current ECE203 project.** This is the **execution handoff**, not evidence of completed design or successful Cadence runs.
 >
 > Authoritative detail: [Round 1 task and specification](ECE203_round1_task.md).

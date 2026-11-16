@@ -1,0 +1,12 @@
+ece203_ideal_ecg (Project)  Nov 15 18:14:47 2026  -- ideal VCVS amplifiers, ideal VREF; NOT a power/noise/swing/PM result
+vars: (("vref" 0.9) ("aol" 100000.0) ("aol3" 100000.0) ("cc" 1e-10) ("cf" 4e-12) ("rp" 3.98e+11) ("r1" 1000000.0) ("r2" 4000000.0) ("rlp" 3180000.0) ("clp" 2e-10) ("rcm" 1e+10) ("rs" 2000.0) ("re" 1000000.0) ("ce" 5e-08) ("cbody" 2e-10) ("adrl" 100.0) ("rdrl" 1000000.0) ("icm" 0.0) ("adm" 1.0) ("dcc" 0.0) ("delec" 0.0))
+DC op (DRL on): (("inp" 0.9) ("inn" 0.9) ("s1" 0.899991) ("o1" 0.899991) ("o2" 0.899991) ("o3" 0.899955) ("out" 0.899955) ("cm" 0.9) ("drl" 0.9) ("body" 0.9))
+DM (matched, DRL on): max|Hdm| 99.9291 (39.9938 dB), phase(10Hz) -1.716 deg, f_L 0.100117 Hz, f_H 249.847 Hz
+|Zin(10Hz)| at inp 1.59175e+08 ohm, at inn 1.59175e+08 ohm (includes Cc path and rcm CM-sense resistor)
+designed on-chip C (2cc + 2cf + clp, nominal) = 408 pF; external electrode/body C: 3 x 50 nF + 200 pF (not counted)
+case            dcc  delec    adrl    |Adm60|    |vcm|off     |vcm|on    on/off    |out|off     |out|on    CMRRoff     CMRRon
+matched           0      0     100     97.206      0.6647   0.0009962  0.001499   1.239e-10           0     234.35        n/a
+dcc1pct        0.01      0     100     97.692      0.6631   0.0009962  0.001502      0.6432   0.0009662      40.06      96.53
+delec10pct        0    0.1     100     97.206      0.6647   0.0009962  0.001499     0.01288   1.929e-05      74.01     130.50
+dcc1pct        0.01      0      10     97.692      0.6631    0.009138   0.01378      0.6432    0.008863      40.06      77.28
+dcc1pct        0.01      0    1000     97.692      0.6631   0.0001005 0.0001516      0.6432   9.749e-05      40.06     116.45

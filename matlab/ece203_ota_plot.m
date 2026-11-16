@@ -21,7 +21,7 @@ if has('ece203_a12olR1M_ac.csv')
     semilogx(R.f_Hz, R.A_dB, '--', 'LineWidth', 1.4);
     legend('C_L only', 'C_L + 1 M\Omega to v_{cm} (A3 input resistor)', 'Location', 'southwest');
 end
-yline(0, ':'); ylabel('|A_{OL}| (dB)');
+yline(0, ':', 'HandleVisibility', 'off'); ylabel('|A_{OL}| (dB)');
 title([name ': open loop (DC unity feedback through 1 T\Omega / 1 F)']);
 subplot(2,1,2);
 semilogx(A.f_Hz, A.phase_deg, 'LineWidth', 1.6); grid on; ylabel('phase (deg)'); xlabel('f (Hz)');

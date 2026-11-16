@@ -1,0 +1,8 @@
+ece203_a12_ota  Nov 15 18:38:55 2026  (first-guess sizes; ideal ib12 = 100 nA sunk from IBIAS; ideal VCP/VCN)
+devices (dev name W L D G S B): (("pfetx" "MREF" 2e-06 4e-06 "IBIAS" "IBIAS" "VDD" "VDD") ("pfetx" "M0" 1.2e-05 4e-06 "tail" "IBIAS" "VDD" "VDD") ("pfetx" "M1" 2e-05 1e-06 "d1" "INP" "tail" "tail") ("pfetx" "M2" 2e-05 1e-06 "d2" "INN" "tail" "tail") ("pfetx" "M3" 4e-06 5e-07 "n1" "VCP" "d1" "d1") ("pfetx" "M4" 4e-06 5e-07 "OUT" "VCP" "d2" "d2") ("nfetx" "M5" 2e-06 1e-06 "n1" "VCN" "x1" "GND") ("nfetx" "M6" 2e-06 1e-06 "OUT" "VCN" "x2" "GND") ("nfetx" "M7" 1e-06 1e-05 "x1" "n1" "GND" "GND") ("nfetx" "M8" 1e-06 1e-05 "x2" "n1" "GND" "GND"))
+bias: vcp 0.7 vcn 0.75 (from ece203_a12bias scan if present)
+open loop (follower DC, CL 5e-12 F): V(out) 0.89997 V, I(VDD) 6.6834e-07 A, |A(1mHz)| 14191 (83.04 dB), |A(1Hz)| 14158, UGF 2.0673e+05 Hz, phase(UGF) -91.79 deg
+open loop with 1 MOhm load to vcm: |A(1mHz)| 6.4784 (16.23 dB), UGF 2.04e+05 Hz
+  OL input noise V/rtHz @0.1/1/10/100/1k Hz: 1.696e-05 4.669e-06 1.371e-06 4.279e-07 1.478e-07
+closed loop (ece203_hp_real_tb, CL 5e-12 F): I(VDD) 6.6834e-07 A, |Zin(10Hz)| 1.5943e+08 ohm, |H(100Hz)| 24.948, f_L 0.099985 Hz, f_H 4485.2 Hz, loop UGF 4510.6 Hz, phase(UGF) 90.07, PM 90.07 deg
+  CL input-referred noise V/rtHz @0.1/1/10/100 Hz: 1.795e-05 4.869e-06 1.427e-06 4.452e-07
