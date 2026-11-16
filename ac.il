@@ -58,6 +58,8 @@ acJobs = list(nil
   'ece203_ss_lscan '(lsRunJob)
   'ece203_ss_lscan_ade '(lsAde)
   'ece203_ss_pr_a '(prStageAJob)
+  'ece203_ss_pr_a2 '(prStageA2Job)
+  'ece203_ss_pr_b '(prStageBJob)
 )
 
 ;; ---------- reporting ----------

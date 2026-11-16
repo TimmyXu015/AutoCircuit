@@ -115,3 +115,108 @@ procedure( prStageAJob()
     t
   )
 )
+
+;; ---------------- Stage A, one justified adjustment ----------------
+;; Base (W 1u, L 2u) gave ~9.7 TOhm at 0 V with tight tolerances (3x the 3.18 TOhm target). Sub-threshold
+;; current ~ W/L, so the single adjustment is W = 3u (same L); tight tolerances only (default is gmin-bound).
+procedure( prStageA2Job()
+  let( (port)
+    prBuild()
+    prVars = list(list("vcm" 0.9) list("vd" 0.0) list("prw" 3e-6) list("prl" 2e-6))
+    unless( isDir(prDir) createDir(prDir) )
+    port = outfile(strcat(prDir "/pr_iv_w3u.csv") "w")
+    fprintf(port "%s\n" buildString(mapcar('symbolToString prCols) ","))
+    prIvSet(port "tight_w3u" t)
+    close(port)
+    t
+  )
+)
+
+;; ---------------- Stage B: one S2 comparison, ideal Rfb vs pseudo-R ----------------
+;; Pseudo-R orientation: B (gate + n-well) on the low-impedance node (OUT / VREF), A (plain p+) on the
+;; high-impedance OTA input node, so the well is not hung on the floating summing node.
+prB = list(nil 'w 3e-6 'l 2e-6 'lin 8e-6)
+
+procedure( prBuildS2()
+  otaTb(prCells->s2 list(
+    ldV("VREF" "vref" "0" "vref" "gnd!")
+    ldSin("VINP" "vref" "ap" "vtp" "vinp" "gnd!")
+    ldSin("VINN" "vref" "an" "-vtp" "vinn" "gnd!")
+    otaC("CCP" "cc" "vinp" "p")  otaC("CCN" "cc" "vinn" "n")
+    otaC("CFP" "cfb" "p" "vref")
+    list(ece203Lib prCells->cell "XPP" nil '(("A" "p") ("B" "vref")))
+    otaC("CFN" "cfb" "n" "o")
+    list(ece203Lib prCells->cell "XPN" nil '(("A" "n") ("B" "o")))
+    ldProbe("IPRB" "oa" "o")
+    otaC("CL" "cl" "o" "gnd!")
+    ldV("VDD" "vdd" "0" "vdd" "gnd!")
+    otaI("IB" "ib3" "vdd" "ib")
+    lsInst('(("INP" "p") ("INN" "n") ("OUT" "oa") ("VDD" "vdd") ("GND" "gnd!") ("IBIAS" "ib")))))
+)
+
+prBCols = '(case cell tolerances status Hdm_10 Hdm_100 Hdm_100_dB Hdm_0p1 Hdm_max_dB fL fH
+  dc_o dc_n dc_p dc_vref V_PRN_A_minus_B V_PRP_A_minus_B I_PRN_id I_PRP_id I_VDD)
+
+procedure( prBRun(port name cell tight pr)
+  let( (r ok vp vn h c)
+    r = list(nil 'case name 'cell cell 'tolerances if( tight "gmin=iabstol=1e-18 reltol=1e-6" "spectre default") 'status "ok")
+    ok = errset(
+      progn(
+        ece203Setup(cell strcat("_" name))
+        when( tight car(errset(option('gmin "1e-18" 'iabstol "1e-18" 'reltol "1e-6") t)))
+        analysis('dc ?saveOppoint t)
+        analysis('ac ?start "1m" ?stop "100k" ?dec "20")
+        car(errset(save('i "/VDD/PLUS") nil))
+        ece203Vars(ssCfg->vars) ece203Vars(lsS2)
+        desVar("lin" prB->lin) desVar("prw" prB->w) desVar("prl" prB->l)
+        run()
+        vp = ldAc("vinp") vn = ldAc("vinn")
+        unless( vp error("no ac result"))
+        h = ldDiv(ldAc("o") vp - vn)
+        r->Hdm_10 = ldMag(h 10.0) r->Hdm_100 = ldMag(h 100.0) r->Hdm_100_dB = ece203Db(r->Hdm_100)
+        r->Hdm_0p1 = ldMag(h 0.1)
+        c = ldCorners(h) r->Hdm_max_dB = ece203Db(car(c)) r->fL = cadr(c) r->fH = caddr(c)
+        foreach(n '("o" "n" "p" "vref") putprop(r ldDc(n) stringToSymbol(strcat("dc_" n))))
+        r->I_VDD = ldIdc("/VDD/PLUS")
+        when( pr
+          r->V_PRN_A_minus_B = and(numberp(r->dc_n) numberp(r->dc_o) r->dc_n - r->dc_o)
+          r->V_PRP_A_minus_B = and(numberp(r->dc_p) numberp(r->dc_vref) r->dc_p - r->dc_vref)
+          r->I_PRN_id = car(errset(pv("/XPN/MP" "id" ?result "dcOpInfo") nil))
+          r->I_PRP_id = car(errset(pv("/XPP/MP" "id" ?result "dcOpInfo") nil)))
+        ldWriteCurves(strcat(prDir "/" name "_ac.csv") list(list("Hdm" h)))
+        ece203SaveNetlist(cell strcat("ece203_pr_" name))
+        t)
+      t)
+    unless( ok r->status = sprintf(nil "failed %L" errset.errset))
+    acSay("prB %s: %s | |Hdm| 0.1/10/100 Hz %s %s %s (%s dB) max %s dB fL %s fH %s | DC o %s n %s p %s | V_PRN %s V_PRP %s | I_PRN %s I_PRP %s | I_VDD %s\n"
+          name r->status acNum(r->Hdm_0p1 "%.4g") acNum(r->Hdm_10 "%.4g") acNum(r->Hdm_100 "%.4g")
+          acNum(r->Hdm_100_dB "%.2f") acNum(r->Hdm_max_dB "%.2f") acNum(r->fL "%.4g") acNum(r->fH "%.4g")
+          acNum(r->dc_o "%.6g") acNum(r->dc_n "%.6g") acNum(r->dc_p "%.6g")
+          acNum(r->V_PRN_A_minus_B "%.4g") acNum(r->V_PRP_A_minus_B "%.4g")
+          acNum(r->I_PRN_id "%.4g") acNum(r->I_PRP_id "%.4g") acNum(r->I_VDD "%.4g"))
+    let( (x first)
+      first = t
+      foreach(col prBCols
+        x = get(r col)
+        fprintf(port "%s%s" if( first "" ",")
+                cond( (stringp(x) if( rexMatchp("," x) strcat("\"" x "\"") x))
+                      (numberp(x) sprintf(nil "%.6g" float(x))) (t "n/a")))
+        first = nil)
+      fprintf(port "\n") drain(port))
+    r
+  )
+)
+
+procedure( prStageBJob()
+  let( (port)
+    prBuildS2()
+    unless( isDir(prDir) createDir(prDir) )
+    port = outfile(strcat(prDir "/pr_s2_compare.csv") "w")
+    fprintf(port "%s\n" buildString(mapcar('symbolToString prBCols) ","))
+    prBRun(port "ideal_Rfb_tight" lsCells->tb t nil)
+    prBRun(port "pseudoR_tight" prCells->s2 t t)
+    prBRun(port "pseudoR_default_tol" prCells->s2 nil t)
+    close(port)
+    t
+  )
+)
