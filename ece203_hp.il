@@ -174,7 +174,8 @@ procedure( hpSim()
     close(port)
 
     ;; netlist of this run (check that only VIN has mag=)
-    dir = strcat(acSimDir(hpCell) "_hp")
+    ;; OCEAN writes the netlist in the cell's default folder, not the "_hp" results folder
+    dir = acSimDir(hpCell)
     nl = strcat(res "/ece203_hp_netlist.scs")
     sh(sprintf(nil "f=$(find %s -name input.scs | head -1); [ -n \"$f\" ] && cp \"$f\" %s" dir nl))
     acSay("hp: netlist copied: %L; lines with mag=:\n" isFile(nl))

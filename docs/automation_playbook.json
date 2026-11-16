@@ -134,7 +134,9 @@
     "outputs_op": "sevAddExpression accepts OP(\"/M0\" \"gm\") style expressions and bandwidth(VF(\"/vout\") 3 \"low\"), VAR(\"fin\") (added without error; evaluated by the user in ADE).",
     "noise_analysis": "asiGetAnalysis(sess 'noise): choice fields sweep Frequency, rangeType Start-Stop, incrType Logarithmic, stepTypeLog 'Points Per Decade', outType ('voltage' | 'probe', default probe!), inType ('voltage' | 'current' | 'port' | 'none', default port); text fields start stop dec, p '/vout', n '/gnd!', inVsrc '/VIN' (input voltage source; iprobe is NOT the field ADE uses for a voltage input). Outputs: getData(\"out\" ?result \"noise\"), getData(\"in\" ?result \"noise\") in V/sqrt(Hz). OCEAN: analysis('noise ?start ?stop ?dec ?p \"/vout\" ?n \"/gnd!\" ?iprobe \"/VIN\") works.",
     "create_library": "ddCreateLib(name dir) creates the library AND adds DEFINE to the cds.lib of the working dir; attach technology with techSetTechLibName(ddGetObj(name) \"cmrf7sf\") (check with techGetTechLibName). Back up cds.lib first.",
-    "probe_fields": "To learn an analysis' field names: asiGetAnalysisParamNameList(ana) + asiGetAnalysisFieldChoices(ana f) for each (hw3ProbeAnalysis). Some listed names (readns, force, save, oppoint ...) raise ADE-5704 when read -- harmless."
+    "probe_fields": "To learn an analysis' field names: asiGetAnalysisParamNameList(ana) + asiGetAnalysisFieldChoices(ana f) for each (hw3ProbeAnalysis). Some listed names (readns, force, save, oppoint ...) raise ADE-5704 when read -- harmless.",
+    "vcvs": "analogLib vcvs: terminals PLUS MINUS (output) NC+ NC- (control), gain CDF param 'egain' (accepts a design variable); netlists as 'E1 (out- ... ) vcvs gain=aol' with vout = egain*(V(NC+)-V(NC-)).",
+    "ocean_current_save": "OCEAN: save('i \"/VIN/PLUS\") then i(\"/VIN/PLUS\" ?result \"ac\") works (current into the source's + pin, so Zin = v/(-i))."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
@@ -173,7 +175,8 @@
     "ipcSleep() inside a GUI job blocks the event loop, so an ADE run started with sevNetlistAndRun never completes (spectre is killed when run.sh stops Virtuoso). Verify ADE setups by the netlist it writes (~/simulation/<cell>/spectre/schematic/netlist/input.scs), simulate with OCEAN.",
     "SKILL rexMatchp has no '|' alternation; use several index()/rexMatchp calls.",
     "Python edits that cut 'from marker to end of file' can silently drop later procedures -- check that every acJobs function still exists (grep 'procedure( name') before pushing.",
-    "HW2 f_t results before 2026-10-28 were taken with VDS/VSUB at mag=1; corrected (5u/1u ft at vgs 0.25: 37.4 MHz cross, matches gm/(2pi Cgg) 37.0 MHz; the 'h21 levels off above 0 dB' finding for 2u/0.18u was an artifact of that, not device physics)."
+    "HW2 f_t results before 2026-10-28 were taken with VDS/VSUB at mag=1; corrected (5u/1u ft at vgs 0.25: 37.4 MHz cross, matches gm/(2pi Cgg) 37.0 MHz; the 'h21 levels off above 0 dB' finding for 2u/0.18u was an artifact of that, not device physics).",
+    "OCEAN resultsDir(<dir>_suffix) moves psf only: the netlist of an OCEAN run is still written to ~/simulation/<cell>/spectre/schematic/netlist/input.scs (the cell's default folder)."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
