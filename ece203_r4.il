@@ -28,7 +28,7 @@ r4Vars = list(list("vdd" 1.8) list("vref" 0.9) list("ib3" 50e-9) list("ibd" 50e-
   list("cc" 50e-12) list("cfb" 0.5e-12) list("rfb" 3.1831e12) list("prw" 3e-6) list("prl" 2e-6) list("cl" 0.0)
   list("rlp" 3.18e6) list("clp" 200e-12) list("rcm" 10e9) list("rs" 2e3) list("re" 1e6) list("ce" 50e-9)
   list("cbody" 200e-12) list("icm" 0.0) list("adm" 1.0) list("vcmin" 0.0) list("dcc" 0.0)
-  list("adrl" 100.0) list("rdi" 1e15) list("rdr" 1e15) list("rdrl0" 1e6))
+  list("adrl" 100.0) list("rdi" 1e15) list("rdr" 1e15) list("rdrl0" 1e6) list("itr" 0.0))
 r4Off = list(list("rdi" 1e15) list("rdr" 1e15))
 r4IdealOn = list(list("rdi" 1e6) list("rdr" 1e15))
 r4RealOn = list(list("rdi" 1e15) list("rdr" 1e6))
@@ -72,6 +72,7 @@ procedure( r4Specs(pr)
       ;; body + sources
       otaC("CBODY" "cbody" "body" "gnd!")
       list("analogLib" "idc" "IINT" '(("idc" "0") ("acm" "icm")) '(("PLUS" "gnd!") ("MINUS" "body")))
+      list("analogLib" "isin" "IINTT" '(("io" "0") ("ia" "itr") ("freq" "60") ("acm" "0")) '(("PLUS" "gnd!") ("MINUS" "body")))
       otaV("VSP" "0" "adm/2+vcmin" "ep" "body")
       otaV("VSN" "0" "-adm/2+vcmin" "en" "body")
       ;; electrodes
@@ -244,6 +245,111 @@ procedure( r4StageA()
     r4ACase(port r4Cells->tb "A2_idealRfb_noLP" "ideal Rfb, LP removed (rlp 1e15) - loading reference" append(r4Off list(list("rlp" 1e15))) nil)
     r4ACase(port r4Cells->tb "A3_idealRfb_LP31M8" "ideal Rfb, LP alternative 31.8M/20p (same tau)" append(r4Off list(list("rlp" 31.8e6) list("clp" 20e-12))) nil)
     r4ACase(port r4Cells->pr "A4_pseudoR_LP" "pseudo-R W3u/L2u, LP 3.18M/200p, DRL off" r4Off t)
+    close(port)
+    t
+  )
+)
+
+
+;; ---------------- Stage B: DRL ----------------
+;; System LP = Stage-A alternative 31.8 MOhm / 20 pF (the one RC change). Cc mismatch dcc 1 % for CMRR.
+r4LP = list(list("rlp" 31.8e6) list("clp" 20e-12))
+r4BCols = '(tag drl dcc status reason Adm60 Acm60 CMRR60_dB body60 vcm60 out60 o60 drl60 body60_per_uA
+  Zin_amp_P_10 Zin_amp_N_10 ugf pm lg60 lg_dc ph0 dc_o dc_cm dc_body dc_drlr dc_drli I_VDD I_VDDD margin_A worst_A margin_D worst_D
+  tr_body_pp tr_o_min tr_o_max tr_out_pp tr_vcm_pp tr_drl_min tr_drl_max)
+
+procedure( r4DrlOver(mode)
+  cond( (mode == "off" r4Off) (mode == "ideal" r4IdealOn) (t r4RealOn))
+)
+
+procedure( r4Stb(cell tag over)
+  let( (s)
+    ece203Setup(cell strcat("_" tag))
+    r4Tight()
+    analysis('stb ?start "1m" ?stop "10M" ?dec "20" ?probe "/IPRD")
+    r4Set(over)
+    run()
+    s = otaStb()
+    list(car(s) cadr(s) and(cadddr(s) ldMag(cadddr(s) 60.0)) and(cadddr(s) ldMag(cadddr(s) 1e-3)) nth(4 s) cadddr(s))
+  )
+)
+
+procedure( r4Tran(cell tag over)
+  let( (b o out vcm drl res)
+    ece203Setup(cell strcat("_" tag))
+    r4Tight()
+    analysis('tran ?stop "50m" ?maxstep "20u")
+    r4Set(append(over list(list("itr" 0.1e-6) list("adm" 0.0))))
+    run()
+    b = car(errset(v("/body" ?result "tran") nil))
+    o = car(errset(v("/o" ?result "tran") nil))
+    out = car(errset(v("/out" ?result "tran") nil))
+    vcm = car(errset((v("/inp" ?result "tran") + v("/inn" ?result "tran")) / 2.0 nil))
+    drl = car(errset(v("/drlr" ?result "tran") nil))
+    res = list(nil 'b b 'o o 'out out 'vcm vcm 'drl drl)
+    spsWriteWaves(strcat(r4Dir "/" tag "_tran.csv") "t_s,body_V,o_V,out_V,vcm_V,drlr_V" list(b o out vcm drl))
+    res
+  )
+)
+procedure( r4Pp(w a b) car(errset(ymax(clip(w a b)) - ymin(clip(w a b)) nil)) )
+
+procedure( r4BCase(port mode dcc)
+  let( (r over dm cm it st tr ok tag)
+    tag = sprintf(nil "B_%s_dcc%g" mode dcc * 100.0)
+    over = append(append(r4LP r4DrlOver(mode)) list(list("dcc" dcc)))
+    r = list(nil 'tag tag 'drl mode 'dcc dcc 'status "ok")
+    ok = errset(
+      progn(
+        dm = r4Ac(r4Cells->tb strcat(tag "_dm") 'dm over nil)
+        cm = r4Ac(r4Cells->tb strcat(tag "_cm") 'cm over nil)
+        it = r4Ac(r4Cells->tb strcat(tag "_int") 'int over nil)
+        r->Adm60 = dm->Hout_60
+        r->Acm60 = ldMag(cm->out 60.0)
+        r->CMRR60_dB = and(numberp(r->Adm60) numberp(r->Acm60) r->Acm60 > 0 ece203Db(r->Adm60 / r->Acm60))
+        r->Zin_amp_P_10 = dm->Zin_amp_P_10 r->Zin_amp_N_10 = dm->Zin_amp_N_10
+        r->body60 = ldMag(it->body 60.0) r->vcm60 = ldMag(it->vcm 60.0) r->out60 = ldMag(it->out 60.0)
+        r->o60 = ldMag(it->o 60.0)
+        r->drl60 = ldMag(car(errset(v(if( mode == "ideal" "/drli" "/drlr") ?result "ac") nil)) 60.0)
+        r->body60_per_uA = and(r->body60 r->body60 / 0.1)
+        foreach(k '(dc_o dc_cm dc_body dc_drlr dc_drli I_VDD I_VDDD margin_A worst_A margin_D worst_D)
+          putprop(r get(dm k) k))
+        when( mode != "off"
+          st = car(errset(r4Stb(r4Cells->tb strcat(tag "_stb") over) t))
+          when( st
+            r->ugf = nth(0 st) r->pm = nth(1 st) r->lg60 = nth(2 st) r->lg_dc = nth(3 st) r->ph0 = nth(4 st)
+            ldWriteCurves(strcat(r4Dir "/" tag "_stb.csv") list(list("LG" nth(5 st))))))
+        when( dcc > 0.0
+          tr = car(errset(r4Tran(r4Cells->tb strcat(tag "_tran") over) t))
+          when( tr
+            r->tr_body_pp = r4Pp(tr->b 0.0333 0.05)
+            r->tr_o_min = car(errset(ymin(clip(tr->o 0.0333 0.05)) nil)) r->tr_o_max = car(errset(ymax(clip(tr->o 0.0333 0.05)) nil))
+            r->tr_out_pp = r4Pp(tr->out 0.0333 0.05) r->tr_vcm_pp = r4Pp(tr->vcm 0.0333 0.05)
+            r->tr_drl_min = car(errset(ymin(clip(tr->drl 0.0333 0.05)) nil)) r->tr_drl_max = car(errset(ymax(clip(tr->drl 0.0333 0.05)) nil))))
+        t)
+      t)
+    unless( ok r->status = "failed" r->reason = sprintf(nil "%L" errset.errset))
+    acSay("r4B %s: %s %s | Adm60 %s Acm60 %s CMRR %s dB | int: body %s vcm %s out %s o %s drl %s V | Zin P/N %s %s | stb UGF %s PM %s LG60 %s LGdc %s ph0 %s | DC o %s cm %s body %s drlr %s | I %s %s | margin A %s %s D %s %s | tran body pp %s o %s..%s out pp %s vcm pp %s drl %s..%s\n"
+          tag r->status or(r->reason "") r4Num(r->Adm60 "%.4g") r4Num(r->Acm60 "%.4g") r4Num(r->CMRR60_dB "%.2f")
+          r4Num(r->body60 "%.4g") r4Num(r->vcm60 "%.4g") r4Num(r->out60 "%.4g") r4Num(r->o60 "%.4g") r4Num(r->drl60 "%.4g")
+          r4Num(r->Zin_amp_P_10 "%.4g") r4Num(r->Zin_amp_N_10 "%.4g")
+          r4Num(r->ugf "%.4g") r4Num(r->pm "%.1f") r4Num(r->lg60 "%.4g") r4Num(r->lg_dc "%.4g") r4Num(r->ph0 "%.1f")
+          r4Num(r->dc_o "%.5g") r4Num(r->dc_cm "%.5g") r4Num(r->dc_body "%.5g") r4Num(r->dc_drlr "%.5g")
+          r4Num(r->I_VDD "%.4g") r4Num(r->I_VDDD "%.4g") r4Num(r->margin_A "%.3f") or(r->worst_A "")
+          r4Num(r->margin_D "%.3f") or(r->worst_D "")
+          r4Num(r->tr_body_pp "%.4g") r4Num(r->tr_o_min "%.4g") r4Num(r->tr_o_max "%.4g") r4Num(r->tr_out_pp "%.4g")
+          r4Num(r->tr_vcm_pp "%.4g") r4Num(r->tr_drl_min "%.4g") r4Num(r->tr_drl_max "%.4g"))
+    r4Row(port r4BCols r)
+    r
+  )
+)
+
+procedure( r4StageB()
+  let( (port)
+    r4Build()
+    port = r4Open("r4_drl_60hz.csv" r4BCols)
+    foreach(mode '("off" "ideal" "real")
+      r4BCase(port mode 0.01)
+      r4BCase(port mode 0.0))
     close(port)
     t
   )

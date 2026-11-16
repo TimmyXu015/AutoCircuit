@@ -68,6 +68,7 @@ acJobs = list(nil
   'ece203_ss_chop_ade '(chAde)
   'ece203_ss_chop_noise '(cnRunJob)
   'ece203_r4_a '(r4StageA)
+  'ece203_r4_b '(r4StageB)
 )
 
 ;; ---------- reporting ----------
