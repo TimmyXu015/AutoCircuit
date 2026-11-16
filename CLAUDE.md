@@ -17,7 +17,11 @@ When you learn something new (a working API call, a fix, a trap), add it to the 
 in the same commit.
 
 
-## Active next task — ECE203 Round 3C: PMOS input and local cascode OTA comparison (2026-11-16)
+## Active next task — ECE203 Round 3D ideal-clock / ideal-switch Chopper ceiling (2026-11-16)
+
+**User-approved short experiment:** [docs/ECE203_round3d_ideal_chopper_ceiling_microtest.md](docs/ECE203_round3d_ideal_chopper_ceiling_microtest.md). First test **ideal 2 kHz clock + ideal commutating switches** in **single-stage S2 BioAmp** (unchanged ideal Rfb), with a simple ideal-VCVS golden 10Hz transient, then frozen Round3C **local-cascode C OTA** 10Hz transient. Ensure correct demodulation, stable **negative feedback**, accurate differential gain and output CM. C has only 47mV M2 headroom. If signals work, attempt exactly **one bounded** periodic-noise PSS/PNoise comparison (one reasonable correction permitted) to estimate upper noise-improvement ceiling vs unchanged C baseline (16.1uVrms 0.1–250Hz); ordinary static noise is **invalid** for switched Chopper. If PSS/PNoise unsupported or unconverged, **report noise as unverified**, do not invent results. Single-ended output needs explicit ideal sign-inverter around Vref if using phase switching; disclose as nonphysical aid. **No physical MOS switches, no new real OTA stages, no topology/parameter sweep, no excess simulations**. Preserve old cells/data and user GUI; stop with compact report for user/GPT.
+
+## Completed Round 3C — PMOS input and local cascode OTA comparison (2026-11-16)
 
 **User-approved bounded test:** [docs/ECE203_round3c_ota_pmos_cascode_microcompare.md](docs/ECE203_round3c_ota_pmos_cascode_microcompare.md). Copy the existing single-stage S2 5T OTA into separate new cells and compare **B: baseline NMOS L=8µm, P: PMOS-input 5T, C: single output-branch NMOS cascode**. Only one viable setup per variant (one necessary correction max). At the same supply/current and **same ideal-Rfb S2 bench**, run **DC + AC gain + 0.1–250Hz Noise Summary**, record **both** application-band output-RMS/midband-gain and pointwise-deembedded input RMS. Check actual PDK device type, sign, bias, headroom and input area. **No full Harrison, no chopper, no pseudo-R changes, no extra designs, no parameter scans, no STB/tran/Monte Carlo. Stop with a short three-row comparative report and ask user/GPT which route to keep.** Preserve all previous cell/results and user GUI processes.
 
