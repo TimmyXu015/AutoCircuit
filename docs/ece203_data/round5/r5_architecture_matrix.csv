@@ -1,0 +1,10 @@
+stage,case,config,evidence,H100 (out),dB,fL Hz,fH Hz,main UGF / PM,LG10,Zout_cl@100Hz,I_OTA2 nA,noise app / deemb uV,OTA2 fn ref. ECG uV,verdict
+A,A_noLP,"C OTA, no LP (fb)",Spectre,94.22 (fb),39.48,0.094,8815 (fb),8.30 kHz / 93.4,16.2,29.1 MOhm,-,-,-,reference
+A,A_LP,C OTA + LP (R4 forward chain),Spectre,71.75,37.12,0.095,117.3,315 Hz / 142,12.5,29.1 MOhm,-,20.22 / 16.68,-,loading loss (R4 problem)
+A,A_LP_idealBUF,C OTA + ideal x1 + LP,Spectre + Ideal-diag,87.49,38.84,0.095,249.8,311 kHz / 89.4,16.2,0.058 Ohm,-,17.11 / 16.68,0 (ideal),proof: Zout is the cause
+B1,B1_CD_LP,C OTA + NMOS CD,Spectre,85.47,38.64,0.093,249.5,181 kHz / 73.4,11.5,47.1 kOhm,53.6,17.13 / 16.69,0.042,candidate (chopper-friendly)
+B2,B2_CS_cm0p5_LP,"C OTA + PMOS CS, Miller 0.5p",Spectre,92.75,39.35,0.100,249.2,8.08 kHz / 87.4,700.8,77.3 kOhm,53.6,17.07 / 16.69,0.028,candidate (best static)
+B3,-,C OTA + CS + CD,-,-,-,-,-,-,-,-,-,-,-,NOT RUN (no trigger)
+D,D1 (CD),"demod after OTA1, 4 kHz",Spectre PSS/PNoise + ideal switches,81.29 (PAC),38.20,-,-,-,-,-,53.3,5.29 / 12.17 (sb30),1.16,OTA2 pushed to cutoff each half period
+D,D2 (CD),"demod after OTA2, 4 kHz",Spectre PSS/PNoise + ideal switches,81.13 (PAC),38.18,-,-,-,-,-,58.0,5.21 / 11.76 (sb30); 6.19 / 14.25 (sb50),0.040,preferred position; 33 mV pp ripple
+E,E_cs_dm,R4 real architecture + CS OTA2,"Spectre (real bias, pseudo-R, real DRL)",91.91,39.27,0.0773,249.1,8.68 kHz / 87.6,742,-,57.3,17.15 / 16.58,~0 (0.0003 %),"gain + fH PASS; fL, noise FAIL"

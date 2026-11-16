@@ -1,0 +1,19 @@
+metric,target,"R5 final (R4 real arch + C OTA + CS OTA2, Miller 0.5p)",R4 final (reference),status,evidence / note
+"DM gain @100 Hz (out, ref. electrode source)",40 +/- 2 dB,91.91 (39.27 dB); at o (before LP) 98.97,72.2 (37.17 dB),PASS (sim),"Spectre ac, real bias/DRL/pseudo-R; gain 10 Hz 98.92"
+fL,0.1 Hz +/- 10%,0.0773 Hz,0.073 Hz,SPEC FAIL,set by pseudo-R (unchanged per task); ideal-Rfb S2 bench gives 0.100 Hz
+fH,250 Hz +/- 10%,249.1 Hz,121 Hz,PASS (sim),LP 31.8M/20p now driven by the low-Zout two-stage loop
+input-referred noise 0.1-250 Hz,< 3 uVrms,16.58 uV deemb; 17.15 uV app (out 1.577 mVrms / |H100|),16.6 / 20.1 uV,SPEC FAIL,"~99% OTA1 flicker (M1 29.1, M2 26.1, M4 22.0, M3 21.8 %); OTA2 0.0003 %"
+input PSD 0.1/1/10/100/250 Hz,report,22.9 / 6.13 / 1.76 / 0.541 / 0.350 uV/rtHz,-,reported,pointwise de-embedded
+"CMRR @60 Hz, DRL ON, Cc 1% mismatch",> 85 dB,95.42 dB (matched Cc: 93.83 dB),91.35 / 92.51 dB,PASS (sim),real DRL OTA + 2x1p ccm
+"CMRR @60 Hz, DRL OFF",report,64.75 dB,53.9 dB,reported,DRL off: body interference clips (below)
+body 0.1 uA@60 Hz interference (separate),no clipping,"DRL ON: |Vbody| 37.4 mV, out 2.10 mV; tran o 0.895-0.900 V",37.4 mV / 2.9 mV,PASS (sim),"DRL OFF: |Vbody| 1.32 V, tran o 1.799-1.800 V (rail) - fails"
+|Zin(10 Hz)| at amplifier inputs,> 100 MOhm,"P 7.06 GOhm, N 0.159 GOhm",7.06 / 0.168 GOhm,PASS (sim),same port definition as R4
+"main loop stability (probe after OTA2, before LP)",PM >= 55 deg,"UGF 8.68 kHz, PM 87.6 deg, LG(10 Hz) 742, LG(100 Hz) 82.8",R4 single stage loaded by LP,PASS (sim),Spectre stb /IPRB
+DRL loop stability,report,"UGF 2.05 kHz, PM 90.1 deg, LG(60 Hz) 34.1",2.05 kHz / 90.1 deg,PASS (sim),stb probe in series with right-leg electrode
+DC / headroom,no device in triode,"oa1 1.435 V, oa 0.898 V; OTA1 worst M2 0.094 V; OTA2 MCS/MCL margin 0.80 V; DRL worst 0.293 V",M2 0.090 V,PASS (sim),VCAS divider 1.10 V
+total power @1.8 V,< 4 uW,782.0 nA -> 1.408 uW (R4 724.8 nA + OTA2 57.3 nA),1.30 uW,PASS (sim),VDD + one ideal 100 nA ref only
+NEF,report,"35.8 (Itot 782 nA, BW 249 Hz, Vni 16.58 uV)",49.4,reported,"NEF = Vni*sqrt(2 Itot/(pi UT 4kT BW)), T 300 K"
+designed capacitance,< 1 nF,143.5 pF (R4 143 pF + CM2 0.5 pF),143 pF,PASS,external electrodes/body excluded
+source budget,VDD + one 100 nA ref,met: OTA2 sink mirrored from the existing ib node,met,PASS,
+chopper,not in this config,NOT RUN in E (D: ideal-switch placement study only),-,NOT RUN,task E: no chopper
+mismatch MC,-,NOT RUN this round,N=12 (R4),NOT RUN,

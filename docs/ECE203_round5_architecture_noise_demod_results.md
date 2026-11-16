@@ -144,3 +144,81 @@ oa2 ─[槽 2：直通 或 D2 解调：oa2 / 2·VREF−oa2]─► d2 ─IPRB─�
 7. **noisetype：** OCEAN 中请求了 `?noisetype "timeaverage"`，但最终网表的 pnoise 行里**没有** noisetype（见 `D*_netlist.scs`，原始数据保存在实验记录本 _raw 目录中），即使用 Spectre 默认值（ADE 只在非默认值时才写入）。由于查询 `spectre -h pnoise` 没有返回内容，**默认值是否为 time-average 还未独立确认**。
 
 **D 节结论：** 在这个隔离测试台、理想开关条件下，**D2（解调放在 OTA2 后）不会差于 D1，而且避免了 D1 让 CD 承受大信号方波、OTA2 1/f 被放大约 28 倍的问题**。但对整机噪声来说，两者只差约 3%，被折叠的 OTA1 热噪声和 33 mV 斩波纹波才是更大的问题。**结论：倾向 D2，原因主要是 OTA2 的工作点和摆幅，而不是噪声。**限制条件：非物理的 EINV、理想开关、PNoise 未收敛、仅为隔离 S2 测试台。
+
+## E — 最佳候选 CS 回到 Round-4 真实 ECG 架构（不斩波）[Spectre，真实偏置 / pseudo-R / 真实 DRL]
+
+数据：`stageE/`，规格表 `r5_final_spec_matrix.csv`。Cell 为 `Project/ece203_r5_ecg_cs_rbpr_tb`，ADE state 为 `r5_final_cs`。
+
+**为什么 E 用 CS 而不是 CD：**
+- B 节里 CS 在不斩波条件下的各项指标都更好：增益 92.75，与理想值 92.8（100 × LP 衰减）几乎一致；CD 只有 85.47。
+- CS 在 10 Hz 的环路增益为 701，CD 为 11.5。增益精度对器件参数和失配不敏感。
+- CS 的 PM 为 87°。
+- 两者噪声相同。
+- 代价：CS 的 UGF 只有 8 kHz，**如果以后要接 4 kHz chopper，CS 的带宽余量不足**。D 节只验证了 CD，CS 的斩波兼容性**还没有测试**。
+
+**架构说明：**
+- 与 Round 4 最终版完全相同：3 个电极 + 人体，pseudo-R W3u/L2u（**没有改动**），真实 DRL OTA + 2 × 1 pF ccm，VDD 加一个 100 nA 参考，PMOS 镜像，VREF / VCAS 电阻分压（VCAS 1.10），LP 31.8 MΩ / 20 pF。
+- **唯一改动：** OTA1 输出接到 oa1，CS 级（MCS 4u/2u 加镜像负载 MCL 2u/4u）从 oa1 驱动到 oa，CM2 = 0.5 pF；OTA1 的输入交换；反馈取样点 o 在 OTA2 之后、LP 之前。
+- OTA2 的偏置从现有 ib 节点镜像得到，不增加新的电流源。
+
+| 指标 | 目标 | **R5 最终（CS）** | R4 最终 | 状态 |
+|---|---|---|---|---|
+| DM 增益@100 Hz（out） | 40 ± 2 dB | **91.91（39.27 dB）**；10 Hz 处 98.92 | 72.2（37.17 dB） | **PASS（仿真）** |
+| fL | 0.1 Hz ± 10% | 0.0773 Hz | 0.073 Hz | SPEC FAIL（由 pseudo-R 决定，按任务书不改） |
+| fH | 250 Hz ± 10% | **249.1 Hz** | 121 Hz | **PASS（仿真）** |
+| 噪声 0.1–250 Hz（折算到输入） | < 3 µVrms | 16.58 µV（逐点 de-embed）/ 17.15 µV（应用型，out 1.577 mVrms） | 16.6 / 20.1 µV | SPEC FAIL（约 99% 来自 OTA1 flicker；OTA2 占 0.0003%） |
+| 输入 PSD @ 0.1 / 1 / 10 / 100 / 250 Hz | — | 22.9 / 6.13 / 1.76 / 0.541 / 0.350 µV/√Hz | — | 记录 |
+| CMRR@60 Hz，DRL 开，Cc 失配 1% | > 85 dB | **95.42 dB**（Cc 匹配时 93.83 dB） | 91.35 / 92.51 dB | PASS（仿真） |
+| CMRR@60 Hz，DRL 关 | 记录 | 64.75 dB | 53.9 dB | 记录 |
+| 人体 0.1 µA @ 60 Hz 干扰（单独测） | 不削顶 | DRL 开：\|Vbody\| 37.4 mV，out 2.10 mV，tran 中 o 在 0.895–0.900 V；DRL 关：\|Vbody\| 1.32 V，o **贴到 1.80 V 电源轨** | 相同趋势 | DRL 开 PASS / DRL 关 FAIL |
+| \|Zin(10 Hz)\|（放大器输入端） | > 100 MΩ | P 7.06 GΩ，N 0.159 GΩ | 7.06 / 0.168 GΩ | PASS（仿真） |
+| 主环路 stb（/IPRB） | PM ≥ 55° | UGF 8.68 kHz，**PM 87.6°**，LG10 742，LG100 82.8 | — | PASS（仿真） |
+| DRL 环路 stb（/IPRD） | 记录 | UGF 2.05 kHz，PM 90.1°，LG60 34.1 | 相同 | PASS（仿真） |
+| DC / 余量 | 无三极管区 | oa1 1.435 V，oa = o = 0.898 V；OTA1 最差 M2 0.094 V；MCS / MCL 余量 0.80 V；DRL 最差 0.293 V | M2 0.090 V | PASS（仿真） |
+| 总功耗 @1.8 V | < 4 µW | **782.0 nA → 1.408 µW**（R4 的 724.8 nA + OTA2 57.3 nA） | 1.30 µW | PASS（仿真） |
+| NEF | 记录 | 35.8（Itot 782 nA，BW 249 Hz） | 49.4 | 记录 |
+| 电容总量 | < 1 nF | 143.5 pF（R4 的 143 pF + CM2 0.5 pF） | 143 pF | PASS |
+| Chopper | — | 本配置**未加入**（NOT RUN） | — | — |
+
+## 决策备忘（供用户 / GPT 决定下一轮）
+
+1. **输出级问题已经解决。** A 节用理想 buffer 证明了 Round 4 的增益 / fH 失败是 OTA 输出阻抗造成的。真实 CS 第二级在整机中达到 39.27 dB / 249 Hz，PM 87.6°，只多消耗 57 nA。CD 也能用（38.64 dB），但环路增益只有 11.5。
+2. **OTA2 的 flicker 对静态整机可以忽略**（折算到 ECG 输入 0.03–0.04 µV，判定规则是小于 0.5 µV 即可忽略）。整机噪声约 99% 来自 OTA1 的输入对和镜像 flicker（12.4 + 10.9 µV）。降噪必须针对 OTA1，可以是 chopper 包住 OTA1 加镜像，或者增大面积。
+3. **解调位置：倾向 D2（OTA2 之后）。** D1 会让 OTA2 的输入承受 0.6 V 峰峰值的斩波方波，CD 在一半周期里接近关断，OTA2 的 1/f 被放大到 1.16 µV。不过两种方案的总噪声只差约 3%。
+4. **斩波的真正问题：**
+   - 33 mV 峰峰值输出纹波，来源是 OTA1 未被斩波的输出电平；
+   - 折叠进来的 OTA1 热噪声，30 个边带下约 11 µV，而且随边带数还在增长，PNoise 尚未收敛。
+   
+   做真实 MOS chopper 之前需要先决定纹波处理方案（RRL、更高的 fch 或二阶 LP），并重新评估 CS 级在 fch 处的环路增益。
+5. **仍然 FAIL 的项：**
+   - fL 0.077 Hz，由 pseudo-R 决定，本轮按规定没有改；
+   - 噪声 16.6 µV，需要 chopper 或改动 OTA1，均属于下一轮的工作。
+
+## 资源与审计
+
+- **Spectre 运行量（按任务书口径计）：**
+  - A：5 个用例（含 3 次 stb）
+  - B：4 个（含 2 次 stb）
+  - D：3 次 tran + 3 次 PSS（D2 sb30、D1 sb30、D2 sb50）
+  - E：5 个（dm + noise、主环路 stb、DRL 关 1%、DRL 开 1%、DRL 开 0%），每个用例内含 dm / cm / int / stb / tran
+  - 合计 **20 个用例，PSS 3 次**，在 ≤ 25 / ≤ 3 的限额内。
+- **重跑：**
+  - D 任务第一次运行因列名格式错误，在任何仿真开始前就失败了；
+  - E 任务第一次运行因为 D 补充脚本的一次编辑把 E 代码截掉了，导致函数未定义，同样没有跑任何仿真。
+  - 这两次都不算用例。
+- **ADE states：**
+  - `r5_final_cs`（`ece203_r5_ecg_cs_rbpr_tb`，包含 dc、ac、noise、DRL stb、tran）；
+  - `r5_B1_CD_S2`；
+  - `r5_B2_CS_S2`；
+  - `r5_D1_CD_S2_demodslot1`（S2 测试台，包含 dc、ac、noise、主环路 stb）。
+  
+  GUI 任务结束时出现的 X11 报错发生在 `AC_BATCH_DONE` 之后，4 个 state 都已经返回 t。
+- **新建的 Cells：** `ece203_r5_cd`、`ece203_r5_cs`、`ece203_r5_s2_{none,ibuf,cd,cs}_d2`、`ece203_r5_s2_cd_d1`、`ece203_r5_ecg_cs_rbpr_tb`。旧的 R3 / R4 cell 都没有改动。
+- **清理：** 只删除了本轮可重建的 tran 仿真目录（D0 / D1 / D2，约 107 MB）和临时 tgz。目前配额剩余约 340 MB。
+- **公开仓库合规：** 没有提交 PDK 模型、网表或 license。网表只保存在实验记录本的 _raw 目录中。
+
+## 最终三行
+
+1. **输出级：** 加入真实 CS 第二级（Miller 0.5 pF）后，整机增益为 39.27 dB，fH 249 Hz，PM 87.6°，功耗 1.41 µW，CMRR 95.4 dB；Round 4 的负载瓶颈已解决。
+2. **噪声：** OTA2 的 1/f 折算到 ECG 输入只有 0.03–0.04 µV，可以忽略；整机 16.6 µV 几乎全部来自 OTA1 flicker，fL 0.077 Hz 和噪声仍为 FAIL。
+3. **解调位置：** 4 kHz 理想开关下，D2（OTA2 后）优于 D1（D1 使 OTA2 的 1/f 增大到 1.16 µV），但总噪声只差约 3%；真正的障碍是 33 mV 峰峰值纹波和尚未收敛的折叠热噪声。
