@@ -1,0 +1,4 @@
+config,description,Hout_100,dB,fL_Hz,fH_Hz,noise_deemb_uV,CMRR60_dB_Cc1pct,DRL_PM_deg,I_total_nA,M2_margin_V,sources
+baseline A1,"ideal Rfb, LP 3.18M/200p, VCAS 1.05, DRL off",18.94,25.55,0.094,20.6,16.63,53.9 (off),-,566 (both OTAs),0.047,ideal VREF/VCAS/IB
+candidate 1 (C2after),"ideal Rfb, LP 31.8M/20p, VCAS 1.10, real DRL + ccm 1p",71.7*,37.11*,0.095,117,-,91.33,90.3,"566 (both OTAs, ref not counted)",0.090,ideal VREF/VCAS/IB
+candidate 2 = FINAL (C3),"pseudo-R, LP 31.8M/20p, VCAS div 1.10, real DRL + ccm 1p, real bias",72.20,37.17,0.073,121.4,16.57,91.35,90.1,724.8,0.090,VDD + one 100 nA ref

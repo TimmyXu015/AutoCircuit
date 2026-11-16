@@ -1,0 +1,16 @@
+metric,target,final value (C3: real bias + pseudo-R + real DRL + LP 31.8M/20p),status,evidence / note
+"DM gain @100 Hz (at out, ref. electrode source)",40 +/- 2 dB,72.2 (37.17 dB); MC12 37.03-37.26 dB,SPEC FAIL,LP loading of the single-stage OTA output; at node o (before LP) 77.8
+fL,0.1 Hz +/- 10%,0.073 Hz (pseudo-R); ideal-Rfb variant 0.0946 Hz,SPEC FAIL (pseudo-R) / PASS ideal Rfb (non-implementable),MC12 fL 0.067-0.079 Hz
+fH,250 Hz +/- 10%,121 Hz,SPEC FAIL,one RC alternative used (31.8M/20p); baseline 3.18M/200p gave 20.6 Hz
+input-referred noise 0.1-250 Hz,< 3 uVrms,16.6 uVrms (pointwise de-embedded); 20.1 uV app. (out_rms/|H(100)|),SPEC FAIL,"~99% main-OTA flicker (M1 28.5, M2 25.5, M4 22.8, M3 22.6 %)"
+"CMRR @60 Hz, DRL ON",> 85 dB,"91.35 dB (Cc 1% mismatch), 92.51 matched; MC12 91.7-93.0 dB",PASS (sim),"real DRL OTA + ccm 1p; DRL OFF 53.9 dB (reported, fails)"
+"CMRR @60 Hz, DRL OFF",report,53.9 dB (Cc 1%) ; body 0.1uA interference saturates the OTA output (1.02-1.80 V),reported,single-stage OTA CM rejection limit
+body 0.1 uA@60 Hz interference (separate test),no clipping,"DRL ON: |Vbody| 37.4 mV, out 2.9 mV amplitude, o 0.900-0.906 V in tran",PASS (sim),"DRL OFF: |Vbody| 1.32 V, OTA output clips"
+"|Zin(10 Hz)| at amplifier inputs (after electrode model, DM drive)",> 100 MOhm,"P 7.06 GOhm, N 0.168 GOhm",PASS (sim),port = node inp/inn (0 V probes VPP/VPN); via the electrode from VSP 7.06 GOhm
+total power @1.8 V,< 4 uW (< 2.22 uA),"724.8 nA -> 1.30 uW (main OTA 302 nA, DRL OTA 302 nA, 100 nA ref, dividers 20 nA)",PASS (sim),one ideal 100 nA ref + VDD only; dividers use ideal 90-110 MOhm resistors
+designed capacitance,< 1 nF,143 pF (2x50p Cc + 2x0.5p Cfb + 20p CLP + 2x1p Ccm + 20p VREF decap),PASS,external 3x50 nF electrodes + 200 pF body excluded
+source budget,VDD + one 100 nA ref,"met in C3 (VREF/VCAS dividers, PMOS mirrors); Stage A/B used ideal VREF/VCAS/IB (diagnostic)",PASS (C3) / diag. earlier,ideal 70-110 MOhm divider resistors are a simplification
+DRL loop PM,report,"90.1 deg (UGF 2.05 kHz, LG(60 Hz) 34.2) after ccm 1p; 24.3 deg before",SIM PASS,stb probe in series with the right-leg electrode
+NEF,report,"49.4 (system 724.8 nA, BW = fH-fL = 121 Hz, Vni 16.57 uV); 30.8 with main-OTA current only",reported,"NEF = Vni*sqrt(2 Itot/(pi UT 4kT BW)), T = 300 K"
+output swing / clipping,no clipping,DRL ON tran: o 0.900-0.906 V; main OTA M2 margin 0.090 V (VCAS 1.10),PASS (sim),DRL OFF clips
+mismatch MC (N>10),N>10,"N=12 mismatch: gain 37.15+/-0.07 dB, fL 0.0734+/-0.0032 Hz, fH 120.8+/-2.3 Hz, CMRR 92.5+/-0.35 dB",DONE,PDK statistics mismatch block; seed 12345 for DM and CM runs

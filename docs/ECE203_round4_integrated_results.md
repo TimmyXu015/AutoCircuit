@@ -55,3 +55,85 @@
 - **Zin@10 Hz（DM，放大器输入端）：** DRL 打开后 P 端 9.36 GΩ，N 端 0.170 GΩ，都 >100 MΩ。CM 感测和 DRL 闭环没有把 Zin 拉低到 100 MΩ 以下。
 - **真实 DRL 环路（stb，probe 在右腿电极前）：** 低频环路增益 280.6，60 Hz 处 28.2，UGF 696 Hz，PM 24.3°。主极点约 7 Hz，来自 DRL OTA 约 100 MΩ 的输出阻抗；第二极点约 200–300 Hz，判断来自 CM 感测的 5 GΩ 和 DRL OTA 输入电容。理想 DRL 在 60 Hz 处环路增益 47.9，PM 29.5°。
 - **DRL 关时人体电压摆幅 2.6 V pp**，主 OTA 输出直接削顶，这时的 AC 线性增益不代表真实情况。
+
+## C — 少量调整、真实偏置、最终指标
+
+**本轮用掉的调整次数（都在任务书限额内）：**
+- 输出 LP 的 RC 替代：1 次，见 A3。
+- VCAS：3 个点，含基线，见 C1。
+- DRL 参数/补偿：1 次，见 C2。
+- 系统配置：1 个基线 + 2 个候选，见 `r4_system_cases.csv`。
+
+**C1 VCAS（`stageC/r4_C1_vcas.csv`；理想 Rfb、LP 31.8 MΩ / 20 pF、DRL 关）：**
+
+| VCAS | \|H\| @100 Hz | M2 Vds / 余量 | MC Vds / 余量 | 最小余量 |
+|---|---|---|---|---|
+| 1.05 V（基线） | 71.71 | 0.147 / 0.047 V | 0.245 / 0.144 V | 0.047 V |
+| **1.10 V（选定）** | 71.71 | 0.190 / 0.090 V | 0.202 / 0.102 V | **0.090 V** |
+| 1.15 V | 71.70 | 0.233 / 0.133 V | 0.159 / 0.059 V | 0.059 V |
+
+改 VCAS 不影响增益（增益主要受 LP 负载限制），但 M2 余量几乎翻倍。另一个效果：在真实 DRL 下，CMRR 从 82.8 dB 升到 90.0 dB，原因是主 OTA 自身的共模抑制改善了。
+
+**C2：唯一一次 DRL 改动（`stageC/r4_C2_drlcomp.csv`）。** 两只 10 GΩ CM 感测电阻各并联 1 pF（Ccm）。依据：stb 显示第二极点约 200–300 Hz，判断来自 5 GΩ × DRL OTA 输入电容；Ccm 引入约 16 Hz 的零点。
+
+| | 改动前 | 改动后 |
+|---|---|---|
+| DRL PM / UGF | 24.3° / 696 Hz | **90.3° / 1.98 kHz** |
+| 60 Hz 环路增益 | 28.2 | 32.4 |
+| CMRR@60 Hz（Cc 1%） | 90.0 dB | 91.3 dB |
+| Zin@10 Hz P / N | 9.36 GΩ / 170 MΩ | 7.06 GΩ / 168 MΩ |
+| 人体干扰下 o 的范围 | 0.900–0.906 V | 0.900–0.907 V |
+
+**C3：真实偏置的最终系统（`Project/ece203_r4_ecg_rbpr_tb`，`stageC/r4_C3_final_*.csv`）。**
+- **源：** 只有 VDD 1.8 V 和**一个理想 100 nA 参考**。
+- **偏置：** 100 nA 参考接 PMOS 二极管 4u/4u，再用 2u/4u 镜像出约 53 nA，分别送给主 OTA 和 DRL OTA 的 IBIAS。
+- **VREF：** VDD 用 90 MΩ / 90 MΩ 分压，加 20 pF 去耦，实测 0.900 V。
+- **VCAS：** 70 MΩ / 110 MΩ 分压，实测 1.100 V。
+- 分压电阻是理想电阻；在片上要实现约 100 MΩ 的电阻，面积会很大。
+- **其余配置：** pseudo-R（Round 3B，W3u/L2u）、真实 DRL OTA 加 Ccm 1 pF、LP 31.8 MΩ / 20 pF。
+- **对照：** 同配置的理想 Rfb 版本，见 `C3_rb_dm`。
+- **结果：**
+  - 增益 72.2（37.17 dB），fL 0.073 Hz（理想 Rfb 版为 0.0946 Hz），fH 121 Hz。
+  - CMRR 91.35 dB（Cc 1%）/ 92.51 dB（匹配）。DRL PM 90.1°。人体电压 37.4 mV。
+  - 噪声（逐点 de-embed）16.57 µV，约 99% 来自主 OTA 的 flicker 噪声；pseudo-R、电极、分压电阻的贡献都 <0.05%。
+  - 总电流 724.8 nA，即 **1.30 µW**。
+  - 主 OTA M2 余量 0.090 V，DRL OTA 0.293 V。
+
+**C4：失配 Monte Carlo，N = 12（`r4_mc12_table.csv`）。**
+- **条件：** 冻结的最终配置。PDK 的 statistics/mismatch 块，OCEAN `monteCarlo ?analysisVariation 'mismatch`，DM 和 CM 两次运行都用 seed 12345。
+- **取值方式：** 本机的 OCEAN 没有 `monteOutputFile`，`iterVsValue` 返回 nil，所以改为直接打开 psf 中的 `ac` 族数据，sweep 为 iteration。
+- **结果（12 个样本全部保留）：**
+
+| 指标 | 均值 ± σ | 范围 |
+|---|---|---|
+| 增益 @100 Hz | 37.15 ± 0.07 dB | 37.03–37.26 dB |
+| fL | 0.0734 ± 0.0032 Hz | 0.0673–0.0788 Hz |
+| fH | 120.8 ± 2.3 Hz | 116.7–124.5 Hz |
+| CMRR@60 Hz | 92.5 ± 0.35 dB | 91.7–93.0 dB |
+
+**电容台账：**
+- 设计电容：2×Cc（100 pF）+ 2×Cfb（1 pF）+ CLP（20 pF）+ 2×Ccm（2 pF）+ VREF 去耦（20 pF）= **143 pF < 1 nF**。
+- 未计入预算的外部元件：3×50 nF 电极，200 pF 人体。
+
+**NEF：** 公式 NEF = Vni·√(2·Itot / (π·UT·4kT·BW))。取 Vni = 16.57 µV，BW = fH − fL = 121 Hz，T = 300 K：
+- Itot = 724.8 nA（整个系统）时为 **49.4**。
+- 只算主 OTA 的 283 nA 时为 30.8。
+
+### 最终指标表（详见 `r4_spec_matrix.csv`）
+
+| 指标 | 目标 | 最终系统（C3） | 判断 |
+|---|---|---|---|
+| 增益 @100 Hz | 40 ± 2 dB | 37.17 dB | **SPEC FAIL** |
+| fL | 0.1 Hz ± 10% | 0.073 Hz（理想 Rfb 0.095） | **SPEC FAIL**（pseudo-R） |
+| fH | 250 Hz ± 10% | 121 Hz | **SPEC FAIL** |
+| 输入噪声 0.1–250 Hz | <3 µVrms | 16.6 µVrms | **SPEC FAIL** |
+| CMRR@60 Hz（DRL 开 / 关） | >85 dB | 91.4 / 53.9 dB | **PASS**（开） |
+| 0.1 µA 人体干扰 | 不削顶 | 开：人体 37 mV，不削顶；关：削顶 | PASS（开） |
+| Zin@10 Hz（放大器输入端） | >100 MΩ | P 7.06 GΩ / N 168 MΩ | PASS |
+| 总功耗 | <4 µW | 1.30 µW | PASS |
+| 设计电容 | <1 nF | 143 pF | PASS |
+| 源数量 | VDD + 一个 100 nA | 满足（C3）；A/B 阶段用的是理想 VREF/VCAS/IB | PASS（C3） |
+| DRL PM | 报告 | 90.1° | SIM PASS |
+| 失配 MC | N > 10 | N = 12 | 已完成 |
+
+以上全部为 Spectre 仿真结果（tt，27 °C），没有 PVT。
