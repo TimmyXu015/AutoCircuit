@@ -106,7 +106,10 @@
       "ece203_a3": "Project/ece203_a3_ota (5T) + ece203_a3_ol_tb + ece203_a3_cl_tb (x4 diff amp, iprobe IPRB, stb); OP/ac/noise/CM sweep/swing -> ece203_a3*.{txt,csv}",
       "ece203_a12bias": "builds Project/ece203_a12_ota (PMOS-input telescopic) + ece203_a12_ol_tb, scans VCP/VCN (74 dc op runs, ~3 min) -> ece203_a12_scan.csv, ece203_a12_bias.txt (read by ece203_a12)",
       "ece203_a12": "OL characterisation (+1 MOhm load case) + ece203_hp_real_tb (real OTA + ece203_hp_fb, stb + noise) -> ece203_a12*.{txt,csv}",
-      "ece203_probe": "prints pin positions/bBox of nfetx, pfetx, vcvs, iprobe, idc, vdc, res, cap symbols"
+      "ece203_probe": "prints pin positions/bBox of nfetx, pfetx, vcvs, iprobe, idc, vdc, res, cap symbols",
+      "ece203_noise_probe": "Round 2A: builds Project/ece203_a12n_ota (M1/M2 W/L = w12in/l12in, M7/M8 = w78in/l78in), ece203_a12n_cl_tb, ece203_a12n_ol_tb; baseline run; probes noiseSummary -> ~/AutoCircuit_results/ece203_ns/",
+      "ece203_noise_scan": "Round 2A: Stage 1 noise breakdown + 12-point M1/M2 W/L grid + M7/M8 area x2/x4 + combo + 50 pt/dec convergence (~5 min) -> ece203_ns/ece203_ns_sweep.csv, ece203_noise_breakdown.csv, <tag>_{noise,ac,stb,op}.csv, <tag>_summary_*.txt",
+      "ece203_noise_rebias": "Round 2A follow-up: bounded VCP/VCN rescan (40 dc op per point, ~2 min each) for negative-margin points -> ece203_ns/ece203_ns_rebias.csv"
     }
   },
   "skill_framework": {
@@ -148,7 +151,10 @@
     "symbol_from_schematic": "schViewToView(lib cell lib cell \"schematic\" \"symbol\" \"schSchemToPinList\" \"schPinListToSymbol\") works in -nograph batch. Pins: schCreatePin(cv dbOpenCellViewByType(\"basic\" \"iopin\"|\"ipin\"|\"opin\" \"symbol\") name dir nil xy \"R0\"); a wire label of the same name connects reliably.",
     "subckt_params": "Spectre subcircuits see top-level design variables: a cell whose instances use c=cc works with desVar(\"cc\" ...) in the testbench (all instances share the value).",
     "xmin": "OCEAN xmin(w) returns the x at the MINIMUM y, not the first x. First x: drGetElem(drGetWaveformXVec(w) 0).",
-    "analysis_reset": "Analyses persist across acSimSetup calls in one Virtuoso session; delete('analysis 'dc 'ac 'noise 'stb 'tran) before switching testbench (a leftover noise analysis can name a source the next tb does not have)."
+    "analysis_reset": "Analyses persist across acSimSetup calls in one Virtuoso session; delete('analysis 'dc 'ac 'noise 'stb 'tran) before switching testbench (a leftover noise analysis can name a source the next tb does not have).",
+    "noise_summary": "OCEAN noiseSummary works in -nograph batch: port = outfile(f \"w\"); noiseSummary('integrated ?result 'noise ?from 0.1 ?to 250.0 ?output port) or noiseSummary('spot ?result 'noise ?frequency 1.0 ?output port); close(port). Text table: 'Device Param Noise Contribution % Of Total' rows (output-referred V^2, or V^2/Hz for spot), then 'Total Summarized Noise = x' and 'Total Input Referred Noise = y'. Params: fn flicker, id channel thermal, rn resistor; device names /XA/M1, /XFB/RP; XA.M1.rgate etc. = cmrf7sf parasitic resistors. Rows sum to the total (checked 0.999997). Parse with gets/parseString/atof (ece203_noise_scan.il nsSummary).",
+    "integ": "OCEAN integ(w a b) on a PSD^2 waveform gives the integral in linear Hz (trapezoid): rms = sqrt(integ(nin*nin 0.1 250)). 20 points/decade agreed with 50 points/decade to 0.1 %.",
+    "design_var_width": "cmrf7sf pfetx/nfetx accept design-variable W/L (w = \"w12in\"); set ad/as = \"w12in*0.54e-6\" and pd/ps = \"2*(w12in+0.54e-6)\" as expressions. One netlist then serves a whole sweep (desVar per point, no schematic rewrites)."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
@@ -195,7 +201,9 @@
     "ieng6 refused ssh (Connection closed, then port 22 timeout for ~1 min) after ~20 ssh/scp connections in a couple of minutes. Fetch results as one archive: tar czf on the server, one scp, then extract on the PC with device_bash 'tar xzf X --overwrite -C <dir>' (plain tar xzf fails with 'File exists' because deleting is not allowed in the notebook folder).",
     "device_bash (Linux VM on the user's PC) reaches raw.githubusercontent.com: put plot scripts in the notebook with curl -sSf https://raw.githubusercontent.com/TimmyXu015/AutoCircuit/<commit-sha>/matlab/<file>.m (use the sha, the main-branch URL is cached).",
     "Results files from the notebook reach the cloud container with device_stage_files (paths under C:\\Users\\Timmy\\AutoCircuit_Results), e.g. to copy summaries into docs/ece203_data/.",
-    "Pushing from the cloud container needs the repo attached to the session with push access (add_repo access=push); before that the git proxy returns 403."
+    "Pushing from the cloud container needs the repo attached to the session with push access (add_repo access=push); before that the git proxy returns 403.",
+    "Spectre dcOpInfo 'region' = 3 (subthreshold) says nothing about Vds: in Round 2A M1/M2 had |Vds| = 76 mV (A0 down 4x) and still reported region 3. Check |Vds| - max(|Vdsat|, ~0.1 V) and A0, not only region.",
+    "OCEAN noiseSummary/getData read the LAST run: rerun the point before asking for its summary (nsAll reruns the baseline before the spot summaries)."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",

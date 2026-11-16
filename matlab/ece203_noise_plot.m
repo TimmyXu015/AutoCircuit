@@ -75,11 +75,11 @@ subplot(2,1,1); hold on; grid on;
 for k = 1:numel(Ls)
     f = G.l_um == Ls(k) & G.bias_mode == "fixed" & G.run_status == "ok";
     plot(G.w_um(f), G.("rms_in_0.1_250_V")(f) * uV, '-o', 'Color', cols(k,:), 'LineWidth', 1.6, ...
-        'DisplayName', sprintf('L = %g \\mum, fixed bias', Ls(k)));
+        'DisplayName', sprintf('L = %g um, fixed bias', Ls(k)));
     f = G.l_um == Ls(k) & G.bias_mode == "rebiased" & G.run_status == "ok";
     if any(f)
         plot(G.w_um(f), G.("rms_in_0.1_250_V")(f) * uV, 's', 'Color', cols(k,:), 'MarkerSize', 9, 'LineWidth', 1.6, ...
-            'DisplayName', sprintf('L = %g \\mum, rebiased', Ls(k)));
+            'DisplayName', sprintf('L = %g um, rebiased', Ls(k)));
     end
 end
 S3 = S(S.stage ~= "S2grid" & S.run_status == "ok", :);
