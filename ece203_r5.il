@@ -258,12 +258,12 @@ procedure( r5StageB()
 ;;            main-loop UGF 181 kHz >> 4 kHz). Same cell family, same bias/LP/feedback; static = chen 0.
 ;; D1 cell ece203_r5_s2_cd_d1: demod around vr1 = static OTA1 output DC (1.31308 V, from B1 dcop) -> CD gate.
 ;; D2 cell ece203_r5_s2_cd_d2 (= the B1 cell): demod around VREF after the CD.
-r5DCols = '("tag" "cell" "slot" "chen" "status" "reason" "pre" "post" "slope" "step_gain" "step_ratio" "ripple_out_pp"
-            "ripple_fb_pp" "oa1_min" "oa1_max" "oa1_avg" "d1_min" "d1_max" "oa2_min" "oa2_max" "oa2_avg" "d2_min" "d2_max"
-            "fb_avg" "out_avg" "I_VDD2" "pss_out_avg" "pss_out_pp" "pss_fb_avg" "pss_fb_pp" "pss_oa1_min" "pss_oa1_max"
-            "pss_oa1_avg" "pss_d1_min" "pss_d1_max" "pss_oa2_min" "pss_oa2_max" "pss_oa2_avg" "pss_d2_min" "pss_d2_max"
-            "pac10" "pac100" "pac100_dB" "pacfb100" "pac_ratio" "out_rms" "app_in" "deemb_in"
-            "in_0p1" "in_1" "in_10" "in_100" "in_250" "out_1" "out_10" "out_100" "noisetype")
+r5DCols = '(tag cell slot chen status reason pre post slope step_gain step_ratio ripple_out_pp
+            ripple_fb_pp oa1_min oa1_max oa1_avg d1_min d1_max oa2_min oa2_max oa2_avg d2_min d2_max
+            fb_avg out_avg I_VDD2 pss_out_avg pss_out_pp pss_fb_avg pss_fb_pp pss_oa1_min pss_oa1_max
+            pss_oa1_avg pss_d1_min pss_d1_max pss_oa2_min pss_oa2_max pss_oa2_avg pss_d2_min pss_d2_max
+            pac10 pac100 pac100_dB pacfb100 pac_ratio out_rms app_in deemb_in
+            in_0p1 in_1 in_10 in_100 in_250 out_1 out_10 out_100 noisetype)
 r5DVr1 = 1.31308
 procedure( r5Mm(w a b) car(errset(list(ymin(clip(w a b)) ymax(clip(w a b)) average(clip(w a b))) nil)) )
 procedure( r5DTran(port slot tag chen)
