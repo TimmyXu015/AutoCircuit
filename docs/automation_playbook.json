@@ -113,7 +113,9 @@
       "ece203_load_probe": "Round 2B: builds 9 Project/ece203_load_* cells (real 3-OTA chain, Round-2A-geometry chain, all-VCVS chain, VCVS-A3 chain, buffered chain, A1/A3 closed- and open-loop tbs) + one C0 DM point -> ~/AutoCircuit_results/ece203_load/",
       "ece203_load_chain": "Round 2B Stage A (C0): real chain DM/P/N/CM, stb per loop, 10 Hz tran x2, noise; ideal chain; A1/A3 alone (~2 min)",
       "ece203_load_isolate": "Round 2B Stage B (C0): A1 alone / with 1M, 5M to vref / OL Zout; buffered chain; VCVS-A3 chain; A3 OL Zout; RC removed (~2 min)",
-      "ece203_load_sweep": "Round 2B Stage C: R1/R2 = 1M/4M, 10M/40M, 100M/400M full chain + ideal + A3 alone; Round-2A geometry chain at C0/C2 (~8 min)"
+      "ece203_load_sweep": "Round 2B Stage C: R1/R2 = 1M/4M, 10M/40M, 100M/400M full chain + ideal + A3 alone; Round-2A geometry chain at C0/C2 (~8 min)",
+      "ece203_ss_run": "ECE203 Round 3: builds Project/ece203_ss_ideal_tb (VCVS aol) + ece203_ss_real_tb (frozen ece203_a3_ota), OCEAN S1/S2: diff/P/N/CM ac, CL 5p, dcop, noise (+noiseSummary), stb at IPRB, 10 Hz tran 1/5 mVpk -> ~/AutoCircuit_results/ece203_ss/",
+      "ece203_ss_ade": "@gui: ADE L states ss_S1 / ss_S2 in both ece203_ss tbs (dc op, ac, noise inVsrc /VINP, tran 0.5 s, stb probe /IPRB, outputs Hdm, gain_100Hz, loopGain, I_VDD, OP(/XA/M1 ...))"
     }
   },
   "skill_framework": {
@@ -158,7 +160,9 @@
     "analysis_reset": "Analyses persist across acSimSetup calls in one Virtuoso session; delete('analysis 'dc 'ac 'noise 'stb 'tran) before switching testbench (a leftover noise analysis can name a source the next tb does not have).",
     "noise_summary": "OCEAN noiseSummary works in -nograph batch: port = outfile(f \"w\"); noiseSummary('integrated ?result 'noise ?from 0.1 ?to 250.0 ?output port) or noiseSummary('spot ?result 'noise ?frequency 1.0 ?output port); close(port). Text table: 'Device Param Noise Contribution % Of Total' rows (output-referred V^2, or V^2/Hz for spot), then 'Total Summarized Noise = x' and 'Total Input Referred Noise = y'. Params: fn flicker, id channel thermal, rn resistor; device names /XA/M1, /XFB/RP; XA.M1.rgate etc. = cmrf7sf parasitic resistors. Rows sum to the total (checked 0.999997). Parse with gets/parseString/atof (ece203_noise_scan.il nsSummary).",
     "integ": "OCEAN integ(w a b) on a PSD^2 waveform gives the integral in linear Hz (trapezoid): rms = sqrt(integ(nin*nin 0.1 250)). 20 points/decade agreed with 50 points/decade to 0.1 %.",
-    "design_var_width": "cmrf7sf pfetx/nfetx accept design-variable W/L (w = \"w12in\"); set ad/as = \"w12in*0.54e-6\" and pd/ps = \"2*(w12in+0.54e-6)\" as expressions. One netlist then serves a whole sweep (desVar per point, no schematic rewrites)."
+    "design_var_width": "cmrf7sf pfetx/nfetx accept design-variable W/L (w = \"w12in\"); set ad/as = \"w12in*0.54e-6\" and pd/ps = \"2*(w12in+0.54e-6)\" as expressions. One netlist then serves a whole sweep (desVar per point, no schematic rewrites).",
+    "stb_analysis": "asiGetAnalysis(sess 'stb): same sweep choice fields as ac (sweep Frequency, rangeType Start-Stop, incrType Logarithmic, stepTypeLog Points Per Decade), text fields start stop dec, and 'probe \"/IPRB\" (reads back). Other fields: localgnd, usingProbeMode, stbProbeMode (default \"differential\"). Verified 2026-11-16 (ece203_ss_ade).",
+    "noise_inVsrc_only": "Noise with inType voltage: setting only 'inVsrc \"/VINP\" (no 'iprobe) reads back fine."
   },
   "pdk_notes_cmrf7sf": {
     "devices": "nfet/pfet (3-terminal, bulk on global sub!), nfetx/pfetx (4-terminal with B). CDF params w, l, nf (strings like \"5u\"). Netlists as inline subckt nfet/pfet -> BSIM3v3 (version 3.24) model nch/pch.",
@@ -214,14 +218,16 @@
     "SKILL has one global namespace for procedures: a second procedure( ldA3(...) ) silently replaced an earlier helper of the same name (error appeared only as 'too many arguments'). Keep helper names unique across all ece203_*.il files.",
     "CSV fields written from SKILL that may contain commas (free-text 'variant') must be quoted; ece203_load.il ldWriteRow now quotes them.",
     "stb phase at the UGF can come back wrapped (-212 deg = +148 deg): otaStb now adds 360 when negative. In a multi-loop chain probe one loop at a time (other probes are 0 V and keep their loops closed).",
-    "scp -r of a whole results folder is one connection (use it instead of many scp calls); device_stage_files accepts at most 50 files per call."
+    "scp -r of a whole results folder is one connection (use it instead of many scp calls); device_stage_files accepts at most 50 files per call.",
+    "Spectre noiseSummary 'Total Input Referred Noise' is referred to the ?iprobe source (single-ended). For a differential-input amp, refer the output PSD by |H_dm| point by point (run noise on the same f grid as ac and divide) -- ece203_ss does both; they agree when |G_P| ~ |H_dm|.",
+    "stb on a closed loop whose in-band |T| < 1 (e.g. 5T A0~71 with beta~1/101): cross(db20(lg) 0 1 \"falling\") finds the low-frequency crossing made by the large feedback resistor (~0.1 Hz) -- report 'no in-band UGF', not that PM."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
     "Axis labels on GUI family plots (hw1P1cFamily).",
     "P2 AC setup inside an interactive ADE L run is untested (OCEAN check passed).",
     "Consider making the repo private + deploy key, or keep it public and keep personal/PDK data out.",
-    "ECE203: pseudo-R cell not started; no ADE L states for the ece203 testbenches yet (OCEAN only)."
+    "ECE203: pseudo-R cell not started; ADE L states exist only for Round 3 ece203_ss tbs (ss_S1/ss_S2), earlier ece203 tbs are OCEAN only."
   ],
   "local_code_mode": {
     "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",

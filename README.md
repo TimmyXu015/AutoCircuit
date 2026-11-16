@@ -6,6 +6,14 @@
 
 Round 1 works on reusable real A1/A2 cascode and A3 5T OTA cells, a VCVS-validated capacitive feedback high-pass/pseudo-R macro, a passive 250Hz output RC, and an **entirely ideal-VCVS ECG** with **ideal VCVS DRL only**. **There are no completed ECE203 Cadence results in this handoff.** Preserve historical homework scripts; add new `ece203_*` files rather than overwriting them.
 
+### Round 3 单级电容耦合 BioAmp（2026-11-16）复现步骤
+
+结果见 [docs/ECE203_round3_single_stage_results.md](docs/ECE203_round3_single_stage_results.md)，数据在 `docs/ece203_data/single_stage/`。
+
+1. 在 ieng6 上执行 `~/AutoCircuit/run.sh ece203_ss_run`：在 `Project` 库中新建 `ece203_ss_ideal_tb`（理想 VCVS）和 `ece203_ss_real_tb`（5T `ece203_a3_ota`，不做改动），然后对 S1（Cc 50p / Cfb 5p / Rfb 318.31G）和 S2（Cc 50p / Cfb 0.5p / Rfb 3.1831T）跑 DC/AC/noise/stb/tran。CSV 输出到 `~/AutoCircuit_results/ece203_ss/`，日志里出现 `AC_BATCH_DONE` 表示完成。
+2. 执行 `~/AutoCircuit/run.sh ece203_ss_ade`（GUI 方式，xvfb）：在两个 tb 中各保存 ADE L state `ss_S1`、`ss_S2`。手动查看：ADE L → Session → Load State → Cellview。
+3. 画图：MATLAB 中设置 `raw`（CSV 所在目录）和 `out`，然后运行 `matlab/ece203_ss_plot.m`。
+
 SKILL/OCEAN scripts that draw and simulate circuits in Cadence Virtuoso (UCSD ieng6, IBM cmrf7sf PDK).
 
 Agents: start with [`AGENTS.md`](AGENTS.md) and [`docs/automation_playbook.json`](docs/automation_playbook.json).

@@ -1,0 +1,11 @@
+
+Device    Param    Noise Contribution    % Of Total
+
+/RFN      rn       4.15896e-10           50.00     
+/RFP      rn       4.15896e-10           50.00     
+
+Integrated Noise Summary (in V^2) Sorted By Noise Contributors
+Total Summarized Noise = 8.31792e-10
+Total Input Referred Noise = 1.06182e-11
+The above noise summary info is for noise-noise data
+
