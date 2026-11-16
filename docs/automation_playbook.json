@@ -57,7 +57,7 @@
     "results": "~/AutoCircuit_results/  (<job>.log, ciw_<job>.txt, CSVs such as p1c_<cell>.csv)",
     "sim_dirs": "~/simulation/<cell>/spectre/schematic/...  (ADE L's own folder; OCEAN helpers use a suffix, e.g. schematic_family, so they never overwrite ADE L results)",
     "pdk_models": "/acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models  (design.scs, wafer.scs, allModels.scs section=tt). Files are IBM CONFIDENTIAL: copy only to the user's PC, never into this repo.",
-    "project_lib": "Project -- the user's library for the ECE203 ECG project (DEFINE in the workdir cds.lib, created 2026-11-15 in Library Manager). Put every ece203_* cell here. No cmrf7sf tech attached at creation: check before placing PDK devices."
+    "project_lib": "Project -- the user's library for the ECE203 ECG project (DEFINE in the workdir cds.lib, created 2026-11-15 in Library Manager, attached to cmrf7sf). Put every ece203_* cell here."
   },
   "standard_loop": [
     "1. Edit/add SKILL in this repo (cloud container), commit, push. If remote says the repo moved, set origin to https://github.com/TimmyXu015/AutoCircuit.git.",
@@ -176,7 +176,8 @@
     "SKILL rexMatchp has no '|' alternation; use several index()/rexMatchp calls.",
     "Python edits that cut 'from marker to end of file' can silently drop later procedures -- check that every acJobs function still exists (grep 'procedure( name') before pushing.",
     "HW2 f_t results before 2026-10-28 were taken with VDS/VSUB at mag=1; corrected (5u/1u ft at vgs 0.25: 37.4 MHz cross, matches gm/(2pi Cgg) 37.0 MHz; the 'h21 levels off above 0 dB' finding for 2u/0.18u was an artifact of that, not device physics).",
-    "OCEAN resultsDir(<dir>_suffix) moves psf only: the netlist of an OCEAN run is still written to ~/simulation/<cell>/spectre/schematic/netlist/input.scs (the cell's default folder)."
+    "OCEAN resultsDir(<dir>_suffix) moves psf only: the netlist of an OCEAN run is still written to ~/simulation/<cell>/spectre/schematic/netlist/input.scs (the cell's default folder).",
+    "An ATTACHED tech library leaves no tech.db in the library folder (that is only for 'compile a new techfile'). Check attachment with techGetTechLibName(ddGetObj(lib)) or 'strings <lib>/data.dm | grep -A1 techLibName'. The 'group foundry of techDB cmrf7sf conflicts with ASCII file' warnings appear in every batch log (hw2setup, hw3build, ece203_hp) and are harmless."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",
