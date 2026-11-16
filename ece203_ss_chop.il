@@ -18,7 +18,7 @@ procedure( chProbe()
 )
 
 ;; ---------------- testbenches ----------------
-;; Clock: VCK1 / VCK2 complementary vpulse 0/1.8 V, per 1u, edges 1n (phase 1 first 0.5u). chen = 0 freezes
+;; Clock: VCK1 / VCK2 two-phase NON-overlapping vpulse 0/1.8 V, per 1u, edges 1n, 10 ns dead time (phase 1 first 0.5u). chen = 0 freezes
 ;; phase 1 (static, unchopped bench with the same parts). Switches: analogLib switch, closed above vt2 = 1.0 V,
 ;; open below vt1 = 0.8 V, rc = 1 Ohm, ro = 1e20 Ohm (>> Rfb 3.18 TOhm; thermal noise of rc/ro not studied).
 ;; Input commutator (around the whole OTA): phase 1 p->INP, n->INN; phase 2 n->INP, p->INN.
@@ -45,8 +45,10 @@ procedure( chSpecs(real)
     list(ldV("VREF" "vref" "0" "vref" "gnd!")
          chPulse("VINP" "vref" "vref+vst/2" "tst" "1" "2" "vinp")
          chPulse("VINN" "vref" "vref-vst/2" "tst" "1" "2" "vinn")
+         ;; non-overlapping (break-before-make): ck1 low 0.5u..1.0u, ck2 high 0.511u..0.990u -> 10 ns dead
+         ;; time on each edge (fix after the first run: overlapping edges shorted p/n and the OTA inputs)
          chPulse("VCK1" "1.8" "1.8*(1-chen)" "0.5u" "0.499u" "1u" "ck1")
-         chPulse("VCK2" "0" "1.8*chen" "0.5u" "0.499u" "1u" "ck2")
+         chPulse("VCK2" "0" "1.8*chen" "0.51u" "0.479u" "1u" "ck2")
          otaC("CCP" "cc" "vinp" "p")  otaC("CCN" "cc" "vinn" "n")
          otaC("CFP" "cfb" "p" "vref") otaR("RFP" "rfb" "p" "vref")
          otaC("CFN" "cfb" "n" "o")    otaR("RFN" "rfb" "n" "o")
