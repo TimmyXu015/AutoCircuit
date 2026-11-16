@@ -28,7 +28,8 @@ r4Vars = list(list("vdd" 1.8) list("vref" 0.9) list("ib3" 50e-9) list("ibd" 50e-
   list("cc" 50e-12) list("cfb" 0.5e-12) list("rfb" 3.1831e12) list("prw" 3e-6) list("prl" 2e-6) list("cl" 0.0)
   list("rlp" 3.18e6) list("clp" 200e-12) list("rcm" 10e9) list("rs" 2e3) list("re" 1e6) list("ce" 50e-9)
   list("cbody" 200e-12) list("icm" 0.0) list("adm" 1.0) list("vcmin" 0.0) list("dcc" 0.0)
-  list("adrl" 100.0) list("rdi" 1e15) list("rdr" 1e15) list("rdrl0" 1e6) list("itr" 0.0))
+  list("adrl" 100.0) list("rdi" 1e15) list("rdr" 1e15) list("rdrl0" 1e6) list("itr" 0.0) list("ccm" 0.0)
+  list("rv1" 90e6) list("rv2" 90e6) list("cvref" 20e-12) list("rc1" 75e6) list("rc2" 105e6) list("iref" 100e-9))
 r4Off = list(list("rdi" 1e15) list("rdr" 1e15))
 r4IdealOn = list(list("rdi" 1e6) list("rdr" 1e15))
 r4RealOn = list(list("rdi" 1e15) list("rdr" 1e6))
@@ -95,6 +96,7 @@ procedure( r4Specs(pr)
       otaR("RLP" "rlp" "o" "out") otaC("CLP" "clp" "out" "gnd!")
       ;; CM sense + DRL
       otaR("RCMP" "rcm" "inp" "cm") otaR("RCMN" "rcm" "inn" "cm")
+      otaC("CCMP" "ccm" "inp" "cm") otaC("CCMN" "ccm" "inn" "cm")
       ldE("EDRL" "vref" "cm" "drli" "vref" "adrl")
       otaR("RDRI" "rdi" "drli" "rl0")
       list(ece203Lib r4Cells->drl "XD" nil
@@ -350,6 +352,31 @@ procedure( r4StageB()
     foreach(mode '("off" "ideal" "real")
       r4BCase(port mode 0.01)
       r4BCase(port mode 0.0))
+    close(port)
+    t
+  )
+)
+
+
+;; ---------------- Stage C ----------------
+;; C1: VCAS points (baseline 1.05 from Stage A3) 1.10 / 1.15, ideal Rfb, LP 31.8M/20p, DRL off: gain, fH, margins.
+r4CCols = '(tag vcas status reason Hout_10 Hout_100 Hout_100_dB fL_out fH_out Ho_100 fH_o dc_o margin_A worst_A vds_M2 vds_MC margin_MC)
+
+procedure( r4C1()
+  let( (port r ok)
+    r4Build()
+    port = r4Open("r4_C1_vcas.csv" r4CCols)
+    foreach(vc '(1.05 1.10 1.15)
+      ok = errset(r = r4Ac(r4Cells->tb sprintf(nil "C1_vcas%g" vc) 'dm append(append(r4LP r4Off) list(list("vcas" vc))) nil) t)
+      unless( ok r = list(nil 'status "failed" 'reason sprintf(nil "%L" errset.errset)))
+      r->tag = sprintf(nil "C1_vcas%g" vc) r->vcas = vc
+      r->vds_MC = car(errset(pv("/XA/MC" "vds" ?result "dcOpInfo") nil))
+      r->margin_MC = and(numberp(r->vds_MC) abs(r->vds_MC) - max(abs(car(errset(pv("/XA/MC" "vdsat" ?result "dcOpInfo") nil))) 0.1))
+      acSay("r4C1 vcas %g: %s | Hout 10/100 %s %s (%s dB) fL %s fH %s | Ho100 %s fH_o %s | DC o %s | margin %s %s, M2 vds %s, MC vds %s margin %s\n"
+            vc or(r->status "ok") r4Num(r->Hout_10 "%.4g") r4Num(r->Hout_100 "%.4g") r4Num(r->Hout_100_dB "%.2f")
+            r4Num(r->fL_out "%.4g") r4Num(r->fH_out "%.4g") r4Num(r->Ho_100 "%.4g") r4Num(r->fH_o "%.4g") r4Num(r->dc_o "%.5g")
+            r4Num(r->margin_A "%.3f") or(r->worst_A "") r4Num(r->vds_M2 "%.4g") r4Num(r->vds_MC "%.4g") r4Num(r->margin_MC "%.3f"))
+      r4Row(port r4CCols r))
     close(port)
     t
   )
