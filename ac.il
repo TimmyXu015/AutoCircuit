@@ -64,6 +64,7 @@ acJobs = list(nil
   'ece203_ss_ota_cmp '(ocRunJob)
   'ece203_ss_ota_cmp_ade '(ocAde)
   'ece203_ss_chop_probe '(chProbe)
+  'ece203_ss_chop '(chRunJob)
 )
 
 ;; ---------- reporting ----------
