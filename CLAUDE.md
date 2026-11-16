@@ -17,7 +17,11 @@ When you learn something new (a working API call, a fix, a trap), add it to the 
 in the same commit.
 
 
-## Active next task — ECE203 Round 2B loading diagnosis (2026-11-15)
+## Active next task — ECE203 Round 3 classroom single-stage BioAmp (2026-11-16)
+
+**New user-approved architecture experiment:** [docs/ECE203_round3_single_stage_bioamp_task.md](docs/ECE203_round3_single_stage_bioamp_task.md). The user explicitly does **not** want more Cascode / buffers / new second stages for this round. Build an **independent, basic single-OTA capacitive-feedback instrumentation amplifier** following ECE203 Lec8–10 slides 23–27. First reproduce the ideal-golden capacitor network and then plug in the existing **ordinary 5T** OTA as a frozen measured physical starting point. Expect limited 5T open-loop gain: report failures faithfully and stop after the bounded tests; do not silently optimize or change topology. Protect all old cells, notes and user GUI sessions. Check quota before running.
+
+## Previous completed task — ECE203 Round 2B loading diagnosis (2026-11-15)
 
 **User-approved next experiment:** [docs/ECE203_round2b_loading_diagnosis.md](docs/ECE203_round2b_loading_diagnosis.md). **Results (2026-11-16): [docs/ECE203_round2b_loading_results.md](docs/ECE203_round2b_loading_results.md)** (data/figs in docs/ece203_data/round2b/). Stages A–C done; waiting for user + GPT decision. This supersedes the former Round-2A active-job instruction **only for the next execution round**; preserve all earlier results. **First construct and simulate the actual three-real-OTA closed-loop ECG cascade**, then isolate A1→A3 input loading, A3 finite gain and feedback-resistor loading, and A3 output RC loading. Last, run only the bounded R1/R2 1M/4M, 10M/40M, 100M/400M interface comparison. Freeze transistor topology and noise W/L optimization; do not add buffer/new amplifier topology without user/GPT approval.
 
