@@ -48,6 +48,7 @@ acJobs = list(nil
   'ece203_probe '(ece203ProbeSymbols)
   'ece203_noise_probe '(nsProbe)
   'ece203_noise_scan '(nsAll)
+  'ece203_noise_rebias '(nsRebiasAll)
 )
 
 ;; ---------- reporting ----------

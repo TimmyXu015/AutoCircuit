@@ -460,3 +460,33 @@ procedure( nsAll()
     t
   )
 )
+
+;; ---- follow-up: bounded VCP/VCN rebias for points whose saturation margin went below 0
+;; (Spectre still reports region 3 there, so nsAll's region check did not trigger a rescue).
+;; Rows go to ece203_ns_rebias.csv (same columns); the fixed-bias rows in ece203_ns_sweep.csv stay.
+nsRebiasPoints = list(
+  list(80e-6 1e-6 1e-6 10e-6 "S2grid") list(160e-6 1e-6 1e-6 10e-6 "S2grid")
+  list(160e-6 2e-6 1e-6 10e-6 "S2grid") list(160e-6 1e-6 2e-6 20e-6 "S3combo"))
+
+procedure( nsRebiasAll()
+  let( (port bk p q r tag)
+    unless( isDir(nsDir) createDir(nsDir) )
+    port = outfile(strcat(nsDir "/ece203_ns_rebias.csv") "w")
+    fprintf(port "%s\n" nsHeader)
+    bk = outfile(strcat(nsDir "/ece203_noise_breakdown_rebias.csv") "w")
+    fprintf(bk "tag,kind,freq_Hz,group,device,param,V2_out,pct_of_total\n")
+    foreach(x nsRebiasPoints
+      p = nsP(nth(0 x) nth(1 x) nth(2 x) nth(3 x) nsCfg->vcp nsCfg->vcn)
+      tag = strcat(nsTag(p) if( nth(2 x) == 2e-6 "_m78x4" "") "_rb")
+      q = nsRescue(p)
+      if( q then
+        r = nsPoint(tag nth(4 x) q "rebiased" bk)
+        nsWriteRow(port r)
+      else
+        fprintf(port "%s,%s,%g,%g,%g,%g,%g,rebiased,,,no_bias_found,bounded scan found no valid bias,\n"
+                tag nth(4 x) p->w * 1e6 p->l * 1e6 p->w * p->l * 1e12 p->w78 * 1e6 p->l78 * 1e6)))
+    close(port)
+    close(bk)
+    t
+  )
+)
