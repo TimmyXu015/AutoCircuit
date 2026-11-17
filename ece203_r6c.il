@@ -200,7 +200,7 @@ procedure( r6cTran(port tag kind cell chen maxstep)
           tag kind chen r->status or(r->reason "") r4Num(r->vod_pp "%.4g") r4Num(r->ocm_avg "%.6g") r4Num(r->ocm_pp "%.4g")
           r4Num(r->op_min "%.4g") r4Num(r->op_max "%.4g") r4Num(r->on_min "%.4g") r4Num(r->on_max "%.4g")
           r4Num(r->vg_min "%.5g") r4Num(r->vg_max "%.5g") r4Num(r->p_avg "%.6g") r4Num(r->n_avg "%.6g")
-          r4Num(r->I_VDD "%.4g") r4Num(r->I_VDDD "%.4g") r4Num(r->rows "%d"))
+          r4Num(r->I_VDD "%.4g") r4Num(r->I_VDDD "%.4g") r4Num(r->rows "%.0f"))
     r4Row(port r6cTCols r)
     r
   )
