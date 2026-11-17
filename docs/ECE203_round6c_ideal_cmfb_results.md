@@ -16,7 +16,7 @@
 
 | 项目 | 内容 |
 |---|---|
-| 代码 commit | Stage A 第一次运行：`d002d45`；Stage B、C 和 Stage A 重跑：`d3c8a0b`；报告与数据：本报告所在 commit |
+| 代码 commit | Stage A 第一次运行：`d002d45`；Stage B、C 和 Stage A 重跑：`d3c8a0b`；报告与数据：`3cc3e8e`（之后的 r6cBuild 只在缺少 R6A/R6B cell 时才建，不影响结果） |
 | PDK / corner / 温度 | IBM cmrf7sf，`allModels.scs` section `tt`；temp 27 °C（tnom 25） |
 | 工具 | Virtuoso IC-618，Spectre sub-version 15.1.0.803.isr18；ieng6-ece-10，OCEAN 批处理 |
 | Spectre 选项 | reltol 1e-5，vabstol 1e-6，iabstol 1e-17，gmin 1e-18（与 R6B 系统测试台相同） |
