@@ -12,7 +12,13 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 START_DIR="$PWD"
 
 # 1. latest scripts first, so jobs added on GitHub are found
-( cd "$ROOT" && git pull -q ) && echo "[run] git pull ok" || echo "[run] git pull failed, using local copy"
+#    AC_SKIP_GIT_PULL=1 skips it (e.g. a pinned clone outside the home quota); the commit used is printed either way
+if [ -n "$AC_SKIP_GIT_PULL" ]; then
+  echo "[run] git pull skipped (AC_SKIP_GIT_PULL)"
+else
+  ( cd "$ROOT" && git pull -q ) && echo "[run] git pull ok" || echo "[run] git pull failed, using local copy"
+fi
+echo "[run] scripts: $ROOT @ $(cd "$ROOT" && git rev-parse --short HEAD 2>/dev/null)"
 
 if [ -z "$JOB" ] || [ ! -f "$ROOT/batch/$JOB.il" ]; then
   echo "usage: $0 <job>     jobs:" $(ls "$ROOT/batch" 2>/dev/null | sed 's/\.il$//')
