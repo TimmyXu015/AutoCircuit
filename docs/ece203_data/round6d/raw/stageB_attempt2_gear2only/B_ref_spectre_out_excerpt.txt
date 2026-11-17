@@ -1,0 +1,33 @@
+************************************************
+Trying `homotopy = gmin' for initial conditions.
+Notice from spectre during IC analysis, during transient analysis `tran'.
+    Bad pivoting is found during DC analysis. Option dc_pivot_check=yes is recommended for possible improvement of convergence.
+DC simulation time: CPU = 27.523 ms, elapsed = 27.524 ms.
+Opening the PSFXL file ../../../../../../../../../../../tmp/lix015_r6d/sim_B_ref/psf/tran.tran.tran ...
+Important parameter values:
+    start = 0 s
+    outputstart = 0 s
+    stop = 60 ms
+    step = 60 us
+    maxstep = 500 ns
+    ic = all
+    useprevic = no
+    skipdc = no
+    reltol = 10e-06
+    abstol(V) = 1 uV
+    abstol(I) = 10 aA
+    temp = 27 C
+    tnom = 25 C
+    tempeffects = all
+    errpreset = moderate
+    method = gear2only
+    lteratio = 3.5
+    relref = sigglobal
+    cmin = 0 F
+    gmin = 1 aS
+Output and IC/nodeset summary:
+                 save   2       (current)
+                 save   8       (voltage)
+    tran: time = 250 us      (417 m%), step = 160 as       (267 f%)
+    tran: time = 250 us      (417 m%), step = 320.1 as     (533 f%)
+    tran: time = 250 us      (417 m%), step = 160 as       (267 f%)

@@ -1,0 +1,40 @@
+          abstol(I) = 10 aA, default 1 pA
+          gmin = 1 aS, default 1 pS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+During simulation, the CPU load for active processors is :
+        Spectre  0 (38.1 %)      1 (7.9 %)       2 (13.2 %)      3 (93.0 %)
+                 4 (37.7 %)      5 (35.4 %)      6 (9.2 %)       7 (10.8 %)
+        Other   
+Initial condition solution time: CPU = 30.33 ms, elapsed = 30.3328 ms.
+Intrinsic tran analysis time:    CPU = 57.5351 s, elapsed = 57.6451 s.
+Total time required for tran analysis `tran': CPU = 57.5781 s, elapsed = 57.7035 s.
+Time accumulated: CPU = 58.0249 s, elapsed = 58.731 s.
+Peak resident memory used = 97.6 Mbytes.
+
+
+Notice from spectre.
+    3242 notices suppressed.
+
+finalTimeOP: writing operating point information to rawfile.
+
+Opening the PSF file ../../../../../../../../../../../tmp/lix015_r6d/sim_B_direct_1p/psf/finalTimeOP.info ...
+modelParameter: writing model parameter values to rawfile.
+
+Opening the PSF file ../../../../../../../../../../../tmp/lix015_r6d/sim_B_direct_1p/psf/modelParameter.info ...
+element: writing instance parameter values to rawfile.
+
+Opening the PSF file ../../../../../../../../../../../tmp/lix015_r6d/sim_B_direct_1p/psf/element.info ...
+outputParameter: writing output parameter values to rawfile.
+
+Opening the PSF file ../../../../../../../../../../../tmp/lix015_r6d/sim_B_direct_1p/psf/outputParameter.info ...
+designParamVals: writing netlist parameters to rawfile.
+
+Opening the PSFASCII file ../../../../../../../../../../../tmp/lix015_r6d/sim_B_direct_1p/psf/designParamVals.info ...
+primitives: writing primitives to rawfile.
+
+Opening the PSFASCII file ../../../../../../../../../../../tmp/lix015_r6d/sim_B_direct_1p/psf/primitives.info.primitives ...
+subckts: writing subcircuits to rawfile.
+
+Opening the PSFASCII file ../../../../../../../../../../../tmp/lix015_r6d/sim_B_direct_1p/psf/subckts.info.subckts ...

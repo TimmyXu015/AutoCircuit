@@ -1,0 +1,2 @@
+AC> r6dB B_ref [REF cl 0]: ok  | 40-60 ms: fp/fn cm 0.900058 vpre pp 0.1889 | buf cm n/a vbuf pp n/a | 20-60 ms vg 1.3238..1.3634 bufp n/a..n/a bufn n/a..n/a | I -2.831e-07 -2.831e-07 | rows 169088
+AC> r6dB B_direct_1p [DIRECT cl 1e-12]: ok  | 40-60 ms: fp/fn cm 0.900058 vpre pp 0.1879 | buf cm n/a vbuf pp n/a | 20-60 ms vg 1.3246..1.3611 bufp n/a..n/a bufn n/a..n/a | I -2.831e-07 -2.831e-07 | rows 166052

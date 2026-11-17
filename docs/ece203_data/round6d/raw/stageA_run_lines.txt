@@ -1,0 +1,21 @@
+AC> r6dA A_ref [REF cl 0]: ok  | fp/fn 0.900059 0.900059 cm 0.900059 | op/on cm 0.900059 | buf n/a n/a cm n/a | vg 1.32506 ib 0.30863 | I 2.831e-07 2.831e-07
+AC> r6dA A_ref: Hpre 10/100/1k 94.543 94.533 93.887 ph -0.63 | Hbuf100 n/a ph n/a | Acd 100/1k/10k n/a n/a n/a ph n/a | CMRR60 pre 108.62 buf n/a dB
+AC> r6dA A_ref: MSP id n/a gm n/a vgs n/a vds n/a vdsat n/a margin n/a | MKP id n/a vgs n/a vds n/a vdsat n/a margin n/a | MSN id n/a m n/a | MKN id n/a m n/a | OTA min 0.092 XA.M1
+AC> r6dA A_ref: CMFB stb UGF 5.457e+05 PM 87.78 LGdc 189.2 ph0 -141.9 | DRL UGF 1984 PM 90.25 LG60 32.36
+AC> r6dA A_direct_1p [DIRECT cl 1e-12]: ok  | fp/fn 0.900059 0.900059 cm 0.900059 | op/on cm 0.900059 | buf n/a n/a cm n/a | vg 1.32506 ib 0.30863 | I 2.831e-07 2.831e-07
+AC> r6dA A_direct_1p: Hpre 10/100/1k 94.544 94.486 89.438 ph -1.92 | Hbuf100 n/a ph n/a | Acd 100/1k/10k n/a n/a n/a ph n/a | CMRR60 pre 108.62 buf n/a dB
+AC> r6dA A_direct_1p: MSP id n/a gm n/a vgs n/a vds n/a vdsat n/a margin n/a | MKP id n/a vgs n/a vds n/a vdsat n/a margin n/a | MSN id n/a m n/a | MKN id n/a m n/a | OTA min 0.092 XA.M1
+AC> r6dA A_direct_1p: CMFB stb UGF 1.871e+05 PM 89.35 LGdc 189.2 ph0 -141.9 | DRL UGF 1984 PM 90.25 LG60 32.36
+AC> r6dA A_buf_1p [BUFFERED cl 1e-12]: ok  | fp/fn 0.900059 0.900059 cm 0.900059 | op/on cm 0.900059 | buf 0.54273 0.54273 cm 0.54273 | vg 1.32506 ib 0.30863 | I 4.934e-07 2.831e-07
+AC> r6dA A_buf_1p: Hpre 10/100/1k 94.543 94.533 93.865 ph -0.64 | Hbuf100 79.643 ph -0.65 | Acd 100/1k/10k 0.84249 0.84249 0.84233 ph -0.01 | CMRR60 pre 108.62 buf 108.62 dB
+AC> r6dA A_buf_1p: MSP id 1.051e-07 gm 2.778e-06 vgs 0.3573 vds 1.257 vdsat 0.04391 margin 1.157 | MKP id 1.051e-07 vgs 0.3086 vds 0.5427 vdsat 0.04953 margin 0.443 | MSN id 1.051e-07 m 1.157 | MKN id 1.051e-07 m 0.443 | OTA min 0.092 XA.M1
+AC> r6dA A_buf_1p: CMFB stb UGF 5.353e+05 PM 88.04 LGdc 189.2 ph0 -141.9 | DRL UGF 1984 PM 90.25 LG60 32.36
+AC> r6dA A_direct_10p [DIRECT cl 1e-11]: ok  | fp/fn 0.900059 0.900059 cm 0.900059 | op/on cm 0.900059 | buf n/a n/a cm n/a | vg 1.32506 ib 0.30863 | I 2.831e-07 2.831e-07
+AC> r6dA A_direct_10p: Hpre 10/100/1k 94.535 92.023 36.847 ph -13.25 | Hbuf100 n/a ph n/a | Acd 100/1k/10k n/a n/a n/a ph n/a | CMRR60 pre 108.62 buf n/a dB
+AC> r6dA A_direct_10p: MSP id n/a gm n/a vgs n/a vds n/a vdsat n/a margin n/a | MKP id n/a vgs n/a vds n/a vdsat n/a margin n/a | MSN id n/a m n/a | MKN id n/a m n/a | OTA min 0.092 XA.M1
+AC> r6dA A_direct_10p: CMFB stb UGF 2.706e+04 PM 90.10 LGdc 189.2 ph0 -141.9 | DRL UGF 1984 PM 90.25 LG60 32.36
+AC> r6dA A_buf_10p [BUFFERED cl 1e-11]: ok  | fp/fn 0.900059 0.900059 cm 0.900059 | op/on cm 0.900059 | buf 0.54273 0.54273 cm 0.54273 | vg 1.32506 ib 0.30863 | I 4.934e-07 2.831e-07
+AC> r6dA A_buf_10p: Hpre 10/100/1k 94.543 94.533 93.866 ph -0.64 | Hbuf100 79.643 ph -0.75 | Acd 100/1k/10k 0.84249 0.84234 0.82757 ph -0.11 | CMRR60 pre 108.62 buf 108.62 dB
+AC> r6dA A_buf_10p: MSP id 1.051e-07 gm 2.778e-06 vgs 0.3573 vds 1.257 vdsat 0.04391 margin 1.157 | MKP id 1.051e-07 vgs 0.3086 vds 0.5427 vdsat 0.04953 margin 0.443 | MSN id 1.051e-07 m 1.157 | MKN id 1.051e-07 m 0.443 | OTA min 0.092 XA.M1
+AC> r6dA A_buf_10p: CMFB stb UGF 5.353e+05 PM 87.85 LGdc 189.2 ph0 -141.9 | DRL UGF 1984 PM 90.25 LG60 32.36
+AC_BATCH_DONE

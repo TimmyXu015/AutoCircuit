@@ -3,6 +3,7 @@
 # Stage B: B_*_tran.csv(.gz) -> r6d_stageB_summary.csv (per 20 ms window), r6d_ab_summary.csv (DIRECT vs BUFFERED)
 import csv, gzip, os, math, cmath, sys, bisect
 R=sys.argv[1] if len(sys.argv)>1 else 'raw'
+RB=sys.argv[2] if len(sys.argv)>2 else R   # Stage B tran directory
 def rows(f): return list(csv.DictReader(open(f)))
 def cols(fn):
     if not os.path.exists(fn) and os.path.exists(fn+'.gz'): fn=fn+'.gz'
@@ -24,7 +25,7 @@ outA=[]
 for r in rows(R+'/r6d_stageA.csv'):
     t=r['tag']; m=lg(R+'/%s_stb_cmfb.csv'%t); hp=acurve(R+'/%s_dm_ac.csv'%t,'Hpre'); hb=acurve(R+'/%s_dm_ac.csv'%t,'Hbuf')
     o=dict(case=t,bench=r['bench'],CL_pF='%g'%(float(r['cl'])*1e12),fp_cm_V=r['fp_cm'],fp_cm_err_mV='%.3f'%((float(r['fp_cm'])-0.9)*1e3),op_cm_V=r['op_cm'],
-           buf_cm_V=r['buf_cm'],vg_V=r['vg'],I_VDD_nA='%.1f'%(float(r['I_VDD'])*1e9),I_VDDD_nA_subset='%.1f'%(float(r['I_VDDD'])*1e9),
+           buf_cm_V=r['buf_cm'],vg_V=r['vg'],I_VDD_nA='%.1f'%(float(r['I_VDD'])*1e9),I_VDDD_nA_separate_supply='%.1f'%(float(r['I_VDDD'])*1e9),P_total_uW_excl_ideal_CMFB='%.3f'%((float(r['I_VDD'])+float(r['I_VDDD']))*1.8e6),
            Hpre100=r['Hpre100'],Hpre100_ph_deg=r['Hpre100_ph'],Hpre100_vs_REF_pct=None,Hpre1k=r['Hpre1k'],Hpre_f3dB_Hz=('%.4g'%f3db(hp) if f3db(hp) else 'n/a'),
            Hbuf100=r['Hbuf100'],Hbuf100_ph_deg=r['Hbuf100_ph'],Hbuf_f3dB_Hz=('%.4g'%f3db(hb) if hb and f3db(hb) else 'n/a'),
            Acd100=r['Acd100'],Acd100_ph_deg=r['Acd100_ph'],Acd1k=r['Acd1k'],Acd10k=r['Acd10k'],CMRR60_pre_dB=r['CMRR60_pre'],CMRR60_buf_dB=r['CMRR60_buf'],
@@ -84,7 +85,7 @@ def cm_glitch(t,o,t0,t1,tch=500e-6):
 outB=[]
 cases=[('B_ref','REF',0),('B_direct_1p','DIRECT',1),('B_buf_1p','BUFFERED',1),('B_direct_10p','DIRECT',10),('B_buf_10p','BUFFERED',10)]
 for tag,bench,cl in cases:
-    fn=R+'/%s_tran.csv'%tag
+    fn=RB+'/%s_tran.csv'%tag
     if not (os.path.exists(fn) or os.path.exists(fn+'.gz')): continue
     d=cols(fn); t=d['t_s']; hasb='bufp_V' in d
     vpre=[a-b for a,b in zip(d['fp_V'],d['fn_V'])]; cpre=[(a+b)/2 for a,b in zip(d['fp_V'],d['fn_V'])]; cop=[(a+b)/2 for a,b in zip(d['op_V'],d['on_V'])]

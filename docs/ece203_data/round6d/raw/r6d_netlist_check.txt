@@ -1,0 +1,21 @@
+== R6C-I ece203_r6c_tb_ideal (last netlist) vs ece203_r6d_tb_ref (A_ref)
+only in r6c_tb_ideal_netlist :
+only in A_ref_netlist.scs :
+  + dcOp dc write="spectre.dc" maxiters=150 maxsteps=10000 annotate=status
+== REF vs DIRECT (A_direct_10p)
+only in A_ref_netlist.scs :
+only in A_direct_10p_netlist.scs :
+  + CLDN (fn 0) capacitor c=cld
+  + CLDP (fp 0) capacitor c=cld
+== REF vs BUFFERED (A_buf_10p)
+only in A_ref_netlist.scs :
+only in A_buf_10p_netlist.scs :
+  + CLBN (bufn 0) capacitor c=clb
+  + CLBP (bufp 0) capacitor c=clb
+  + MKN (BUFN IBIAS GND GND) nfet l=4u w=4u nf=1 m=1 par=1 ad=2.16e-12 as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+  + MKP (BUFP IBIAS GND GND) nfet l=4u w=4u nf=1 m=1 par=1 ad=2.16e-12 as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+  + MSN (VDD FN BUFN GND) nfet l=1u w=6u nf=1 m=1 par=1 ad=3.24e-12 as=3.24e-12 pd=13.080u ps=13.080u nrd=0.4814815 nrs=0.4814815 gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+  + MSP (VDD FP BUFP GND) nfet l=1u w=6u nf=1 m=1 par=1 ad=3.24e-12 as=3.24e-12 pd=13.080u ps=13.080u nrd=0.4814815 nrs=0.4814815 gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+  + XCD (bufn bufp fn fp 0 ib vdd) ece203_r6d_cd
+  + ends ece203_r6d_cd
+  + subckt ece203_r6d_cd BUFN BUFP FN FP GND IBIAS VDD
