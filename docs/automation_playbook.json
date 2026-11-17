@@ -265,7 +265,10 @@
   "PSS of the R6A FD system with real MOS TG choppers (2 kHz, 100 uV offset, TOhm Rfb): shooting norm oscillated (1e6..4) and with tstab 10 ms the time step collapsed to ~0.4 as at a clock edge; ideal relays had converged in R6A. Needs a different PSS setup (e.g. smaller edges/longer tr, method/gear, or harmonic balance) or a long-tran steady-state check.",
   "Pseudo-R corner scales ~linearly with width (prw 3/3.5/4/4.5 um -> fL 0.077/0.089/0.101/0.112 Hz, L 2 um); verify w=prw in the run netlist (Round 5N).",
   "Real-bias benches (r4SpecsRB): VDDD is a 0 V ammeter from vddd to vdd, so I(VDD) already includes the DRL current I(VDDD); total power = I(VDD) x 1.8 V (do not add I(VDDD) again). In the R4 ideal-bias/R6A benches VDDD is a separate 1.8 V source.",
-  "cmrf7sf pfetx flicker vs L at fixed current (R5N-L, W 8u, 616 nA, L 16->36 um): gm ~ L^-0.49, input-referred mirror 1/f only ~ L^-0.62 (device gate-referred 1/f ~ L^-0.13, not the 1/sqrt(WL) area law)."
+  "cmrf7sf pfetx flicker vs L at fixed current (R5N-L, W 8u, 616 nA, L 16->36 um): gm ~ L^-0.49, input-referred mirror 1/f only ~ L^-0.62 (device gate-referred 1/f ~ L^-0.13, not the 1/sqrt(WL) area law).",
+  "MATLAB MCP evaluate_matlab_code times out at ~80 s on the device side; never pause() > ~60 s in one call (a timed-out call keeps MATLAB busy and the next calls also time out). Sleep in the cloud container's Bash instead, then poll with a short call.",
+  "In MATLAB system() ssh strings, escaped double quotes (\\\") inside the remote command break cmd.exe quoting ('The system cannot find the path specified'); use single quotes doubled ('') only, or split into separate ssh calls.",
+  "cmrf7sf input-pair area vs noise (R5N-N): input-pair 1/f divided by the capacitive noise gain (Cc+Cfb+cgg)/Cc follows 1/sqrt(WL) within 0.6 %; the larger cgg (4.8 -> 7.5 pF on 50 pF Cc) raises every OTA1 term by the same factor, so N2 50/40 gave 2.99 uV instead of the naive 2.86 uV."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",

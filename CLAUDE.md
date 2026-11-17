@@ -17,6 +17,10 @@ When you learn something new (a working API call, a fix, a trap), add it to the 
 in the same commit.
 
 
+## Completed Round 5N-N — NMOS input-pair area on R5N-L T3 (2026-11-16)
+
+**Results: [docs/ECE203_round5nn_input_pair_results.md](docs/ECE203_round5nn_input_pair_results.md)** (task: [docs/ECE203_round5nn_input_pair_task.md](docs/ECE203_round5nn_input_pair_task.md); script `ece203_r5nn.il`, jobs ece203_r5nn_a/b/ade; data docs/ece203_data/round5nn/ (r5nn_input_pair.csv, r5nn_input_pair.png, raw/); new cells Project/ece203_r5nn_ota_{n1,n2}, ece203_r5nn_tb_{n1,n2}; ADE state r5nn_inputpair_n2_best). Only M1/M2: T3 40/32 -> N1 45/36 -> N2 50/40 um: noise 3.194/3.070/2.994 uV de-embedded, 3.256/3.126/3.045 uV app; input-pair 1/f 2.36/2.14/1.97, mirror 1/f 1.88/1.92/1.97 (rises with cgg 4.8/6.1/7.5 pF via capacitive noise gain; intrinsic input 1/f follows 1/sqrt(WL) within 0.6 %). Margins unchanged (M2 0.087, M4 0.097), worst Zin 162 MOhm, 3.175 uW. N2 signoff: 39.23 dB, fL 0.1006, fH 248.2, CMRR60 89.63 dB, PM 73.9/90.1, no clipping, 143.5 pF all PASS; noise de-embedded 2.994 PASS but app 3.045 FAIL -> no Nominal PASS. Stopped.
+
 ## Completed Round 5N-L — PMOS mirror length test on R5N P2 (2026-11-16)
 
 **Results: [docs/ECE203_round5nl_mirror_length_results.md](docs/ECE203_round5nl_mirror_length_results.md)** (script `ece203_r5nl.il`, jobs ece203_r5nl_a/c/ade; data docs/ece203_data/round5nl/ (r5nl_mirror_length.csv, raw/); new cells Project/ece203_r5nl_ota_l{16,24,32,36}, ece203_r5nl_tb_l*; ADE state r5nl_mirrorL36_best). Only M3/M4 L (W 8u): 16/24/32/36 um -> noise 4.07/3.55/3.28/3.19 uV de-embedded (4.14/3.62/3.35/3.26 app); mirror 1/f 3.12/2.43/2.03/1.88 uV ~ L^-0.62 (not 1/L); input-pair 1/f 2.36 uV now dominant (55 %). All DC valid (M2 margin 0.087 unchanged; M1 VDS 0.72 -> 0.60; LG10 1547 -> 618). T3 (L 36u) signoff: 39.23 dB, fL 0.1006, fH 248.3, CMRR60 89.85 dB, Zin 161 MOhm, 3.175 uW (I_VDD incl. VDDD 0 V meter), PM 74.0/90.1, no clipping; noise 3.19 uV FAIL (+6 %). Stopped.
