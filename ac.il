@@ -14,7 +14,7 @@ acRoot = or(getShellEnvVar("AC_ROOT") strcat(getShellEnvVar("HOME") "/AutoCircui
 acFiles = '("pdk_cmrf7sf.il" "lib_draw.il" "lib_sim.il" "lib_ade.il"
             "cs_amp.il" "cs_wsweep.il"
             "hw1_p1a.il" "rf_cap.il" "rf_ind.il" "gmid.il" "wsub.il" "hw1_setup.il" "sps.il" "spsg.il" "hw2_setup.il" "hw3_setup.il"
-            "ece203_lib.il" "ece203_hp.il" "ece203_ideal.il" "ece203_ota.il" "ece203_noise_scan.il" "ece203_load.il" "ece203_ss.il" "ece203_ss_lscan.il" "ece203_ss_pr.il" "ece203_ss_otacmp.il" "ece203_ss_chop.il" "ece203_ss_chop_noise.il" "ece203_r4.il" "ece203_r5.il" "ece203_r6a.il" "ece203_r6b.il" "ece203_r5n.il")
+            "ece203_lib.il" "ece203_hp.il" "ece203_ideal.il" "ece203_ota.il" "ece203_noise_scan.il" "ece203_load.il" "ece203_ss.il" "ece203_ss_lscan.il" "ece203_ss_pr.il" "ece203_ss_otacmp.il" "ece203_ss_chop.il" "ece203_ss_chop_noise.il" "ece203_r4.il" "ece203_r5.il" "ece203_r6a.il" "ece203_r6b.il" "ece203_r5n.il" "ece203_r5nl.il")
 
 ;; steps per job for acGo, run in order; each step is a function of no arguments
 acJobs = list(nil
@@ -100,6 +100,9 @@ acJobs = list(nil
   'ece203_r5n_pilot2 '(r5nStagePilot2)
   'ece203_r5n_c '(r5nStageC)
   'ece203_r5n_ade '(r5nAde)
+  'ece203_r5nl_a '(r5nlStageA)
+  'ece203_r5nl_c '(r5nlStageC)
+  'ece203_r5nl_ade '(r5nlAde)
 )
 
 ;; ---------- reporting ----------
