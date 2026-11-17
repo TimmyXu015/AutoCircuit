@@ -261,7 +261,8 @@
   "Two-pair (differential-difference) NMOS CMFB in subthreshold: exact for symmetric DM, but with a chopped 1 mV offset (Vod ~185 mV steps) the output CM sagged ~34 mV -> linear range is the limit for FD chopper outputs.",
   "MOS-switch (TG) tran with the tight R4 tolerances (iabstol 1e-18, reltol 1e-6) failed at 3 us (convergence below minstep); unit bench ran with defaults + gmin 1e-15 (Round 6B).",
   "OCEAN xmax(w) is the x of the maximum y, not the end time; last sample = drGetElem(x drVectorLength(x)-1) with x = drGetWaveformXVec(w) (drVectorGet does not exist).",
-  "Disk quota: a 10 ms TG tran at 50 ns maxstep with save=allpub left ~80 MB of psf per run and filled the 5 GB quota mid-job (close: Disk quota exceeded). Use saveOption('save \"selected\") + save('v ...) for long switch trans and delete the run dirs after export."
+  "Disk quota: a 10 ms TG tran at 50 ns maxstep with save=allpub left ~80 MB of psf per run and filled the 5 GB quota mid-job (close: Disk quota exceeded). Use saveOption('save \"selected\") + save('v ...) for long switch trans and delete the run dirs after export.",
+  "PSS of the R6A FD system with real MOS TG choppers (2 kHz, 100 uV offset, TOhm Rfb): shooting norm oscillated (1e6..4) and with tstab 10 ms the time step collapsed to ~0.4 as at a clock edge; ideal relays had converged in R6A. Needs a different PSS setup (e.g. smaller edges/longer tr, method/gear, or harmonic balance) or a long-tran steady-state check."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",
@@ -270,7 +271,8 @@
   "Consider making the repo private + deploy key, or keep it public and keep personal/PDK data out.",
   "ECE203: pseudo-R: Round 3B pfet33x cell verified standalone + in S2 (no PVT/mismatch/well leakage); ADE L states exist only for Round 3 ece203_ss tbs (ss_S1/ss_S2), earlier ece203 tbs are OCEAN only.",
   "ECE203 Round 5 done (2026-11-16): two-stage C OTA + PMOS CS (Miller 0.5p) in the R4 real architecture fixes gain/fH (39.27 dB, 249 Hz, PM 87.6); fL (pseudo-R 0.077 Hz) and noise (16.6 uV, OTA1 flicker) still fail; chopper ripple/RRL and CS loop gain at fch not addressed.",
-  "ECE203 Round 6A done (2026-11-16): H0 single-error DRL+CMFB BLOCKED; real independent DRL + FD OTA DD-CMFB works (CMRR60 108.8 dB, PM 90/73.5); H2 CMFB-ref feed-forward from DRL CM sense works but no benefit; ideal 2 kHz FD chopper gain 0.988, offset ripple is DM, CMFB linear range limits. ADE state r6a_B1_real_indep in Project/ece203_r6a_tb."
+  "ECE203 Round 6A done (2026-11-16): H0 single-error DRL+CMFB BLOCKED; real independent DRL + FD OTA DD-CMFB works (CMRR60 108.8 dB, PM 90/73.5); H2 CMFB-ref feed-forward from DRL CM sense works but no benefit; ideal 2 kHz FD chopper gain 0.988, offset ripple is DM, CMFB linear range limits. ADE state r6a_B1_real_indep in Project/ece203_r6a_tb.",
+  "ECE203 Round 6B done (2026-11-16): real 8-MOS TG chopper cell ece203_r6b_tgchop works (unit + in R6A FD system at 2/4 kHz, gain 0.986/0.977x); PSS of the TG system did not converge (maxperiods 20, then timestep collapse at a clock edge with tstab 10 ms/maxperiods 100) -> offset ripple still unmeasured."
  ],
  "local_code_mode": {
   "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",
