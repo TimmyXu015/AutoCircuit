@@ -288,7 +288,7 @@ procedure( r6bSysPss(port tag)
         r6bSet(r6Vars append(r6bSysBase list(list("chen" 1.0) list("tch" 500e-6) list("pacd" 0.5) list("vos" 100e-6))))
         run()
         res = strcat(getShellEnvVar("HOME") "/simulation/" r6bCells->stb "/spectre/schematic_" tag)
-        when( sh(sprintf(nil "grep -q 'did not converge' %s/psf/spectre.out" res)) error("PSS did not converge (see spectre.out)"))
+        when( sh(sprintf(nil "grep -q 'pss analysis did not converge' %s/psf/spectre.out" res)) error("PSS did not converge (see spectre.out)"))
         openResults(strcat(res "/psf")) selectResult('pss_td)
         w = list(nil 'op v("/op") 'on v("/on") 'fp v("/fp") 'fn v("/fn") 'ocm v("/ocm") 'icm v("/icm") 'vg v("/vg") 'p v("/p") 'n v("/n"))
         m = w->fp - w->fn
