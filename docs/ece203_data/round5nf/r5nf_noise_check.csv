@@ -1,0 +1,4 @@
+case,skill_deemb_uV,recomputed_deemb_uV,spectre_total_input_referred_uV,skill_app_uV,recomputed_app_uV,spectre_total_summarized_over_H100_uV,H100_from_ac_csv,out_rms_recomputed_uV,spectre_total_summarized_V2
+N2,2.9940,2.9907,2.9940,3.0455,3.0421,3.0455,91.4765,278.28,7.76123e-08
+F1,2.9128,2.9095,2.9128,2.9635,2.9602,2.9635,91.4067,270.58,7.33781e-08
+F2,2.8798,2.8766,2.8798,2.9304,2.9271,2.9304,91.3629,267.43,7.16782e-08

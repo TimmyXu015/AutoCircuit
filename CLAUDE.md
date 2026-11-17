@@ -17,6 +17,10 @@ When you learn something new (a working API call, a fix, a trap), add it to the 
 in the same commit.
 
 
+## Completed Round 5N-F — final noise closure, M3/M4 L on R5N-N N2 (2026-11-16): NOMINAL PASS — PVT/MC PENDING
+
+**Results: [docs/ECE203_round5nf_final_noise_results.md](docs/ECE203_round5nf_final_noise_results.md)** (task: [docs/ECE203_round5nf_final_noise_task.md](docs/ECE203_round5nf_final_noise_task.md); script `ece203_r5nf.il`, jobs ece203_r5nf_a/b/ade (a3 prepared, not run); data docs/ece203_data/round5nf/ (r5nf_final_noise.csv, r5nf_noise_check.csv, r5nf_final_noise.png, raw/ incl. stb + tran CSV); new cells Project/ece203_r5nf_ota_{f1,f2}, ece203_r5nf_tb_{f1,f2}; ADE state r5nf_final_f2). M1/M2 50/40, M3/M4 8/36 -> 8/40 -> 8/42 um: noise 2.994/2.913/2.880 uV de-embedded, 3.045/2.964/2.930 uV app (verified against Spectre totals). M4 margin 96.6/82.5/75.6 mV (VSD fixed 0.365 V). **Recommended: ece203_r5nf_tb_f2 + ADE state r5nf_final_f2**: 39.22 dB, fL 0.1005, fH 247.5, CMRR60 89.85 dB, Zin 163 MOhm, 3.175 uW, PM 73.0/90.1, no clipping, 143.5 pF, all PASS. F3 not run. PVT/MC not run. Stopped.
+
 ## Completed Round 5N-N — NMOS input-pair area on R5N-L T3 (2026-11-16)
 
 **Results: [docs/ECE203_round5nn_input_pair_results.md](docs/ECE203_round5nn_input_pair_results.md)** (task: [docs/ECE203_round5nn_input_pair_task.md](docs/ECE203_round5nn_input_pair_task.md); script `ece203_r5nn.il`, jobs ece203_r5nn_a/b/ade; data docs/ece203_data/round5nn/ (r5nn_input_pair.csv, r5nn_input_pair.png, raw/); new cells Project/ece203_r5nn_ota_{n1,n2}, ece203_r5nn_tb_{n1,n2}; ADE state r5nn_inputpair_n2_best). Only M1/M2: T3 40/32 -> N1 45/36 -> N2 50/40 um: noise 3.194/3.070/2.994 uV de-embedded, 3.256/3.126/3.045 uV app; input-pair 1/f 2.36/2.14/1.97, mirror 1/f 1.88/1.92/1.97 (rises with cgg 4.8/6.1/7.5 pF via capacitive noise gain; intrinsic input 1/f follows 1/sqrt(WL) within 0.6 %). Margins unchanged (M2 0.087, M4 0.097), worst Zin 162 MOhm, 3.175 uW. N2 signoff: 39.23 dB, fL 0.1006, fH 248.2, CMRR60 89.63 dB, PM 73.9/90.1, no clipping, 143.5 pF all PASS; noise de-embedded 2.994 PASS but app 3.045 FAIL -> no Nominal PASS. Stopped.

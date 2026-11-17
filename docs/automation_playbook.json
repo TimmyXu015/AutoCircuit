@@ -268,7 +268,8 @@
   "cmrf7sf pfetx flicker vs L at fixed current (R5N-L, W 8u, 616 nA, L 16->36 um): gm ~ L^-0.49, input-referred mirror 1/f only ~ L^-0.62 (device gate-referred 1/f ~ L^-0.13, not the 1/sqrt(WL) area law).",
   "MATLAB MCP evaluate_matlab_code times out at ~80 s on the device side; never pause() > ~60 s in one call (a timed-out call keeps MATLAB busy and the next calls also time out). Sleep in the cloud container's Bash instead, then poll with a short call.",
   "In MATLAB system() ssh strings, escaped double quotes (\\\") inside the remote command break cmd.exe quoting ('The system cannot find the path specified'); use single quotes doubled ('') only, or split into separate ssh calls.",
-  "cmrf7sf input-pair area vs noise (R5N-N): input-pair 1/f divided by the capacitive noise gain (Cc+Cfb+cgg)/Cc follows 1/sqrt(WL) within 0.6 %; the larger cgg (4.8 -> 7.5 pF on 50 pF Cc) raises every OTA1 term by the same factor, so N2 50/40 gave 2.99 uV instead of the naive 2.86 uV."
+  "cmrf7sf input-pair area vs noise (R5N-N): input-pair 1/f divided by the capacitive noise gain (Cc+Cfb+cgg)/Cc follows 1/sqrt(WL) within 0.6 %; the larger cgg (4.8 -> 7.5 pF on 50 pF Cc) raises every OTA1 term by the same factor, so N2 50/40 gave 2.99 uV instead of the naive 2.86 uV.",
+  "Noise cross-check (R5N-F): the noise summary txt's 'Total Input Referred Noise' equals the SKILL pointwise de-embedded value, and sqrt('Total Summarized Noise')/|H100| equals the app value (4 digits); re-integrating the 161-point noise CSV gives ~0.1 % lower."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",
