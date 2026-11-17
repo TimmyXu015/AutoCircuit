@@ -267,7 +267,7 @@
   "Consider making the repo private + deploy key, or keep it public and keep personal/PDK data out.",
   "ECE203: pseudo-R: Round 3B pfet33x cell verified standalone + in S2 (no PVT/mismatch/well leakage); ADE L states exist only for Round 3 ece203_ss tbs (ss_S1/ss_S2), earlier ece203 tbs are OCEAN only.",
   "ECE203 Round 5 done (2026-11-16): two-stage C OTA + PMOS CS (Miller 0.5p) in the R4 real architecture fixes gain/fH (39.27 dB, 249 Hz, PM 87.6); fL (pseudo-R 0.077 Hz) and noise (16.6 uV, OTA1 flicker) still fail; chopper ripple/RRL and CS loop gain at fch not addressed.",
-  "ECE203 Round 6A done (2026-11-16): H0 single-error DRL+CMFB BLOCKED; real independent DRL + FD OTA DD-CMFB works (CMRR60 108.8 dB, PM 90/73.5); H2 CMFB-ref feed-forward from DRL CM sense works but no benefit; ideal 2 kHz FD chopper gain 0.988, offset ripple is DM, CMFB linear range limits. No ADE state saved for r6a cells."
+  "ECE203 Round 6A done (2026-11-16): H0 single-error DRL+CMFB BLOCKED; real independent DRL + FD OTA DD-CMFB works (CMRR60 108.8 dB, PM 90/73.5); H2 CMFB-ref feed-forward from DRL CM sense works but no benefit; ideal 2 kHz FD chopper gain 0.988, offset ripple is DM, CMFB linear range limits. ADE state r6a_B1_real_indep in Project/ece203_r6a_tb."
  ],
  "local_code_mode": {
   "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",

@@ -171,7 +171,7 @@
   - 修正 1：A 段最初用 VCVS 伺服给 vg 提供 DC，DC 不收敛，改为“真实 CMFB 提供 DC + 电容交流注入”。
   - 修正 2：H0 中 e_out 一项改为交流耦合，避免 DC 回路病态。
   - 这两处都是测试台的修正，被控对象没有改；失败的那几次运行没有仿真结果。
-- **Cadence：** 新建 `Project/ece203_r6a_fd_ota`、`ece203_r6a_cmfb`、`ece203_r6a_tb`。**没有保存 ADE state**（本轮为 OCEAN 批处理；需要的话可以补存）。R4 / R5 的 cell 和 state 都没有改动。
+- **Cadence：** 新建 `Project/ece203_r6a_fd_ota`、`ece203_r6a_cmfb`、`ece203_r6a_tb`；ADE state `r6a_B1_real_indep`（真实独立 DRL + CMFB 配置，包含 dc、ac、CMFB stb，任务 ece203_r6a_ade）。R4 / R5 的 cell 和 state 都没有改动。
 
 ## 回报（三句话）
 
