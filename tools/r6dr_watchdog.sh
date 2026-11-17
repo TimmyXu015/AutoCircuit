@@ -13,8 +13,8 @@ while pgrep -u "$USER" -f "$PAT" >/dev/null; do
   if [ "$cur" != "$last" ]; then last="$cur"; since=$now; fi
   if [ -n "$cur" ] && [ $((now - since)) -ge "$STALL" ]; then
     echo "$(date '+%F %T') STALL tag=$TAG: '$cur' unchanged for $((now - since)) s -> killing this run's Spectre" >> "$LOG"
+    echo "STALLED $cur" > "$PSF/../WATCHDOG_STALL"   # marker first: run() returns as soon as Spectre is killed
     pkill -u "$USER" -f "$PAT"; sleep 5; pkill -9 -u "$USER" -f "$PAT"
-    echo "STALLED $cur" > "$PSF/../WATCHDOG_STALL"
     break
   fi
   sleep 10
