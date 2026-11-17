@@ -258,7 +258,10 @@
   "Python edits of .il files with s[:a]+new truncate everything after index a - Round 5 lost the stage E code this way; always splice s[:a]+new+s[b:] and re-check the procedure list before pushing.",
   "Open-loop CM plant identification of a high-gain FD OTA: a VCVS DC servo (gain 1e4) on the load gate made DC fail ('Matrix is singular at ia'); working recipe = keep the real CMFB for DC through 1 TOhm and inject the AC actuator through a 1e6 F capacitor (loop open for f >= 1 mHz) (Round 6A).",
   "Ideal static controllers whose input includes a DC-offset error (e.g. CMFB systematic -21 mV) can wreck the DC solve; AC-couple such terms (1e6 F / 1e12 Ohm) so the DC point is the plant's.",
-  "Two-pair (differential-difference) NMOS CMFB in subthreshold: exact for symmetric DM, but with a chopped 1 mV offset (Vod ~185 mV steps) the output CM sagged ~34 mV -> linear range is the limit for FD chopper outputs."
+  "Two-pair (differential-difference) NMOS CMFB in subthreshold: exact for symmetric DM, but with a chopped 1 mV offset (Vod ~185 mV steps) the output CM sagged ~34 mV -> linear range is the limit for FD chopper outputs.",
+  "MOS-switch (TG) tran with the tight R4 tolerances (iabstol 1e-18, reltol 1e-6) failed at 3 us (convergence below minstep); unit bench ran with defaults + gmin 1e-15 (Round 6B).",
+  "OCEAN xmax(w) is the x of the maximum y, not the end time; last sample = drGetElem(x drVectorLength(x)-1) with x = drGetWaveformXVec(w) (drVectorGet does not exist).",
+  "Disk quota: a 10 ms TG tran at 50 ns maxstep with save=allpub left ~80 MB of psf per run and filled the 5 GB quota mid-job (close: Disk quota exceeded). Use saveOption('save \"selected\") + save('v ...) for long switch trans and delete the run dirs after export."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",
