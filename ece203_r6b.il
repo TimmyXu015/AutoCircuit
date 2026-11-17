@@ -353,3 +353,37 @@ procedure( r6bStagePss()
     t
   )
 )
+
+;; ---------- ADE L states (GUI job ece203_r6b_ade) ----------
+procedure( r6bAdeOne(cell state vars outs stbProbe)
+  let( (sess)
+    sess = acAdeStart(ece203Lib cell)
+    unless( sess error("No ADE session for %s\n" cell) )
+    acAdeModels(sess "tt")
+    acAdeSaveCurrents(sess)
+    foreach(o '((gmin "1e-18") (iabstol "1e-17") (reltol "1e-5")) car(errset(asiSetSimOptionVal(sess car(o) cadr(o)) nil)))
+    acAdeAnalysis(sess 'dc list(list('saveOppoint t)))
+    acAdeAnalysis(sess 'ac list(list('start "1m") list('stop "100k") list('dec "20"))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")))
+    when( stbProbe
+      acAdeAnalysis(sess 'stb list(list('start "1m") list('stop "100M") list('dec "20") list('probe stbProbe))
+        list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade"))))
+    foreach(o outs acAdeOutput(acAdeSev car(o) cadr(o)))
+    acAdeVars(sess mapcar(lambda((x) list(car(x) sprintf(nil "%g" float(cadr(x))))) vars))
+    acAdeSave(sess ece203Lib cell state)
+  )
+)
+procedure( r6bMerge(base over) let( (all) all = base foreach(o over all = cons(o setof(x all car(x) != car(o)))) all ) )
+procedure( r6bAde()
+  hw1NoLicensePrompts()
+  when( hiGraphicMode() acAutoOkStart() )
+  unless( hiGraphicMode() error("r6bAde needs the GUI (run.sh ece203_r6b_ade)\n") )
+  ;; system bench, TGs held in phase A (chopper OFF); set chen = 1, tch = 500u / 250u, vd = 1m for a chopped tran
+  r6bAdeOne(r6bCells->stb "r6b_sys_tg_phaseA" r6bMerge(r6Vars append(r6bSysBase list(list("adm" 1.0) list("dcc" 0.01))))
+            list(list("Hdm_dB" "db20((VF(\"/fp\") - VF(\"/fn\")) / (VF(\"/ep\") - VF(\"/en\")))")
+                 list("cmfbLoopGain" "getData(\"loopGain\" ?result \"stb\")")) "/IPRC")
+  ;; unit bench, phase A static, 10 mV DC differential
+  r6bAdeOne(r6bCells->utb "r6b_tg_unit_phaseA" r6bMerge(r6bUVars list(list("vdc" 0.01)))
+            list(list("vod" "VDC(\"/outp\") - VDC(\"/outn\")")) nil)
+  t
+)

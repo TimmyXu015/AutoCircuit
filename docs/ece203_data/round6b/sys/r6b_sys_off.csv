@@ -1,0 +1,2 @@
+tag,mode,status,reason,Hdm10,Hdm100,ph100,Acm60,CMRR60_dB,ei_cm60,eo_cm60,I_VDD,I_VDDD,op,on,vg,vcf,body,drlr,cmfb_ugf,cmfb_pm,cmfb_lgdc,cmfb_ph0,drl_ugf,drl_pm,drl_lg60,drl_lgdc,drl_ph0,tr_ei_pp,tr_eo_pp60,tr_vod_pp60,tr_eo_step,tr_ei_step,tr_eo_t90,tr_eo_min,tr_eo_max
+S0_off_phaseA,TG static phase A (chen 0),ok,n/a,94.5682,94.5581,-0.648021,0.000351623,108.593,0.0306283,0.000292071,3.85626e-07,2.83139e-07,0.878907,0.878907,1.32522,1.32522,0.901492,0.901492,350153,74.0368,129.163,-141.83,1983.61,90.2503,32.3635,280.609,179.989,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a

@@ -93,6 +93,7 @@ acJobs = list(nil
   'ece203_r6b_unit '(r6bStageUnit)
   'ece203_r6b_sys '(r6bStageSys)
   'ece203_r6b_pss '(r6bStagePss)
+  'ece203_r6b_ade '(r6bAde)
 )
 
 ;; ---------- reporting ----------
