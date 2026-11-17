@@ -1,0 +1,59 @@
+2c2
+< // Generated on: Nov 16 21:18:07 2026
+---
+> // Generated on: Nov 16 21:18:27 2026
+4c4
+< // Design cell name: ece203_r6c_tb_old
+---
+> // Design cell name: ece203_r6c_tb_ideal
+52,79d51
+< // Cell name: ece203_r6a_cmfb
+< // View name: schematic
+< subckt ece203_r6a_cmfb GND IBIAS ON OP VCMFB VDD VREF
+<     MTB (tb IBIAS GND GND) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+<         as=1.08e-12 pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+<         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+<     MTA (ta IBIAS GND GND) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+<         as=1.08e-12 pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+<         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+<     MB2 (VCMFB VREF tb GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+<         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+<         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+<     MB1 (VDD ON tb GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+<         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+<         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+<     MA2 (VCMFB VREF ta GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+<         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+<         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+<     MA1 (VDD OP ta GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+<         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+<         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+<     MD (VCMFB VCMFB VDD VDD) pfet l=4u w=1u nf=1 m=1 par=1 ad=5.4e-13 \
+<         as=5.4e-13 pd=3.08u ps=3.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+<         rf=0 rsx=50 dtemp=0
+< ends ece203_r6a_cmfb
+< // End of subcircuit definition.
+< 
+< // Library name: Project
+136c108
+< // Cell name: ece203_r6c_tb_old
+---
+> // Cell name: ece203_r6c_tb_ideal
+137a110
+> VBC (cvb 0) vsource dc=vb mag=0 type=dc
+147a121
+> CPC (cea2 0) capacitor c=ccp
+161a136
+> RPC (cea1 cea2) resistor r=rcp
+183a159,163
+> ELM (vcf 0 csum 0) vcvs gain=1 min=vclmin max=vclmax
+> EAD (csum cvb cea2 0) vcvs gain=1
+> EEA (cea1 0 csen vrc) vcvs gain=a0
+> ESB (csen csh on 0) vcvs gain=0.5
+> ESA (csh 0 op 0) vcvs gain=0.5
+193d172
+< XC (0 ib on op vcf vdd vrc) ece203_r6a_cmfb
+223c202
+<     sensfile="../../schematic_B_old/psf/sens.output" checklimitdest=psf 
+---
+>     sensfile="../../schematic_B_ideal/psf/sens.output" checklimitdest=psf 

@@ -269,7 +269,11 @@
   "MATLAB MCP evaluate_matlab_code times out at ~80 s on the device side; never pause() > ~60 s in one call (a timed-out call keeps MATLAB busy and the next calls also time out). Sleep in the cloud container's Bash instead, then poll with a short call.",
   "In MATLAB system() ssh strings, escaped double quotes (\\\") inside the remote command break cmd.exe quoting ('The system cannot find the path specified'); use single quotes doubled ('') only, or split into separate ssh calls.",
   "cmrf7sf input-pair area vs noise (R5N-N): input-pair 1/f divided by the capacitive noise gain (Cc+Cfb+cgg)/Cc follows 1/sqrt(WL) within 0.6 %; the larger cgg (4.8 -> 7.5 pF on 50 pF Cc) raises every OTA1 term by the same factor, so N2 50/40 gave 2.99 uV instead of the naive 2.86 uV.",
-  "Noise cross-check (R5N-F): the noise summary txt's 'Total Input Referred Noise' equals the SKILL pointwise de-embedded value, and sqrt('Total Summarized Noise')/|H100| equals the app value (4 digits); re-integrating the 161-point noise CSV gives ~0.1 % lower."
+  "Noise cross-check (R5N-F): the noise summary txt's 'Total Input Referred Noise' equals the SKILL pointwise de-embedded value, and sqrt('Total Summarized Noise')/|H100| equals the app value (4 digits); re-integrating the 161-point noise CSV gives ~0.1 % lower.",
+  "Sticky analogLib parameters (R6C): an instance parameter NOT given to schCreateInst/acSetParam is filled with the value last used for that master in the Virtuoso session. Building two testbenches in one job gave the second bench's VSPS vsin sinephase=180 copied from the first bench's VSNS (both inputs in phase, vid = 0). Always set every parameter that differs between instances of the same master explicitly (e.g. sinephase 0), and diff the netlists of A/B benches.",
+  "r4Num() converts to float: use '%.0f' not '%d' for integer counts (a '%d' format error aborts the whole batch job after the simulation).",
+  "analogLib vcvs output clipping: CDF params maxm / minm (netlist max= / min=); egain is the gain.",
+  "Home quota on ieng6 is 5 GB and was down to ~16 MB after two 60 ms MOS-switch trans (21 MB psf each with save selected): delete this round's rebuildable tran psf dirs right after extracting the CSV; tar results into /tmp (not counted) before scp."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",
@@ -281,7 +285,8 @@
   "ECE203 Round 6A done (2026-11-16): H0 single-error DRL+CMFB BLOCKED; real independent DRL + FD OTA DD-CMFB works (CMRR60 108.8 dB, PM 90/73.5); H2 CMFB-ref feed-forward from DRL CM sense works but no benefit; ideal 2 kHz FD chopper gain 0.988, offset ripple is DM, CMFB linear range limits. ADE state r6a_B1_real_indep in Project/ece203_r6a_tb.",
   "ECE203 Round 6B done (2026-11-16): real 8-MOS TG chopper cell ece203_r6b_tgchop works (unit + in R6A FD system at 2/4 kHz, gain 0.986/0.977x); PSS of the TG system did not converge (maxperiods 20, then timestep collapse at a clock edge with tstab 10 ms/maxperiods 100) -> offset ripple still unmeasured.",
   "ECE203 Round 5N done (2026-11-16): submission baseline r5n_submission_baseline (prw 4u, fL 0.1007 Hz, noise 16.58 uV FAIL); best no-chopper noise 4.07 uV (OTA1 16x/16x + tail x4, 3.18 uW, ADE r5n_low_noise_best). 3 uV not reached.",
-  "ECE203 Round 5N-L done (2026-11-16): M3/M4 8u/36u on P2 -> 3.19 uV (best, all other specs PASS, ADE r5nl_mirrorL36_best); 3 uV not reached; input-pair 1/f (2.36 uV) dominant."
+  "ECE203 Round 5N-L done (2026-11-16): M3/M4 8u/36u on P2 -> 3.19 uV (best, all other specs PASS, ADE r5nl_mirrorL36_best); 3 uV not reached; input-pair 1/f (2.36 uV) dominant.",
+  "R6C-I follow-up (not run): ideal CMFB + dummy capacitors on op/on equal to the DD-pair input capacitance, to test whether the larger TG-edge CM spike (22.5 -> 48.4 mV) is only the missing sensor capacitance."
  ],
  "local_code_mode": {
   "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",

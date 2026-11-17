@@ -44,11 +44,14 @@ procedure( r6cCtrlSpecs()
 procedure( r6cFixSpec(e)
   if( caddr(e) == "VSPS" list(nth(0 e) nth(1 e) nth(2 e) append(nth(3 e) '(("sinephase" "0"))) nth(4 e)) e)
 )
+;; The R6A/R6B source cells (ece203_r6b_tgchop, ece203_r6a_fd_ota, ece203_r6a_cmfb, ece203_r6a_tb) are only built if
+;; missing. NOTE: the 2026-11-16 runs (commits d002d45..d3c8a0b) still called r6bBuildTg() / r6Build() unconditionally,
+;; which redrew those cells from the same unchanged code (identical content; R6B S0 numbers reproduced exactly).
 procedure( r6cBuild()
   let( (base)
     ece203LibInfo()
-    r6bBuildTg()
-    r6Build()
+    unless( ddGetObj(ece203Lib r6bCells->tg) r6bBuildTg())
+    unless( ddGetObj(ece203Lib r6Cells->ota) && ddGetObj(ece203Lib r6Cells->cmfb) r6Build())
     base = mapcar('r6cFixSpec r6bSSpecs())
     otaTb(r6cCells->old base)
     otaTb(r6cCells->ideal append(setof(e base caddr(e) != "XC") r6cCtrlSpecs()))

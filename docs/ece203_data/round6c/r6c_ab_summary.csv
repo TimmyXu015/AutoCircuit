@@ -1,0 +1,26 @@
+stage,metric,unit,old_DDpair,new_ideal,ratio_new_over_old,better
+A,"Vout,cm DC",V,0.878907,0.900059,1.024,closer to 0.900
+A,Hdm(100 Hz),V/V,94.5581,94.5328,0.9997,equal
+A,CMRR60,dB,108.593,108.622,1,equal
+A,CMFB loop gain at 10 Hz,V/V,722.5,1052.3,1.456,higher
+A,CMFB UGF,Hz,350153,545690,1.558,higher
+A,CMFB PM,deg,74.0368,87.7807,1.186,higher
+A,DRL PM,deg,90.2503,90.2499,1,equal
+A,e_out per 1 nA/side output-CM current (1 Hz),mV/nA,0.8193,0.5593,0.6827,lower
+A,output-CM step t90,us,1.361,1.342,0.986,lower
+B,100 Hz DM gain (40-60 ms sine fit),V/V,94.1134,94.0887,0.9997,equal/higher
+B,"Vout,cm average - 0.9 V",mV,-24.5825,0.0592904,-0.002412,closer to 0
+B,"Vout,cm 200 Hz component",mV,3.58853,0.000106479,2.967e-05,lower
+B,"Vout,cm peak-to-peak",mV,7.18957,0.0002133,2.967e-05,lower
+B,VCMFB peak-to-peak,mV,0.007148,0.000214,0.02994,info
+B,Vod residual after 100 Hz fit (rms),uV,1.09102,0.797588,0.731,lower
+C,100 Hz DM gain (40-60 ms sine fit),V/V,93.2273,93.5064,1.003,equal/higher
+C,"Vout,cm average - 0.9 V",mV,-24.4669,0.147985,-0.006048,closer to 0
+C,"Vout,cm 200 Hz component",mV,3.51778,0.00474884,0.00135,lower
+C,"Vout,cm peak-to-peak",mV,29.6499,43.591,1.47,lower
+C,VCMFB peak-to-peak,mV,1.30382,38.3346,29.4,info
+C,Vod residual after 100 Hz fit (rms),uV,1405.89,915.86,0.6514,lower
+C,"TG-edge CM glitch, positive peak (max over edges)",mV,22.4572,48.3619,2.154,lower
+C,"TG-edge CM glitch, negative peak",mV,-3.74146,-4.51679,1.207,closer to 0
+C,TG-edge recovery to 1 mV (max over edges),us,11.0442,0.1078,0.009761,lower
+C,TG-edge recovery to 0.1 mV (max over edges),us,39.9928,0.73974,0.0185,lower

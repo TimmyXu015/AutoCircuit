@@ -1,0 +1,11 @@
+element,netlist line (ideal bench),parameter,value,role
+ESA,ESA (csh 0 op 0) vcvs gain=0.5,gain,0.5,ideal CM sensor half 1 (infinite input impedance; senses op)
+ESB,ESB (csen csh on 0) vcvs gain=0.5,gain,0.5,ideal CM sensor half 2: csen = (op+on)/2 (probe node)
+EEA,EEA (cea1 0 csen vrc) vcvs gain=a0,a0,1.0,error amplifier DC gain; vrc = same VREF node used by the old CMFB (= vref through RFF2 1 Ohm)
+RPC,RPC (cea1 cea2) resistor r=rcp,rcp,1e3 Ohm,single pole
+CPC,CPC (cea2 0) capacitor c=ccp,ccp,5.3052e-12 F,fp = 1/(2*pi*rcp*ccp) = 30.0 MHz
+VBC,VBC (cvb 0) vsource dc=vb,vb,1.325 V,fixed controller bias (R6A VCMFB ~1.325 V); not a servo / calibration
+EAD,EAD (csum cvb cea2 0) vcvs gain=1,gain,1,csum = vb + cea2
+ELM,ELM (vcf 0 csum 0) vcvs gain=1 min=vclmin max=vclmax,vclmin / vclmax,0 / 1.8 V,rail limiter on the control output (never clamps op/on)
+IPRC,IPRC (vcf vcf2) iprobe,-,-,stb loop-break point (same in old and new bench)
+RCF,RCF (vcf2 vg) resistor r=rcf,rcf,1 Ohm,to the actuation node vg = gates of PMOS loads M3/M4 (same in old and new bench)

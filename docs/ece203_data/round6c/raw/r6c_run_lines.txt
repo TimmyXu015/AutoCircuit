@@ -1,0 +1,129 @@
+AC> r6cT B_old [real DD-pair CMFB, chen 0]: ok  | 40-60 ms: vod pp 0.1882 | ocm avg 0.875417 pp 0.00719 | 20-60 ms op 0.8246..0.9188 on 0.8247..0.9188 vg 1.3252..1.3252 | p 0.878873 n 0.878873 | I -3.856e-07 -2.831e-07 | rows 30013
+AC> r6cT B_ideal [ideal linear CMFB, chen 0]: ok  | 40-60 ms: vod pp 0.1882 | ocm avg 0.900059 pp 2.133e-07 | 20-60 ms op 0.853..0.9471 on 0.8531..0.9471 vg 1.3251..1.3251 | p 0.90006 n 0.90006 | I -2.831e-07 -2.831e-07 | rows 30013
+AC>   netdiff: 2c2
+AC>   netdiff: < // Generated on: Nov 16 21:18:07 2026
+AC>   netdiff: ---
+AC>   netdiff: > // Generated on: Nov 16 21:18:27 2026
+AC>   netdiff: 4c4
+AC>   netdiff: < // Design cell name: ece203_r6c_tb_old
+AC>   netdiff: ---
+AC>   netdiff: > // Design cell name: ece203_r6c_tb_ideal
+AC>   netdiff: 52,79d51
+AC>   netdiff: < // Cell name: ece203_r6a_cmfb
+AC>   netdiff: < // View name: schematic
+AC>   netdiff: < subckt ece203_r6a_cmfb GND IBIAS ON OP VCMFB VDD VREF
+AC>   netdiff: <     MTB (tb IBIAS GND GND) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+AC>   netdiff: <         as=1.08e-12 pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MTA (ta IBIAS GND GND) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+AC>   netdiff: <         as=1.08e-12 pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MB2 (VCMFB VREF tb GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+AC>   netdiff: <         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MB1 (VDD ON tb GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+AC>   netdiff: <         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MA2 (VCMFB VREF ta GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+AC>   netdiff: <         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MA1 (VDD OP ta GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+AC>   netdiff: <         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MD (VCMFB VCMFB VDD VDD) pfet l=4u w=1u nf=1 m=1 par=1 ad=5.4e-13 \
+AC>   netdiff: <         as=5.4e-13 pd=3.08u ps=3.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+AC>   netdiff: <         rf=0 rsx=50 dtemp=0
+AC>   netdiff: < ends ece203_r6a_cmfb
+AC>   netdiff: < // End of subcircuit definition.
+AC>   netdiff: < 
+AC>   netdiff: < // Library name: Project
+AC>   netdiff: 136c108
+AC>   netdiff: < // Cell name: ece203_r6c_tb_old
+AC>   netdiff: ---
+AC>   netdiff: > // Cell name: ece203_r6c_tb_ideal
+AC>   netdiff: 137a110
+AC>   netdiff: > VBC (cvb 0) vsource dc=vb mag=0 type=dc
+AC>   netdiff: 147a121
+AC>   netdiff: > CPC (cea2 0) capacitor c=ccp
+AC>   netdiff: 161a136
+AC>   netdiff: > RPC (cea1 cea2) resistor r=rcp
+AC>   netdiff: 183a159,163
+AC>   netdiff: > ELM (vcf 0 csum 0) vcvs gain=1 min=vclmin max=vclmax
+AC>   netdiff: > EAD (csum cvb cea2 0) vcvs gain=1
+AC>   netdiff: > EEA (cea1 0 csen vrc) vcvs gain=a0
+AC>   netdiff: > ESB (csen csh on 0) vcvs gain=0.5
+AC>   netdiff: > ESA (csh 0 op 0) vcvs gain=0.5
+AC>   netdiff: 193d172
+AC>   netdiff: < XC (0 ib on op vcf vdd vrc) ece203_r6a_cmfb
+AC>   netdiff: 223c202
+AC>   netdiff: <     sensfile="../../schematic_B_old/psf/sens.output" checklimitdest=psf 
+AC>   netdiff: ---
+AC>   netdiff: >     sensfile="../../schematic_B_ideal/psf/sens.output" checklimitdest=psf 
+AC_BATCH_DONE
+AC> r6cA A_old [real DD-pair CMFB]: ok  | Hdm 10/100 94.568 94.558 ph -0.65 | CMRR60 108.59 dB | op 0.878907 on 0.878907 ocm 0.878907 vg 1.32522 csen n/a | I 3.856e-07 2.831e-07 | M3 vsd 0.9211 vdsat 0.0891 margin 0.821 | M4 0.9211 0.0891 0.821 | minA 0.078 XA.MC2
+AC> r6cA A_old: CMFB stb UGF 3.502e+05 PM 74.0 LGdc 129.2 ph0 -141.8 | DRL UGF 1984 PM 90.3 LG60 32.36 | dz e_out/nA 1/1k/100k 0.0008193 0.0008192 0.0008088 vod/nA 1/1k 1.42e-10 1.8e-13 | step eo 0.0008175 vg 0.0005617 t90 1.36e-06 pk 0.0008178 vod pk 4.37e-12 end pp 4.97e-11 vg 1.32522..1.32578
+AC> r6cA A_ideal [ideal linear CMFB a0 1 fp 30 MHz vb 1.325]: ok  | Hdm 10/100 94.543 94.533 ph -0.63 | CMRR60 108.62 dB | op 0.900059 on 0.900059 ocm 0.900059 vg 1.32506 csen 0.900059 | I 2.831e-07 2.831e-07 | M3 vsd 0.8999 vdsat 0.08919 margin 0.800 | M4 0.8999 0.08919 0.800 | minA 0.092 XA.M1
+AC> r6cA A_ideal: CMFB stb UGF 5.457e+05 PM 87.8 LGdc 189.2 ph0 -141.9 | DRL UGF 1984 PM 90.2 LG60 32.36 | dz e_out/nA 1/1k/100k 0.0005593 0.0005592 0.0005508 vod/nA 1/1k 7.23e-11 8.06e-13 | step eo 0.000561 vg 0.000561 t90 1.342e-06 pk 0.000561 vod pk 2.45e-10 end pp 2.37e-11 vg 1.32506..1.32562
+AC_BATCH_DONE
+AC> r6cT C_old [real DD-pair CMFB, chen 1]: ok  | 40-60 ms: vod pp 0.1889 | ocm avg 0.875487 pp 0.03339 | 20-60 ms op 0.8246..0.9433 on 0.8245..0.9431 vg 1.3243..1.3269 | p 0.878874 n 0.878874 | I -3.856e-07 -2.831e-07 | rows 168227
+AC> r6cT C_ideal [ideal linear CMFB, chen 1]: ok  | 40-60 ms: vod pp 0.1889 | ocm avg 0.90006 pp 0.05288 | 20-60 ms op 0.853..0.9986 on 0.8529..0.9982 vg 1.3238..1.3634 | p 0.90006 n 0.90006 | I -2.831e-07 -2.831e-07 | rows 169088
+AC>   netdiff: 2c2
+AC>   netdiff: < // Generated on: Nov 16 21:18:07 2026
+AC>   netdiff: ---
+AC>   netdiff: > // Generated on: Nov 16 21:18:27 2026
+AC>   netdiff: 4c4
+AC>   netdiff: < // Design cell name: ece203_r6c_tb_old
+AC>   netdiff: ---
+AC>   netdiff: > // Design cell name: ece203_r6c_tb_ideal
+AC>   netdiff: 52,79d51
+AC>   netdiff: < // Cell name: ece203_r6a_cmfb
+AC>   netdiff: < // View name: schematic
+AC>   netdiff: < subckt ece203_r6a_cmfb GND IBIAS ON OP VCMFB VDD VREF
+AC>   netdiff: <     MTB (tb IBIAS GND GND) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+AC>   netdiff: <         as=1.08e-12 pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MTA (ta IBIAS GND GND) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+AC>   netdiff: <         as=1.08e-12 pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MB2 (VCMFB VREF tb GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+AC>   netdiff: <         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MB1 (VDD ON tb GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+AC>   netdiff: <         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MA2 (VCMFB VREF ta GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+AC>   netdiff: <         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MA1 (VDD OP ta GND) nfet l=2u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+AC>   netdiff: <         as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+AC>   netdiff: <         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+AC>   netdiff: <     MD (VCMFB VCMFB VDD VDD) pfet l=4u w=1u nf=1 m=1 par=1 ad=5.4e-13 \
+AC>   netdiff: <         as=5.4e-13 pd=3.08u ps=3.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+AC>   netdiff: <         rf=0 rsx=50 dtemp=0
+AC>   netdiff: < ends ece203_r6a_cmfb
+AC>   netdiff: < // End of subcircuit definition.
+AC>   netdiff: < 
+AC>   netdiff: < // Library name: Project
+AC>   netdiff: 136c108
+AC>   netdiff: < // Cell name: ece203_r6c_tb_old
+AC>   netdiff: ---
+AC>   netdiff: > // Cell name: ece203_r6c_tb_ideal
+AC>   netdiff: 137a110
+AC>   netdiff: > VBC (cvb 0) vsource dc=vb mag=0 type=dc
+AC>   netdiff: 147a121
+AC>   netdiff: > CPC (cea2 0) capacitor c=ccp
+AC>   netdiff: 161a136
+AC>   netdiff: > RPC (cea1 cea2) resistor r=rcp
+AC>   netdiff: 183a159,163
+AC>   netdiff: > ELM (vcf 0 csum 0) vcvs gain=1 min=vclmin max=vclmax
+AC>   netdiff: > EAD (csum cvb cea2 0) vcvs gain=1
+AC>   netdiff: > EEA (cea1 0 csen vrc) vcvs gain=a0
+AC>   netdiff: > ESB (csen csh on 0) vcvs gain=0.5
+AC>   netdiff: > ESA (csh 0 op 0) vcvs gain=0.5
+AC>   netdiff: 193d172
+AC>   netdiff: < XC (0 ib on op vcf vdd vrc) ece203_r6a_cmfb
+AC>   netdiff: 223c202
+AC>   netdiff: <     sensfile="../../schematic_C_old/psf/sens.output" checklimitdest=psf 
+AC>   netdiff: ---
+AC>   netdiff: >     sensfile="../../schematic_C_ideal/psf/sens.output" checklimitdest=psf 
+AC_BATCH_DONE
