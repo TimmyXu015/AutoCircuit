@@ -17,6 +17,10 @@ When you learn something new (a working API call, a fix, a trap), add it to the 
 in the same commit.
 
 
+## ACTIVE NEXT TASK — Round 6A: DRL/CMFB integrated common-mode control micro-PoC (2026-11-16)
+
+**Small user-approved innovation experiment; ideal Chopper ALLOWED this once:** [docs/ECE203_round6a_drl_cmfb_coupled_poc.md](docs/ECE203_round6a_drl_cmfb_coupled_poc.md). Can DRL and a fully differential OTA's output CMFB share/coordinate control electronics while maintaining two independent common-mode targets? Start with 2×2 controllability/sensitivity and **independent** body 60Hz vs OTA internal CM perturbations; compare independent DRL+CMFB, naive one-control dual actuation, and at most one genuine coordinated two-actuator proposal, then optionally ideal fully differential chopper to prove interface benefit. Preserve old R4/R5 cells, user's GUI, power budget; <=12 cases and <=1 PSS, explicit stop even if partially blocked. **Don't call a single scalar DRL drive an adequate CMFB without two-disturbance proof; do not claim novelty, spec PASS or real chopper without evidence.** Save short report, CSV and scripts and STOP. No Round6B.
+
 ## Completed Round 5 — OTA output architectures + stage noise + demod placement (A->E done, 2026-11-16)
 
 **Results: [docs/ECE203_round5_architecture_noise_demod_results.md](docs/ECE203_round5_architecture_noise_demod_results.md)** (task: [docs/ECE203_round5_ota_stage_noise_chopper_placement_bigrun.md](docs/ECE203_round5_ota_stage_noise_chopper_placement_bigrun.md); script `ece203_r5.il`, jobs ece203_r5_a/b/d/dsb/e_cd/e_cs/ade; data docs/ece203_data/round5/ incl. r5_architecture_matrix.csv, r5_noise_stage_contributions.csv, r5_demod_placement.csv, r5_final_spec_matrix.csv, r5_overview.png; cells Project/ece203_r5_cd, ece203_r5_cs, ece203_r5_s2_{none,ibuf,cd,cs}_d2, ece203_r5_s2_cd_d1, ece203_r5_ecg_cs_rbpr_tb; ADE states r5_final_cs, r5_B1_CD_S2, r5_B2_CS_S2, r5_D1_CD_S2_demodslot1).
