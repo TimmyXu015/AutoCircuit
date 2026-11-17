@@ -1,10 +1,5 @@
 # Notes for AI agents working on this repo
 
-## NEXT EXPERIMENT PREPARED — Round 5N, single-ended NO-CHOPPER submission/noise sprint (NOT ACTIVE)
-
-Task: [docs/ECE203_round5n_no_chopper_submission_noise_sprint.md](docs/ECE203_round5n_no_chopper_submission_noise_sprint.md).
-User decision: **one Claude only**, no dual-agent parallelism. First freeze/repair R5 final CS BioAmp fL near 0.1Hz, then bounded OTA1 input NMOS + PMOS mirror sizing to measure achievable non-chopper noise floor in the real integrated ECG. Preserve all R3/R4/R5/R6A/R6B original cells and states; do not silently rebuild them (note R6B review exposed that `r6Build()` rebuilds original cells). **The task is prepared, not authorized to run**; begin Cadence only after user explicitly activates this Round 5N task. Do not branch off into Chopper/CMFB/R6C.
-
 Read `docs/automation_playbook.json` first. It covers how to reach the UCSD ieng6 server
 (SSH from the user's Windows PC through the MATLAB MCP server's `system()`), the
 edit -> push -> `run.sh <job>` -> scp -> MATLAB plot loop, the SKILL framework in this
@@ -21,6 +16,10 @@ Ground rules (details in the playbook, `user_and_policies`):
 When you learn something new (a working API call, a fix, a trap), add it to the playbook
 in the same commit.
 
+
+## Completed Round 5N — single-ended no-chopper submission baseline + OTA1 noise floor (2026-11-16)
+
+**Results: [docs/ECE203_round5n_no_chopper_results.md](docs/ECE203_round5n_no_chopper_results.md)** (task: [docs/ECE203_round5n_no_chopper_submission_noise_sprint.md](docs/ECE203_round5n_no_chopper_submission_noise_sprint.md); script `ece203_r5n.il`, jobs ece203_r5n_a/b/pilot/pilot2/c/ade; data docs/ece203_data/round5n/ incl. r5n_prw_scan.csv, r5n_noise_tradeoff.csv, r5n_noise_split.csv, r5n_final_spec_matrix.csv, r5n_noise_area.png; new cells Project/ece203_r5n_ota_*, ece203_r5n_tb_*; ADE states r5n_submission_baseline (ece203_r5n_tb_n1p1), r5n_low_noise_best (ece203_r5n_tb_n16p16_t4)). Replica of R5 E exact (91.91, fL 0.0773, 16.58 uV). Baseline = pseudo-R prw 4u: fL 0.1007 Hz, 39.24 dB, fH 249.2, CMRR60 95.42 dB, Zin 159 MOhm, 1.408 uW, PM 87.6/90.1, all PASS except noise 16.58 uV (FAIL). OTA1 area scan: noise 16.58 -> 8.41 (4x/4x) -> 4.60 uV (16x/16x, 2896 um2); + tail x4 -> 4.07 uV at 3.18 uW, CMRR 89.5 dB, PM 77.6 (best). No config reaches 3 uV; dominant = PMOS mirror 1/f (59 %) then input-pair 1/f (34 %). 12 configs + 2 signoffs. Stopped.
 
 ## Completed Round 6B — real MOS TG differential chopper microtest (2026-11-16)
 

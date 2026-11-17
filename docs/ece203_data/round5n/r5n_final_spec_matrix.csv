@@ -1,0 +1,18 @@
+metric,target,"r5n_submission_baseline (OTA1 1x/1x, prw 4u)",status,"r5n_low_noise_best (OTA1 16x/16x, tail x4, prw 4u)",status,R5 final (reference)
+|Hdm(100 Hz)| at out,38-42 dB,"91.67 (39.24 dB); H10 98.66, H60 96.00",PASS (sim),"91.63 (39.24 dB); H10 98.62, H60 95.96",PASS (sim),91.91 (39.27 dB)
+fL,0.09-0.11 Hz,0.1007 Hz,PASS (sim),0.1007 Hz,PASS (sim),0.0773 Hz (FAIL)
+fH,225-275 Hz,249.2 Hz,PASS (sim),249.3 Hz,PASS (sim),249.1 Hz
+"CMRR60, Cc 1% mismatch, DRL ON",>85 dB,95.42 dB,PASS (sim),89.47 dB,PASS (sim),95.42 dB
+"CMRR60, DRL OFF (reference)",report,64.76 dB,reported,58.93 dB,reported,64.75 dB
+"body 0.1 uA@60 Hz, DRL ON: |Vbody| / out / tran o range",no clipping,0.0374 V / 0.0021 V / 0.8950..0.9000 V,PASS (sim),0.0374 V / 0.0041 V / 0.8921..0.9026 V,PASS (sim),37.4 mV / 2.1 mV / 0.895-0.900
+"body 0.1 uA@60 Hz, DRL OFF: tran o range",report,1.799..1.800 V (rail),clips (DRL off),1.799..1.800 V (rail),clips (DRL off),clips
+|Zin(10 Hz)| worst input,>100 MOhm,1.59e+08 Ohm,PASS (sim),1.61e+08 Ohm,PASS (sim),159 MOhm
+"total power @1.8 V (VDD incl. DRL, OTA2, bias)",<4 uW,782.0 nA -> 1.408 uW,PASS (sim),1763.8 nA -> 3.175 uW,PASS (sim),1.408 uW
+main loop stb (/IPRB),PM >= 55 deg,"UGF 8702 Hz, PM 87.6 deg, LG10 744.4",PASS (sim),"UGF 3.265e+04 Hz, PM 77.6 deg, LG10 1547",PASS (sim),87.6 deg
+DRL loop stb (/IPRD),report,"UGF 2051 Hz, PM 90.1 deg, LG60 34.14",reported,"UGF 2023 Hz, PM 90.1 deg, LG60 33.69",reported,90.1 deg
+"noise 0.1-250 Hz, pointwise de-embedded",<3 uVrms,16.58 uVrms,FAIL,4.07 uVrms,FAIL,16.58 uVrms
+"noise 0.1-250 Hz, out RMS / |H100|",<3 uVrms,16.97 uVrms (out 1.555 mVrms),FAIL,4.14 uVrms (out 0.380 mVrms),FAIL,17.15 uVrms
+OTA1 headroom (min sat margin),> 0 (R5: 0.094 V),0.094 V (XA.M2),PASS (sim),0.087 V (XA.M2),PASS (sim),0.094 V (XA.M2)
+designed capacitors,<1 nF,143.5 pF,PASS,"143.5 pF (+ OTA1 gate cap: M1/M2 cgg 4.8 pF each, M3/M4 0.74 pF each; not designed capacitors)",PASS,143.5 pF
+OTA1 transistor area (sum W*L),report,256 um^2,reported,2992 um^2 (11.7x),reported,256 um^2
+chopper / PSS / MC / PVT,not in scope,NOT RUN,-,NOT RUN,-,-

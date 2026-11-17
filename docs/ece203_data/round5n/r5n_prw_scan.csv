@@ -1,0 +1,5 @@
+case,prw_um,prl_um,pr_netlist_check,H10,H60,H100,H100_dB,fL_Hz,fH_Hz,Zin_P_10Hz_ohm,Zin_N_10Hz_ohm,margin_A_V,worst_A,I_VDD_nA,noise_app_uV,noise_deemb_uV,fL_status
+A0_replica_prw3u_n1p1,3,2,w=prw prw=3e-06,98.92,96.25,91.91,39.27,0.0773,249.1,7.06e+09,1.59e+08,0.094,XA.M2,782.0,17.15,16.58,FAIL
+A_prw3.5u_n1p1,3.5,2,w=prw prw=3.5e-06,98.79,96.13,91.79,39.26,0.0889,249.1,7.05e+09,1.59e+08,0.094,XA.M2,782.0,17.06,16.58,FAIL
+A_prw4u_n1p1,4,2,w=prw prw=4e-06,98.66,96,91.67,39.24,0.1007,249.2,7.05e+09,1.59e+08,0.094,XA.M2,782.0,16.97,16.58,PASS
+A_prw4.5u_n1p1,4.5,2,w=prw prw=4.5e-06,98.53,95.87,91.55,39.23,0.1124,249.2,7.05e+09,1.59e+08,0.094,XA.M2,782.0,16.87,16.59,FAIL
