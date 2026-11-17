@@ -4,7 +4,8 @@
 ;; DRL + CMFB), ece203_r6a_c (one coordinated candidate), ece203_r6a_d (ideal FD chopper, 1 PSS).
 ;;
 ;; One testbench cell ece203_r6a_tb, modes set by variables:
-;;   body actuator  : real DRL OTA (rdr 1e6) | ideal source u_body = vref - kb*(wib*e_in + wob*e_out) + aub (rub 1)
+;;   body actuator  : real DRL OTA (rdr 1e6) | ideal source u_body = vref - kb*(wib*e_in + wob*e_out) + aub (rub 1);
+;;                    its e_out term is AC-coupled (1e6 F / 1e12: corner ~1e-19 Hz) so the DC point is the plant's
 ;;   OTA CM actuator: real CMFB block (rcf 1) | AC-only ideal u_ota = ko*(woo*e_out + wio*e_in) + aug through CVG 1e6 F,
 ;;                    DC of vg still from the real CMFB through RCF 1e12 (so the CMFB loop is open for f >= 1 mHz)
 ;;   e_in = (inp+inn)/2 - vref (amplifier-side electrode nodes), e_out = (op+on)/2 - vref (OTA outputs)
@@ -114,7 +115,8 @@ procedure( r6Specs()
     list(ece203Lib "ece203_r4_drl_ota" "XD" nil
          '(("INP" "vref") ("INN" "cm") ("OUT" "drlr") ("VDD" "vddd") ("GND" "gnd!") ("IBIAS" "ibd")))
     otaR("RDRR" "rdr" "drlr" "rl0")
-    ldE("EB1" "icm" "vref" "b1" "vref" "-kb*wib") ldE("EB2" "ocm" "vref" "b2" "b1" "-kb*wob")
+    ldE("EB1" "icm" "vref" "b1" "vref" "-kb*wib") ldE("EOC" "ocm" "vref" "ocx" "vref" "1") otaC("CHP" "1e6" "ocx" "oac") otaR("RHP" "1e12" "oac" "vref")
+    ldE("EB2" "oac" "vref" "b2" "b1" "-kb*wob")
     otaV("VUB" "0" "aub" "ub" "b2") otaR("RUB" "rub" "ub" "rl0")
     list("analogLib" "iprobe" "IPRD" nil '(("PLUS" "rl0") ("MINUS" "rl0b")))
     otaR("RSR" "rs" "rl0b" "rl1") otaR("RER" "re" "rl1" "body") otaC("CER" "ce" "rl1" "body"))
