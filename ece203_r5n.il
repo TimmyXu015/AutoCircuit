@@ -8,7 +8,8 @@
 
 r5nDir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_r5n")
 ;; area factors per device pair: 1, 4 (W x2, L x2), 16 (W x4, L x4); W/L ratio kept
-procedure( r5nTag(n p) sprintf(nil "n%dp%d" n p) )
+r5nTail = 1   ;; OTA1 tail-current multiplier (MT width), used only for the bias pilot; 100 nA reference unchanged
+procedure( r5nTag(n p) if( r5nTail == 1 sprintf(nil "n%dp%d" n p) sprintf(nil "n%dp%d_t%d" n p r5nTail)) )
 procedure( r5nOtaCell(n p) strcat("ece203_r5n_ota_" r5nTag(n p)) )
 procedure( r5nTbCell(n p) strcat("ece203_r5n_tb_" r5nTag(n p)) )
 procedure( r5nK(a) sqrt(float(a)) )
@@ -21,7 +22,7 @@ procedure( r5nOtaDevs(n p)
          list("nfetx" "M1" 10e-6 * kn 8e-6 * kn "n1" "INP" "tail" "GND")
          list("nfetx" "M2" 10e-6 * kn 8e-6 * kn "x" "INN" "tail" "GND")
          list("nfetx" "MC" 10e-6 4e-6 "OUT" "VCAS" "x" "GND")
-         list("nfetx" "MT" 8e-6 4e-6 "tail" "IBIAS" "GND" "GND")
+         list("nfetx" "MT" 8e-6 * r5nTail 4e-6 "tail" "IBIAS" "GND" "GND")
          list("nfetx" "MREF" 2e-6 4e-6 "IBIAS" "IBIAS" "GND" "GND"))
   )
 )
@@ -127,4 +128,62 @@ procedure( r5nStageB()
     close(port)
     t
   )
+)
+
+;; ---------- B bias pilot (1 of max 2): B6 sizes with the OTA1 tail current x2 (MT 16u/4u) ----------
+;; In weak inversion the input-referred flicker is ~bias independent; only the thermal part (~1.7 uV of 4.6 uV in B6)
+;; should move. M2 headroom (0.083 V in B6) is expected to shrink because MC and M1 Vgs both rise.
+procedure( r5nStagePilot()
+  let( (port)
+    port = r5nOpen("r5n_bias_pilot.csv" r5nCols)
+    r5nTail = 2
+    r5nBuildTb(16 16)
+    r5nCase(port "P1_tail2" 16 16 r5nPrw t)
+    r5nTail = 1
+    close(port)
+    t
+  )
+)
+
+;; ---------- C: signoff of the frozen submission baseline and the best low-noise candidate ----------
+;; r5nBest is set after stage B (n p) - only these two configurations are signed off.
+r5nBest = '(16 16)
+procedure( r5nSignoff(n p label)
+  let( (cell extra pre oldDir oldR5 oldInsts portA portB portS ok)
+    cell = r5nTbCell(n p) pre = strcat("C_" label)
+    extra = append(r4RbVars list(list("cm2" 0.5e-12) list("prw" r5nPrw) list("prl" 2e-6)))
+    portA = r5nOpen(sprintf(nil "r5n_signoff_%s_dm.csv" label) r5nCols)
+    r5nCase(portA strcat(pre "_dm_noise") n p r5nPrw t)
+    close(portA)
+    oldDir = r4Dir oldR5 = r5Dir oldInsts = r4OpInsts
+    r4Dir = r5nDir r5Dir = r5nDir r4OpInsts = append(r4OpInsts '("X2.MCS" "X2.MCL"))
+    ok = errset(
+      progn(
+        portS = r5nOpen(sprintf(nil "r5n_signoff_%s_mainstb.csv" label) r5ECols)
+        r5EMainStb(portS cell strcat(pre "_mainstb") r5nOver(r5nPrw))
+        close(portS)
+        portB = r5nOpen(sprintf(nil "r5n_signoff_%s_drl.csv" label) r4BCols)
+        r4BCase(portB "off" 0.01 extra pre cell)
+        r4BCase(portB "real" 0.01 extra pre cell)
+        close(portB)
+        t)
+      t)
+    unless( ok acSay("r5n signoff %s failed: %L\n" label errset.errset))
+    r4Dir = oldDir r5Dir = oldR5 r4OpInsts = oldInsts
+    t
+  )
+)
+procedure( r5nStageC()
+  r5nSignoff(1 1 "baseline")
+  r5nSignoff(car(r5nBest) cadr(r5nBest) "best")
+  t
+)
+;; ---------- ADE L states (GUI) ----------
+procedure( r5nAde()
+  hw1NoLicensePrompts()
+  when( hiGraphicMode() acAutoOkStart() )
+  unless( hiGraphicMode() error("r5nAde needs the GUI (run.sh ece203_r5n_ade)\n") )
+  r4AdeTb(r5nTbCell(1 1) "r5n_submission_baseline" append(r5nOver(r5nPrw) list(list("dcc" 0.01) list("itr" 1e-7))) t t t)
+  r4AdeTb(r5nTbCell(car(r5nBest) cadr(r5nBest)) "r5n_low_noise_best" append(r5nOver(r5nPrw) list(list("dcc" 0.01) list("itr" 1e-7))) t t t)
+  t
 )
