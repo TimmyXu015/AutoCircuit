@@ -10,7 +10,7 @@
 
 | 项目 | 内容 |
 |---|---|
-| 代码 commit | 建 cell 和 Stage A 第一次：`ca8f816`；Stage A 正式运行和 Stage B 第 1 次（trap）：`f4c8416`；Stage B 第 2 次（gear2only）：`27bbbc6`；报告：本报告所在 commit |
+| 代码 commit | 建 cell 和 Stage A 第一次：`ca8f816`；Stage A 正式运行和 Stage B 第 1 次（trap）：`f4c8416`；Stage B 第 2 次（gear2only）：`27bbbc6`；报告：`6b41f03` |
 | PDK / corner / 温度 | IBM cmrf7sf，`allModels.scs` section `tt`；27 °C |
 | 工具 | Virtuoso IC-618，Spectre 15.1.0.803.isr18；ieng6-ece-10，OCEAN 批处理 |
 | Spectre 选项 | reltol 1e-5，vabstol 1e-6，iabstol 1e-17，gmin 1e-18（与 R6B/R6C 相同） |
