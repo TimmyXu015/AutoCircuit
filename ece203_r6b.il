@@ -85,6 +85,12 @@ procedure( r6bOpen(name cols)
   )
 )
 procedure( r6bSet(base over) ece203Vars(base) ece203Vars(over) )
+;; tolerances: the tight R4 set (iabstol 1e-18, reltol 1e-6) made the MOS-switch tran fail at 3 us (convergence below
+;; minstep). Unit bench (no high-Z nodes): Spectre defaults with gmin 1e-15. System (TOhm Rfb nodes): gmin 1e-18 kept,
+;; iabstol 1e-17, reltol 1e-5.
+r6bUnitOpts = '(gmin "1e-15")
+r6bSysOpts = '(gmin "1e-18" iabstol "1e-17" reltol "1e-5")
+procedure( r6bOpt(o) car(errset(apply('option o) t)) )
 ;; fast CSV writer (walks all point lists in parallel; spsWriteWaves uses nth -> quadratic)
 procedure( r6bWrite(file header waves)
   let( (cols port n)
@@ -105,7 +111,7 @@ procedure( r6bWrite(file header waves)
 )
 procedure( r6bDcRun(tag over)
   ece203Setup(r6bCells->utb strcat("_" tag))
-  r4Tight()
+  r6bOpt(r6bUnitOpts)
   analysis('dc ?saveOppoint t)
   r6bSet(r6bUVars over)
   run()
@@ -147,12 +153,13 @@ procedure( r6bUnitTran(port tag fch vc)
     ok = errset(
       progn(
         ece203Setup(r6bCells->utb strcat("_" tag))
-        r4Tight()
+        r6bOpt(r6bUnitOpts)
         analysis('tran ?stop "10m" ?maxstep "50n")
         car(errset(save('i "/VDD/PLUS" "/VCKA/PLUS") nil))
         r6bSet(r6bUVars list(list("vcm" vc) list("vd" 1e-3) list("chen" 1.0) list("tch" tch)))
         run()
         ip = v("/inp" ?result "tran") in = v("/inn" ?result "tran") op = v("/outp" ?result "tran") on = v("/outn" ?result "tran")
+        when( xmax(ip) < 9.9e-3 error("tran stopped at %g s" xmax(ip)))
         ca = v("/cka" ?result "tran") cb = v("/ckb" ?result "tran")
         iv = car(errset(i("/VDD/PLUS" ?result "tran") nil)) ia = car(errset(i("/VCKA/PLUS" ?result "tran") nil))
         vid = ip - in vod = op - on cm = (op + on) / 2.0
@@ -215,9 +222,9 @@ r6bSCols = '(tag fch status reason H100 H100_ph Hcm100 ratio vod_avg vod_pp ocm_
 procedure( r6bOnSys(fn @rest args)
   let( (oldTb oldDir res)
     oldTb = r6Cells->tb oldDir = r6Dir
-    r6Cells->tb = r6bCells->stb r6Dir = r6bDir
+    r6Cells->tb = r6bCells->stb r6Dir = r6bDir r4TightOpts = r6bSysOpts
     res = errset(apply(fn args) t)
-    r6Cells->tb = oldTb r6Dir = oldDir
+    r6Cells->tb = oldTb r6Dir = oldDir r4TightOpts = nil
     unless( res error("%L" errset.errset))
     car(res)
   )
@@ -229,12 +236,13 @@ procedure( r6bSysTran(port tag fch)
     ok = errset(
       progn(
         ece203Setup(r6bCells->stb strcat("_" tag))
-        r4Tight()
+        r6bOpt(r6bSysOpts)
         analysis('tran ?stop "60m" ?maxstep sprintf(nil "%g" tch / 1000.0))
         car(errset(save('i "/VDD/PLUS" "/VDDD/PLUS") nil))
         r6bSet(r6Vars append(r6bSysBase list(list("chen" 1.0) list("tch" tch) list("vd" 1e-3))))
         run()
         vid = v("/ep" ?result "tran") - v("/en" ?result "tran")
+        when( xmax(vid) < 59e-3 error("tran stopped at %g s" xmax(vid)))
         vod = v("/fp" ?result "tran") - v("/fn" ?result "tran")
         op = v("/op" ?result "tran") on = v("/on" ?result "tran") ocm = (op + on) / 2.0
         icm = (v("/inp" ?result "tran") + v("/inn" ?result "tran")) / 2.0
@@ -267,7 +275,7 @@ procedure( r6bSysPss(port tag)
     ok = errset(
       progn(
         ece203Setup(r6bCells->stb strcat("_" tag))
-        r4Tight()
+        r6bOpt(r6bSysOpts)
         analysis('pss ?fund "2k" ?harms "40" ?errpreset "moderate")
         analysis('pac ?sweeptype "relative" ?relharmnum "0" ?start "1" ?stop "250" ?dec "20" ?maxsideband "3")
         r6bSet(r6Vars append(r6bSysBase list(list("chen" 1.0) list("tch" 500e-6) list("pacd" 0.5) list("vos" 100e-6))))

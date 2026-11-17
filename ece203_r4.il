@@ -116,7 +116,10 @@ procedure( r4Build()
 )
 
 ;; ---------------- measurement helpers ----------------
-procedure( r4Tight() car(errset(option('gmin "1e-18" 'iabstol "1e-18" 'reltol "1e-6") t)) )
+;; r4TightOpts (optional global, e.g. set by ece203_r6b.il for MOS-switch runs) overrides the tight option list
+procedure( r4Tight()
+  car(errset(apply('option if( boundp('r4TightOpts) && r4TightOpts r4TightOpts '(gmin "1e-18" iabstol "1e-18" reltol "1e-6"))) t))
+)
 procedure( r4Set(over) ece203Vars(r4Vars) ece203Vars(over) )
 procedure( r4Num(x fmt) acNum(and(numberp(x) float(x)) fmt) )
 
