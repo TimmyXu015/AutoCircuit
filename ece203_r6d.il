@@ -133,6 +133,8 @@ procedure( r6dCaseA(port tag bench cell cl over)
         t)
       t)
     unless( ok r->status = "failed" r->reason = sprintf(nil "%L" errset.errset))
+    ;; quota: this case's AC/stb psf (rebuildable) is deleted once the CSVs are written
+    sh(sprintf(nil "rm -rf %s/simulation/%s/spectre/schematic_%s_*/psf" getShellEnvVar("HOME") cell tag))
     acSay("r6dA %s [%s cl %g]: %s %s | fp/fn %s %s cm %s | op/on cm %s | buf %s %s cm %s | vg %s ib %s | I %s %s\n"
           tag bench cl r->status or(r->reason "") r4Num(r->fp "%.6g") r4Num(r->fn "%.6g") r4Num(r->fp_cm "%.6g")
           r4Num(r->op_cm "%.6g") r4Num(r->bufp "%.5g") r4Num(r->bufn "%.5g") r4Num(r->buf_cm "%.5g") r4Num(r->vg "%.6g")
@@ -175,6 +177,9 @@ procedure( r6dTran(port tag bench cell cl over)
     ok = errset(
       progn(
         ece203Setup(cell strcat("_" tag))
+        ;; quota: the 60 ms tran psf (~21 MB) is written to /tmp on the server, not to the home directory
+        unless( isDir(r6dTmp) createDir(r6dTmp) )
+        resultsDir(sprintf(nil "%s/sim_%s" r6dTmp tag))
         r6bOpt(r6bSysOpts)
         analysis('tran ?stop "60m" ?maxstep "0.5u")
         car(errset(saveOption('save "selected") nil))
@@ -208,7 +213,7 @@ procedure( r6dTran(port tag bench cell cl over)
       t)
     unless( ok r->status = "failed" r->reason = sprintf(nil "%L" errset.errset))
     ;; quota: this round's tran psf is rebuildable -> delete it after extraction
-    res = sprintf(nil "%s/simulation/%s/spectre/schematic_%s/psf" getShellEnvVar("HOME") cell tag)
+    res = sprintf(nil "%s/sim_%s/psf" r6dTmp tag)
     sh(sprintf(nil "tail -40 %s/spectre.out > %s/%s_spectre_tail.txt 2>/dev/null; rm -rf %s" res r6dDir tag res))
     acSay("r6dB %s [%s cl %g]: %s %s | 40-60 ms: fp/fn cm %s vpre pp %s | buf cm %s vbuf pp %s | 20-60 ms vg %s..%s bufp %s..%s bufn %s..%s | I %s %s | rows %s\n"
           tag bench cl r->status or(r->reason "") r4Num(r->fp_cm_avg "%.6g") r4Num(r->vpre_pp "%.4g") r4Num(r->buf_cm_avg "%.5g")
