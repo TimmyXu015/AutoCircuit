@@ -1,5 +1,10 @@
 # Notes for AI agents working on this repo
 
+## NEXT EXPERIMENT PREPARED — Round 5N, single-ended NO-CHOPPER submission/noise sprint (NOT ACTIVE)
+
+Task: [docs/ECE203_round5n_no_chopper_submission_noise_sprint.md](docs/ECE203_round5n_no_chopper_submission_noise_sprint.md).
+User decision: **one Claude only**, no dual-agent parallelism. First freeze/repair R5 final CS BioAmp fL near 0.1Hz, then bounded OTA1 input NMOS + PMOS mirror sizing to measure achievable non-chopper noise floor in the real integrated ECG. Preserve all R3/R4/R5/R6A/R6B original cells and states; do not silently rebuild them (note R6B review exposed that `r6Build()` rebuilds original cells). **The task is prepared, not authorized to run**; begin Cadence only after user explicitly activates this Round 5N task. Do not branch off into Chopper/CMFB/R6C.
+
 Read `docs/automation_playbook.json` first. It covers how to reach the UCSD ieng6 server
 (SSH from the user's Windows PC through the MATLAB MCP server's `system()`), the
 edit -> push -> `run.sh <job>` -> scp -> MATLAB plot loop, the SKILL framework in this
