@@ -1,0 +1,5 @@
+tag,total_in_uVrms,OTA1_input_fn_uV,OTA1_input_fn_pct,OTA1_input_thermal_uV,OTA1_input_thermal_pct,OTA1_mirror_fn_uV,OTA1_mirror_fn_pct,OTA1_mirror_thermal_uV,OTA1_mirror_thermal_pct,OTA1_other_uV,OTA1_other_pct,OTA2_uV,OTA2_pct,pseudoR_uV,pseudoR_pct,electrodes_R_uV,electrodes_R_pct,DRL_and_bias_uV,DRL_and_bias_pct,other_uV,other_pct,top4
+P2ref_l16,4.062,2.37,33.9,0.743,3.35,3.12,59.2,0.566,1.94,0.0339,0.00695,0.0251,0.00383,0.24,0.348,0.422,1.08,0.126,0.0967,0.116,0.0809,/XA/M4 fn 30% | /XA/M3 fn 30% | /XA/M1 fn 18% | /XA/M2 fn 16%
+T_l24,3.546,2.36,44.4,0.744,4.4,2.43,46.9,0.517,2.12,0.056,0.025,0.035,0.00976,0.24,0.457,0.422,1.41,0.127,0.128,0.116,0.106,/XA/M1 fn 24% | /XA/M3 fn 24% | /XA/M4 fn 23% | /XA/M2 fn 20%
+T_l32,3.278,2.36,51.8,0.744,5.15,2.03,38.2,0.483,2.17,0.119,0.132,0.0561,0.0293,0.24,0.535,0.422,1.66,0.132,0.161,0.116,0.124,/XA/M1 fn 28% | /XA/M2 fn 24% | /XA/M3 fn 19% | /XA/M4 fn 19%
+T_l36,3.189,2.36,54.7,0.744,5.44,1.88,34.8,0.47,2.17,0.166,0.272,0.0731,0.0525,0.24,0.565,0.422,1.75,0.137,0.186,0.116,0.132,/XA/M1 fn 29% | /XA/M2 fn 25% | /XA/M3 fn 17% | /XA/M4 fn 17%

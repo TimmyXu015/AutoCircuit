@@ -17,6 +17,10 @@ When you learn something new (a working API call, a fix, a trap), add it to the 
 in the same commit.
 
 
+## Completed Round 5N-L — PMOS mirror length test on R5N P2 (2026-11-16)
+
+**Results: [docs/ECE203_round5nl_mirror_length_results.md](docs/ECE203_round5nl_mirror_length_results.md)** (script `ece203_r5nl.il`, jobs ece203_r5nl_a/c/ade; data docs/ece203_data/round5nl/ (r5nl_mirror_length.csv, raw/); new cells Project/ece203_r5nl_ota_l{16,24,32,36}, ece203_r5nl_tb_l*; ADE state r5nl_mirrorL36_best). Only M3/M4 L (W 8u): 16/24/32/36 um -> noise 4.07/3.55/3.28/3.19 uV de-embedded (4.14/3.62/3.35/3.26 app); mirror 1/f 3.12/2.43/2.03/1.88 uV ~ L^-0.62 (not 1/L); input-pair 1/f 2.36 uV now dominant (55 %). All DC valid (M2 margin 0.087 unchanged; M1 VDS 0.72 -> 0.60; LG10 1547 -> 618). T3 (L 36u) signoff: 39.23 dB, fL 0.1006, fH 248.3, CMRR60 89.85 dB, Zin 161 MOhm, 3.175 uW (I_VDD incl. VDDD 0 V meter), PM 74.0/90.1, no clipping; noise 3.19 uV FAIL (+6 %). Stopped.
+
 ## Completed Round 5N — single-ended no-chopper submission baseline + OTA1 noise floor (2026-11-16)
 
 **Results: [docs/ECE203_round5n_no_chopper_results.md](docs/ECE203_round5n_no_chopper_results.md)** (task: [docs/ECE203_round5n_no_chopper_submission_noise_sprint.md](docs/ECE203_round5n_no_chopper_submission_noise_sprint.md); script `ece203_r5n.il`, jobs ece203_r5n_a/b/pilot/pilot2/c/ade; data docs/ece203_data/round5n/ incl. r5n_prw_scan.csv, r5n_noise_tradeoff.csv, r5n_noise_split.csv, r5n_final_spec_matrix.csv, r5n_noise_area.png; new cells Project/ece203_r5n_ota_*, ece203_r5n_tb_*; ADE states r5n_submission_baseline (ece203_r5n_tb_n1p1), r5n_low_noise_best (ece203_r5n_tb_n16p16_t4)). Replica of R5 E exact (91.91, fL 0.0773, 16.58 uV). Baseline = pseudo-R prw 4u: fL 0.1007 Hz, 39.24 dB, fH 249.2, CMRR60 95.42 dB, Zin 159 MOhm, 1.408 uW, PM 87.6/90.1, all PASS except noise 16.58 uV (FAIL). OTA1 area scan: noise 16.58 -> 8.41 (4x/4x) -> 4.60 uV (16x/16x, 2896 um2); + tail x4 -> 4.07 uV at 3.18 uW, CMRR 89.5 dB, PM 77.6 (best). No config reaches 3 uV; dominant = PMOS mirror 1/f (59 %) then input-pair 1/f (34 %). 12 configs + 2 signoffs. Stopped.

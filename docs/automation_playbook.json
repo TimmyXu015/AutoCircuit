@@ -263,7 +263,9 @@
   "OCEAN xmax(w) is the x of the maximum y, not the end time; last sample = drGetElem(x drVectorLength(x)-1) with x = drGetWaveformXVec(w) (drVectorGet does not exist).",
   "Disk quota: a 10 ms TG tran at 50 ns maxstep with save=allpub left ~80 MB of psf per run and filled the 5 GB quota mid-job (close: Disk quota exceeded). Use saveOption('save \"selected\") + save('v ...) for long switch trans and delete the run dirs after export.",
   "PSS of the R6A FD system with real MOS TG choppers (2 kHz, 100 uV offset, TOhm Rfb): shooting norm oscillated (1e6..4) and with tstab 10 ms the time step collapsed to ~0.4 as at a clock edge; ideal relays had converged in R6A. Needs a different PSS setup (e.g. smaller edges/longer tr, method/gear, or harmonic balance) or a long-tran steady-state check.",
-  "Pseudo-R corner scales ~linearly with width (prw 3/3.5/4/4.5 um -> fL 0.077/0.089/0.101/0.112 Hz, L 2 um); verify w=prw in the run netlist (Round 5N)."
+  "Pseudo-R corner scales ~linearly with width (prw 3/3.5/4/4.5 um -> fL 0.077/0.089/0.101/0.112 Hz, L 2 um); verify w=prw in the run netlist (Round 5N).",
+  "Real-bias benches (r4SpecsRB): VDDD is a 0 V ammeter from vddd to vdd, so I(VDD) already includes the DRL current I(VDDD); total power = I(VDD) x 1.8 V (do not add I(VDDD) again). In the R4 ideal-bias/R6A benches VDDD is a separate 1.8 V source.",
+  "cmrf7sf pfetx flicker vs L at fixed current (R5N-L, W 8u, 616 nA, L 16->36 um): gm ~ L^-0.49, input-referred mirror 1/f only ~ L^-0.62 (device gate-referred 1/f ~ L^-0.13, not the 1/sqrt(WL) area law)."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",
@@ -274,7 +276,8 @@
   "ECE203 Round 5 done (2026-11-16): two-stage C OTA + PMOS CS (Miller 0.5p) in the R4 real architecture fixes gain/fH (39.27 dB, 249 Hz, PM 87.6); fL (pseudo-R 0.077 Hz) and noise (16.6 uV, OTA1 flicker) still fail; chopper ripple/RRL and CS loop gain at fch not addressed.",
   "ECE203 Round 6A done (2026-11-16): H0 single-error DRL+CMFB BLOCKED; real independent DRL + FD OTA DD-CMFB works (CMRR60 108.8 dB, PM 90/73.5); H2 CMFB-ref feed-forward from DRL CM sense works but no benefit; ideal 2 kHz FD chopper gain 0.988, offset ripple is DM, CMFB linear range limits. ADE state r6a_B1_real_indep in Project/ece203_r6a_tb.",
   "ECE203 Round 6B done (2026-11-16): real 8-MOS TG chopper cell ece203_r6b_tgchop works (unit + in R6A FD system at 2/4 kHz, gain 0.986/0.977x); PSS of the TG system did not converge (maxperiods 20, then timestep collapse at a clock edge with tstab 10 ms/maxperiods 100) -> offset ripple still unmeasured.",
-  "ECE203 Round 5N done (2026-11-16): submission baseline r5n_submission_baseline (prw 4u, fL 0.1007 Hz, noise 16.58 uV FAIL); best no-chopper noise 4.07 uV (OTA1 16x/16x + tail x4, 3.18 uW, ADE r5n_low_noise_best). 3 uV not reached."
+  "ECE203 Round 5N done (2026-11-16): submission baseline r5n_submission_baseline (prw 4u, fL 0.1007 Hz, noise 16.58 uV FAIL); best no-chopper noise 4.07 uV (OTA1 16x/16x + tail x4, 3.18 uW, ADE r5n_low_noise_best). 3 uV not reached.",
+  "ECE203 Round 5N-L done (2026-11-16): M3/M4 8u/36u on P2 -> 3.19 uV (best, all other specs PASS, ADE r5nl_mirrorL36_best); 3 uV not reached; input-pair 1/f (2.36 uV) dominant."
  ],
  "local_code_mode": {
   "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",
