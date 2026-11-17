@@ -255,7 +255,10 @@
   "r4Row/r4Open/r5Open need the column list as SYMBOLS ('(tag cell ...)); a list of strings fails in symbolToString before any simulation.",
   "Ideal 4 kHz chopper (1 ns edges) + real OTA: PNoise maxsideband 30 -> 50 raised the de-embedded noise 11.8 -> 14.3 uV (+21%): folded OTA white noise is not converged; compare positions only at equal maxsideband.",
   "Single-ended ideal demod (EINV around a fixed reference) turns the OTA's unchopped output level into a square wave: 0.36-0.39 V pp at fb, 33 mV pp after a 1st-order 250 Hz LP (Round 5 D). Demod placed before a source follower drove the follower to cutoff every half period and raised its 1/f 28x.",
-  "Python edits of .il files with s[:a]+new truncate everything after index a - Round 5 lost the stage E code this way; always splice s[:a]+new+s[b:] and re-check the procedure list before pushing."
+  "Python edits of .il files with s[:a]+new truncate everything after index a - Round 5 lost the stage E code this way; always splice s[:a]+new+s[b:] and re-check the procedure list before pushing.",
+  "Open-loop CM plant identification of a high-gain FD OTA: a VCVS DC servo (gain 1e4) on the load gate made DC fail ('Matrix is singular at ia'); working recipe = keep the real CMFB for DC through 1 TOhm and inject the AC actuator through a 1e6 F capacitor (loop open for f >= 1 mHz) (Round 6A).",
+  "Ideal static controllers whose input includes a DC-offset error (e.g. CMFB systematic -21 mV) can wreck the DC solve; AC-couple such terms (1e6 F / 1e12 Ohm) so the DC point is the plant's.",
+  "Two-pair (differential-difference) NMOS CMFB in subthreshold: exact for symmetric DM, but with a chopped 1 mV offset (Vod ~185 mV steps) the output CM sagged ~34 mV -> linear range is the limit for FD chopper outputs."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",
@@ -263,7 +266,8 @@
   "P2 AC setup inside an interactive ADE L run is untested (OCEAN check passed).",
   "Consider making the repo private + deploy key, or keep it public and keep personal/PDK data out.",
   "ECE203: pseudo-R: Round 3B pfet33x cell verified standalone + in S2 (no PVT/mismatch/well leakage); ADE L states exist only for Round 3 ece203_ss tbs (ss_S1/ss_S2), earlier ece203 tbs are OCEAN only.",
-  "ECE203 Round 5 done (2026-11-16): two-stage C OTA + PMOS CS (Miller 0.5p) in the R4 real architecture fixes gain/fH (39.27 dB, 249 Hz, PM 87.6); fL (pseudo-R 0.077 Hz) and noise (16.6 uV, OTA1 flicker) still fail; chopper ripple/RRL and CS loop gain at fch not addressed."
+  "ECE203 Round 5 done (2026-11-16): two-stage C OTA + PMOS CS (Miller 0.5p) in the R4 real architecture fixes gain/fH (39.27 dB, 249 Hz, PM 87.6); fL (pseudo-R 0.077 Hz) and noise (16.6 uV, OTA1 flicker) still fail; chopper ripple/RRL and CS loop gain at fch not addressed.",
+  "ECE203 Round 6A done (2026-11-16): H0 single-error DRL+CMFB BLOCKED; real independent DRL + FD OTA DD-CMFB works (CMRR60 108.8 dB, PM 90/73.5); H2 CMFB-ref feed-forward from DRL CM sense works but no benefit; ideal 2 kHz FD chopper gain 0.988, offset ripple is DM, CMFB linear range limits. No ADE state saved for r6a cells."
  ],
  "local_code_mode": {
   "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",

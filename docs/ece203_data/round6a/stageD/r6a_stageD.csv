@@ -1,0 +1,2 @@
+tag,status,reason,fch,pac10,pac100,pac100_ph,pac_cm100,static_H100,ratio,vod_avg,vod_pp,ocm_avg,ocm_pp,op_min,op_max,on_min,on_max,icm_pp,vg_min,vg_max
+D1_fdchop_2k,ok,n/a,2000,93.3892,93.4297,-0.477401,5.74141e-11,94.56,0.988047,-4.06072e-13,6.6358e-13,0.878907,5.9952e-15,0.878907,0.878907,0.878907,0.878907,8.99281e-15,1.32522,1.32522
