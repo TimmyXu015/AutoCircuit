@@ -5,8 +5,8 @@
 ;;
 ;; One testbench cell ece203_r6a_tb, modes set by variables:
 ;;   body actuator  : real DRL OTA (rdr 1e6) | ideal source u_body = vref - kb*(wib*e_in + wob*e_out) + aub (rub 1)
-;;   OTA CM actuator: real CMFB block (rcf 1) | ideal u_ota = us + ko*(woo*e_out + wio*e_in) + aug (rci 1)
-;;                    us = DC-only servo of e_out (gsv 10 into rsv 1e12 / csv 1e6: corner ~1.6e-19 Hz -> open at >= 1 mHz)
+;;   OTA CM actuator: real CMFB block (rcf 1) | AC-only ideal u_ota = ko*(woo*e_out + wio*e_in) + aug through CVG 1e6 F,
+;;                    DC of vg still from the real CMFB through RCF 1e12 (so the CMFB loop is open for f >= 1 mHz)
 ;;   e_in = (inp+inn)/2 - vref (amplifier-side electrode nodes), e_out = (op+on)/2 - vref (OTA outputs)
 ;;   disturbances: d_body = body current (icm ac / itr 60 Hz sine), d_ota = equal CM current into op and on (izo ac / izst step)
 ;;   chopper: ideal relays, 2-phase non-overlapping clock (chen 0 -> frozen phase 1 = straight through)
@@ -16,10 +16,10 @@ r6Cells = list(nil 'ota "ece203_r6a_fd_ota" 'cmfb "ece203_r6a_cmfb" 'tb "ece203_
 r6Vars = list(list("vdd" 1.8) list("vref" 0.9) list("vcas" 1.10) list("ib3" 50e-9) list("ibd" 50e-9)
   list("cc" 50e-12) list("cfb" 0.5e-12) list("rfb" 3.1831e12) list("rs" 2e3) list("re" 1e6) list("ce" 50e-9)
   list("cbody" 200e-12) list("icm" 0.0) list("itr" 0.0) list("adm" 0.0) list("vcmin" 0.0) list("dcc" 0.0) list("pacd" 0.0)
-  list("rcm" 10e9) list("ccm" 1e-12) list("rdr" 1e15) list("rub" 1.0) list("rcf" 1e15) list("rci" 1.0)
+  list("rcm" 10e9) list("ccm" 1e-12) list("rdr" 1e15) list("rub" 1.0) list("rcf" 1e12) list("cvg" 1e6)
   list("kb" 0.0) list("ko" 0.0) list("wib" 1.0) list("wob" 0.0) list("wio" 0.0) list("woo" 1.0) list("aub" 0.0) list("aug" 0.0)
   list("izo" 0.0) list("izdc" 0.0) list("izst" 0.0) list("tzo" 1.0)
-  list("gsv" 10.0) list("rsv" 1e12) list("csv" 1e6) list("vg0" 1.3)
+  list("cvg" 1e-18)
   list("rff1" 1e15) list("rff2" 1.0) list("chen" 0.0) list("tch" 500e-6))
 
 ;; fully differential OTA1 concept: R4 NMOS input pair 10u/8u + local NMOS cascodes on BOTH sides, symmetric PMOS loads
@@ -104,11 +104,10 @@ procedure( r6Specs()
     otaR("RFF2" "rff2" "vref" "vrc") otaR("RFF1" "rff1" "drlr" "vrc")
     list("analogLib" "iprobe" "IPRC" nil '(("PLUS" "vcf") ("MINUS" "vcf2")))
     otaR("RCF" "rcf" "vcf2" "vg")
-    ;; ideal OTA-CM actuator + DC servo
-    otaV("VG0" "vg0" "0" "vg0n" "gnd!")
-    ldE("EUS" "ocm" "vref" "usr" "vg0n" "gsv") otaR("RSV" "rsv" "usr" "us") otaC("CSV" "csv" "us" "gnd!")
-    ldE("EG1" "ocm" "vref" "g1" "us" "ko*woo") ldE("EG2" "icm" "vref" "g2" "g1" "ko*wio")
-    otaV("VUG" "0" "aug" "vgi" "g2") otaR("RCI" "rci" "vgi" "vg")
+    ;; ideal OTA-CM actuator (AC only): DC of vg always from the real CMFB through RCF; for plant / ideal-controller
+    ;; runs RCF = 1e12 and CVG = 1e6 F ties vg (AC) to gac = ko*(woo*e_out + wio*e_in) + aug  (open CMFB loop at >= 1 mHz)
+    ldE("EG1" "ocm" "vref" "g1" "gnd!" "ko*woo") ldE("EG2" "icm" "vref" "g2" "g1" "ko*wio")
+    otaV("VUG" "0" "aug" "gac" "g2") otaC("CVG" "cvg" "vg" "gac")
     ;; DRL: CM sense + real R4 DRL OTA, or the ideal body actuator
     otaR("RCMP" "rcm" "inp" "cm") otaR("RCMN" "rcm" "inn" "cm")
     otaC("CCMP" "ccm" "inp" "cm") otaC("CCMN" "ccm" "inn" "cm")
@@ -130,12 +129,12 @@ procedure( r6Build()
 )
 
 ;; ---------- modes ----------
-r6Plant = list(list("rdr" 1e15) list("rub" 1.0) list("rcf" 1e15) list("rci" 1.0) list("kb" 0.0) list("ko" 0.0))
-r6Indep = list(list("rdr" 1e15) list("rub" 1.0) list("rcf" 1e15) list("rci" 1.0) list("kb" 1000.0) list("ko" 1000.0)
+r6Plant = list(list("rdr" 1e15) list("rub" 1.0) list("rcf" 1e12) list("cvg" 1e6) list("kb" 0.0) list("ko" 0.0))
+r6Indep = list(list("rdr" 1e15) list("rub" 1.0) list("rcf" 1e12) list("cvg" 1e6) list("kb" 1000.0) list("ko" 1000.0)
                list("wib" 1.0) list("wob" 0.0) list("wio" 0.0) list("woo" 1.0))
-procedure( r6H0(alpha) list(list("rdr" 1e15) list("rub" 1.0) list("rcf" 1e15) list("rci" 1.0) list("kb" 1000.0) list("ko" 1000.0)
+procedure( r6H0(alpha) list(list("rdr" 1e15) list("rub" 1.0) list("rcf" 1e12) list("cvg" 1e6) list("kb" 1000.0) list("ko" 1000.0)
                             list("wib" 1.0) list("wob" alpha) list("wio" 1.0) list("woo" alpha)) )
-r6Real = list(list("rdr" 1e6) list("rub" 1e15) list("rcf" 1.0) list("rci" 1e15) list("kb" 0.0) list("ko" 0.0))
+r6Real = list(list("rdr" 1e6) list("rub" 1e15) list("rcf" 1.0) list("cvg" 1e-18) list("kb" 0.0) list("ko" 0.0))
 
 procedure( r6Set(over) ece203Vars(r6Vars) ece203Vars(over) )
 procedure( r6Open(name cols)
@@ -149,7 +148,7 @@ procedure( r6Open(name cols)
 r6Insts = '("XA.M1" "XA.M2" "XA.MC1" "XA.MC2" "XA.M3" "XA.M4" "XA.MT" "XA.MREF"
             "XC.MA1" "XC.MA2" "XC.MB1" "XC.MB2" "XC.MTA" "XC.MTB" "XC.MD" "XD.M1" "XD.M2" "XD.M3" "XD.M4" "XD.MT" "XD.MREF")
 r6Freqs = '(0.001 1.0 60.0)
-r6DcNodes = '("op" "on" "ocm" "icm" "vg" "vcf" "body" "drlr" "ub" "us" "p" "n" "tail")
+r6DcNodes = '("op" "on" "ocm" "icm" "vg" "vcf" "body" "drlr" "ub" "gac" "p" "n")
 
 ;; one AC run, returns DPL of e_in, e_out, vod (complex waves)
 procedure( r6AcRun(tag over)
