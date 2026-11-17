@@ -186,7 +186,7 @@ procedure( r5nSignoff(n p label)
     t
   )
 )
-r5nBestTail = 1   ;; tail multiplier of the best candidate (set after the pilots)
+r5nBestTail = 4   ;; best = B6 sizes + tail x4 (pilot 2: 4.07 uV, 3.62 uW total, M2 margin 0.087 V)
 procedure( r5nStageC()
   r5nTail = 1
   r5nSignoff(1 1 "baseline")
