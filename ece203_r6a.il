@@ -315,3 +315,80 @@ procedure( r6StageB()
     t
   )
 )
+
+;; ---------- Stage C: ONE coordinated candidate (H2): DRL output fed forward into the CMFB reference ----------
+;; Stage A/B show the coupling is one-directional: body CM -> (Cc) -> OTA input CM -> output CM; OTA-internal CM barely
+;; reaches the body. H2 keeps both local loops (DRL on e_in, CMFB on e_out) and adds a passive divider drlr -> vrc
+;; (rff1 / rff2) so the CMFB reference pre-cancels the body-induced output-CM error. kff is taken from the measured
+;; complex ratio -e_out/drlr at 60 Hz in the same real circuit (one probe run); only a positive, ~real kff is
+;; implementable with a divider. kff = 0 is the Stage-B baseline (same MOS).
+procedure( r6StageC()
+  let( (port portD w k kre kim kff rff1 over)
+    r6Build()
+    w = r6AcRun("C0_probe_dbody" append(r6Real list(list("icm" 1e-7))))
+    k = car(errset(value(-1.0 * w->eo / ldAc("drlr") 60.0) nil))
+    kre = and(k car(errset(real(k) nil))) kim = and(k car(errset(imag(k) nil)))
+    acSay("r6C probe: |drlr|@60 %s |e_out|@60 %s -> k = -e_out/drlr = %s + j%s\n" r4Num(ldMag(ldAc("drlr") 60.0) "%.4g")
+          r4Num(ldMag(w->eo 60.0) "%.4g") r4Num(kre "%.4g") r4Num(kim "%.4g"))
+    port = r6Open("r6a_stageC.csv" r6GCols)
+    if( and(numberp(kre) kre > 0.0 abs(kim) < 0.5 * kre)
+      progn(
+        kff = kre rff1 = 1e9 * (1.0 / kff - 1.0)
+        acSay("r6C: kff %g -> rff1 %g rff2 1e9\n" kff rff1)
+        over = append(r6Real list(list("dcc" 0.01) list("rff1" rff1) list("rff2" 1e9)))
+        r6RealCase(port "C1_H2_ff" sprintf(nil "H2: CMFB ref feed-forward from DRL output kff %.4g" kff) over)
+        portD = r6Open("r6a_stageC_dist.csv" r6ACols)
+        r6ACase(portD "C1_H2_dbody" "H2 feed-forward" "d_body 0.1 uA" append(over list(list("icm" 1e-7) list("dcc" 0.0))))
+        r6ACase(portD "C1_H2_dota" "H2 feed-forward" "d_ota 1 nA/side" append(over list(list("izo" 1e-9) list("dcc" 0.0))))
+        close(portD))
+      acSay("r6C: kff not implementable with a passive divider (needs negative or strongly complex gain) -> C BLOCKED\n"))
+    close(port)
+    t
+  )
+)
+
+;; ---------- Stage D: ideal fully differential chopper (input + output commutators around the same FD OTA), 1 PSS ----------
+r6DCols = '(tag status reason fch pac10 pac100 pac100_ph pac_cm100 static_H100 ratio vod_avg vod_pp ocm_avg ocm_pp
+            op_min op_max on_min on_max icm_pp vg_min vg_max)
+procedure( r6StageD()
+  let( (port r ok res w vd h hc m)
+    r6Build()
+    port = r6Open("r6a_stageD.csv" r6DCols)
+    r = list(nil 'tag "D1_fdchop_2k" 'status "ok" 'fch 2000.0 'static_H100 94.56)
+    ok = errset(
+      progn(
+        ece203Setup(r6Cells->tb "_D1_fdchop_2k")
+        r4Tight()
+        analysis('pss ?fund "2k" ?harms "30" ?errpreset "moderate")
+        analysis('pac ?sweeptype "relative" ?relharmnum "0" ?start "1" ?stop "250" ?dec "20" ?maxsideband "3")
+        r6Set(append(r6Real list(list("chen" 1.0) list("tch" 500e-6) list("pacd" 0.5))))
+        run()
+        res = strcat(getShellEnvVar("HOME") "/simulation/" r6Cells->tb "/spectre/schematic_D1_fdchop_2k")
+        openResults(strcat(res "/psf")) selectResult('pss_td)
+        w = list(nil 'op v("/op") 'on v("/on") 'fp v("/fp") 'fn v("/fn") 'ocm v("/ocm") 'icm v("/icm") 'vg v("/vg"))
+        m = w->fp - w->fn
+        r->vod_avg = average(m) r->vod_pp = ymax(m) - ymin(m)
+        r->ocm_avg = average(w->ocm) r->ocm_pp = ymax(w->ocm) - ymin(w->ocm)
+        r->op_min = ymin(w->op) r->op_max = ymax(w->op) r->on_min = ymin(w->on) r->on_max = ymax(w->on)
+        r->icm_pp = ymax(w->icm) - ymin(w->icm) r->vg_min = ymin(w->vg) r->vg_max = ymax(w->vg)
+        spsWriteWaves(strcat(r6Dir "/D1_fdchop_2k_pss_td.csv") "t_s,op_V,on_V,fp_V,fn_V,ocm_V,vg_V"
+                      list(w->op w->on w->fp w->fn w->ocm w->vg))
+        vd = harmonic(v("/ep" ?result "pac") - v("/en" ?result "pac") 0)
+        h = harmonic(v("/fp" ?result "pac") - v("/fn" ?result "pac") 0) / vd
+        hc = harmonic(v("/ocm" ?result "pac") 0) / vd
+        r->pac10 = ldMag(h 10.0) r->pac100 = ldMag(h 100.0) r->pac100_ph = ldPh(h 100.0) r->pac_cm100 = ldMag(hc 100.0)
+        r->ratio = and(numberp(r->pac100) r->pac100 / 94.56)
+        ldWriteCurves(strcat(r6Dir "/D1_fdchop_2k_pac.csv") list(list("Hdm" h) list("Hcm_from_dm" hc)))
+        t)
+      t)
+    unless( ok r->status = "failed" r->reason = sprintf(nil "%L" errset.errset))
+    acSay("r6D %s: %s %s | PAC |Hdm| 10/100 %s %s ph %s (static 94.56, ratio %s) | ocm from DM %s | PSS vod avg %s pp %s | ocm avg %s pp %s | op %s..%s on %s..%s | icm pp %s | vg %s..%s\n"
+          r->tag r->status or(r->reason "") r4Num(r->pac10 "%.4g") r4Num(r->pac100 "%.4g") r4Num(r->pac100_ph "%.1f")
+          r4Num(r->ratio "%.4f") r4Num(r->pac_cm100 "%.3g") r4Num(r->vod_avg "%.4g") r4Num(r->vod_pp "%.4g")
+          r4Num(r->ocm_avg "%.5g") r4Num(r->ocm_pp "%.4g") r4Num(r->op_min "%.4g") r4Num(r->op_max "%.4g")
+          r4Num(r->on_min "%.4g") r4Num(r->on_max "%.4g") r4Num(r->icm_pp "%.3g") r4Num(r->vg_min "%.5g") r4Num(r->vg_max "%.5g"))
+    r4Row(port r6DCols r)
+    close(port)
+    t
+  )
+)
