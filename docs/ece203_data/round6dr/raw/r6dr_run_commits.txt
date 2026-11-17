@@ -1,0 +1,6 @@
+[run] git pull skipped (AC_SKIP_GIT_PULL)
+[run] scripts: /tmp/lix015_r6dr/AutoCircuit @ a2d4da7
+[run] git pull skipped (AC_SKIP_GIT_PULL)
+[run] scripts: /tmp/lix015_r6dr/AutoCircuit @ a2d4da7
+[run] git pull skipped (AC_SKIP_GIT_PULL)
+[run] scripts: /tmp/lix015_r6dr/AutoCircuit @ 198ee05

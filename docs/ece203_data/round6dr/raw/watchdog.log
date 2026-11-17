@@ -1,0 +1,24 @@
+2026-11-16 23:18:07 watchdog start tag=P_A_buf_1p stall=180s
+2026-11-16 23:21:29 STALL tag=P_A_buf_1p: 'tran: time = 250 us        ' unchanged for 180 s -> killing this run's Spectre
+2026-11-16 23:21:31 watchdog start tag=P_B_buf_1p stall=180s
+2026-11-16 23:21:34 watchdog exit tag=P_A_buf_1p last='tran: time = 250 us        '
+2026-11-16 23:24:44 STALL tag=P_B_buf_1p: 'tran: time = 250 us        ' unchanged for 181 s -> killing this run's Spectre
+2026-11-16 23:24:45 watchdog start tag=P_C_buf_1p stall=180s
+2026-11-16 23:24:49 watchdog exit tag=P_B_buf_1p last='tran: time = 250 us        '
+2026-11-16 23:24:57 watchdog exit tag=P_C_buf_1p last='tran: time = 225 us      '
+2026-11-16 23:26:08 watchdog start tag=S_C_ref stall=180s
+2026-11-16 23:26:15 watchdog start tag=S_C_direct_1p stall=180s
+2026-11-16 23:26:20 watchdog exit tag=S_C_ref last='tran: time = 75.5 us     '
+2026-11-16 23:26:23 watchdog start tag=S_C_buf_1p stall=180s
+2026-11-16 23:26:28 watchdog exit tag=S_C_direct_1p last='tran: time = 475.2 us    '
+2026-11-16 23:26:35 watchdog exit tag=S_C_buf_1p last='tran: time = 425.1 us    '
+2026-11-16 23:28:55 watchdog start tag=F_C_ref stall=180s
+2026-11-16 23:29:59 watchdog start tag=F_C_direct_1p stall=180s
+2026-11-16 23:30:08 watchdog exit tag=F_C_ref last=''
+2026-11-16 23:31:01 watchdog start tag=F_C_buf_1p stall=180s
+2026-11-16 23:31:02 watchdog exit tag=F_C_direct_1p last='tran: time = 55.5 ms     '
+2026-11-16 23:32:13 watchdog start tag=F_C_direct_10p stall=180s
+2026-11-16 23:32:14 watchdog exit tag=F_C_buf_1p last='tran: time = 58.5 ms     '
+2026-11-16 23:33:14 watchdog start tag=F_C_buf_10p stall=180s
+2026-11-16 23:33:15 watchdog exit tag=F_C_direct_10p last='tran: time = 55.5 ms     '
+2026-11-16 23:34:26 watchdog exit tag=F_C_buf_10p last='tran: time = 58.5 ms     '

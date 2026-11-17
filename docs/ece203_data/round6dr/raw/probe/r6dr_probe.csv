@@ -1,0 +1,4 @@
+tag,setting,bench,cl,stop,status,reason,t_end,stalled_at,fp_cm_avg,buf_cm_avg,vg_min,vg_max,I_VDD,I_VDDD,rows,csv
+P_A_buf_1p,"A: R6D baseline (default trap, iabstol 1e-17, cmin 0)",BUFFERED,1e-12,0.001,failed,nil,0.00025,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+P_B_buf_1p,B: iabstol 1e-15 only,BUFFERED,1e-12,0.001,failed,nil,0.00025,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+P_C_buf_1p,C: tran cmin 1e-17 F only,BUFFERED,1e-12,0.001,ok,n/a,0.001,n/a,0.900058,0.542734,1.32384,1.36297,-4.93369e-07,-2.83139e-07,2649,/tmp/lix015_r6dr/out/P_C_buf_1p_tran.csv.gz

@@ -1,0 +1,4 @@
+compare,old,new,vpre_maxdiff_mV,fpfn_cm_maxdiff_mV,opon_cm_maxdiff_mV,vg_maxdiff_mV,opon_spike_250us_old_new_mV,opon_spike_500us_old_new_mV,opon_spike_750us_old_new_mV,vpre_at_1ms_old_new_mV,consistent
+REF,B_ref,S_C_ref,0.01418,0.0003187,0.0003274,0.0003056,48.32 / 47.85,48.19 / 48.04,48.31 / 47.92,54.4937 / 54.4928,yes
+DIRECT 1 pF,B_direct_1p,S_C_direct_1p,0.005336,0.001228,0.001204,0.001234,45.45 / 45.17,45.29 / 45.01,45.28 / 45.10,52.5829 / 52.5824,yes
+BUFFERED 1 pF vs REF (both C),S_C_ref,S_C_buf_1p,0.02632,0.0003905,0.0003859,0.0003917,47.85 / 47.78,48.04 / 47.76,47.92 / 47.57,54.4928 / 54.4740,yes

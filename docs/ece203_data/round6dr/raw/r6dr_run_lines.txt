@@ -1,0 +1,14 @@
+AC> r6dr P_A_buf_1p [A: R6D baseline (default trap, iabstol 1e-17, cmin 0) | BUFFERED cl 1e-12 stop 0.001]: failed nil | t_end 0.00025 stalled - | fp/fn cm n/a buf cm n/a | vg n/a..n/a | I n/a n/a | rows n/a
+AC> r6dr P_B_buf_1p [B: iabstol 1e-15 only | BUFFERED cl 1e-12 stop 0.001]: failed nil | t_end 0.00025 stalled - | fp/fn cm n/a buf cm n/a | vg n/a..n/a | I n/a n/a | rows n/a
+AC> r6dr P_C_buf_1p [C: tran cmin 1e-17 F only | BUFFERED cl 1e-12 stop 0.001]: ok  | t_end 0.001 stalled - | fp/fn cm 0.900058 buf cm 0.54273 | vg 1.3238..1.363 | I -4.934e-07 -2.831e-07 | rows 2649
+AC_BATCH_DONE
+AC> r6dr S_C_ref [C: tran cmin 1e-17 F only | REF cl 0 stop 0.001]: ok  | t_end 0.001 stalled - | fp/fn cm 0.900058 buf cm n/a | vg 1.3238..1.3632 | I -2.831e-07 -2.831e-07 | rows 2710
+AC> r6dr S_C_direct_1p [C: tran cmin 1e-17 F only | DIRECT cl 1e-12 stop 0.001]: ok  | t_end 0.001 stalled - | fp/fn cm 0.900058 buf cm n/a | vg 1.3246..1.3609 | I -2.831e-07 -2.831e-07 | rows 2625
+AC> r6dr S_C_buf_1p [C: tran cmin 1e-17 F only | BUFFERED cl 1e-12 stop 0.001]: ok  | t_end 0.001 stalled - | fp/fn cm 0.900058 buf cm 0.54273 | vg 1.3238..1.363 | I -4.934e-07 -2.831e-07 | rows 2649
+AC_BATCH_DONE
+AC> r6dr F_C_ref [C: tran cmin 1e-17 F only | REF cl 0 stop 0.06]: ok  | t_end 0.06 stalled - | fp/fn cm 0.900058 buf cm n/a | vg 1.3238..1.3632 | I -2.831e-07 -2.831e-07 | rows 169024
+AC> r6dr F_C_direct_1p [C: tran cmin 1e-17 F only | DIRECT cl 1e-12 stop 0.06]: ok  | t_end 0.06 stalled - | fp/fn cm 0.900058 buf cm n/a | vg 1.3246..1.3609 | I -2.831e-07 -2.831e-07 | rows 167188
+AC> r6dr F_C_buf_1p [C: tran cmin 1e-17 F only | BUFFERED cl 1e-12 stop 0.06]: ok  | t_end 0.06 stalled - | fp/fn cm 0.900058 buf cm 0.54275 | vg 1.3238..1.363 | I -4.934e-07 -2.831e-07 | rows 169366
+AC> r6dr F_C_direct_10p [C: tran cmin 1e-17 F only | DIRECT cl 1e-11 stop 0.06]: ok  | t_end 0.06 stalled - | fp/fn cm 0.900058 buf cm n/a | vg 1.325..1.3607 | I -2.831e-07 -2.831e-07 | rows 165948
+AC> r6dr F_C_buf_10p [C: tran cmin 1e-17 F only | BUFFERED cl 1e-11 stop 0.06]: ok  | t_end 0.06 stalled - | fp/fn cm 0.900058 buf cm 0.54275 | vg 1.3238..1.363 | I -4.934e-07 -2.831e-07 | rows 168582
+AC_BATCH_DONE

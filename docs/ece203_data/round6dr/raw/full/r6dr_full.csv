@@ -1,0 +1,6 @@
+tag,setting,bench,cl,stop,status,reason,t_end,stalled_at,fp_cm_avg,buf_cm_avg,vg_min,vg_max,I_VDD,I_VDDD,rows,csv
+F_C_ref,C: tran cmin 1e-17 F only,REF,0,0.06,ok,n/a,0.06,n/a,0.900058,n/a,1.32381,1.36319,-2.83093e-07,-2.83139e-07,169024,/tmp/lix015_r6dr/out/F_C_ref_tran.csv.gz
+F_C_direct_1p,C: tran cmin 1e-17 F only,DIRECT,1e-12,0.06,ok,n/a,0.06,n/a,0.900058,n/a,1.32464,1.36089,-2.83093e-07,-2.83139e-07,167188,/tmp/lix015_r6dr/out/F_C_direct_1p_tran.csv.gz
+F_C_buf_1p,C: tran cmin 1e-17 F only,BUFFERED,1e-12,0.06,ok,n/a,0.06,n/a,0.900058,0.542745,1.32384,1.36298,-4.93369e-07,-2.83139e-07,169366,/tmp/lix015_r6dr/out/F_C_buf_1p_tran.csv.gz
+F_C_direct_10p,C: tran cmin 1e-17 F only,DIRECT,1e-11,0.06,ok,n/a,0.06,n/a,0.900058,n/a,1.325,1.36067,-2.83093e-07,-2.83139e-07,165948,/tmp/lix015_r6dr/out/F_C_direct_10p_tran.csv.gz
+F_C_buf_10p,C: tran cmin 1e-17 F only,BUFFERED,1e-11,0.06,ok,n/a,0.06,n/a,0.900058,0.542746,1.32384,1.36297,-4.93369e-07,-2.83139e-07,168582,/tmp/lix015_r6dr/out/F_C_buf_10p_tran.csv.gz

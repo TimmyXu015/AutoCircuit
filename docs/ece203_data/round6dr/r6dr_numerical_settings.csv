@@ -1,0 +1,12 @@
+run,reltol,iabstol,gmin,vabstol,tran_statement,cmin_echo,last_reported_time,lines_at_250us,min_reported_step_s,accepted_steps,ringing_notices,completed
+P_A_buf_1p,1e-5,1e-17,1e-18,1e-6,stop=0.001 maxstep=0.5u,0 F,250 us,20,2.3e-16,n/a (killed),XA.MT.s1,KILLED by watchdog (SIGTERM)
+P_B_buf_1p,1e-5,1e-15,1e-18,1e-6,stop=0.001 maxstep=0.5u,0 F,250 us,19,2.3e-16,n/a (killed),XA.MT.ddb:int_a; XA.MT.dsb:int_a; XA.MT.s1,KILLED by watchdog (SIGTERM)
+P_C_buf_1p,1e-5,1e-17,1e-18,1e-6,stop=0.001 maxstep=0.5u cmin=1e-17,10 aF,975 us,0,5e-07,2648,XCO.MN4.g1,yes
+S_C_buf_1p,1e-5,1e-17,1e-18,1e-6,stop=0.001 maxstep=0.5u cmin=1e-17,10 aF,975 us,0,5e-07,2648,XCO.MN4.g1,yes
+S_C_direct_1p,1e-5,1e-17,1e-18,1e-6,stop=0.001 maxstep=0.5u cmin=1e-17,10 aF,975.3 us,0,5e-07,2624,XCI.MN2.g1; XCO.MN1.g1,yes
+S_C_ref,1e-5,1e-17,1e-18,1e-6,stop=0.001 maxstep=0.5u cmin=1e-17,10 aF,975.4 us,0,5e-07,2709,XCI.MN2.g1; XCO.MN1.g1,yes
+F_C_buf_10p,1e-5,1e-17,1e-18,1e-6,stop=0.06 maxstep=0.5u cmin=1e-17,10 aF,58.5 ms,0,2.22e-10,168581,XCO.MN4.g1,yes
+F_C_buf_1p,1e-5,1e-17,1e-18,1e-6,stop=0.06 maxstep=0.5u cmin=1e-17,10 aF,58.5 ms,0,1.23e-10,169365,XCO.MN4.g1,yes
+F_C_direct_10p,1e-5,1e-17,1e-18,1e-6,stop=0.06 maxstep=0.5u cmin=1e-17,10 aF,58.5 ms,0,1.5e-10,165947,XCO.MN1.g1,yes
+F_C_direct_1p,1e-5,1e-17,1e-18,1e-6,stop=0.06 maxstep=0.5u cmin=1e-17,10 aF,58.5 ms,0,1.82e-10,167187,XCI.MN2.g1; XCO.MN1.g1,yes
+F_C_ref,1e-5,1e-17,1e-18,1e-6,stop=0.06 maxstep=0.5u cmin=1e-17,10 aF,58.5 ms,0,1.02e-10,169023,XCI.MN2.g1; XCO.MN1.g1,yes

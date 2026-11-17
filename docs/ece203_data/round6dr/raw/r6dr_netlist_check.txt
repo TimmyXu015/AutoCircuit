@@ -1,0 +1,18 @@
+== R6D Stage A netlists vs R6D-R full-run netlists (instance statements; analysis lines ignored)
+-- A_ref vs F_C_ref
+only in A_ref_netlist.scs :
+  - dcOp dc write="spectre.dc" maxiters=150 maxsteps=10000 annotate=status
+only in F_C_ref_netlist.scs :
+-- A_direct_10p vs F_C_direct_10p
+only in A_direct_10p_netlist.scs :
+  - dcOp dc write="spectre.dc" maxiters=150 maxsteps=10000 annotate=status
+only in F_C_direct_10p_netlist.scs :
+-- A_buf_10p vs F_C_buf_10p
+only in A_buf_10p_netlist.scs :
+  - dcOp dc write="spectre.dc" maxiters=150 maxsteps=10000 annotate=status
+only in F_C_buf_10p_netlist.scs :
+-- VSPS/VSNS in F_C_buf_10p
+VSNS (en en0) vsource dc=0 mag=0 type=sine sinedc=0 ampl=vd/2 \
+        sinephase=180 freq=fin
+VSPS (ep ep0) vsource dc=0 mag=0 type=sine sinedc=0 ampl=vd/2 sinephase=0 \
+        freq=fin
