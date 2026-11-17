@@ -1,0 +1,3 @@
+tag,mode,excitation,status,reason,ei_m1m,ei_p1m,ei_m1,ei_p1,ei_m60,ei_p60,eo_m1m,eo_p1m,eo_m1,eo_p1,eo_m60,eo_p60
+B1_real_dbody,real independent,d_body 0.1 uA,ok,n/a,0.0377006,3.39309e-05,0.0376818,0.0530994,0.0394975,-0.930572,0.00025454,-135.066,0.00035938,-179.905,0.000376744,-181.841
+B1_real_dota,real independent,d_ota 1 nA/side,ok,n/a,1.36401e-10,45.5069,1.93503e-09,84.3631,1.20797e-07,88.9584,0.000815393,0.272429,0.000819252,0.000433179,0.000819252,-0.00646618

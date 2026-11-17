@@ -1,0 +1,4 @@
+f_Hz,P11_ubody_to_ein,P12_uota_to_ein,P21_ubody_to_eout,P22_uota_to_eout,det_abs,RGA11,Dbody_ein,Dbody_eout,Dota_ein,Dota_eout,evidence
+0.001,1<-0.0,0.0001251<-96.7,0.8752<-97.3,188.5<-142.0,188.5,1,0.1002,0.08769,7.016e-08,0.1057,"Spectre AC (real MOS FD OTA + CMFB DC; ideal actuators, loops open at f>=1 mHz)"
+1.0,0.9996<-0.1,0.009454<-112.8,6.896<-179.7,1057<-179.7,1057,1,0.09556,0.6592,5.301e-06,0.5926,"Spectre AC (real MOS FD OTA + CMFB DC; ideal actuators, loops open at f>=1 mHz)"
+60.0,0.9958<-0.0,0.03106<178.1,6.82<172.1,1049<173.0,1045,0.9998,0.005031,0.03446,1.741e-05,0.5881,"Spectre AC (real MOS FD OTA + CMFB DC; ideal actuators, loops open at f>=1 mHz)"

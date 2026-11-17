@@ -88,6 +88,7 @@ acJobs = list(nil
   'ece203_r6a_b '(r6StageB)
   'ece203_r6a_c '(r6StageC)
   'ece203_r6a_d '(r6StageD)
+  'ece203_r6a_d2 '(r6StageD2)
 )
 
 ;; ---------- reporting ----------

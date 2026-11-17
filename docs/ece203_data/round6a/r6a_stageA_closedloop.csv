@@ -1,0 +1,43 @@
+f_Hz,controller,disturbance,ein_open,eout_open,ein_cl,eout_cl,evidence
+0.001,independent (diag K=1000),d_body 0.1 uA,0.1002,0.08769,0.0001001,4.647e-10,analytic from Spectre plant (static gains)
+0.001,independent (diag K=1000),d_ota 1 nA/side,7.016e-08,0.1057,3.717e-16,5.606e-07,analytic from Spectre plant (static gains)
+0.001,H0 single error e_in+0.01*e_out,d_body 0.1 uA,0.1002,0.08769,0.06899,6.896,analytic from Spectre plant (static gains)
+0.001,H0 single error e_in+0.01*e_out,d_ota 1 nA/side,7.016e-08,0.1057,0.0003859,0.03863,analytic from Spectre plant (static gains)
+0.001,H0 single error e_in+0.1*e_out,d_body 0.1 uA,0.1002,0.08769,0.09643,0.9643,analytic from Spectre plant (static gains)
+0.001,H0 single error e_in+0.1*e_out,d_ota 1 nA/side,7.016e-08,0.1057,0.0005395,0.005401,analytic from Spectre plant (static gains)
+0.001,H0 single error e_in+1*e_out,d_body 0.1 uA,0.1002,0.08769,0.1001,0.1001,analytic from Spectre plant (static gains)
+0.001,H0 single error e_in+1*e_out,d_ota 1 nA/side,7.016e-08,0.1057,0.0005601,0.0005607,analytic from Spectre plant (static gains)
+0.001,H0 single error e_in+10*e_out,d_body 0.1 uA,0.1002,0.08769,0.1005,0.01005,analytic from Spectre plant (static gains)
+0.001,H0 single error e_in+10*e_out,d_ota 1 nA/side,7.016e-08,0.1057,0.0005623,5.628e-05,analytic from Spectre plant (static gains)
+1.0,independent (diag K=1000),d_body 0.1 uA,0.09556,0.6592,9.55e-05,6.233e-10,analytic from Spectre plant (static gains)
+1.0,independent (diag K=1000),d_ota 1 nA/side,5.301e-06,0.5926,5.014e-15,5.606e-07,analytic from Spectre plant (static gains)
+1.0,H0 single error e_in+0.01*e_out,d_body 0.1 uA,0.09556,0.6592,0.0878,8.779,analytic from Spectre plant (static gains)
+1.0,H0 single error e_in+0.01*e_out,d_ota 1 nA/side,5.301e-06,0.5926,0.0005149,0.05154,analytic from Spectre plant (static gains)
+1.0,H0 single error e_in+0.1*e_out,d_body 0.1 uA,0.09556,0.6592,0.09528,0.9528,analytic from Spectre plant (static gains)
+1.0,H0 single error e_in+0.1*e_out,d_ota 1 nA/side,5.301e-06,0.5926,0.0005588,0.005593,analytic from Spectre plant (static gains)
+1.0,H0 single error e_in+1*e_out,d_body 0.1 uA,0.09556,0.6592,0.09609,0.09609,analytic from Spectre plant (static gains)
+1.0,H0 single error e_in+1*e_out,d_ota 1 nA/side,5.301e-06,0.5926,0.0005636,0.0005641,analytic from Spectre plant (static gains)
+1.0,H0 single error e_in+10*e_out,d_body 0.1 uA,0.09556,0.6592,0.09618,0.009618,analytic from Spectre plant (static gains)
+1.0,H0 single error e_in+10*e_out,d_ota 1 nA/side,5.301e-06,0.5926,0.0005641,5.646e-05,analytic from Spectre plant (static gains)
+60.0,independent (diag K=1000),d_body 0.1 uA,0.005031,0.03446,5.047e-06,3.295e-11,analytic from Spectre plant (static gains)
+60.0,independent (diag K=1000),d_ota 1 nA/side,1.741e-05,0.5881,1.665e-14,5.606e-07,analytic from Spectre plant (static gains)
+60.0,H0 single error e_in+0.01*e_out,d_body 0.1 uA,0.005031,0.03446,0.004614,0.4613,analytic from Spectre plant (static gains)
+60.0,H0 single error e_in+0.01*e_out,d_ota 1 nA/side,1.741e-05,0.5881,0.0005119,0.05124,analytic from Spectre plant (static gains)
+60.0,H0 single error e_in+0.1*e_out,d_body 0.1 uA,0.005031,0.03446,0.005016,0.05016,analytic from Spectre plant (static gains)
+60.0,H0 single error e_in+0.1*e_out,d_ota 1 nA/side,1.741e-05,0.5881,0.0005566,0.005572,analytic from Spectre plant (static gains)
+60.0,H0 single error e_in+1*e_out,d_body 0.1 uA,0.005031,0.03446,0.00506,0.00506,analytic from Spectre plant (static gains)
+60.0,H0 single error e_in+1*e_out,d_ota 1 nA/side,1.741e-05,0.5881,0.0005615,0.0005621,analytic from Spectre plant (static gains)
+60.0,H0 single error e_in+10*e_out,d_body 0.1 uA,0.005031,0.03446,0.005065,0.0005065,analytic from Spectre plant (static gains)
+60.0,H0 single error e_in+10*e_out,d_ota 1 nA/side,1.741e-05,0.5881,0.000562,5.626e-05,analytic from Spectre plant (static gains)
+0.001,independent (diag K=1000) [Spectre ideal VCVS],d_body 0.1 uA,,,0.0001001,4.647e-10,"Spectre AC, ideal controllers"
+1.0,independent (diag K=1000) [Spectre ideal VCVS],d_body 0.1 uA,,,9.55e-05,6.233e-10,"Spectre AC, ideal controllers"
+60.0,independent (diag K=1000) [Spectre ideal VCVS],d_body 0.1 uA,,,5.047e-06,3.295e-11,"Spectre AC, ideal controllers"
+0.001,independent (diag K=1000) [Spectre ideal VCVS],d_ota 1 nA/side,,,3.718e-16,5.606e-07,"Spectre AC, ideal controllers"
+1.0,independent (diag K=1000) [Spectre ideal VCVS],d_ota 1 nA/side,,,5.012e-15,5.606e-07,"Spectre AC, ideal controllers"
+60.0,independent (diag K=1000) [Spectre ideal VCVS],d_ota 1 nA/side,,,1.665e-14,5.606e-07,"Spectre AC, ideal controllers"
+0.001,H0 single error e_in+1*e_out [Spectre ideal VCVS],d_body 0.1 uA,,,0.1001,0.1001,"Spectre AC, ideal controllers"
+1.0,H0 single error e_in+1*e_out [Spectre ideal VCVS],d_body 0.1 uA,,,0.09609,0.09609,"Spectre AC, ideal controllers"
+60.0,H0 single error e_in+1*e_out [Spectre ideal VCVS],d_body 0.1 uA,,,0.00506,0.00506,"Spectre AC, ideal controllers"
+0.001,H0 single error e_in+1*e_out [Spectre ideal VCVS],d_ota 1 nA/side,,,0.0005601,0.0005607,"Spectre AC, ideal controllers"
+1.0,H0 single error e_in+1*e_out [Spectre ideal VCVS],d_ota 1 nA/side,,,0.0005636,0.0005641,"Spectre AC, ideal controllers"
+60.0,H0 single error e_in+1*e_out [Spectre ideal VCVS],d_ota 1 nA/side,,,0.0005615,0.0005621,"Spectre AC, ideal controllers"
