@@ -145,6 +145,19 @@ procedure( r5nStagePilot()
   )
 )
 
+;; bias pilot 2 of 2: tail x4 (pilot 1 kept M2 margin 0.085 V and cut noise 4.60 -> 4.23 uV at +312 nA)
+procedure( r5nStagePilot2()
+  let( (port)
+    port = r5nOpen("r5n_bias_pilot2.csv" r5nCols)
+    r5nTail = 4
+    r5nBuildTb(16 16)
+    r5nCase(port "P2_tail4" 16 16 r5nPrw t)
+    r5nTail = 1
+    close(port)
+    t
+  )
+)
+
 ;; ---------- C: signoff of the frozen submission baseline and the best low-noise candidate ----------
 ;; r5nBest is set after stage B (n p) - only these two configurations are signed off.
 r5nBest = '(16 16)
@@ -173,9 +186,13 @@ procedure( r5nSignoff(n p label)
     t
   )
 )
+r5nBestTail = 1   ;; tail multiplier of the best candidate (set after the pilots)
 procedure( r5nStageC()
+  r5nTail = 1
   r5nSignoff(1 1 "baseline")
+  r5nTail = r5nBestTail
   r5nSignoff(car(r5nBest) cadr(r5nBest) "best")
+  r5nTail = 1
   t
 )
 ;; ---------- ADE L states (GUI) ----------
@@ -184,6 +201,8 @@ procedure( r5nAde()
   when( hiGraphicMode() acAutoOkStart() )
   unless( hiGraphicMode() error("r5nAde needs the GUI (run.sh ece203_r5n_ade)\n") )
   r4AdeTb(r5nTbCell(1 1) "r5n_submission_baseline" append(r5nOver(r5nPrw) list(list("dcc" 0.01) list("itr" 1e-7))) t t t)
+  r5nTail = r5nBestTail
   r4AdeTb(r5nTbCell(car(r5nBest) cadr(r5nBest)) "r5n_low_noise_best" append(r5nOver(r5nPrw) list(list("dcc" 0.01) list("itr" 1e-7))) t t t)
+  r5nTail = 1
   t
 )
