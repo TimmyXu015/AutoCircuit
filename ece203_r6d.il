@@ -181,7 +181,9 @@ procedure( r6dTran(port tag bench cell cl over)
         unless( isDir(r6dTmp) createDir(r6dTmp) )
         resultsDir(sprintf(nil "%s/sim_%s" r6dTmp tag))
         r6bOpt(r6bSysOpts)
-        analysis('tran ?stop "60m" ?maxstep "0.5u")
+        ;; first Stage B attempt (default trapezoidal) stalled in B_buf_1p at the first TG edge (250 us, steps ~100 as,
+        ;; Spectre: "Found trapezoidal ringing on node XA.MT.s1"); the one numerical correction: gear2only, all 5 cases
+        analysis('tran ?stop "60m" ?maxstep "0.5u" ?method "gear2only")
         car(errset(saveOption('save "selected") nil))
         if( cell == r6dCells->buf
           car(errset(save('v "/ep" "/en" "/fp" "/fn" "/op" "/on" "/vg" "/drlr" "/bufp" "/bufn") nil))
