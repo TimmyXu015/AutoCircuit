@@ -281,11 +281,14 @@ procedure( r6bSysPss(port tag)
       progn(
         ece203Setup(r6bCells->stb strcat("_" tag))
         r6bOpt(r6bSysOpts)
-        analysis('pss ?fund "2k" ?harms "40" ?errpreset "moderate")
+        ;; first attempt (harms 40, moderate, default maxperiods 20) stopped unconverged at the 20-period limit with the
+        ;; norm still falling (14.9e3 -> 1.28e3); the one permitted correction: tstab 10 ms + maxperiods 100
+        analysis('pss ?fund "2k" ?harms "40" ?errpreset "moderate" ?tstab "10m" ?maxperiods "100")
         analysis('pac ?sweeptype "relative" ?relharmnum "0" ?start "1" ?stop "250" ?dec "20" ?maxsideband "3")
         r6bSet(r6Vars append(r6bSysBase list(list("chen" 1.0) list("tch" 500e-6) list("pacd" 0.5) list("vos" 100e-6))))
         run()
         res = strcat(getShellEnvVar("HOME") "/simulation/" r6bCells->stb "/spectre/schematic_" tag)
+        when( sh(sprintf(nil "grep -q 'did not converge' %s/psf/spectre.out" res)) error("PSS did not converge (see spectre.out)"))
         openResults(strcat(res "/psf")) selectResult('pss_td)
         w = list(nil 'op v("/op") 'on v("/on") 'fp v("/fp") 'fn v("/fn") 'ocm v("/ocm") 'icm v("/icm") 'vg v("/vg") 'p v("/p") 'n v("/n"))
         m = w->fp - w->fn
@@ -335,6 +338,16 @@ procedure( r6bStageSys()
     port = r6bOpen("r6b_sys_chop.csv" r6bSCols)
     r6bSysTran(port "S1_tg2k_tran" 2000.0)
     r6bSysTran(port "S2_tg4k_tran" 4000.0)
+    r6bSysPss(port "S3_tg2k_pss_vos100u")
+    close(port)
+    t
+  )
+)
+
+;; PSS-only re-run (after the first attempt hit maxperiods)
+procedure( r6bStagePss()
+  let( (port)
+    port = r6bOpen("r6b_sys_pss.csv" r6bSCols)
     r6bSysPss(port "S3_tg2k_pss_vos100u")
     close(port)
     t

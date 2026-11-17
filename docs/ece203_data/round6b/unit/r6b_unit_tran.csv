@@ -1,0 +1,4 @@
+tag,fch,vcm,status,reason,gainA,gainB,fdthru_pp,cm_dev_max,i_vdd_avg,i_cka_avg,rows
+U2_2k_vcm0p9,2000,0.9,ok,n/a,1,-1,n/a,0.000719618,3.21774e-13,-5.66164e-13,201185
+U3_4k_vcm0p9,4000,0.9,ok,n/a,1,-1,n/a,0.000719618,5.60516e-13,-1.42904e-12,202385
+U4_2k_vcm1p05,2000,1.05,ok,n/a,1,-1,n/a,0.000924471,5.40878e-13,-3.00592e-13,201185

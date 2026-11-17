@@ -1,0 +1,4 @@
+tag,vcm,kind,status,reason,ron_A,ron_B,vod_A,vod_B,leak_P,leak_N,i_vdd
+U1_static_vcm0.75,0.75,"DC: Ron (100 nA), static polarity (vdc 10 mV), off leakage (0.2 V, rl 1 GOhm)",ok,n/a,1421.48,1421.48,0.01,-0.01,1.19666e-15,1.19869e-15,1.68027e-14
+U1_static_vcm0.9,0.9,"DC: Ron (100 nA), static polarity (vdc 10 mV), off leakage (0.2 V, rl 1 GOhm)",ok,n/a,1681.39,1681.39,0.01,-0.01,4.08118e-18,-1.04475e-17,1.44027e-14
+U1_static_vcm1.05,1.05,"DC: Ron (100 nA), static polarity (vdc 10 mV), off leakage (0.2 V, rl 1 GOhm)",ok,n/a,2142.4,2142.4,0.01,-0.01,-1.18308e-15,-1.28081e-15,1.20027e-14
