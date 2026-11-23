@@ -1,0 +1,36 @@
+PASS  RFN/RFP absent in the pseudo-R netlist
+PASS  RFN/RFP present in the reference netlist
+PASS  exactly one XPRN and one XPRP
+PASS  XPRN: A=n B=fp, cell ece203_ss_pr_cell (pins A B order): XPRN (n fp) ece203_ss_pr_cell
+PASS  XPRP: A=p B=fn: XPRP (p fn) ece203_ss_pr_cell
+PASS  subckt ece203_ss_pr_cell present
+PASS  one device in the pseudo-R subckt: [('MP', 'B B A B', 'pfet33')]
+PASS  thick-oxide model pfet33 (pfet33x family, not pfet)
+PASS  terminals D G S B = B B A B: B B A B
+PASS  sized by prw / prl
+PASS  prw/prl declared: ['prl=2e-06', 'prw=4e-06']
+PASS  CFN present: CFN (fp n) capacitor c=cfb
+PASS  CFP present: CFP (fn p) capacitor c=cfb
+PASS  XCI present: XCI (cka ckab ckb ckbb 0 n p ibx ia vdd) ece203_r6b_tgchop
+PASS  XCO present: XCO (cka ckab ckb ckbb 0 on op fn fp vdd) ece203_r6b_tgchop
+PASS  XA present: XA (0 ib ibx iax on op vcas vg vdd) ece203_r6a_fd_ota
+PASS  XC present: XC (0 ib on op vcf vdd vrc) ece203_r7a_cmfb_a2
+PASS  XD present: XD (0 ibd cm vref drlr vddd) ece203_r4_drl_ota
+PASS  XCD present: XCD (bufn bufp fn fp 0 ib vdd) ece203_r6d_cd
+PASS  CLBP present: CLBP (bufp 0) capacitor c=clb
+PASS  CLBN present: CLBN (bufn 0) capacitor c=clb
+PASS  VDD / VDDD independent sources to ground
+--- structural diff (reference -> pseudo-R), 11 lines
++
++subckt ece203_ss_pr_cell A B
++    MP (B B A B) pfet33 l=prl w=prw nf=1 m=1 par=1 ad=prw*0.54e-6 \
++        as=prw*0.54e-6 pd=2*(prw+0.54e-6) ps=2*(prw+0.54e-6) nrd=0.6818182 \
++        nrs=0.6818182 gcon=1 rf=0 rsx=50 dtemp=0
++ends ece203_ss_pr_cell
+-RFP (fn p) resistor r=rfb
+-RFN (fp n) resistor r=rfb
++XPRP (p fn) ece203_ss_pr_cell
++XPRN (n fp) ece203_ss_pr_cell
++dcOpInfo info what=oppoint where=rawfile
+AUDIT PASS
+B vs C netlist instances identical

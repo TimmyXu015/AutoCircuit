@@ -1,0 +1,43 @@
+// Generated for: spectre
+// Generated on: Nov 22 22:59:21 2026
+// Design library name: Project
+// Design cell name: ece203_ss_pr_iv_tb
+// Design view name: schematic
+simulator lang=spectre
+global 0
+parameters prl=2e-06 prw=4e-06 vd=0.1 vcm=0.9 p5vonly=0 phires=0
+include "design.scs"
+include "wafer.scs"
+include "allModels.scs" section=tt
+
+// Library name: Project
+// Cell name: ece203_ss_pr_cell
+// View name: schematic
+subckt ece203_ss_pr_cell A B
+    MP (B B A B) pfet33 l=prl w=prw nf=1 m=1 par=1 ad=prw*0.54e-6 \
+        as=prw*0.54e-6 pd=2*(prw+0.54e-6) ps=2*(prw+0.54e-6) nrd=0.6818182 \
+        nrs=0.6818182 gcon=1 rf=0 rsx=50 dtemp=0
+ends ece203_ss_pr_cell
+// End of subcircuit definition.
+
+// Library name: Project
+// Cell name: ece203_ss_pr_iv_tb
+// View name: schematic
+VA (a 0) vsource dc=vcm+vd mag=1 type=dc
+VB (b 0) vsource dc=vcm mag=0 type=dc
+XP (a b) ece203_ss_pr_cell
+simulatorOptions options reltol=1e-6 vabstol=1e-6 iabstol=1e-18 temp=27 \
+    tnom=25 scalem=1.0 scale=1.0 gmin=1e-18 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 pivrel=1e-3 \
+    sensfile="../../schematic_r7c_A/psf/sens.output" checklimitdest=psf 
+ac ac start=1m stop=10m dec=1 annotate=status 
+dcOp dc write="spectre.dc" maxiters=150 maxsteps=10000 annotate=status
+dcOpInfo info what=oppoint where=rawfile
+modelParameter info what=models where=rawfile
+element info what=inst where=rawfile
+outputParameter info what=output where=rawfile
+designParamVals info what=parameters where=rawfile
+primitives info what=primitives where=rawfile
+subckts info what=subckts where=rawfile
+save VB:p VA:p 
+saveOptions options save=allpub
