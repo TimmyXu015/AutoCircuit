@@ -1,0 +1,861 @@
+COPYRIGHT (C) 1992-2018  CADENCE DESIGN SYSTEMS INC.  ALL RIGHTS RESERVED.
+          (C) 1992-2018  UNIX SYSTEMS Laboratories INC.,
+                         Reproduced with permission.
+
+This Cadence Design Systems program and online documentation are
+proprietary/confidential information and may be disclosed/used only
+as authorized in a license agreement controlling such use and disclosure.
+
+          RESTRICTED RIGHTS NOTICE (SHORT FORM)
+Use/reproduction/disclosure is subject to restriction
+set forth at FAR 1252.227-19 or its equivalent.
+Loading geView.cxt 
+Loading menuBuilder.cxt 
+Loading schView.cxt 
+Loading selectSv.cxt 
+Loading wireEdit.cxt 
+Loading pte2.cxt 
+Loading xlUI.cxt 
+Loading auCore.cxt 
+Loading vhdl.cxt 
+Loading seismic.cxt 
+Loading ci.cxt 
+Loading layers.cxt 
+Loading ams.cxt 
+Loading cli.cxt 
+Loading cle.cxt 
+Virtuoso Framework License (111) was checked out successfully. Total checkout time was 0.02s.
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+END OF USER CUSTOMIZATION
+*Error* eval: unbound variable - f
+<<< Stack Trace >>>
+leSetEnv("gravityOn" f)
+loadi(".cdsinit")
+funobj@0x22c93b88()
+errset(lambda(nil loadi(".cdsinit")))
+Calibre Skill Interface not loaded.
+> Loading pe.cxt 
+t
+> PDK config loaded: cmrf7sf
+AutoCircuit loaded (47 files) from /home/linux/ieng6/oce/7f/lix015/AutoCircuit
+t
+> AC> ece203: library Project at /home/linux/ieng6/ECE203_FA26_001/lix015/Project, tech library = "cmrf7sf"
+Loading oasis.cxt 
+Loading dal.cxt 
+Loading awv.cxt 
+Loading analog.cxt 
+Loading asimenv.cxt 
+Loading spectrei.cxt 
+Loading devCheck.cxt 
+Loading relXpert.cxt 
+Loading socket.cxt 
+Loading par.cxt 
+Loading alvs.cxt 
+Loading caa.cxt 
+Loading amps.cxt 
+Loading adexlCore.cxt 
+Loading adexl.cxt 
+Loading lx.cxt 
+Loading lce.cxt 
+Loading le.cxt 
+Loading rte.cxt 
+Loading te.cxt 
+Loading schHDL.cxt 
+Loading vdsil.cxt 
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+ 
+Loading IBM PDK cmrf7sf procedures... 
+IBM PDK cmrf7sf procedures loaded (/software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/cdslib/cmrf7sf/cmrf7sf610.att). 
+ 
+IBM PDK cmrf7sf Device Status Table loaded. 
+ 
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+Loading simui.cxt 
+Simulation set up: Project/ece203_r8b_tb_noeoc_chp, corner tt
+WARNING (OCN-6000): Analysis: dc is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: ac is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: noise is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: stb is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: tran is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+Delete psf data in /tmp/lix015_r8b/sim_B_pss_a1/psf.
+Loading spectreinl.cxt 
+Loading seCore.cxt 
+Begin Incremental Netlisting Nov 23 04:46:44 2026
+End netlisting Nov 23 04:46:44 2026
+Loading monte.cxt 
+
+	The netlist is up to date.
+	Time taken to compare the design with netlist:   0.0s
+Loading hspiceD.cxt 
+Loading msgHandler.cxt 
+Loading UltraSim.cxt 
+Loading AMSOSS.cxt 
+Loading AMS.cxt 
+
+Cadence (R) Virtuoso (R) Spectre (R) Circuit Simulator
+Version 15.1.0.803.isr18 64bit -- 21 Jun 2017
+Copyright (C) 1989-2017 Cadence Design Systems, Inc. All rights reserved
+        worldwide. Cadence, Virtuoso and Spectre are registered trademarks of
+        Cadence Design Systems, Inc. All others are the property of their
+        respective holders.
+
+Includes RSA BSAFE(R) Cryptographic or Security Protocol Software from RSA
+        Security, Inc.
+
+User: lix015   Host: ieng6-ece-10.ucsd.edu   HostID: 36808C43   PID: 21283
+Memory  available: 7.4869 GB  physical: 33.7804 GB
+Linux   : CentOS Linux release 7.9.2009 (Core)
+CPU Type: Intel(R) Xeon(R) Gold 5220 CPU @ 2.20GHz
+        Socket: Processors [Frequency] (Hyperthreaded Processor)
+        0:       0 [2704.1] (  1 ),  1 [2754.3] (),  2 [2303.0] (  3 )
+                 3 [1818.9] (),  4 [2591.0] (  5 ),  5 [2679.1] (),  6 [1211.3]
+        (  7 )
+                 7 [1311.4] ()
+        
+System load averages (1min, 5min, 15min) : 19.8 %, 16.5 %, 15.1 %
+Hyperthreading is enabled
+
+
+Simulating `input.scs' on ieng6-ece-10.ucsd.edu at 4:46:45 AM, Mon Nov 23, 2026
+        (process id: 21283).
+Current working directory:
+        /home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8b_tb_noeoc_chp/spectre/schematic/netlist
+Command line:
+    /software/nonrdist64/mmsim151/tools/bin/spectre -64 input.scs  \
+        +escchars +log  \
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/spectre.out
+        \
+        +inter=mpsc +mpssession=spectre0_20813_1 -format psfxl -raw  \
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf  \
+        -I/software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models  \
+        +lqtimeout 900 -maxw 5 -maxn 5
+Reading file: 
+        /home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8b_tb_noeoc_chp/spectre/schematic/netlist/input.scs
+Reading link:  /software/nonrdist64/mmsim151
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/configs/spectre.cfg
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/configs/mapsubckt.cfg
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/design.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/wafer.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/allModels.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/fixed_corner.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/process.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/process_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/models.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/hacap.va
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/ahdl/constants.vams
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/ahdl/disciplines.vams
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mvcap.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcap.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esd_modules.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdnsh_spe.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpsh_spe.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/jfetjc_xt.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/bondpad.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/coupledwires.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diffhavar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diffmosvar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dindpw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodenwx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodenx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepisx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepwpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dipdnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/divpnp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dualmim.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/efuse.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdndsx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdndpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdnsh_base.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpnpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpsh_base.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdvpnpnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/havar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/ind.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/indline.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/indstack.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/jfetjc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/k1res.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mim.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mimhk.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mosvar18.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mosvar50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfethv.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33tw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33tw_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet50tw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfettw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfettw_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwppcres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwrppres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwrrpres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/opndres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oppdres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/opppcres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oprppres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oprrpres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcapc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcdcap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcdcap33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfethv.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet33_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/p5pfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/psbd.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/rr_serpentine.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sbd.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sbdnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sblkndres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sblkpdres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/singlewire.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/subc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sxmodel.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/symind.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/vlnpn.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/vncap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/zvtnfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/zvtnfet33.scs
+Time for NDB Parsing: CPU = 328.585 ms, elapsed = 740.974 ms.
+Time accumulated: CPU = 373.689 ms, elapsed = 740.987 ms.
+Peak resident memory used = 43.6 Mbytes.
+
+
+The CPU load for active processors is :
+        Spectre  0 (1.4 %)       1 (100.0 %)     2 (28.4 %)      3 (19.2 %)
+                 4 (20.5 %)      5 (25.7 %)      6 (18.7 %)      7 (23.3 %)
+        Other   
+Reading link: 
+        /software/nonrdist64/mmsim151/tools.lnx86/spectre/etc/ahdl/discipline.h
+Reading link: 
+        /software/nonrdist64/mmsim151/tools.lnx86/spectre/etc/ahdl/constants.h
+Time for Elaboration: CPU = 64.778 ms, elapsed = 78.182 ms.
+Time accumulated: CPU = 438.68 ms, elapsed = 819.382 ms.
+Peak resident memory used = 52 Mbytes.
+
+
+Notice from spectre in `nfet':`XA.MREF', in `ece203_r6a_fd_ota':`XA', during
+        hierarchy flattening.
+    XA.MREF.cwgd: Terminals are connected together (to node `ib').
+Notice from spectre in `pfet':`XD.M3', in `ece203_r4_drl_ota':`XD', during
+        hierarchy flattening.
+    XD.M3.cwgd: Terminals are connected together (to node `XD.n1').
+Notice from spectre in `nfet':`XD.MREF', in `ece203_r4_drl_ota':`XD', during
+        hierarchy flattening.
+    XD.MREF.cwgd: Terminals are connected together (to node `ibd').
+Notice from spectre in `pfet':`XC.MD', in `ece203_r7a_cmfb_a2':`XC', during
+        hierarchy flattening.
+    XC.MD.cwgd: Terminals are connected together (to node `vcf').
+Notice from spectre in `pfet33':`XPRP.MP', in `ece203_ss_pr_cell':`XPRP',
+        during hierarchy flattening.
+    XPRP.MP.cwgd: Terminals are connected together (to node `fn').
+        Further occurrences of this notice will be suppressed (except in log
+        file).
+
+Time for EDB Visiting: CPU = 7.235 ms, elapsed = 7.23481 ms.
+Time accumulated: CPU = 446.152 ms, elapsed = 826.852 ms.
+Peak resident memory used = 53.4 Mbytes.
+
+
+Global user options:
+             reltol = 1e-05
+            vabstol = 1e-06
+            iabstol = 1e-17
+               temp = 27
+               gmin = 1e-18
+             rforce = 1
+           maxnotes = 5
+           maxwarns = 5
+             digits = 5
+               cols = 80
+             pivrel = 0.001
+           sensfile =
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/sens.output
+     checklimitdest = psf
+               save = selected
+               tnom = 25
+             scalem = 1
+              scale = 1
+
+Scoped user options:
+
+Circuit inventory:
+              nodes 244
+             assert 368   
+            bsim3v3 46    
+          capacitor 156   
+              diode 92    
+             iprobe 2     
+            isource 5     
+           resistor 201   
+               vcvs 8     
+            vsource 15    
+
+Analysis and control statement inventory:
+               info 6     
+                pss 1     
+
+Output statements:
+             .probe 0     
+           .measure 0     
+               save 1     
+
+
+Notice from spectre.
+    2 notices suppressed.
+
+Time for parsing: CPU = 14.467 ms, elapsed = 26.134 ms.
+Time accumulated: CPU = 460.831 ms, elapsed = 853.198 ms.
+Peak resident memory used = 55.2 Mbytes.
+
+~~~~~~~~~~~~~~~~~~~~~~
+Pre-Simulation Summary
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+Entering remote command mode using MPSC service (spectre, ipi, v0.0,
+        spectre0_20813_1, ).
+Spectre Control Language log file is `input.scllog'.
+simulate...
+
+Warning from spectre.
+    WARNING (SPECTRE-16707): Only tran supports psfxl format, result of other
+        analyses will be in psfbin format.
+Notice from spectre during periodic steady state analysis `pss'.
+    `IZP' is disabled as irrelevant time-varying sources
+    `IZN' is disabled as irrelevant time-varying sources
+    `VSP' is disabled as irrelevant time-varying sources
+    `VSN' is disabled as irrelevant time-varying sources
+
+
+**************************************************
+Periodic Steady-State Analysis `pss': fund = 2 kHz
+**************************************************
+
+Notice from spectre during IC analysis, during periodic steady state analysis
+        `pss'.
+    Bad pivoting is found during DC analysis. Option dc_pivot_check=yes is
+        recommended for possible improvement of convergence.
+
+DC simulation time: CPU = 10.228 ms, elapsed = 10.2291 ms.
+
+=================================
+`pss': time = (0 s -> 5.75001 ms)
+=================================
+
+Notice from spectre during periodic steady state analysis `pss'.
+    `IZP' is disabled as irrelevant time-varying sources
+        Further occurrences of this notice will be suppressed (except in log
+        file).
+
+
+Important parameter values in tstab integration:
+    start = 0 s
+    outputstart = 0 s
+    stop = 5.75001 ms
+    period = 500 us
+    maxperiods = 40
+    step = 5.75001 us
+    maxstep = 20 us
+    ic = all
+    useprevic = no
+    skipdc = no
+    reltol = 10e-06
+    abstol(V) = 1 uV
+    abstol(I) = 10 aA
+    temp = 27 C
+    tnom = 25 C
+    tempeffects = all
+    method = traponly
+    lteratio = 3.5
+    relref = sigglobal
+    cmin = 10 aF
+    gmin = 1 aS
+
+    pss: time = 157.3 us    (2.73 %), step = 20 us        (348 m%)
+
+Notice from spectre at time = 250.011 us during periodic steady state analysis
+        `pss'.
+    Found trapezoidal ringing on node XCO.MP4.g1.
+Notice from spectre at time = 250.011 us during periodic steady state analysis
+        `pss'.
+    Found trapezoidal ringing on node XCI.MP4.g1.
+Notice from spectre at time = 250.011 us during periodic steady state analysis
+        `pss'.
+    Found trapezoidal ringing on node XCI.MP4.g1.
+Notice from spectre at time = 250.011 us during periodic steady state analysis
+        `pss'.
+    Found trapezoidal ringing on node XCI.MP4.g1.
+Notice from spectre at time = 250.649 us during periodic steady state analysis
+        `pss'.
+    Found trapezoidal ringing on node XCI.MP4.g1.
+        Further occurrences of this notice will be suppressed (except in log
+        file).
+
+    pss: time = 434.8 us    (7.56 %), step = 5.04 us     (87.6 m%)
+    pss: time = 721.3 us    (12.5 %), step = 3.812 us    (66.3 m%)
+    pss: time = 1.009 ms    (17.5 %), step = 3.194 us    (55.6 m%)
+    pss: time = 1.297 ms    (22.6 %), step = 4.795 us    (83.4 m%)
+    pss: time = 1.583 ms    (27.5 %), step = 3.83 us     (66.6 m%)
+    pss: time = 1.869 ms    (32.5 %), step = 898.1 ns    (15.6 m%)
+    pss: time = 2.157 ms    (37.5 %), step = 2.43 us     (42.3 m%)
+    pss: time = 2.446 ms    (42.5 %), step = 3.663 us    (63.7 m%)
+    pss: time = 2.733 ms    (47.5 %), step = 4.139 us      (72 m%)
+    pss: time = 3.021 ms    (52.5 %), step = 4.029 us    (70.1 m%)
+    pss: time = 3.306 ms    (57.5 %), step = 3.648 us    (63.4 m%)
+    pss: time = 3.595 ms    (62.5 %), step = 4.179 us    (72.7 m%)
+    pss: time = 3.882 ms    (67.5 %), step = 1.992 us    (34.7 m%)
+    pss: time = 4.171 ms    (72.5 %), step = 3.783 us    (65.8 m%)
+    pss: time = 4.457 ms    (77.5 %), step = 887.3 ns    (15.4 m%)
+    pss: time = 4.747 ms    (82.6 %), step = 3.733 us    (64.9 m%)
+    pss: time = 5.034 ms    (87.5 %), step = 4.465 us    (77.7 m%)
+    pss: time = 5.322 ms    (92.6 %), step = 3.529 us    (61.4 m%)
+    pss: time = 5.608 ms    (97.5 %), step = 4.561 us    (79.3 m%)
+
+
+Total time required for tstab analysis `pss': CPU = 2.44045 s, elapsed =
+        2.88481 s.
+Time accumulated: CPU = 2.44065 s, elapsed = 2.88501 s.
+Peak resident memory used = 57.6 Mbytes.
+
+Conv norm = 1.6e+06, max dV(ckab) = 1.8 V, took 1.95 s.
+
+Important parameter values in pss iteration:
+    start = 5.25001 ms
+    outputstart = 0 s
+    stop = 5.75001 ms
+    period = 500 us
+    maxperiods = 40
+    steadyratio = 1e-03
+    step = 5.75001 us
+    maxstep = 2.5 us
+    ic = all
+    useprevic = no
+    skipdc = no
+    reltol = 10e-06
+    abstol(V) = 1 uV
+    abstol(I) = 10 aA
+    temp = 27 C
+    tnom = 25 C
+    tempeffects = all
+    errpreset = moderate
+    method = gear2only
+    lteratio = 3.5
+    relref = alllocal
+    cmin = 10 aF
+    gmin = 1 aS
+
+
+========================================
+`pss': time = (5.25001 ms -> 5.75001 ms)
+========================================
+    pss: time = 5.263 ms    (2.62 %), step = 625 ns       (125 m%)
+    pss: time = 5.288 ms    (7.62 %), step = 625 ns       (125 m%)
+    pss: time = 5.313 ms    (12.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.338 ms    (17.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.363 ms    (22.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.388 ms    (27.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.413 ms    (32.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.438 ms    (37.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.463 ms    (42.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.488 ms    (47.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.513 ms    (52.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.538 ms    (57.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.563 ms    (62.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.588 ms    (67.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.613 ms    (72.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.638 ms    (77.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.663 ms    (82.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.688 ms    (87.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.713 ms    (92.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.738 ms    (97.6 %), step = 625 ns       (125 m%)
+Conv norm = 131e+03, max dI(VCKAB:p) = 193.273 nA, took 590 ms.
+
+
+========================================
+`pss': time = (5.25001 ms -> 5.75001 ms)
+========================================
+    pss: time = 5.263 ms    (2.62 %), step = 625 ns       (125 m%)
+    pss: time = 5.288 ms    (7.62 %), step = 625 ns       (125 m%)
+    pss: time = 5.313 ms    (12.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.338 ms    (17.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.363 ms    (22.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.388 ms    (27.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.413 ms    (32.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.438 ms    (37.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.463 ms    (42.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.488 ms    (47.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.513 ms    (52.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.538 ms    (57.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.563 ms    (62.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.588 ms    (67.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.613 ms    (72.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.638 ms    (77.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.663 ms    (82.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.688 ms    (87.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.713 ms    (92.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.738 ms    (97.6 %), step = 625 ns       (125 m%)
+Conv norm = 320e-03, max dI(VCKAB:p) = -468.361 fA, took 570 ms.
+
+
+    pss: time = 5.762 ms    (2.58 %), step = 625 ns       (125 m%)
+    pss: time = 5.787 ms    (7.57 %), step = 625 ns       (125 m%)
+    pss: time = 5.812 ms    (12.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.837 ms    (17.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.862 ms    (22.6 %), step = 625 ns       (125 m%)
+    pss: time = 5.887 ms    (27.5 %), step = 625 ns       (125 m%)
+    pss: time = 5.912 ms    (32.5 %), step = 625 ns       (125 m%)
+    pss: time = 5.937 ms    (37.5 %), step = 625 ns       (125 m%)
+    pss: time = 5.962 ms    (42.5 %), step = 625 ns       (125 m%)
+    pss: time = 5.987 ms    (47.5 %), step = 625 ns       (125 m%)
+    pss: time = 6.013 ms    (52.6 %), step = 625 ns       (125 m%)
+    pss: time = 6.038 ms    (57.6 %), step = 625 ns       (125 m%)
+    pss: time = 6.063 ms    (62.6 %), step = 625 ns       (125 m%)
+    pss: time = 6.088 ms    (67.6 %), step = 625 ns       (125 m%)
+    pss: time = 6.113 ms    (72.6 %), step = 625 ns       (125 m%)
+    pss: time = 6.138 ms    (77.6 %), step = 625 ns       (125 m%)
+    pss: time = 6.163 ms    (82.6 %), step = 625 ns       (125 m%)
+    pss: time = 6.188 ms    (87.6 %), step = 625 ns       (125 m%)
+    pss: time = 6.213 ms    (92.5 %), step = 625 ns       (125 m%)
+    pss: time = 6.238 ms    (97.5 %), step = 625 ns       (125 m%)
+Number of accepted pss steps =             2243
+
+Notice from spectre during periodic steady state analysis `pss'.
+    Trapezoidal ringing is detected during pss analysis.
+        Please use method=trap for better results and performance.
+
+Initial condition solution time: CPU = 10.353 ms, elapsed = 10.355 ms.
+
+Conv residual norm = 3.96e+03.
+Norm of periodicity discrepancy due to numerical error: 1.000481e-01.
+Worst node: IPRD:in.
+Conv DeltaSolution norm in fdtd = 3.44e+03.
+Conv residual and DeltaSolution norm in fdtd = 3.96e+03.
+
+Conv residual norm = 601e-03.
+Norm of periodicity discrepancy due to numerical error: 1.622765e-10.
+Worst node: IPRD:in.
+Conv DeltaSolution norm in fdtd = 3.97e-03.
+Conv residual and DeltaSolution norm in fdtd = 601e-03.
+Number of refinements using finite difference method = 1. Total steps = 1091
+
+Finite difference refinement finished.
+
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/pss.td.pss
+        ...
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/pss.fd.pss
+        ...
+Number of accepted pss steps =             1091
+
+Notice from spectre during periodic steady state analysis `pss'.
+    Trapezoidal ringing is detected during pss analysis.
+        Please use method=trap for better results and performance.
+
+Initial condition solution time: CPU = 10.353 ms, elapsed = 10.355 ms.
+pss: The steady-state solution was achieved in 3 shooting-Newton iterations,
+        followed by  finite-difference refinement.
+Number of accepted pss steps =             1091
+Total time required for pss analysis `pss': CPU = 4.67492 s, elapsed = 4.70414
+        s.
+Time accumulated: CPU = 5.13885 s, elapsed = 5.5954 s.
+Peak resident memory used = 101 Mbytes.
+
+
+Notice from spectre.
+    2643 notices suppressed.
+
+modelParameter: writing model parameter values to rawfile.
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/modelParameter.info
+        ...
+element: writing instance parameter values to rawfile.
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/element.info
+        ...
+outputParameter: writing output parameter values to rawfile.
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/outputParameter.info
+        ...
+designParamVals: writing netlist parameters to rawfile.
+
+Opening the PSFASCII file
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/designParamVals.info
+        ...
+primitives: writing primitives to rawfile.
+
+Opening the PSFASCII file
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/primitives.info.primitives
+        ...
+subckts: writing subcircuits to rawfile.
+
+Opening the PSFASCII file
+        ../../../../../../../../../../../tmp/lix015_r8b/sim_B_pss_a1/psf/subckts.info.subckts
+        ...
+INFO (ADE-3071): Simulation completed successfully.
+reading simulation data...
+Loading viva.cxt 
+      ...successful.
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8b/B_pss_a1_pss_td.csv (1092 rows)
+AC> r8P B_pss_a1: ok  | PAC vd n/a Hon 0.1/1/10/100/250 n/a n/a n/a n/a n/a ph100 n/a | out rms n/a app n/a deemb n/a | in 0.1/1/10/100/250 n/a n/a n/a n/a n/a | 
+AC_BATCH_DONE
+(t)
+> 

@@ -1,0 +1,1 @@
+1.7M	/tmp/lix015_r8b/sim_C_pnoise_s90/psf

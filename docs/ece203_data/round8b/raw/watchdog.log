@@ -1,0 +1,12 @@
+2026-11-23 04:46:44 watchdog start tag=B_pss_a1 stall=900s hard=5400s
+2026-11-23 04:47:01 watchdog exit tag=B_pss_a1 after 15 s, spectre.out 15667 bytes
+2026-11-23 04:48:55 watchdog start tag=B_pac stall=900s hard=5400s
+2026-11-23 04:49:12 watchdog exit tag=B_pac after 15 s, spectre.out 8228 bytes
+2026-11-23 04:50:55 watchdog start tag=C_pnoise_s10 stall=1800s hard=21600s
+2026-11-23 04:51:27 watchdog exit tag=C_pnoise_s10 after 30 s, spectre.out 25512 bytes
+2026-11-23 04:53:04 watchdog start tag=C_pnoise_s30 stall=1800s hard=21600s
+2026-11-23 04:53:37 watchdog exit tag=C_pnoise_s30 after 31 s, spectre.out 24742 bytes
+2026-11-23 04:53:51 watchdog start tag=C_pnoise_s60 stall=1800s hard=21600s
+2026-11-23 04:54:39 watchdog exit tag=C_pnoise_s60 after 46 s, spectre.out 26629 bytes
+2026-11-23 04:56:34 watchdog start tag=C_pnoise_s90 stall=1800s hard=21600s
+2026-11-23 04:57:21 watchdog exit tag=C_pnoise_s90 after 45 s, spectre.out 25444 bytes

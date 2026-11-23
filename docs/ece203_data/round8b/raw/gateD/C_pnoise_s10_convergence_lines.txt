@@ -1,0 +1,13 @@
+223:Warning from spectre.
+224:    WARNING (SPECTRE-16707): Only tran supports psfxl format, result of other analyses will be in psfbin format.
+226:Reading file:  /tmp/lix015_r8b/pss_converged.pss
+228:Notice from spectre during periodic steady state analysis `pss'.
+236:Periodic Steady-State Analysis `pss': fund = 2 kHz
+239:Notice from spectre during periodic steady state analysis `pss'.
+248:    period = 500 us
+249:    maxperiods = 40
+250:    steadyratio = 1e-03
+271:Norm of periodicity discrepancy due to numerical error: 1.435360e-07.
+287:pss: The steady-state solution was achieved in 1 shooting-Newton iterations, followed by  finite-difference refinement.
+299:Periodic AC Analysis `pac': freq = (100 mHz -> 250 Hz)
+383:Periodic Noise Analysis `pnoise': freq = (100 mHz -> 250 Hz)

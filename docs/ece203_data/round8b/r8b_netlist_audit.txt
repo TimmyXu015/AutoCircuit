@@ -1,0 +1,90 @@
+=== Gate A: R8B OFF noise netlist vs R8 Stage A netlist
+PASS  removed = ['CHP', 'EOC']
+    REF CHP (ocx oac) capacitor c=1M
+    REF EOC (ocx vref ocm vref) vcvs gain=1
+PASS  added = []
+PASS  changed = []
+PASS  parameter differences {} (allowed {})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+PASS  node ocx unused in NEW ([])
+PASS  RHP kept: RHP (oac vref) resistor r=1T
+PASS  EB2 kept: EB2 (b2 b1 oac vref) vcvs gain=-kb*wob
+AUDIT PASS
+
+=== Gate B: R8B PSS a1 netlist vs R8 PSS a1 netlist (same settings; R8B states itres=1e-4 explicitly = Spectre default)
+PASS  removed = ['CHP', 'EOC']
+    REF CHP (ocx oac) capacitor c=1M
+    REF EOC (ocx vref ocm vref) vcvs gain=1
+PASS  added = []
+PASS  changed = []
+PASS  parameter differences {} (allowed {})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+PASS  node ocx unused in NEW ([])
+PASS  RHP kept: RHP (oac vref) resistor r=1T
+PASS  EB2 kept: EB2 (b2 b1 oac vref) vcvs gain=-kb*wob
+AUDIT PASS
+
+=== Gate C: R8B PAC netlist vs R8 PSS a1 netlist (pacd 0 -> 1 for the PAC drive)
+PASS  removed = ['CHP', 'EOC']
+    REF CHP (ocx oac) capacitor c=1M
+    REF EOC (ocx vref ocm vref) vcvs gain=1
+PASS  added = []
+PASS  changed = []
+PASS  parameter differences {'pacd': ('0.0', '1.0')} (allowed {'pacd': '1.0'})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+PASS  node ocx unused in NEW ([])
+PASS  RHP kept: RHP (oac vref) resistor r=1T
+PASS  EB2 kept: EB2 (b2 b1 oac vref) vcvs gain=-kb*wob
+AUDIT PASS
+
+=== Gate D: R8B PNoise S10 netlist vs R8 PSS a1 netlist (pacd 0 -> 1)
+PASS  removed = ['CHP', 'EOC']
+    REF CHP (ocx oac) capacitor c=1M
+    REF EOC (ocx vref ocm vref) vcvs gain=1
+PASS  added = []
+PASS  changed = []
+PASS  parameter differences {'pacd': ('0.0', '1.0')} (allowed {'pacd': '1.0'})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+PASS  node ocx unused in NEW ([])
+PASS  RHP kept: RHP (oac vref) resistor r=1T
+PASS  EB2 kept: EB2 (b2 b1 oac vref) vcvs gain=-kb*wob
+AUDIT PASS
+
+=== Gate D: R8B PNoise S30 netlist vs R8 PSS a1 netlist (pacd 0 -> 1)
+PASS  removed = ['CHP', 'EOC']
+    REF CHP (ocx oac) capacitor c=1M
+    REF EOC (ocx vref ocm vref) vcvs gain=1
+PASS  added = []
+PASS  changed = []
+PASS  parameter differences {'pacd': ('0.0', '1.0')} (allowed {'pacd': '1.0'})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+PASS  node ocx unused in NEW ([])
+PASS  RHP kept: RHP (oac vref) resistor r=1T
+PASS  EB2 kept: EB2 (b2 b1 oac vref) vcvs gain=-kb*wob
+AUDIT PASS
+
+=== Gate D: R8B PNoise S60 netlist vs R8 PSS a1 netlist (pacd 0 -> 1)
+PASS  removed = ['CHP', 'EOC']
+    REF CHP (ocx oac) capacitor c=1M
+    REF EOC (ocx vref ocm vref) vcvs gain=1
+PASS  added = []
+PASS  changed = []
+PASS  parameter differences {'pacd': ('0.0', '1.0')} (allowed {'pacd': '1.0'})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+PASS  node ocx unused in NEW ([])
+PASS  RHP kept: RHP (oac vref) resistor r=1T
+PASS  EB2 kept: EB2 (b2 b1 oac vref) vcvs gain=-kb*wob
+AUDIT PASS
+
+=== Gate D: R8B PNoise S90 netlist vs R8 PSS a1 netlist (pacd 0 -> 1)
+PASS  removed = ['CHP', 'EOC']
+    REF CHP (ocx oac) capacitor c=1M
+    REF EOC (ocx vref ocm vref) vcvs gain=1
+PASS  added = []
+PASS  changed = []
+PASS  parameter differences {'pacd': ('0.0', '1.0')} (allowed {'pacd': '1.0'})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+PASS  node ocx unused in NEW ([])
+PASS  RHP kept: RHP (oac vref) resistor r=1T
+PASS  EB2 kept: EB2 (b2 b1 oac vref) vcvs gain=-kb*wob
+AUDIT PASS

@@ -1,0 +1,25 @@
+quantity,OFF_static,ON_S60,ON_S90_final,unit
+|H(100 Hz)| (OFF static AC; ON PAC sb0),85.6664,83.2514,83.2514,V/V
+output RMS 0.1-250 Hz,0.00144493,0.000258992,0.000261502,V
+"input RMS, application type",1.6867e-05,3.11096e-06,3.14111e-06,V
+"input RMS, point-wise de-embedded",1.63247e-05,3.94099e-06,3.99383e-06,V
+input density 0.1 Hz,2.26584e-05,1.00312e-05,1.02347e-05,V/rtHz
+input density 1 Hz,6.0446e-06,9.77526e-07,9.98412e-07,V/rtHz
+input density 10 Hz,1.72228e-06,1.98178e-07,1.9926e-07,V/rtHz
+input density 100 Hz,5.29384e-07,1.53387e-07,1.53456e-07,V/rtHz
+input density 250 Hz,3.42994e-07,1.52508e-07,1.52566e-07,V/rtHz
+output density 0.1 Hz,0.00153458,0.000256533,0.000261737,V/rtHz
+output density 1 Hz,0.000560836,8.38244e-05,8.56153e-05,V/rtHz
+output density 10 Hz,0.000160224,1.79071e-05,1.80049e-05,V/rtHz
+output density 100 Hz,4.53504e-05,1.27697e-05,1.27754e-05,V/rtHz
+output density 250 Hz,2.18574e-05,9.44549e-06,9.44906e-06,V/rtHz
+|H(0.1 Hz)|,67.7267,25.5734,25.5734,V/V
+|H(1 Hz)|,92.7829,85.7515,85.7515,V/V
+|H(10 Hz)|,93.03,90.3589,90.3589,V/V
+|H(250 Hz)|,63.7253,61.9343,61.9343,V/V
+"OFF/ON input RMS ratio, application",,5.4218,5.36975,x
+"OFF/ON input RMS ratio, de-embedded",,4.14227,4.08747,x
+"OFF/ON input power ratio, application",,29.3959,28.8342,x
+"OFF/ON input power ratio, de-embedded",,17.1584,16.7074,x
+< 3 uVrms (application),False,False,False,
+< 3 uVrms (de-embedded),False,False,False,
