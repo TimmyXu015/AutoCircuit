@@ -16,7 +16,7 @@
 - **这不是完美证明。** 真实 MOS 栅电容是非线性的，并且与尾节点交叉耦合。本轮只说明：线性等效电容已经足以解释全部的差模劣化，看不到需要其他机制的迹象。
 - **本轮没有改进 R7A，也没有调整任何晶体管尺寸。**
 
-日期 2026-11-22 · 任务书 [ECE203_round7b_cmfb_gatecap_causality_task.md](ECE203_round7b_cmfb_gatecap_causality_task.md) · 事先登记的电容估计 [round7b/r7b_cap_plan.md](ece203_data/round7b/r7b_cap_plan.md)（commit `75e6685`，早于任何斩波瞬态） · 脚本 `ece203_r7b.il` · 数据 [ece203_data/round7b/](ece203_data/round7b/) · 图 `r7b_edges.png`、`r7b_ratios.png`
+日期 2026-11-22 · 任务书 [ECE203_round7b_cmfb_gatecap_causality_task.md](ECE203_round7b_cmfb_gatecap_causality_task.md) · 事先登记的电容估计 [round7b/r7b_cap_plan.md](ece203_data/round7b/r7b_cap_plan.md)（commit `75e6685`，早于任何斩波瞬态） · 脚本 `ece203_r7b.il` · 数据 [ece203_data/round7b/](ece203_data/round7b/) · 图 `r7b_edges.png`、`r7b_ratios.png` · 结果提交 `ca708d8`
 
 ## 0. 复现信息
 
