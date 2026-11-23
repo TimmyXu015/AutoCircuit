@@ -1,0 +1,22 @@
+== Stage A static gates c2 (A2 (120p/1p))
+  PASS  netlist audit vs G0 (only cc, cfb values differ): r8e_netlist_audit_c2.txt
+  PASS  netlisted cc 120 pF, cfb 1 pF
+  PASS  Zin(10 Hz) 281.2 MOhm >= 100
+  PASS  PM CMFB 87.01 / DRL 90.26 deg >= 60
+  PASS  CMRR60 111.33 dB >= 85 (out 111.33 dB)
+  PASS  P 2.3094 uW < 4
+  PASS  design capacitance 560.00 pF < 1000 (netlist)
+  PASS  bias: op/on CM -0.495 mV vs 0.9 V, min XA margin 0.0922 V (XA.M1) >= 0.05
+  hard gates: PASS
+  info: fL_OFF 0.0473 Hz (not gated), fH_OFF 234.0 Hz (225-275: in), H100_OFF 86.384 = 38.73 dB (38-42: in)
+== Stage A static gates c35 (B35 (210p/1.75p))
+  PASS  netlist audit vs G0 (only cc, cfb values differ): r8e_netlist_audit_c35.txt
+  PASS  netlisted cc 210 pF, cfb 1.75 pF
+  PASS  Zin(10 Hz) 161.6 MOhm >= 100
+  PASS  PM CMFB 88.31 / DRL 90.29 deg >= 60
+  PASS  CMRR60 111.73 dB >= 85 (out 111.73 dB)
+  PASS  P 2.3094 uW < 4
+  PASS  design capacitance 741.50 pF < 1000 (netlist)
+  PASS  bias: op/on CM -0.495 mV vs 0.9 V, min XA margin 0.0922 V (XA.M1) >= 0.05
+  hard gates: PASS
+  info: fL_OFF 0.0270 Hz (not gated), fH_OFF 232.2 Hz (225-275: in), H100_OFF 86.369 = 38.73 dB (38-42: in)

@@ -1,0 +1,2 @@
+case,label,source,fL_on,plateau_on,fH_on,H100_on,H100_on_dB,ph100_on,H_0.1,H_1,H_10,H_250,fL_on_pn,fL_on_f,fL_on_buf,Zin0_10,vd_ok,pss_converged,pss_reused_1it,Q,fL_on_model,pss_p_min,pss_p_max,pss_fp_min,pss_fp_max,pss_op_min,pss_op_max,pss_outp_min,pss_outp_max
+g0,"G0 (R8B, 60p/0.5p)",R8C A1 (0.01-250 Hz),0.338068,90.3418,235.434,83.2514,38.4078,-23.7957,25.5761,85.7525,90.359,61.9343,0.338454,0.338408,0.338364,,True,True,False,3.58638,0.338068,0.896737,0.902409,0.897146,0.903095,0.897323,0.907947,0.54014,0.54014

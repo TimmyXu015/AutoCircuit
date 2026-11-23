@@ -1,0 +1,40 @@
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ a022e02
+[run] virtuoso: /software/ECE/IC-618/tools/dfII/bin/virtuoso
+[run] working folder: /home/linux/ieng6/ECE203_FA26_001/lix015
+[run] running job 'ece203_r8e_static' (log: /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e_static.log) ...
+[run] finished in 42 s
+[run] status: OK
+------------------------------------------------------------
+*Error* eval: unbound variable - f
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/B_c35_dm_ac.csv (401 rows)
+AC> op XA.M1  /XA/M1       id 1.244e-07 gm 2.857e-06 vgs 0.3933 vds 0.1922 vdsat 0.04995 region 3
+AC> op XA.M2  /XA/M2       id 1.244e-07 gm 2.857e-06 vgs 0.3933 vds 0.1922 vdsat 0.04995 region 3
+AC> op XA.MC1 /XA/MC1      id 1.244e-07 gm 3.018e-06 vgs 0.4016 vds 0.2011 vdsat 0.04624 region 3
+AC> op XA.MC2 /XA/MC2      id 1.244e-07 gm 3.018e-06 vgs 0.4016 vds 0.2011 vdsat 0.04624 region 3
+AC> op XA.M3  /XA/M3       id -1.244e-07 gm 1.874e-06 vgs -0.4793 vds -0.9005 vdsat -0.09144 region 2
+AC> op XA.M4  /XA/M4       id -1.244e-07 gm 1.874e-06 vgs -0.4793 vds -0.9005 vdsat -0.09144 region 2
+AC> op XA.MT  /XA/MT       id 2.489e-07 gm 5.551e-06 vgs 0.3116 vds 0.5062 vdsat 0.05034 region 3
+AC> op XA.MREF /XA/MREF     id 5.345e-08 gm 1.202e-06 vgs 0.3116 vds 0.3116 vdsat 0.0504 region 3
+AC> op XCD.MSP /XCD/MSP     id 1.123e-07 gm 2.956e-06 vgs 0.3594 vds 1.26 vdsat 0.04399 region 3
+AC> op XCD.MSN /XCD/MSN     id 1.123e-07 gm 2.956e-06 vgs 0.3594 vds 1.26 vdsat 0.04399 region 3
+AC> op XCD.MKP /XCD/MKP     id 1.123e-07 gm 2.523e-06 vgs 0.3116 vds 0.5401 vdsat 0.05005 region 3
+AC> op XCD.MKN /XCD/MKN     id 1.123e-07 gm 2.523e-06 vgs 0.3116 vds 0.5401 vdsat 0.05005 region 3
+AC> op XC.MA1 /XC/MA1      id 8.849e-08 gm 7.029e-07 vgs 0.6066 vds 1.507 vdsat 0.2215 region 2
+AC> op XC.MA2 /XC/MA2      id 8.832e-08 gm 7.006e-07 vgs 0.6071 vds 1.028 vdsat 0.2219 region 2
+AC> op XC.MB1 /XC/MB1      id 8.849e-08 gm 7.029e-07 vgs 0.6066 vds 1.507 vdsat 0.2215 region 2
+AC> op XC.MB2 /XC/MB2      id 8.832e-08 gm 7.006e-07 vgs 0.6071 vds 1.028 vdsat 0.2219 region 2
+AC> op XC.MTA /XC/MTA      id 1.768e-07 gm 3.901e-06 vgs 0.3116 vds 0.2929 vdsat 0.05147 region 3
+AC> op XC.MTB /XC/MTB      id 1.768e-07 gm 3.901e-06 vgs 0.3116 vds 0.2929 vdsat 0.05147 region 3
+AC> op XC.MD  /XC/MD       id -1.766e-07 gm 2.689e-06 vgs -0.4793 vds -0.4793 vdsat -0.09085 region 2
+AC> op XPRN.MP /XPRN/MP     id -2.666e-19 gm 7.179e-18 vgs -8.348e-07 vds -8.348e-07 vdsat -0.03526 region 0
+AC> op XPRP.MP /XPRP/MP     id -2.666e-19 gm 7.179e-18 vgs -8.348e-07 vds -8.348e-07 vdsat -0.03526 region 0
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/B_c35_stb_cmfb.csv (221 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/B_c35_stb_drl.csv (221 rows)
+AC> r7cB B_c35: ok  | op/on cm 0.8995052 fp/fn cm 0.8995052 p/n cm 0.899506 vg 1.320747 | V_PR(A-B) N 8.348495e-07 P 8.348495e-07 id -2.665697e-19 -2.665697e-19 region 0 | P 2.309381 uW
+AC> r7cB B_c35: fL 0.02701594 Hz fH 2169.878 | Hpre 0.1/10/60/100 108.042 111.5762 111.497 111.4208 ph100 -2.652419 | Hbuf100 92.92963 | CMRR60 111.7273 111.7273 | Zin10 1.615679e+08 | CMFB UGF 42215.88 PM 88.3106 | DRL UGF 2079.763 PM 90.29474 | minA 0.09215356 XA.M1 minC 0.1929223 XC.MTA
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/L_c35_dm_ac.csv (401 rows)
+AC> r7eL c35: ok  | DC buf 0.5401403 0.5401403 out 0.5401403 0.5401403 | Hout 1/10/60/100/250/500/1k 94.25616 93.90906 91.00775 86.36918 63.93643 38.95081 19.52133 ph100 -25.79842 | Hbuf100 92.92963 | HLP 100 0.929404 ph -21.65789, 250 0.7096933 ph -44.78859 | fH flat 232.0473 100ref 270.5626 LP 251.2342 | fL 0.02316691 | CMRR60 out 111.7274 | P 2.309381 uW
+------------------------------------------------------------
+------------------------------------------------------------
+[run] transistor line in netlist (/home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8e_tb_c35/spectre/schematic/netlist/input.scs):
