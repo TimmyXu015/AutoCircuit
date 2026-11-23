@@ -1,0 +1,13 @@
+PASS  PAC sweeptype=relative relharmnum=0 (sideband 0 = baseband input)
+PASS  VCKBB pacmag=0 (clock carries no PAC stimulus)
+PASS  VCKB pacmag=0 (clock carries no PAC stimulus)
+PASS  VCKAB pacmag=0 (clock carries no PAC stimulus)
+PASS  VCKA pacmag=0 (clock carries no PAC stimulus)
+PASS  VSP pacmag=pacd pacphase=0
+PASS  VSN pacmag=pacd pacphase=180
+PASS  pacd=1 -> ep-en = 2 V nominal
+PASS  measured |V(ep)-V(en)| sideband 0 = 2.000 V at all 69 points (transfer divides by the measured value)
+PASS  measured phase of V(ep)-V(en) = 0 deg
+PASS  outp and outn saved; transfer = (outp-outn)/(ep-en) (ece203_r8_noise.il r8Periodic)
+PASS  PAC run reads the converged PSS
+PASS  PSS re-check in the PAC run: "achieved in 1 shooting-Newton iterations"

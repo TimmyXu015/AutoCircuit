@@ -14,7 +14,7 @@ acRoot = or(getShellEnvVar("AC_ROOT") strcat(getShellEnvVar("HOME") "/AutoCircui
 acFiles = '("pdk_cmrf7sf.il" "lib_draw.il" "lib_sim.il" "lib_ade.il"
             "cs_amp.il" "cs_wsweep.il"
             "hw1_p1a.il" "rf_cap.il" "rf_ind.il" "gmid.il" "wsub.il" "hw1_setup.il" "sps.il" "spsg.il" "hw2_setup.il" "hw3_setup.il"
-            "ece203_lib.il" "ece203_hp.il" "ece203_ideal.il" "ece203_ota.il" "ece203_noise_scan.il" "ece203_load.il" "ece203_ss.il" "ece203_ss_lscan.il" "ece203_ss_pr.il" "ece203_ss_otacmp.il" "ece203_ss_chop.il" "ece203_ss_chop_noise.il" "ece203_r4.il" "ece203_r5.il" "ece203_r6a.il" "ece203_r6b.il" "ece203_r5n.il" "ece203_r5nl.il" "ece203_r5nn.il" "ece203_r5nf.il" "ece203_r6c.il" "ece203_r6d.il" "ece203_r6dr.il" "ece203_r7a.il" "ece203_r7b.il" "ece203_r7c.il" "ece203_r7d.il" "ece203_r7e.il" "ece203_r7f.il" "ece203_r8_noise.il" "ece203_r8b.il")
+            "ece203_lib.il" "ece203_hp.il" "ece203_ideal.il" "ece203_ota.il" "ece203_noise_scan.il" "ece203_load.il" "ece203_ss.il" "ece203_ss_lscan.il" "ece203_ss_pr.il" "ece203_ss_otacmp.il" "ece203_ss_chop.il" "ece203_ss_chop_noise.il" "ece203_r4.il" "ece203_r5.il" "ece203_r6a.il" "ece203_r6b.il" "ece203_r5n.il" "ece203_r5nl.il" "ece203_r5nn.il" "ece203_r5nf.il" "ece203_r6c.il" "ece203_r6d.il" "ece203_r6dr.il" "ece203_r7a.il" "ece203_r7b.il" "ece203_r7c.il" "ece203_r7d.il" "ece203_r7e.il" "ece203_r7f.il" "ece203_r8_noise.il" "ece203_r8b.il" "ece203_r8c.il")
 
 ;; steps per job for acGo, run in order; each step is a function of no arguments
 acJobs = list(nil
@@ -165,6 +165,12 @@ acJobs = list(nil
   'ece203_r8b_pss '(r8bPss)
   'ece203_r8b_pac '(r8bPac)
   'ece203_r8b_pn '(r8bPn)
+  'ece203_r8c_a1off '(r8cA1off)
+  'ece203_r8c_a1pac '(r8cA1pac)
+  'ece203_r8c_build '(r8cBuild)
+  'ece203_r8c_b0 '(r8cB0)
+  'ece203_r8c_bpss '(r8cBpss)
+  'ece203_r8c_bpac '(r8cBpac)
 )
 
 ;; ---------- reporting ----------

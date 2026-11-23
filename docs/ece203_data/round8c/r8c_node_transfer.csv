@@ -1,0 +1,7 @@
+case,node,OFF_0.01,ON_sb0_0.01,OFF_0.03,ON_sb0_0.03,OFF_0.1,ON_sb0_0.1,OFF_0.3,ON_sb0_0.3,OFF_1,ON_sb0_1,OFF_3,ON_sb0_3,OFF_10,ON_sb0_10,OFF_100,ON_sb0_100,fL_flat_OFF_Hz,fL_flat_ON_Hz
+MOS pseudo-R (R8B cell),outp-outn,,,,,,,,,,,,,,,,,none,none
+MOS pseudo-R (R8B cell),bufp-bufn,,,,,,,,,,,,,,,,,none,none
+MOS pseudo-R (R8B cell),fp-fn,,,,,,,,,,,,,,,,,none,none
+MOS pseudo-R (R8B cell),p-n,,,,,,,,,,,,,,,,,none,none
+MOS pseudo-R (R8B cell),ia-ibx,,,,,,,,,,,,,,,,,none,none
+MOS pseudo-R (R8B cell),op-on,,,,,,,,,,,,,,,,,none,none
