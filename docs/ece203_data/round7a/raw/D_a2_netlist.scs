@@ -1,0 +1,74 @@
+// Generated for: spectre
+// Generated on: Nov 22 21:41:20 2026
+// Design library name: Project
+// Design cell name: ece203_r7a_det_tb_a2
+// Design view name: schematic
+simulator lang=spectre
+global 0
+parameters vd=0.0 vcm=0.92 ib3=5e-08 vref=0.9 vdd=1.8 phires=0 p5vonly=0
+include "design.scs"
+include "wafer.scs"
+include "allModels.scs" section=tt
+
+// Library name: Project
+// Cell name: ece203_r7a_cmfb_a2
+// View name: schematic
+subckt ece203_r7a_cmfb_a2 GND IBIAS ON OP VCMFB VDD VREF
+    MTB (tb IBIAS GND GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MTA (ta IBIAS GND GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MB2 (VCMFB VREF tb GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+        as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MB1 (VDD ON tb GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+        as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MA2 (VCMFB VREF ta GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+        as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MA1 (VDD OP ta GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+        as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MD (VCMFB VCMFB VDD VDD) pfet l=4u w=2.932u nf=1 m=1 par=1 \
+        ad=1.58328e-12 as=1.58328e-12 pd=6.944u ps=6.944u nrd=0.5909091 \
+        nrs=0.5909091 gcon=1 rf=0 rsx=50 dtemp=0
+ends ece203_r7a_cmfb_a2
+// End of subcircuit definition.
+
+// Library name: Project
+// Cell name: ece203_r7a_det_tb_a2
+// View name: schematic
+VON (on 0) vsource dc=vcm-vd/2 mag=0 type=dc
+VOP (op 0) vsource dc=vcm+vd/2 mag=0 type=dc
+VLD (vld 0) vsource dc=vref mag=0 type=dc
+VREF (vref 0) vsource dc=vref mag=0 type=dc
+VDDC (vddc 0) vsource dc=vdd mag=0 type=dc
+VDD (vdd 0) vsource dc=vdd mag=0 type=dc
+IB (vdd ib) isource dc=ib3 mag=0 type=dc
+MREF (ib ib 0 0) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 as=1.08e-12 \
+        pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 rf=0 stis=2 \
+        rsx=50 dtemp=0 gns=0
+M4R (vld vg vdd vdd) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 as=1.08e-12 \
+        pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 rf=0 rsx=50 \
+        dtemp=0
+M3R (vld vg vdd vdd) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 as=1.08e-12 \
+        pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 rf=0 rsx=50 \
+        dtemp=0
+XC (0 ib on op vg vddc vref) ece203_r7a_cmfb_a2
+simulatorOptions options reltol=1e-5 vabstol=1e-6 iabstol=1e-17 temp=27 \
+    tnom=25 scalem=1.0 scale=1.0 gmin=1e-18 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 pivrel=1e-3 \
+    sensfile="../../schematic_D_a2_sw_vcm920/psf/sens.output" \
+    checklimitdest=psf 
+dc dc param=vd start=-0.2 stop=0.2 step=0.002 write="spectre.dc" \
+    oppoint=rawfile maxiters=150 maxsteps=10000 annotate=status 
+modelParameter info what=models where=rawfile
+element info what=inst where=rawfile
+outputParameter info what=output where=rawfile
+designParamVals info what=parameters where=rawfile
+primitives info what=primitives where=rawfile
+subckts info what=subckts where=rawfile
+saveOptions options save=allpub
