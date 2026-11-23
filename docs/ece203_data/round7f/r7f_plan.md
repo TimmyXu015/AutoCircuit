@@ -33,3 +33,20 @@ Gates (from the task):
 - Stage C (only after A and B pass): one 60 ms run of the final loaded candidate (R7E settings; second run only if needed for
   comparability, max 2). Gate: 38 <= 20 log10(Hout100) <= 42 dB; op/on CM within 1 mV; P < 4 uW; H3 not worse than -88.9 + 10 dBc;
   out residual RMS >= 1 kHz not above 2 x 112 uV (alarm line); no stall / clipping. Static fH/fL/PM/CMRR/Zin from Stage B.
+
+## Update 1 (after Stage A L0, before any L1 run) — L0 FAIL (loaded) and the one registered RC correction L1
+
+Measured L0 (scripts 16f68b5, data raw/stageA): unloaded fH_flat 236.30 Hz (PASS), **+10 pF 219.87 Hz (FAIL < 225)**; H_LP alone 250.3 /
+232.8 Hz; Hbuf100 78.185 (-0.71 % vs R7E 78.747, the 4.77 MOhm LP now loads the CD); everything else unchanged.
+
+Diagnosis (r7f_lp_model.py): the CD output resistance Ro adds to RLP. A model Hout = Hbuf_R7D(f) x [Ro -> buf (CLB 10p) -> R -> C (+Cl)]
+with one fitted Ro = 0.284 MOhm reproduces all four measured corners (L0 236.48/220.06 vs 236.30/219.87; R7E 247.54/165.48 vs
+247.56/165.47). With the nominal R*C held at 0.634 ms, the best loaded fH over every R/C ratio is 220.05 Hz (at C 150 pF): the loaded
+gate cannot be met by a ratio change alone, because the loaded time constant is (R + Ro)(C + Cl) = R C + R Cl + Ro (C + Cl).
+
+**L1 (registered correction, the only one allowed): RLP_P/N 4.0 MOhm, CLP_P/N 148 pF.** It keeps the effective time constant
+(R + Ro) C = 4.284 M x 148 p = 0.634 ms (= L0's nominal R C) and moves C up to reduce Cl/C; nominal R C = 0.592 ms (-6.7 %, stated
+openly). Model prediction: unloaded 250.5 Hz, +10 pF 234.6 Hz (Ro +-50 kOhm: 247.5-253.4 / 231.9-237.4 Hz); Hout100 static 73.24 /
+72.55 at cc 50 p. Area: CLP 2 x 148 = 296 pF (+30 pF vs L0, +256 pF vs R7E); designed total 419 pF (L1) -> 439 pF with G0 cc 60 p.
+New cells ece203_r7f_tb_lp_l1 / _l1_load10p; L0 cells and data kept. If L1 fails either load: Stage A FAIL, STOP.
+Stage B cells (not built yet) now use the L1 LP (4.0M / 148p).

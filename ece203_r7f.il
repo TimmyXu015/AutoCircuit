@@ -13,8 +13,12 @@ r7fTmp = "/tmp/lix015_r7f"
 r7fCases = list(nil
   'lp_l0            list(nil 'cell "ece203_r7f_tb_lp_l0"            'r "4.77M" 'c "133p" 'load nil 'extra nil)
   'lp_l0_load10p    list(nil 'cell "ece203_r7f_tb_lp_l0_load10p"    'r "4.77M" 'c "133p" 'load t   'extra nil)
-  'gain_g0_load10p  list(nil 'cell "ece203_r7f_tb_gain_g0_load10p"  'r "4.77M" 'c "133p" 'load t   'extra '(("cc" 60e-12)))
-  'gain_g0_unloaded list(nil 'cell "ece203_r7f_tb_gain_g0_unloaded" 'r "4.77M" 'c "133p" 'load nil 'extra '(("cc" 60e-12))))
+;; L1 = the one registered RC correction after the measured L0 loaded failure (docs/ece203_data/round7f/r7f_plan.md)
+  'lp_l1            list(nil 'cell "ece203_r7f_tb_lp_l1"            'r "4.0M"  'c "148p" 'load nil 'extra nil)
+  'lp_l1_load10p    list(nil 'cell "ece203_r7f_tb_lp_l1_load10p"    'r "4.0M"  'c "148p" 'load t   'extra nil)
+  ;; Stage B uses the Stage A LP that passed (L1, if it passes)
+  'gain_g0_load10p  list(nil 'cell "ece203_r7f_tb_gain_g0_load10p"  'r "4.0M"  'c "148p" 'load t   'extra '(("cc" 60e-12)))
+  'gain_g0_unloaded list(nil 'cell "ece203_r7f_tb_gain_g0_unloaded" 'r "4.0M"  'c "148p" 'load nil 'extra '(("cc" 60e-12))))
 procedure( r7fCase() or(getShellEnvVar("AC_R7F_CASE") "lp_l0") )
 procedure( r7fC(c) let( (p) p = get(r7fCases stringToSymbol(c)) unless( p error("unknown case %s" c)) p ) )
 
