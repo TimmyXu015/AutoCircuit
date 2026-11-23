@@ -187,8 +187,11 @@ procedure( r7cStageBnum() r7cStageB1(r7cCase() '(gmin "1e-18" iabstol "1e-18" re
 ;; ---------- Stage C: 60 ms 2 kHz TG tran, R6D-R setting C ----------
 r7cTCols = '(tag case status reason t_end stalled_at fp_cm_avg op_cm_avg pn_cm_avg vg_min vg_max I_VDD I_VDDD rows csv)
 procedure( r7cStageC()
-  let( (c p cell tag r ok sim psf vid fp fn op on vg dr bp bn pp nn iv id names waves file wlog port t1 t0 out)
-    c = r7cCase() p = r7cC(c) cell = p->cell tag = sprintf(nil "T_%s" c)
+  let( (iabs c p cell tag r ok sim psf vid fp fn op on vg dr bp bn pp nn iv id names waves file wlog port t1 t0 out)
+    c = r7cCase() p = r7cC(c) cell = p->cell
+    ;; AC_R7C_IABSTOL: the one numerical sanity check (default 1e-17 = R6D-R setting C)
+    iabs = or(getShellEnvVar("AC_R7C_IABSTOL") "1e-17")
+    tag = if( iabs == "1e-17" sprintf(nil "T_%s" c) sprintf(nil "T_%s_iabstol%s" c iabs))
     out = strcat(r7cTmp "/out") r7cMkdir(out)
     port = r7cOpen(sprintf(nil "%s.csv" tag) r7cTCols)
     r = list(nil 'tag tag 'case c 'status "ok")
@@ -199,7 +202,7 @@ procedure( r7cStageC()
       progn(
         ece203Setup(cell strcat("_" tag))
         resultsDir(sim)
-        r6bOpt('(gmin "1e-18" iabstol "1e-17" reltol "1e-5"))
+        r6bOpt(list('gmin "1e-18" 'iabstol iabs 'reltol "1e-5"))
         analysis('tran ?stop "60m" ?maxstep "0.5u" ?cmin "1e-17")
         car(errset(saveOption('save "selected") nil))
         car(errset(save('v "/ep" "/en" "/fp" "/fn" "/op" "/on" "/vg" "/drlr" "/bufp" "/bufn" "/p" "/n") nil))
