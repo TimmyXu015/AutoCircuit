@@ -23,6 +23,7 @@ def parts(t):
         if re.match(r'^(pss|pac|pnoise|noise|ac|dc|tran|stb) +(pss|pac|pnoise|noise|ac|dc|tran|stb)\b', l) or l.startswith('+'):
             ana.append(l); continue
         m = re.match(r'^(\w+) \(', l)
+        if m and m.group(1) in ('pss', 'pac', 'pnoise', 'noise', 'ac', 'dc', 'tran', 'stb'): ana.append(l); continue   # e.g. 'noise ( outp outn ) noise'
         if m: top[m.group(1)] = l
     return top, subs, par, ana
 args = sys.argv[1:]; new, ref = open(args[0]).read(), open(args[1]).read()

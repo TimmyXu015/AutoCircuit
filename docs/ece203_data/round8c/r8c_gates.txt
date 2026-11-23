@@ -1,3 +1,16 @@
 == Stage A fL_flat
   R8B archived OFF static AC               plateau 93.0714  fL 0.0943  H100 85.6664
   R8B archived ON PAC sb0                  plateau 90.3398  fL 0.3386  H100 83.2514
+  A1 OFF static AC (MOS)                   plateau 93.0714  fL 0.0943  H100 85.6664
+  A1 ON PAC sb0 maxsideband 1 (MOS)        plateau 90.3418  fL 0.3381  H100 83.2514
+  A1 ON PAC sb0 maxsideband 3 (MOS)        plateau 90.3418  fL 0.3381  H100 83.2514
+== Stage A gate
+  PASS  PSS explicitly converged ("steady-state solution was achieved") in both PAC runs
+  PASS  ON |H(100)| 83.2514 within 2 % of 83.25
+  PASS  ON fL_flat 0.3381 Hz within 0.34 +- 0.04
+  PASS  maxsideband 1 vs 3, sideband-0 |H| at 0.1/0.3/1/10/100 Hz: max diff 0 % (all 177 points: 0 %)
+  PASS  new PAC (m1) vs archived R8B PAC 0.1-250 Hz: max diff 0.0106 %
+  PASS  measured V(ep)-V(en) sideband 0 = 2 V at 0 deg at all points
+  PASS  A1 OFF |H(100)| 85.66635 = R8B 85.666
+  PASS  netlist audit (A1 OFF, A1 PAC m1, m3 vs R8B): r8c_netlist_audit_A.txt
+  Stage A: PASS

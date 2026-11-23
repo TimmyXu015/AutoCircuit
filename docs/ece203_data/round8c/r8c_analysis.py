@@ -41,7 +41,7 @@ gA = []
 def gate(lst, ok, msg): lst.append(bool(ok)); say('  %s  %s' % ('PASS' if ok else 'FAIL', msg))
 if ex(m1) and ex(m3) and ex(offA):
     say('== Stage A gate')
-    gate(gA, conv_ok(f'{A}/A1_pac_mos_m1_convergence_lines.txt') and conv_ok(f'{A}/A1_pac_mos_m3_convergence_lines.txt'), 'PSS explicitly converged in both PAC runs (readpss re-check)')
+    gate(gA, conv_ok(f'{A}/A1_pac_mos_m1_convergence_lines.txt') and conv_ok(f'{A}/A1_pac_mos_m3_convergence_lines.txt'), 'PSS explicitly converged ("steady-state solution was achieved") in both PAC runs')
     gate(gA, abs(G['h100_on_mos_m1'] / 83.25 - 1) <= 0.02, 'ON |H(100)| %.4f within 2 %% of 83.25' % G['h100_on_mos_m1'])
     gate(gA, G['fl_on_mos_m1'] and abs(G['fl_on_mos_m1'] - 0.34) <= 0.04, 'ON fL_flat %.4f Hz within 0.34 +- 0.04' % (G['fl_on_mos_m1'] or float('nan')))
     f1, a1, _ = curve(m1, 'H0_out'); f3, a3, _ = curve(m3, 'H0_out')
@@ -136,7 +136,8 @@ if ex(offA) and ex(m1):
         f, mm, _ = curve(m1, 'H0_' + key); a.loglog(f, mm, color=MOS_ON, lw=2, label='ON PAC sideband 0')
         if ex(m3): f3_, mm3, _ = curve(m3, 'H0_' + key); a.loglog(f3_, mm3, color='#333', lw=0.8, ls='--', label='ON, maxsideband 3')
         if key in ('in', 'o', 'pn'):
-            f, mp, _ = curve(m1, 'Hp1_' + key); a.loglog(f, mp, color=MOS_ON, lw=1, ls=':', label='ON sideband +1 (carrier band)')
+            f, mp, _ = curve(m1, 'Hp1_' + key); a.loglog(f, mp, color=MOS_ON, lw=1, ls=':', label='ON sideband +1')
+            f, mq, _ = curve(m1, 'Hm1_' + key); a.loglog(f, mq, color='#8c564b', lw=1, ls='-.', label='ON sideband -1')
         style(a, '|%s| / |ep-en|' % lab, 'V/V'); a.set_xlim(0.01, 300)
     ax.flat[0].legend(frameon=False, fontsize=8); ax.flat[3].legend(frameon=False, fontsize=8)
     fig.suptitle('R8C Stage A - MOS pseudo-R (R8B cell): node transfers, chopper OFF vs ON', fontsize=11); fig.tight_layout(); fig.savefig('r8c_stageA_nodes.png', dpi=120)

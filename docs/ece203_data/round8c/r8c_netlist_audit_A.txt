@@ -1,0 +1,35 @@
+=== A1 OFF (R8B cell) vs R8B gate A netlist
+PASS  removed = [] (expected [])
+PASS  added = [] (expected [])
+PASS  changed = []
+PASS  parameter differences {} (allowed {})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell'] (expected removed [], removed [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: ac ac start=1m stop=100k dec=50 annotate=status
+analysis REF: ac ac start=1m stop=100k dec=50 annotate=status | noise ( outp outn ) noise start=0.1 stop=250 dec=20 annotate=status
+AUDIT PASS
+
+=== A1 PAC m1 (R8B cell) vs R8B gate C PAC netlist
+PASS  removed = [] (expected [])
+PASS  added = [] (expected [])
+PASS  changed = []
+PASS  parameter differences {} (allowed {})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell'] (expected removed [], removed [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.01 stop=250 | + dec=40 maxsideband=1 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.1 stop=250 | + dec=20 maxsideband=1 annotate=status
+AUDIT PASS
+
+=== A1 PAC m3 (R8B cell) vs R8B gate C PAC netlist
+PASS  removed = [] (expected [])
+PASS  added = [] (expected [])
+PASS  changed = []
+PASS  parameter differences {} (allowed {})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell'] (expected removed [], removed [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.01 stop=250 | + dec=40 maxsideband=3 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.1 stop=250 | + dec=20 maxsideband=1 annotate=status
+AUDIT PASS

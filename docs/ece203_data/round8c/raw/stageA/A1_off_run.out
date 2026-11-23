@@ -1,0 +1,23 @@
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 16c1e8d
+[run] virtuoso: /software/ECE/IC-618/tools/dfII/bin/virtuoso
+[run] working folder: /home/linux/ieng6/ECE203_FA26_001/lix015
+[run] running job 'ece203_r8c_a1off' (log: /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8c_a1off.log) ...
+[run] finished in 18 s
+[run] status: OK
+------------------------------------------------------------
+*Error* eval: unbound variable - f
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8c/A1_off_mos_ac.csv (401 rows)
+AC> op XA.M1  /XA/M1       id 1.244e-07 gm 2.857e-06 vgs 0.3933 vds 0.1922 vdsat 0.04995 region 3
+AC> op XA.M2  /XA/M2       id 1.244e-07 gm 2.857e-06 vgs 0.3933 vds 0.1922 vdsat 0.04995 region 3
+AC> op XA.M3  /XA/M3       id -1.244e-07 gm 1.874e-06 vgs -0.4793 vds -0.9005 vdsat -0.09144 region 2
+AC> op XA.M4  /XA/M4       id -1.244e-07 gm 1.874e-06 vgs -0.4793 vds -0.9005 vdsat -0.09144 region 2
+AC> op MP0    /MP0         id -1e-07 gm 1.841e-06 vgs -0.428 vds -0.428 vdsat -0.06699 region 2
+AC> op MP1    /MP1         id -5.345e-08 gm 9.708e-07 vgs -0.428 vds -1.488 vdsat -0.06754 region 2
+AC> op MP2    /MP2         id -5.345e-08 gm 9.708e-07 vgs -0.428 vds -1.488 vdsat -0.06754 region 2
+AC> op XPRP.MP /XPRP/MP     id -2.666e-19 gm 7.179e-18 vgs -8.348e-07 vds -8.348e-07 vdsat -0.03526 region 0
+AC> op XPRN.MP /XPRN/MP     id -2.666e-19 gm 7.179e-18 vgs -8.348e-07 vds -8.348e-07 vdsat -0.03526 region 0
+AC> r8c OFF A1_off_mos (ece203_r8b_tb_noeoc_chp): ok  | H_out 0.1/1/10/100 67.72667 92.78288 93.03005 85.66635 | DC p 0.899506 n 0.899506 fp 0.8995052 fn 0.8995052 op 0.8995052 on 0.8995052 outp 0.5401403 outn 0.5401403 | I 9.805934e-07 3.023958e-07
+------------------------------------------------------------
+------------------------------------------------------------
+[run] transistor line in netlist (/home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8b_tb_noeoc_chp/spectre/schematic/netlist/input.scs):
