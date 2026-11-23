@@ -13,7 +13,9 @@
 
 r8cDir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_r8c")
 r8cTmp = "/tmp/lix015_r8c"
-r8cExtraOps = nil           ;; extra op-info instances for r8cOff (R8D rebinds; default nil = R8C behaviour)
+r8cExtraOps = nil
+r8cCurSave = 'auto   ;; currents saved by r8cPeriodic: auto = R8C behaviour (pseudo-R terminals); or a list of names (R8E: ("/VSP/PLUS"))
+r8cPacStop = "250"          ;; PAC stop frequency of r8cPeriodic (R8E: "1000"); default = R8C           ;; extra op-info instances for r8cOff (R8D rebinds; default nil = R8C behaviour)
 r8cWd = "r8c_watchdog.sh"     ;; watchdog script name (R8D rebinds r8cDir / r8cTmp / r8cWd; default unchanged)
 r8cMosPss = "/tmp/lix015_r8b/pss_converged.pss"
 r8cMosPssSha = "7d6ab501b25f818a508fd56c8b3678a1e37f99e4b56c589d9f423b98c131aad2"   ;; docs/ece203_data/round8b/raw/gateB/pss_converged.pss.sha256
@@ -129,13 +131,13 @@ procedure( r8cPeriodic(cell tag kind cfg pssfile msb isPr)
         r6bOpt(r8Opts)
         car(errset(saveOption('save "selected") nil))
         car(errset(apply('save cons('v mapcar(lambda((n) strcat("/" n)) r8cNodes))) nil))
-        car(errset(if( isPr save('i "/XPRP/A" "/XPRN/A") save('i "/RPRP/PLUS" "/RPRN/PLUS")) nil))
+        car(errset(if( r8cCurSave == 'auto if( isPr save('i "/XPRP/A" "/XPRN/A") save('i "/RPRP/PLUS" "/RPRN/PLUS")) when( r8cCurSave apply('save cons('i r8cCurSave)))) nil))
         if( kind == 'pss
           then analysis('pss ?fund "2k" ?harms "40" ?maxacfreq "200k" ?errpreset cfg->errpreset ?tstab cfg->tstab
                         ?maxperiods cfg->maxperiods ?cmin cfg->cmin ?itres cfg->itres ?writepss pssfile)
           else analysis('pss ?fund "2k" ?harms "40" ?maxacfreq "200k" ?errpreset cfg->errpreset ?tstab cfg->tstab
                         ?maxperiods cfg->maxperiods ?cmin cfg->cmin ?itres cfg->itres ?readpss pssfile)
-               analysis('pac ?sweeptype "relative" ?relharmnum "0" ?start "0.01" ?stop "250" ?dec "40" ?maxsideband msb))
+               analysis('pac ?sweeptype "relative" ?relharmnum "0" ?start "0.01" ?stop r8cPacStop ?dec "40" ?maxsideband msb))
         r6bSet(r6Vars r8Vars(1.0 if( kind == 'pss '(("adm" 0.0) ("pacd" 0.0)) '(("adm" 0.0) ("pacd" 1.0)))))
         sh(sprintf(nil "nohup bash %s/tools/%s %s %s 900 5400 %s > /dev/null 2>&1 &" acRoot r8cWd tag psf wlog))
         run()
@@ -148,7 +150,7 @@ procedure( r8cPeriodic(cell tag kind cfg pssfile msb isPr)
         openResults(psf) selectResult('pss_td)
         names = "t_s" w = nil
         foreach(n r8cNodes when( setq(h car(errset(v(strcat("/" n)) nil))) w = append(w list(h)) names = strcat(names "," n "_V")))
-        foreach(t2 if( isPr '("/XPRP/A" "/XPRN/A") '("/RPRP/PLUS" "/RPRN/PLUS"))
+        foreach(t2 if( r8cCurSave == 'auto if( isPr '("/XPRP/A" "/XPRN/A") '("/RPRP/PLUS" "/RPRN/PLUS")) r8cCurSave)
           when( setq(h car(errset(i(t2) nil))) w = append(w list(h)) names = strcat(names "," "I" t2 "_A")))
         when( w spsWriteWaves(sprintf(nil "%s/%s_pss_td.csv" r8cDir tag) names w))
         when( kind == 'pac
@@ -166,6 +168,10 @@ procedure( r8cPeriodic(cell tag kind cfg pssfile msb isPr)
             named = append(named list(list(strcat("Hp1_" car(pr)) hp) list(strcat("Hm1_" car(pr)) hm)))
             putprop(r ldMag(hp 1.0) stringToSymbol(sprintf(nil "Hp1_%s_1" car(pr))))
             putprop(r ldMag(hm 1.0) stringToSymbol(sprintf(nil "Hm1_%s_1" car(pr)))))
+          ;; (R8E) sideband-0 input impedance when the VSP current is saved: (ep-en)_0 / I(VSP)_0, same definition as the static Zin
+          when( and(listp(r8cCurSave) member("/VSP/PLUS" r8cCurSave))
+            h = car(errset(vd / harmonic(i("/VSP/PLUS" ?result "pac") 0) nil))
+            when( h named = append(named list(list("Zin0" h))) r->Zin0_10 = ldMag(h 10.0) r->Zin0_1 = ldMag(h 1.0) r->Zin0_100 = ldMag(h 100.0)))
           r->vd_pac_100 = ldMag(vd 100.0)
           r->H0_out_100_ph = ldPh(cadr(assoc("H0_out" named)) 100.0)
           r8cCurves(sprintf(nil "%s/%s_pac.csv" r8cDir tag) named))

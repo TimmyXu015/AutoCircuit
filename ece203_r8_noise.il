@@ -12,7 +12,8 @@
 r8Dir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_r8")
 r8Tmp = "/tmp/lix015_r8"
 r8Cell = "ece203_r7f_tb_gain_g0_load10p"
-r8Wd = "r8_watchdog.sh"     ;; watchdog script name (R8B rebinds r8Cell / r8Dir / r8Tmp / r8Wd)
+r8Wd = "r8_watchdog.sh"
+r8SaveI = nil              ;; (R8E) extra terminal currents saved in r8Periodic; nil = R8/R8B behaviour     ;; watchdog script name (R8B rebinds r8Cell / r8Dir / r8Tmp / r8Wd)
 r8Opts = '(gmin "1e-18" iabstol "1e-17" reltol "1e-5")          ;; R7F system options (setting C)
 r8Bands = '(0.1 1.0 10.0 100.0 250.0)
 ;; PSS attempts: a1 = pre-registered; a2 = the one numerically motivated retry, registered in r8_plan.md before it runs
@@ -26,7 +27,9 @@ procedure( r8Step(def) or(getShellEnvVar("AC_R8_STEP") def) )
 procedure( r8Mk(d) unless( isDir(d) sh(sprintf(nil "mkdir -p %s" d))) )
 procedure( r8Num(x) cond( (stringp(x) x) (numberp(x) sprintf(nil "%.7g" float(x))) (t "n/a")) )
 ;; R7F G0 loaded variables (R7D/R7E set + cc 60p) with the noise-run overrides: no 100 Hz stimulus, no Cc mismatch
-procedure( r8Vars(chen over) append(append(r7eVars() '(("cc" 60e-12))) append(list(list("chen" chen) list("tch" 500e-6) list("vd" 0.0) list("dcc" 0.0) list("vcmin" 0.0)) over)) )
+;; r8VarsExtra: design-variable overrides appended last (R8E: cc / cfb); default nil = R8/R8B behaviour
+r8VarsExtra = nil
+procedure( r8Vars(chen over) append(append(append(r7eVars() '(("cc" 60e-12))) append(list(list("chen" chen) list("tch" 500e-6) list("vd" 0.0) list("dcc" 0.0) list("vcmin" 0.0)) over)) r8VarsExtra) )
 procedure( r8Say(file fmt @rest args) let( (p) p = outfile(file "a") apply('fprintf cons(p cons(fmt args))) close(p) ) )
 procedure( r8KeepNetlist(tag) sh(sprintf(nil "cp %s/simulation/%s/spectre/schematic/netlist/input.scs %s/%s_netlist.scs" getShellEnvVar("HOME") r8Cell r8Dir tag)) )
 ;; one noiseSummary dump (raw text, parsed/grouped later by r8_noise_groups.py)
@@ -160,6 +163,7 @@ procedure( r8Periodic(kind step)
         r6bOpt(r8Opts)
         car(errset(saveOption('save "selected") nil))
         car(errset(save('v "/ep" "/en" "/fp" "/fn" "/op" "/on" "/vg" "/bufp" "/bufn" "/outp" "/outn" "/p" "/n" "/pref" "/ib" "/cka" "/ckb" "/ckab" "/ckbb") nil))
+        when( r8SaveI car(errset(apply('save cons('i r8SaveI)) nil)))   ;; (R8E) extra current saves, default nil
         if( kind == 'pss
           then analysis('pss ?fund "2k" ?harms "40" ?maxacfreq "200k" ?errpreset cfg->errpreset ?tstab cfg->tstab
                         ?maxperiods cfg->maxperiods ?cmin cfg->cmin ?itres cfg->itres ?writepss pssfile)
