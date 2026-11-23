@@ -1,0 +1,26 @@
+PASS  RLP_P: RLP_P (bufp outp) resistor r=31.8M
+PASS  CLP_P: CLP_P (outp 0) capacitor c=20p
+PASS  RLP_N: RLP_N (bufn outn) resistor r=31.8M
+PASS  CLP_N: CLP_N (outn 0) capacitor c=20p
+PASS  COUTP: COUTP (outp 0) capacitor c=10p
+PASS  COUTN: COUTN (outn 0) capacitor c=10p
+PASS  CLBP unchanged: CLBP (bufp 0) capacitor c=clb
+PASS  CLBN unchanged: CLBN (bufn 0) capacitor c=clb
+PASS  CFN unchanged: CFN (fp n) capacitor c=cfb
+PASS  CFP unchanged: CFP (fn p) capacitor c=cfb
+PASS  XPRN unchanged: XPRN (n fp) ece203_ss_pr_cell
+PASS  XPRP unchanged: XPRP (p fn) ece203_ss_pr_cell
+PASS  IREF unchanged: IREF (pref 0) isource dc=100n mag=0 type=dc
+PASS  VDD unchanged: VDD (vdd 0) vsource dc=vdd mag=0 type=dc
+PASS  VDDD unchanged: VDDD (vddd 0) vsource dc=vdd mag=0 type=dc
+PASS  only the LP (and load) parts touch outp/outn: ['CLP_N', 'CLP_P', 'COUTN', 'COUTP', 'RLP_N', 'RLP_P']
+--- top-level diff (sorted lines, R7D -> R7E), 6 lines
++CLP_N (outn 0) capacitor c=20p
++CLP_P (outp 0) capacitor c=20p
++COUTN (outn 0) capacitor c=10p
++COUTP (outp 0) capacitor c=10p
++RLP_N (bufn outn) resistor r=31.8M
++RLP_P (bufp outp) resistor r=31.8M
+PASS  diff = exactly ['CLP_N', 'CLP_P', 'COUTN', 'COUTP', 'RLP_N', 'RLP_P'] added, nothing removed
+PASS  all subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+AUDIT PASS
