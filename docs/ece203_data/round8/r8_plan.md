@@ -40,3 +40,19 @@ Not converged -> SIDEBAND NOT CONVERGED, values shown as a function of maxsideba
 Course spec: ON input noise (both metrics) < 3 uVrms, judged only if converged.
 
 Deterministic items (R7F transient: 141.7 uV residual, H3, drift) are never mixed into the noise RMS.
+
+## Update 1 (after Stage A and PSS a1, before a2)
+
+Stage A (script 9c7c43b): valid; OFF H(100) 85.67 V/V, output 1.445 mVrms, input 16.87 uV (app) / 16.32 uV (deemb, Python
+re-integration on the AC grid; the SKILL-written deemb column of A_off_noise.csv is mis-aligned and not used), 98.9 % XA
+input-pair + PMOS-load flicker; noiseSummary total = trapezoid within 0.00 %.
+Zero-input ON tran T0 (20 ms): symmetric, out DM ~5 nV, every node changes < 1e-9 V per period after ~10 ms (the circuit is
+periodic in practice).
+**PSS a1 FAILED**: 40 shooting iterations (45 s), Conv norm oscillating 4.35 ... 5e4 without a trend; the largest residuals are
+the branch currents of the ideal sources VREF and EOC (pA-nA) against abstol(I) = 10 aA; tstab used traponly (ringing notices
+on TG gates), iterations gear2only. Spectre saved the unconverged solution (moved to pss_a1_UNCONVERGED_saved.pss, never read).
+**a2 (the one retry, numerical only):** itres 1e-4 -> 1e-7 (tighter residual for the GMRES solve of the shooting Newton step;
+Spectre help: "Tightening the parameter can help with the Newton convergence, but does not affect the result accuracy"),
+maxperiods 40 -> 60. Reason: a near-singular shooting Jacobian (Floquet multipliers ~1 from the TOhm pseudo-R / 60 pF nodes,
+tau ~ seconds vs 500 us period) solved inexactly gives the oscillating Newton steps seen. Nothing else changes (same circuit,
+tolerances, tstab, cmin). If a2 does not report convergence: Stage B BLOCKED, STOP, no ON noise number.
