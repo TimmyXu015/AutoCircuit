@@ -36,7 +36,11 @@ r7aCands = list(nil
   ;; carry 166 nA (not 120): MD sits at VSG 0.4965 V. Width for VSG 0.47494 V at 165.7 nA from the device characterisation
   ;; (diode pfet W 2u/4u, 100-150 nA; dVSG/dlnW 0.0615 incl. the narrow-width effect): 2.085u * exp(0.02157/0.0615) = 2.95u
   'a1 list(nil 'kind "A" 'win 0.5e-6 'lin 40e-6 'wt 10e-6 'lt 8e-6 'wmd 2.95e-6 'lmd 4e-6
-           'note "A round 1: MD 2.085u -> 2.95u (DC zero only)"))
+           'note "A round 1: MD 2.085u -> 2.95u (DC zero only)")
+  ;; round 2 (last allowed for A; only MD): a1 gave vg 1.325455 V (+0.395 mV vs target, Vcm0 -1.51 mV, FAIL S3 by 0.5 mV).
+  ;; Measured dVSG/dlnW(MD) between a0 and a1 = 0.02197 V / ln(2.95/2.085) = 0.0633 V -> W = 2.95u * exp(-0.000395/0.0633)
+  'a2 list(nil 'kind "A" 'win 0.5e-6 'lin 40e-6 'wt 10e-6 'lt 8e-6 'wmd 2.932e-6 'lmd 4e-6
+           'note "A round 2: MD 2.95u -> 2.932u (DC zero only)"))
 procedure( r7aCand() or(getShellEnvVar("AC_R7A_CAND") "a0") )
 procedure( r7aCandP(v) let( (p) p = get(r7aCands stringToSymbol(v)) unless( p error("unknown candidate %s" v)) p ) )
 procedure( r7aCmfbCell(v) strcat("ece203_r7a_cmfb_" v) )
