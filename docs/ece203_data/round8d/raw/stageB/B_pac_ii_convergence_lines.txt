@@ -1,0 +1,71 @@
+229:Warning from spectre.
+230:    WARNING (SPECTRE-16707): Only tran supports psfxl format, result of other analyses will be in psfbin format.
+234:Notice from spectre during periodic steady state analysis `pss'.
+242:Periodic Steady-State Analysis `pss': fund = 2 kHz
+245:Notice from spectre during periodic steady state analysis `pss'.
+254:    period = 500 us
+255:    maxperiods = 40
+256:    steadyratio = 1e-03
+277:Norm of periodicity discrepancy due to numerical error: 1.139168e-08.
+283:Norm of periodicity discrepancy due to numerical error: 2.993822e-08.
+289:Norm of periodicity discrepancy due to numerical error: 1.415435e-08.
+295:Norm of periodicity discrepancy due to numerical error: 8.737932e-09.
+303:Norm of periodicity discrepancy due to numerical error: 6.601330e-09.
+309:Norm of periodicity discrepancy due to numerical error: 2.867027e-08.
+315:Norm of periodicity discrepancy due to numerical error: 1.722418e-08.
+321:Norm of periodicity discrepancy due to numerical error: 5.600828e-08.
+327:Norm of periodicity discrepancy due to numerical error: 2.602552e-09.
+335:Norm of periodicity discrepancy due to numerical error: 2.642482e-09.
+341:Norm of periodicity discrepancy due to numerical error: 2.043125e-09.
+347:Norm of periodicity discrepancy due to numerical error: 1.184208e-07.
+353:Norm of periodicity discrepancy due to numerical error: 1.137243e-08.
+361:Norm of periodicity discrepancy due to numerical error: 2.876269e-08.
+367:Norm of periodicity discrepancy due to numerical error: 1.580809e-08.
+373:Norm of periodicity discrepancy due to numerical error: 4.761745e-09.
+379:Norm of periodicity discrepancy due to numerical error: 1.276672e-08.
+387:Norm of periodicity discrepancy due to numerical error: 5.616349e-09.
+393:Norm of periodicity discrepancy due to numerical error: 3.298778e-07.
+399:Norm of periodicity discrepancy due to numerical error: 6.502893e-09.
+405:Norm of periodicity discrepancy due to numerical error: 1.002427e-08.
+411:Norm of periodicity discrepancy due to numerical error: 4.783192e-08.
+417:Norm of periodicity discrepancy due to numerical error: 4.545097e-09.
+423:Norm of periodicity discrepancy due to numerical error: 2.554077e-08.
+429:Norm of periodicity discrepancy due to numerical error: 4.292673e-09.
+435:Norm of periodicity discrepancy due to numerical error: 1.031514e-08.
+441:Norm of periodicity discrepancy due to numerical error: 1.188114e-08.
+447:Norm of periodicity discrepancy due to numerical error: 1.258619e-07.
+453:Norm of periodicity discrepancy due to numerical error: 2.874735e-08.
+459:Norm of periodicity discrepancy due to numerical error: 7.758806e-09.
+465:Norm of periodicity discrepancy due to numerical error: 4.568842e-09.
+471:Norm of periodicity discrepancy due to numerical error: 1.780239e-08.
+477:Norm of periodicity discrepancy due to numerical error: 1.540859e-08.
+483:Norm of periodicity discrepancy due to numerical error: 2.565460e-08.
+489:Norm of periodicity discrepancy due to numerical error: 3.025788e-09.
+495:Norm of periodicity discrepancy due to numerical error: 2.227575e-07.
+501:Norm of periodicity discrepancy due to numerical error: 1.896354e-07.
+508:Warning from spectre during periodic steady state analysis `pss'.
+509:    WARNING (SPCRTRF-15110): The finite difference method PSS simulation failed to converge. To address this problem: i. Remove the PSS file or remove the 'readpss' statement (if there is one) in the PSS options, then restart.
+513:    pss: time = 5.263 ms    (2.58 %), step = 625 ns       (125 m%)
+514:    pss: time = 5.288 ms    (7.58 %), step = 625 ns       (125 m%)
+515:    pss: time = 5.313 ms    (12.6 %), step = 625 ns       (125 m%)
+516:    pss: time = 5.338 ms    (17.6 %), step = 625 ns       (125 m%)
+517:    pss: time = 5.363 ms    (22.6 %), step = 625 ns       (125 m%)
+518:    pss: time = 5.388 ms    (27.6 %), step = 625 ns       (125 m%)
+519:    pss: time = 5.413 ms    (32.6 %), step = 625 ns       (125 m%)
+520:    pss: time = 5.438 ms    (37.6 %), step = 625 ns       (125 m%)
+521:    pss: time = 5.463 ms    (42.6 %), step = 625 ns       (125 m%)
+522:    pss: time = 5.488 ms    (47.6 %), step = 625 ns       (125 m%)
+523:    pss: time = 5.513 ms    (52.6 %), step = 625 ns       (125 m%)
+524:    pss: time = 5.538 ms    (57.6 %), step = 625 ns       (125 m%)
+525:    pss: time = 5.563 ms    (62.6 %), step = 625 ns       (125 m%)
+526:    pss: time = 5.588 ms    (67.6 %), step = 625 ns       (125 m%)
+527:    pss: time = 5.613 ms    (72.6 %), step = 625 ns       (125 m%)
+528:    pss: time = 5.638 ms    (77.6 %), step = 625 ns       (125 m%)
+529:    pss: time = 5.663 ms    (82.6 %), step = 625 ns       (125 m%)
+530:    pss: time = 5.688 ms    (87.6 %), step = 625 ns       (125 m%)
+531:    pss: time = 5.713 ms    (92.6 %), step = 625 ns       (125 m%)
+532:    pss: time = 5.738 ms    (97.6 %), step = 625 ns       (125 m%)
+541:pss: The steady-state solution was achieved in 1 shooting-Newton iterations, followed by  finite-difference refinement.
+543:Total time required for pss analysis `pss': CPU = 6.30416 s, elapsed = 6.34024 s.
+553:Periodic AC Analysis `pac': freq = (10 mHz -> 250 Hz)
+743:Total time required for pac analysis `pac': CPU = 4.20683 s, elapsed = 4.2321 s.

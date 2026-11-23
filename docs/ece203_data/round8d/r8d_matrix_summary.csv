@@ -1,0 +1,5 @@
+case,label,OFF_gate,fL_off,plateau_off,H100_off,P_uW,I_MD,pss_converged,vd_ok,fL_on,plateau_on,H100_on,H0p1_on,Q,dG_model_pS,fL_on_pn,fL_on_f,fL_on_buf,pp_p,pp_n,pp_fp,pp_fn,pp_op,pp_ia,mean_p,mean_fp,dm_out_pp,dm_f_pp,altered,class
+mm,"MM (real XCI, real XCO)",,0.0942962,93.0714,85.6664,2.30938,-1.76641e-07,True,True,0.338068,90.3418,83.2514,25.5761,3.58517,0.82646,0.338454,0.338408,0.338364,0.00567181,0.00567181,0.00594927,0.00594928,0.0106238,0.00770683,0.899501,0.899651,1.8e-09,4.78e-08,,
+ii,"II (ideal XCI, ideal XCO)",PASS,0.0942935,93.073,85.6684,2.30938,-1.76641e-07,True,True,0.335618,90.5828,83.4724,25.8127,3.55929,0.818186,0.336004,0.335958,0.335914,0,0,0,0,0,0,0.899505,0.899505,0,0,"p pp x0.000, mean +0.004 mV; n pp x0.000, mean +0.004 mV; fp pp x0.000, mean -0.146 mV; fn pp x0.000, mean -0.146 mV",II keeps Q >= 2.7: MOS-TG-specific parasitics are NOT necessary -> STOP (periodic switching itself)
+im,"IM (ideal XCI, real XCO)",,,,,,,,,,,,,,,,,,,,,,,,,,,,,NOT RUN (Stage C gated by the II reading)
+mi,"MI (real XCI, ideal XCO)",,,,,,,,,,,,,,,,,,,,,,,,,,,,,NOT RUN (Stage C gated by the II reading)

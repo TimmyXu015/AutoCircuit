@@ -1,0 +1,14 @@
+== OFF gate ii
+  PASS  fL_flat OFF 0.0943 Hz within 0.0943 +- 15 %
+  PASS  |Hout(100)| OFF 85.6684 within 85.67 +- 5 % (-0.002 %)
+  PASS  DC of 15 key nodes within 2 mV of MM (worst p -0.0008 mV)
+  PASS  power 2.3094 uW (-0.000 %), CMFB XC.MD current +0.000 % vs MM
+  PASS  no clipping/floating: op/on/fp/fn/buf/out/p/n DC in 0.1-1.7 V (min 0.5401, max 0.8995)
+  OFF ii: PASS
+== ON ii: PSS converged True, input 2 V check True; fL_ON 0.3356 Hz, fL_OFF 0.0943 Hz, Q = 3.559 (MM 3.585); H100 ON 83.4724
+  surrogate ALTERED operation / attribution downgraded: p pp x0.000, mean +0.004 mV; n pp x0.000, mean +0.004 mV; fp pp x0.000, mean -0.146 mV; fn pp x0.000, mean -0.146 mV
+    p   pp MM 5.672 mV  ii 0 mV (x0.000)  mean +0.004 mV
+    fp  pp MM 5.949 mV  ii 0 mV (x0.000)  mean -0.146 mV
+    op  pp MM 10.62 mV  ii 0 mV (x0.000)  mean -0.751 mV
+    ia  pp MM 7.707 mV  ii 0 mV (x0.000)  mean -0.630 mV
+== II pre-registered reading: II keeps Q >= 2.7: MOS-TG-specific parasitics are NOT necessary -> STOP (periodic switching itself)

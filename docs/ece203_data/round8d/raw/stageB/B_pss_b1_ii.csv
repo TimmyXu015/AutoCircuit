@@ -1,0 +1,9 @@
+key,value
+pss_converged,yes
+tag,B_pss_b1_ii
+cell,ece203_r8d_tb_ii
+kind,n/a
+pss,n/a
+status,ok
+pssfile,/tmp/lix015_r8d/pss_ii.pss
+msb,1

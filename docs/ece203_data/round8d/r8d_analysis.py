@@ -87,6 +87,8 @@ if all('Q' in S.get(k, {}) for k in ('mm', 'ii', 'im', 'mi')):
         inter = ((y['mm'] - y['im']) - (y['mi'] - y['ii'])) / 2
         say('== 2x2 (%s): MM %.4g IM %.4g MI %.4g II %.4g | effect of idealising XCI %.4g, XCO %.4g, interaction %.4g' % (resp, y['mm'], y['im'], y['mi'], y['ii'], e_xci, e_xco, inter))
         S['factorial_' + resp] = (e_xci, e_xco, inter)
+for k in ('im', 'mi'):
+    if 'fL_on' not in S.get(k, {}) and 'fL_off' not in S.get(k, {}): S[k]['class'] = 'NOT RUN (Stage C gated by the II reading)'
 cols = ['case', 'label', 'OFF_gate', 'fL_off', 'plateau_off', 'H100_off', 'P_uW', 'I_MD', 'pss_converged', 'vd_ok', 'fL_on', 'plateau_on', 'H100_on', 'H0p1_on', 'Q', 'dG_model_pS',
         'fL_on_pn', 'fL_on_f', 'fL_on_buf', 'pp_p', 'pp_n', 'pp_fp', 'pp_fn', 'pp_op', 'pp_ia', 'mean_p', 'mean_fp', 'dm_out_pp', 'dm_f_pp', 'altered', 'class']
 with open('r8d_matrix_summary.csv', 'w') as fh:
@@ -127,10 +129,23 @@ if any(ex(f'{B}/B_off_{k}_ac.csv') for k in ('ii', 'im', 'mi')):
     for key, lab in CASES:
         p = (MMON if key == 'mm' else f'{B}/B_pac_{key}') + '_pss_td.csv'
         if not ex(p): continue
-        td = read(p); t = [1e6 * q['t_s'] for q in td]
+        td = read(p); t = [1e6 * (q['t_s'] - td[0]['t_s']) for q in td]
         for a, n in zip(ax, ('p', 'fp', 'op')):
             a.plot(t, [1e3 * (q[n + '_V'] - 0.9) for q in td], color=COL[key], lw=1.5 if key == 'mm' else 1, label=key.upper())
     for a, n in zip(ax, ('p', 'fp', 'op')):
-        a.set_title('PSS V(%s) - 0.9 V, one 500 us period' % n, fontsize=10); a.set_xlabel('t (us)'); a.set_ylabel('mV'); a.legend(frameon=False, fontsize=8)
+        a.set_title('PSS V(%s) - 0.9 V, one 500 us period' % n, fontsize=10); a.set_xlabel('t from period start (us)'); a.set_ylabel('mV'); a.legend(frameon=False, fontsize=8)
         a.spines[['top', 'right']].set_visible(False); a.grid(True, color='#e6e6e6', lw=0.6)
     fig.tight_layout(); fig.savefig('r8d_pss_waveforms.png', dpi=120)
+# supplementary (added after the II run, descriptive only): PSS levels excluding the edge spikes - median and time-weighted mean
+import statistics
+if ex(f'{B}/B_pac_ii_pss_td.csv'):
+    a = read(MMON + '_pss_td.csv'); b = read(f'{B}/B_pac_ii_pss_td.csv')
+    def tavg(rows, n):
+        t = [r['t_s'] for r in rows]; x = [r[n + '_V'] for r in rows]
+        return sum((t[i + 1] - t[i]) * (x[i] + x[i + 1]) / 2 for i in range(len(t) - 1)) / (t[-1] - t[0])
+    with open('r8d_pss_levels.csv', 'w') as fh:
+        fh.write('node,MM_pp_V,II_pp_V,MM_median_V,II_median_V,median_diff_mV,MM_timeavg_V,II_timeavg_V,timeavg_diff_mV\n')
+        for n in ('p', 'n', 'ia', 'ibx', 'op', 'on', 'fp', 'fn', 'bufp', 'bufn', 'outp', 'outn'):
+            xa = [r[n + '_V'] for r in a]; xb = [r[n + '_V'] for r in b]
+            fh.write('%s,%.4g,%.4g,%.7f,%.7f,%.4f,%.7f,%.7f,%.4f\n' % (n, max(xa) - min(xa), max(xb) - min(xb), statistics.median(xa), statistics.median(xb),
+                     1e3 * (statistics.median(xb) - statistics.median(xa)), tavg(a, n), tavg(b, n), 1e3 * (tavg(b, n) - tavg(a, n))))
