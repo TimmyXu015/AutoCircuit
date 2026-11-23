@@ -13,6 +13,8 @@
 
 r8cDir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_r8c")
 r8cTmp = "/tmp/lix015_r8c"
+r8cExtraOps = nil           ;; extra op-info instances for r8cOff (R8D rebinds; default nil = R8C behaviour)
+r8cWd = "r8c_watchdog.sh"     ;; watchdog script name (R8D rebinds r8cDir / r8cTmp / r8cWd; default unchanged)
 r8cMosPss = "/tmp/lix015_r8b/pss_converged.pss"
 r8cMosPssSha = "7d6ab501b25f818a508fd56c8b3678a1e37f99e4b56c589d9f423b98c131aad2"   ;; docs/ece203_data/round8b/raw/gateB/pss_converged.pss.sha256
 ;; linear surrogate cases. l1 is filled in ONLY after an r8c_plan.md update registers its value (B0 correction rule).
@@ -96,7 +98,7 @@ procedure( r8cOff(cell tag isPr)
         r->I_VDD = ldIdc("/VDD/PLUS") r->I_VDDD = ldIdc("/VDDD/PLUS")
         r8cCurves(sprintf(nil "%s/%s_ac.csv" r8cDir tag) named)
         ece203OpDump(sprintf(nil "%s/%s_dcop.csv" r8cDir tag)
-                     append('("XA.M1" "XA.M2" "XA.M3" "XA.M4" "MP0" "MP1" "MP2") if( isPr '("XPRP.MP" "XPRN.MP") nil)))
+                     append(append('("XA.M1" "XA.M2" "XA.M3" "XA.M4" "MP0" "MP1" "MP2") if( isPr '("XPRP.MP" "XPRN.MP") nil)) r8cExtraOps))
         sh(sprintf(nil "cp %s/simulation/%s/spectre/schematic/netlist/input.scs %s/%s_netlist.scs" getShellEnvVar("HOME") cell r8cDir tag))
         t)
       t)
@@ -135,7 +137,7 @@ procedure( r8cPeriodic(cell tag kind cfg pssfile msb isPr)
                         ?maxperiods cfg->maxperiods ?cmin cfg->cmin ?itres cfg->itres ?readpss pssfile)
                analysis('pac ?sweeptype "relative" ?relharmnum "0" ?start "0.01" ?stop "250" ?dec "40" ?maxsideband msb))
         r6bSet(r6Vars r8Vars(1.0 if( kind == 'pss '(("adm" 0.0) ("pacd" 0.0)) '(("adm" 0.0) ("pacd" 1.0)))))
-        sh(sprintf(nil "nohup bash %s/tools/r8c_watchdog.sh %s %s 900 5400 %s > /dev/null 2>&1 &" acRoot tag psf wlog))
+        sh(sprintf(nil "nohup bash %s/tools/%s %s %s 900 5400 %s > /dev/null 2>&1 &" acRoot r8cWd tag psf wlog))
         run()
         sh(sprintf(nil "cp %s/simulation/%s/spectre/schematic/netlist/input.scs %s/%s_netlist.scs" getShellEnvVar("HOME") cell r8cDir tag))
         sh(sprintf(nil "grep -n -i 'converge\\|steady\\|conv norm\\|did not\\|error\\|warning\\|maxacfreq\\|time step\\|pss:\\|period\\|Total time' %s/spectre.out | head -400 > %s/%s_convergence_lines.txt" psf r8cDir tag))
