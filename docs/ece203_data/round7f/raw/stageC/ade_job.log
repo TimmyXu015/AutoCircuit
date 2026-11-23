@@ -1,0 +1,405 @@
+\# Program start time:     UTC 2026.11.23 10:42:36.898
+\# Local time: PST (UTC-08:00) 2026.11.23 02:42:36.898
+Program:		@(#)$CDS: virtuoso version 6.1.8-64b 10/01/2018 20:02 (ip-172-18-22-57) $
+Hierarchy:		/software/ECE/IC-618/tools.lnx86/dfII/
+Sub version:		sub-version  IC6.1.8-64b.83  (64-bit addresses)
+\# Command line:	/software/ECE/IC-618/tools/dfII/bin/64bit/virtuoso -replay /home/linux/ieng6/oce/7f/lix015/AutoCircuit/batch/ece203_r7f_ade.il -log /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7f_ade.log.cds
+\# Host name (type):	ieng6-ece-10.ucsd.edu (x86_64)
+\# Operating system:	Linux 3.10.0-1160.119.1.el7.x86_64 #1 SMP Tue Jun 4 14:43:51 UTC 2024
+\# Linux /etc/issue:	\S
+\# Linux /etc/issue:	Kernel \r on an \m
+\# X display name (WxH):	:99 (1600x1200)
+\# Available geometry:			TL(0:0) BR(1599:1199)
+\# X server:			The X.Org Foundation
+\# Depth of Visual (Root):	24 (24)
+\# Number of Planes Used:	24
+\# X version:		11.0 (vendor release 12004000)
+\# X resource pool:	base 0x400000, mask 0x1fffff (2097151), shift 0
+\# 			current id 0x0, current max 0x1ffffa (2097146)
+\# Max data seg size:	     unlimited
+\# Max process size:	     unlimited
+\# Initial sbrk value:	        507 MB
+\# Available memory:	     11,591 MB
+\# System memory:	     33,528 MB
+\# Maximum memory size:	     33,230 MB
+\# Max mem available:	     11,801 MB
+\# Initial memory used:	        210 MB
+\#        process size:	      1,437 MB
+\# Thread usage limits (effective/default):	maxthreads 4096/4096 maxload 8.00/8.00
+\# Qt version:		5.9.1
+\# Window Manager:	other
+\# User Name:		lix015
+Working Directory:	ieng6-ece-10.ucsd.edu:/home/linux/ieng6/ECE203_FA26_001/lix015
+\# Process Id:		17028
+
+COPYRIGHT (C) 1992-2018  CADENCE DESIGN SYSTEMS INC.  ALL RIGHTS RESERVED.
+          (C) 1992-2018  UNIX SYSTEMS Laboratories INC.,
+                         Reproduced with permission.
+
+This Cadence Design Systems program and online documentation are
+proprietary/confidential information and may be disclosed/used only
+as authorized in a license agreement controlling such use and disclosure.
+
+          RESTRICTED RIGHTS NOTICE (SHORT FORM)
+Use/reproduction/disclosure is subject to restriction
+set forth at FAR 1252.227-19 or its equivalent.
+\# Memory report: using         397 MB, process size 1,634 MB at UTC 2026.11.23 10:42:38.295
+Loading geView.cxt 
+Loading menuBuilder.cxt 
+Loading schView.cxt 
+Loading selectSv.cxt 
+Loading wireEdit.cxt 
+Loading pte2.cxt 
+Loading xlUI.cxt 
+Loading auCore.cxt 
+Loading vhdl.cxt 
+Loading seismic.cxt 
+Loading ci.cxt 
+Loading layers.cxt 
+Loading ams.cxt 
+Loading cli.cxt 
+Loading cle.cxt 
+Virtuoso Framework License (111) was checked out successfully. Total checkout time was 0.02s.
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+END OF USER CUSTOMIZATION
+*Error* eval: unbound variable - f
+<<< Stack Trace >>>
+leSetEnv("gravityOn" f)
+loadi(".cdsinit")
+funobj@0x236f4b88()
+errset(lambda(nil loadi(".cdsinit")))
+Calibre Skill Interface not loaded.
+> 
+Loading pe.cxt 
+Initializing IBM_PDK functions
+IBM_PDK skill procedures for Cadence 6.1 - Oct  4 10:55:39 2012
+Licensed Materials - Property of IBM - All Rights Reserved 
+Copyright: International Business Machines Corporation, 2026
+This Material may not be copied without the written consent of 
+Semiconductor Research and Development Center, IBM Corp., Essex Junction, VT 05452-4299.
+ Default set for Left & Right WindowCoordIBM
+System hardware set for Linux IBM_PDK procedures
+ 
+Loading IBM PDK cmrf7sf procedures... 
+IBM PDK cmrf7sf procedures loaded (/software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/cdslib/cmrf7sf/cmrf7sf610.att). 
+ 
+IBM PDK cmrf7sf Device Status Table loaded. 
+ 
+Setting calibre env variable table for cmrf7sf 
+Using menu definition file: /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/cdslib/cmrf7sf/ibmPdkMenu.def
+set cmrf7sf  calibre env variables based on ibmPdkMenuCalibre settings
+set cmrf7sf  calibre env variables based on ibmPdkMenuCalibreDrc settings
+set cmrf7sf  calibre env variables based on ibmPdkMenuCalibreLvs settings
+Loading layerProc.cxt 
+cmrf7sf IBM_PDK menus set
+Using menu definition file: /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/cdslib/cmrf7sf/ibmPdkMenu.def
+Added CIW menu.
+*WARNING* (DEBASE-102068): No user triggers registered for viewType schematicSymbol.
+*WARNING* (DEBASE-102068): No user triggers registered for viewType maskLayout.
+*WARNING* (DEBASE-102068): No user triggers registered for viewType maskLayoutXL.
+;; @gui  batch job: ECE203 R7F ADE state r7f_<case>_phaseA (case via AC_R7F_CASE)
+*WARNING* (DEBASE-102068): No user triggers registered for viewType maskLayoutGXL.
+;; No exit() here (GUI replay): run.sh stops Virtuoso after the done/failed marker.
+load(strcat(or(getShellEnvVar("AC_ROOT") strcat(getShellEnvVar("HOME") "/AutoCircuit")) "/ac.il"))
+"Registering cmrf7sf triggers. "PDK config loaded: cmrf7sf
+AutoCircuit loaded (45 files) from /home/linux/ieng6/oce/7f/lix015/AutoCircuit
+t
+> 
+acBatch('r7fAde)
+AC> license ADEXL_UseNextLicense = always
+AC> license VSEL_UseNextLicense = always
+*WARNING* envSetVal: Can't set the value of variable 'VSEXL_UseNextLicense',
+	in tool[.partition] 'license' - it has not been registered.
+AC> license ADEL_UseNextLicense = always
+AC> license ADE_UseNextLicense = always
+AC> license VIVA_UseNextLicense = always
+*WARNING* envSetVal: Can't set the value of variable 'VLS_UseNextLicense',
+	in tool[.partition] 'license' - it has not been registered.
+*WARNING* envSetVal: Can't set the value of variable 'VSE_UseNextLicense',
+	in tool[.partition] 'license' - it has not been registered.
+AC> license VLSXL_UseNextLicense = always
+Loading simui.cxt 
+Loading vdsil.cxt 
+Loading oasis.cxt 
+Loading dal.cxt 
+Loading awv.cxt 
+Loading socket.cxt 
+Loading analog.cxt 
+Loading par.cxt 
+Loading asimenv.cxt 
+Loading alvs.cxt 
+Loading caa.cxt 
+Loading amps.cxt 
+Loading adexlCore.cxt 
+Loading adexl.cxt 
+Loading lx.cxt 
+Loading lce.cxt 
+Loading le.cxt 
+Loading rte.cxt 
+Loading te.cxt 
+Loading schHDL.cxt 
+Loading viva.cxt 
+Loading spectrei.cxt 
+Loading cdf.cxt 
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+\# Memory report: using         549 MB, process size 1,868 MB at UTC 2026.11.23 10:42:43.147
+Loading devCheck.cxt 
+Loading relXpert.cxt 
+AC> ADE: sevStartSession -> sevSession1
+AC> ADE: session -> stdobj@0x290b2b78
+AC> ADE: model design.scs  -> ok
+AC> ADE: model wafer.scs  -> ok
+AC> ADE: model allModels.scs tt -> ok
+AC> ADE: model list now (("/acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/design.scs" "") ("/acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/wafer.scs" "") ("/acsnfs3/software/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/allModels.scs" "tt"))
+AC> ADE: asiSetKeepOptionVal(currents "all") -> "all"
+AC> ADE: analysis dc object -> stdobj@0x2ce6d8c0
+AC> ADE:   field names: (anaName saveOppoint hysteresis sweep dev deviceParam mod modelParam designVar param rangeType sweepChange start stop center span incrType stepTypeLin stepTypeLog step lin dec log useDiscrete values useFile valuesfile saveopinfinal readns write writefinal force readforce save nestlvl print check oppoint filename homotopy restart maxiters maxsteps emirformat emirfile annotate captab threshold detail sort additionalParams)
+Loading hspiceD.cxt 
+Loading spectreinl.cxt 
+Loading msgHandler.cxt 
+Loading UltraSim.cxt 
+Loading AMSOSS.cxt 
+Loading AMS.cxt 
+AC> ADE:   field saveOppoint = t  ok, reads back t
+AC> ADE:   enable -> (t), enabled now t
+AC> ADE: analysis ac object -> stdobj@0x2ce6e830
+AC> ADE:   field names: (anaName sweep freq dev deviceParam mod modelParam designVar param rangeType sweepChange start stop center span incrType stepTypeLin stepTypeLog step lin dec log useDiscrete values useFile valuesfile out2 out1 outType maxharm_nonlin flin_out contriblist fim_out rfdbm3 rfdbm2 rfdbm rfmag3 rfmag2 rfmag rf2_freq rf2_src rf1_freq rf1_src srcType perturbation special readns write writefinal prevoppoint force skipdc readforce save nestlvl oppoint restart annotate additionalParams)
+AC> ADE:   field sweep choices ("Frequency" "Design Variable" "Temperature" "Component Parameter" "Model Parameter" "None") -> "Frequency" ok, reads back "Frequency"
+AC> ADE:   field rangeType choices ("Start-Stop" "Center-Span") -> "Start-Stop" ok, reads back "Start-Stop"
+AC> ADE:   field incrType choices ("Linear" "Logarithmic" "Automatic") -> "Logarithmic" ok, reads back "Logarithmic"
+AC> ADE:   field stepTypeLog choices ("Points Per Decade" "Number of Steps") -> "Points Per Decade" ok, reads back "Points Per Decade"
+AC> ADE:   field start = "1m"  ok, reads back "1m"
+AC> ADE:   field stop = "100k"  ok, reads back "100k"
+AC> ADE:   field dec = "20"  ok, reads back "20"
+AC> ADE:   enable -> (t), enabled now t
+AC> ADE: analysis stb object -> stdobj@0x2ce6bf08
+AC> ADE:   field names: (anaName sweep freq dev deviceParam mod modelParam designVar param rangeType sweepChange start stop center span incrType stepTypeLin stepTypeLog step lin dec log useDiscrete values useFile valuesfile probe localgnd usingProbeMode stbProbeMode prevoppoint readns save nestlvl oppoint restart annotate additionalParams)
+AC> ADE:   field sweep choices ("Frequency" "Design Variable" "Temperature" "Component Parameter" "Model Parameter" "None") -> "Frequency" ok, reads back "Frequency"
+AC> ADE:   field rangeType choices ("Start-Stop" "Center-Span") -> "Start-Stop" ok, reads back "Start-Stop"
+AC> ADE:   field incrType choices ("Linear" "Logarithmic" "Automatic") -> "Logarithmic" ok, reads back "Logarithmic"
+AC> ADE:   field stepTypeLog choices ("Points Per Decade" "Number of Steps") -> "Points Per Decade" ok, reads back "Points Per Decade"
+AC> ADE:   field start = "1m"  ok, reads back "1m"
+AC> ADE:   field stop = "100M"  ok, reads back "100M"
+AC> ADE:   field dec = "20"  ok, reads back "20"
+AC> ADE:   field probe = "/IPRC"  ok, reads back "/IPRC"
+AC> ADE:   enable -> (t), enabled now t
+AC> ADE: output Hout_dB = db20((VF("/outp") - VF("/outn")) / (VF("/ep") - VF("/en"))) -> ((t sevOutputStruct@0x20d3be00))
+AC> ADE: output Hbuf_dB = db20((VF("/bufp") - VF("/bufn")) / (VF("/ep") - VF("/en"))) -> ((t sevOutputStruct@0x20d3be18))
+AC> ADE: output Hpre_dB = db20((VF("/fp") - VF("/fn")) / (VF("/ep") - VF("/en"))) -> ((t sevOutputStruct@0x20d3be30))
+AC> ADE: output op_cm = (VDC("/op") + VDC("/on")) / 2 -> ((t sevOutputStruct@0x20d3be48))
+AC> ADE: output cmfbLoopGain = getData("loopGain" ?result "stb") -> ((t sevOutputStruct@0x20d3be60))
+AC> ADE: design variables (("dcc" "0.01") ("adm" "1") ("cc" "6e-11") ("prl" "2e-06") ("prw" "4e-06") ("clb" "1e-11") ("cld" "1e-12") ("vclmin" "0") ("vclmax" "1.8") ("vb" "1.325") ("ccp" "5.3052e-12") ("rcp" "1000") ("a0" "1") ("fin" "100") ("vd" "0") ("pb" "0") ("pa" "1") ("ko" "0") ("kb" "0") ("cvg" "1e-18") ("rcf" "1") ("rub" "1e+15") ("rdr" "1e+06") ("vdd" "1.8") ("vref" "0.9") ("vcas" "1.1") ("ib3" "5e-08") ("ibd" "5e-08") ("cfb" "5e-13") ("rfb" "3.1831e+12") ("rs" "2000") ("re" "1e+06") ("ce" "5e-08") ("cbody" "2e-10") ("icm" "0") ("itr" "0") ("vcmin" "0") ("pacd" "0") ("rcm" "1e+10") ("ccm" "1e-12") ("wib" "1") ("wob" "0") ("wio" "0") ("woo" "1") ("aub" "0") ("aug" "0") ("izo" "0") ("izdc" "0") ("izst" "0") ("tzo" "1") ("rff1" "1e+15") ("rff2" "1") ("rffc" "1e+15") ("vos" "0") ("chen" "0") ("tch" "0.0005") ("p5vonly" "0") ("phires" "0")) -> ok
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+Loading adpServer.cxt 
+AC> ADE: save state r7f_gain_g0_load10p_phaseA in Project/ece203_r7f_tb_gain_g0_load10p -> (t)
+AC_BATCH_DONE
+(t)
+> 
+AC> auto-OK timer alive (tick 1)
+\# Replay complete, returning to interactive mode at UTC 2026.11.23 10:42:44.934
+\# Available memory:         11,316 MB at UTC 2026.11.23 10:42:47.499
+\# Memory report: Maximum memory size now 11,917 MB at UTC 2026.11.23 10:42:47.499
+\# Thread usage report: 9 active threads, active load 1.00 at UTC 2026.11.23 10:42:47.499
+\# Memory report: using         731 MB, process size 2,051 MB at UTC 2026.11.23 10:42:57.073
+INFO (DB-170018): (dbPanic) dumping stack
+libvirtuos_sh.so:voStackTrace+73()
+virtuoso:dbPanic+943()
+libvirtuos_sh.so:voDoAbortFuncs+76()
+libvirtuos_sh.so:voSigAbortInfo+255()
+libpthread.so.0:__restore_rt+0()
+libc.so.6:__poll+45()
+libglib-2.0.so.0:+9049735()
+libglib-2.0.so.0:g_main_context_iteration+44()
+libcdsQt5Core.so.5:_ZN20QEventDispatcherGlib13processEventsE6QFlagsIN10QEventLoop17ProcessEventsFlagEE+95()
+virtuoso:hiiFillCIWInPortCB+1507()
+libil_sh.so:iliBGetc+68()
+libil_sh.so:ilGetCharPort+111()
+libil_sh.so:_Z12ilFillBufferPcPmiPv+265()
+libil_sh.so:_Z7ilyylexP9ILYYSTYPEP9ILYYLTYPEPv+23906()
+libil_sh.so:_Z9ilyyparsePvP18iltLocalParserData+2549()
+libil_sh.so:ilParserReent+49()
+libil_sh.so:ilReadport+537()
+libil_sh.so:iliTopLevel+351()
+virtuoso:hiMainLoop+1112()
+virtuoso:_ZN3rde15startHiMainLoopEv+5868()
+virtuoso:Tcl_MainEx+1459()
+virtuoso:_ZN17TclCommandAdaptor8mainLoopEiPPcPKcRKSt6vectorI9ctuStringSaIS5_EEPFvvE+520()
+virtuoso:_Z11finaleEntryiPPcPKcbP16finaleAppHarness+4684()
+virtuoso:_Z12rdeStartMainiPPc+43()
+virtuoso:main+918()
+libc.so.6:__libc_start_main+245()
+virtuoso:_start+41()
+*WARNING* Process was terminated by USER with SIGTERM signal
+Local time (crash) Monday 23 November 2026, 02:42:57 AM
+Qt Warning: The X11 connection broke (error 1). Did the X11 server die?
+IO Error 11 (Resource temporarily unavailable) on Display ":99"
+Aborting due to fatal X IO error.
+*WARNING* Process was terminated with SIGABRT signal
+Local time (crash) Monday 23 November 2026, 02:42:57 AM

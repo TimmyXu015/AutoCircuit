@@ -1,0 +1,195 @@
+=== A L0 vs R7E lp_a0 (RLP/CLP values only)
+PASS  nothing removed: []
+PASS  added = [] (expected [])
+PASS  changed = ['CLP_N', 'CLP_P', 'RLP_N', 'RLP_P'] (expected ['CLP_N', 'CLP_P', 'RLP_N', 'RLP_P'])
+    NEW CLP_N (outn 0) capacitor c=133p
+    REF CLP_N (outn 0) capacitor c=20p
+    NEW CLP_P (outp 0) capacitor c=133p
+    REF CLP_P (outp 0) capacitor c=20p
+    NEW RLP_N (bufn outn) resistor r=4.77M
+    REF RLP_N (bufn outn) resistor r=31.8M
+    NEW RLP_P (bufp outp) resistor r=4.77M
+    REF RLP_P (bufp outp) resistor r=31.8M
+PASS  parameter differences = {} (expected [])
+PASS  all subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+--- capacitor budget of NEW
+    CBODY    body 0               200 pF  external: body model
+    CCMN     inn cm                 1 pF  design: DRL CM-sense coupling
+    CCMP     inp cm                 1 pF  design: DRL CM-sense coupling
+    CCN      inn n                 50 pF  design: input coupling Cc
+    CCP      inp p                 50 pF  design: input coupling Cc
+    CCX      inp p                0.5 pF  test: 1 % Cc mismatch aid (cc*dcc)
+    CEN      en1 inn            5e+04 pF  external: electrode
+    CEP      ep1 inp            5e+04 pF  external: electrode
+    CER      rl1 body           5e+04 pF  external: electrode
+    CFN      fp n                 0.5 pF  design: feedback Cfb
+    CFP      fn p                 0.5 pF  design: feedback Cfb
+    CHP      ocx oac            1e+18 pF  test: STB/AC aid
+    CLBN     bufn 0                10 pF  design (task: CD output load 10 pF)
+    CLBP     bufp 0                10 pF  design (task: CD output load 10 pF)
+    CLP_N    outn 0               133 pF  design: output LP C
+    CLP_P    outp 0               133 pF  design: output LP C
+    CVG      vg gac             1e-06 pF  test: probe aid (1 aF)
+    designed capacitance total (Cc + Cfb + CLB + CLP + DRL CM caps) = 389.00 pF  (< 1000 pF: True)
+PASS  every capacitor classified
+AUDIT PASS
+
+=== A L0+10p vs L0 (COUT only)
+PASS  nothing removed: []
+PASS  added = ['COUTN', 'COUTP'] (expected ['COUTN', 'COUTP'])
+PASS  changed = [] (expected [])
+    NEW COUTN (outn 0) capacitor c=10p
+    NEW COUTP (outp 0) capacitor c=10p
+PASS  parameter differences = {} (expected [])
+PASS  all subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+--- capacitor budget of NEW
+    CBODY    body 0               200 pF  external: body model
+    CCMN     inn cm                 1 pF  design: DRL CM-sense coupling
+    CCMP     inp cm                 1 pF  design: DRL CM-sense coupling
+    CCN      inn n                 50 pF  design: input coupling Cc
+    CCP      inp p                 50 pF  design: input coupling Cc
+    CCX      inp p                0.5 pF  test: 1 % Cc mismatch aid (cc*dcc)
+    CEN      en1 inn            5e+04 pF  external: electrode
+    CEP      ep1 inp            5e+04 pF  external: electrode
+    CER      rl1 body           5e+04 pF  external: electrode
+    CFN      fp n                 0.5 pF  design: feedback Cfb
+    CFP      fn p                 0.5 pF  design: feedback Cfb
+    CHP      ocx oac            1e+18 pF  test: STB/AC aid
+    CLBN     bufn 0                10 pF  design (task: CD output load 10 pF)
+    CLBP     bufp 0                10 pF  design (task: CD output load 10 pF)
+    CLP_N    outn 0               133 pF  design: output LP C
+    CLP_P    outp 0               133 pF  design: output LP C
+    COUTN    outn 0                10 pF  test: downstream stress load
+    COUTP    outp 0                10 pF  test: downstream stress load
+    CVG      vg gac             1e-06 pF  test: probe aid (1 aF)
+    designed capacitance total (Cc + Cfb + CLB + CLP + DRL CM caps) = 389.00 pF  (< 1000 pF: True)
+PASS  every capacitor classified
+AUDIT PASS
+
+=== A L1 vs R7E lp_a0 (RLP/CLP values only)
+PASS  nothing removed: []
+PASS  added = [] (expected [])
+PASS  changed = ['CLP_N', 'CLP_P', 'RLP_N', 'RLP_P'] (expected ['CLP_N', 'CLP_P', 'RLP_N', 'RLP_P'])
+    NEW CLP_N (outn 0) capacitor c=148p
+    REF CLP_N (outn 0) capacitor c=20p
+    NEW CLP_P (outp 0) capacitor c=148p
+    REF CLP_P (outp 0) capacitor c=20p
+    NEW RLP_N (bufn outn) resistor r=4.0M
+    REF RLP_N (bufn outn) resistor r=31.8M
+    NEW RLP_P (bufp outp) resistor r=4.0M
+    REF RLP_P (bufp outp) resistor r=31.8M
+PASS  parameter differences = {} (expected [])
+PASS  all subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+--- capacitor budget of NEW
+    CBODY    body 0               200 pF  external: body model
+    CCMN     inn cm                 1 pF  design: DRL CM-sense coupling
+    CCMP     inp cm                 1 pF  design: DRL CM-sense coupling
+    CCN      inn n                 50 pF  design: input coupling Cc
+    CCP      inp p                 50 pF  design: input coupling Cc
+    CCX      inp p                0.5 pF  test: 1 % Cc mismatch aid (cc*dcc)
+    CEN      en1 inn            5e+04 pF  external: electrode
+    CEP      ep1 inp            5e+04 pF  external: electrode
+    CER      rl1 body           5e+04 pF  external: electrode
+    CFN      fp n                 0.5 pF  design: feedback Cfb
+    CFP      fn p                 0.5 pF  design: feedback Cfb
+    CHP      ocx oac            1e+18 pF  test: STB/AC aid
+    CLBN     bufn 0                10 pF  design (task: CD output load 10 pF)
+    CLBP     bufp 0                10 pF  design (task: CD output load 10 pF)
+    CLP_N    outn 0               148 pF  design: output LP C
+    CLP_P    outp 0               148 pF  design: output LP C
+    CVG      vg gac             1e-06 pF  test: probe aid (1 aF)
+    designed capacitance total (Cc + Cfb + CLB + CLP + DRL CM caps) = 419.00 pF  (< 1000 pF: True)
+PASS  every capacitor classified
+AUDIT PASS
+
+=== A L1+10p vs L1 (COUT only)
+PASS  nothing removed: []
+PASS  added = ['COUTN', 'COUTP'] (expected ['COUTN', 'COUTP'])
+PASS  changed = [] (expected [])
+    NEW COUTN (outn 0) capacitor c=10p
+    NEW COUTP (outp 0) capacitor c=10p
+PASS  parameter differences = {} (expected [])
+PASS  all subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+--- capacitor budget of NEW
+    CBODY    body 0               200 pF  external: body model
+    CCMN     inn cm                 1 pF  design: DRL CM-sense coupling
+    CCMP     inp cm                 1 pF  design: DRL CM-sense coupling
+    CCN      inn n                 50 pF  design: input coupling Cc
+    CCP      inp p                 50 pF  design: input coupling Cc
+    CCX      inp p                0.5 pF  test: 1 % Cc mismatch aid (cc*dcc)
+    CEN      en1 inn            5e+04 pF  external: electrode
+    CEP      ep1 inp            5e+04 pF  external: electrode
+    CER      rl1 body           5e+04 pF  external: electrode
+    CFN      fp n                 0.5 pF  design: feedback Cfb
+    CFP      fn p                 0.5 pF  design: feedback Cfb
+    CHP      ocx oac            1e+18 pF  test: STB/AC aid
+    CLBN     bufn 0                10 pF  design (task: CD output load 10 pF)
+    CLBP     bufp 0                10 pF  design (task: CD output load 10 pF)
+    CLP_N    outn 0               148 pF  design: output LP C
+    CLP_P    outp 0               148 pF  design: output LP C
+    COUTN    outn 0                10 pF  test: downstream stress load
+    COUTP    outp 0                10 pF  test: downstream stress load
+    CVG      vg gac             1e-06 pF  test: probe aid (1 aF)
+    designed capacitance total (Cc + Cfb + CLB + CLP + DRL CM caps) = 419.00 pF  (< 1000 pF: True)
+PASS  every capacitor classified
+AUDIT PASS
+
+=== B G0 loaded vs L1+10p (cc only)
+PASS  nothing removed: []
+PASS  added = [] (expected [])
+PASS  changed = [] (expected [])
+PASS  parameter differences = {'cc': ('5e-11', '6e-11')} (expected ['cc'])
+PASS  parameter cc = 6e-11 in NEW (6e-11)
+PASS  all subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+--- capacitor budget of NEW
+    CBODY    body 0               200 pF  external: body model
+    CCMN     inn cm                 1 pF  design: DRL CM-sense coupling
+    CCMP     inp cm                 1 pF  design: DRL CM-sense coupling
+    CCN      inn n                 60 pF  design: input coupling Cc
+    CCP      inp p                 60 pF  design: input coupling Cc
+    CCX      inp p                0.6 pF  test: 1 % Cc mismatch aid (cc*dcc)
+    CEN      en1 inn            5e+04 pF  external: electrode
+    CEP      ep1 inp            5e+04 pF  external: electrode
+    CER      rl1 body           5e+04 pF  external: electrode
+    CFN      fp n                 0.5 pF  design: feedback Cfb
+    CFP      fn p                 0.5 pF  design: feedback Cfb
+    CHP      ocx oac            1e+18 pF  test: STB/AC aid
+    CLBN     bufn 0                10 pF  design (task: CD output load 10 pF)
+    CLBP     bufp 0                10 pF  design (task: CD output load 10 pF)
+    CLP_N    outn 0               148 pF  design: output LP C
+    CLP_P    outp 0               148 pF  design: output LP C
+    COUTN    outn 0                10 pF  test: downstream stress load
+    COUTP    outp 0                10 pF  test: downstream stress load
+    CVG      vg gac             1e-06 pF  test: probe aid (1 aF)
+    designed capacitance total (Cc + Cfb + CLB + CLP + DRL CM caps) = 439.00 pF  (< 1000 pF: True)
+PASS  every capacitor classified
+AUDIT PASS
+
+=== B G0 unloaded vs L1 (cc only)
+PASS  nothing removed: []
+PASS  added = [] (expected [])
+PASS  changed = [] (expected [])
+PASS  parameter differences = {'cc': ('5e-11', '6e-11')} (expected ['cc'])
+PASS  parameter cc = 6e-11 in NEW (6e-11)
+PASS  all subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+--- capacitor budget of NEW
+    CBODY    body 0               200 pF  external: body model
+    CCMN     inn cm                 1 pF  design: DRL CM-sense coupling
+    CCMP     inp cm                 1 pF  design: DRL CM-sense coupling
+    CCN      inn n                 60 pF  design: input coupling Cc
+    CCP      inp p                 60 pF  design: input coupling Cc
+    CCX      inp p                0.6 pF  test: 1 % Cc mismatch aid (cc*dcc)
+    CEN      en1 inn            5e+04 pF  external: electrode
+    CEP      ep1 inp            5e+04 pF  external: electrode
+    CER      rl1 body           5e+04 pF  external: electrode
+    CFN      fp n                 0.5 pF  design: feedback Cfb
+    CFP      fn p                 0.5 pF  design: feedback Cfb
+    CHP      ocx oac            1e+18 pF  test: STB/AC aid
+    CLBN     bufn 0                10 pF  design (task: CD output load 10 pF)
+    CLBP     bufp 0                10 pF  design (task: CD output load 10 pF)
+    CLP_N    outn 0               148 pF  design: output LP C
+    CLP_P    outp 0               148 pF  design: output LP C
+    CVG      vg gac             1e-06 pF  test: probe aid (1 aF)
+    designed capacitance total (Cc + Cfb + CLB + CLP + DRL CM caps) = 439.00 pF  (< 1000 pF: True)
+PASS  every capacitor classified
+AUDIT PASS

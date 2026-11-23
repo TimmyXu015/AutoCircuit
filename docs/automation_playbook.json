@@ -290,7 +290,9 @@
   "MOS input capacitance seen by a driving node: measure Im(Y_in)/(2 pi f) of the unchanged cell at its real bias (vsource with acm on that input only, Y = -i(Vsrc:PLUS)); BSIM cgg over-states it when the source moves (R7B: cgg 110 fF vs effective 67 fF for a diff-pair input, source-follow k 0.43). Op params cgg/cgs/cgd/cgb are readable with pv(\"/XC/MA1\" \"cgg\" ?result \"dcOpInfo\").",
   "ADE (ece203Setup(cell suffix)) netlists into ~/simulation/<cell>/spectre/schematic/netlist/input.scs for EVERY results suffix; only psf goes to schematic_<suffix>/psf. Copy the netlist right after run() from spectre/schematic/netlist (a find -path '*<suffix>*' -name input.scs finds nothing).",
   "MOS pseudo-R (pfet33x, gate+well on B) in a capacitive-feedback amp: asymmetric I-V rectifies the output swing into a net DC current (R7C: +-47 mV -> ~10.7 fA per side), a slow common-mode drift of the OTA-input nodes (-0.18 mV/s with ~59 pF/node, steady state tens of mV after minutes). A 60 ms tran shows it only as a slope of (p+n)/2; save p/n in the tran.",
-  "From cmd/MATLAB system() ssh commands, put remote grep -E patterns in single quotes (doubled inside the MATLAB string); an escaped \\\" lets cmd see the | inside the pattern ('done' is not recognized as a command)."
+  "From cmd/MATLAB system() ssh commands, put remote grep -E patterns in single quotes (doubled inside the MATLAB string); an escaped \\\" lets cmd see the | inside the pattern ('done' is not recognized as a command).",
+  "Reusing a stage function that reads its own case env var (r7eStageC reads AC_R7E_CASE) from a wrapper for another round: export that env var too (R7F's first Stage C launch silently simulated the R7E default case). Wrappers should refuse to start when the inner case does not match.",
+  "A source follower driving a low-impedance passive load has a Thevenin output resistance (R7F CD: Ro ~0.28 MOhm at ~112 nA) that adds to a following RC: a loaded RC corner is set by (R + Ro)(C + Cl), not R(C + Cl)."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",

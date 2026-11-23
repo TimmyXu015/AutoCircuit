@@ -1,0 +1,2 @@
+tag,case,status,reason,t_end,stalled_at,fp_cm_avg,op_cm_avg,pn_cm_avg,out_cm_avg,vg_min,vg_max,ib_min,ib_max,I_VDD,I_VDDD,rows,csv
+T_gain_g0_load10p,gain_g0_load10p,ok,n/a,0.06,n/a,0.899507,0.899507,0.899495,0.540187,1.31891,1.3216,0.311564,0.311638,-9.80608e-07,-3.02396e-07,169094,/tmp/lix015_r7f/out/T_gain_g0_load10p_tran.csv.gz

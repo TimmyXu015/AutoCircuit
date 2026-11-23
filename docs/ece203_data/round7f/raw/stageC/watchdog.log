@@ -1,0 +1,2 @@
+2026-11-23 02:43:02 watchdog start tag=T_gain_g0_load10p stall=240s
+2026-11-23 02:45:15 watchdog exit tag=T_gain_g0_load10p last='tran: time = 58.5 ms     '
