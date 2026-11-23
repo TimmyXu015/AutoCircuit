@@ -1,0 +1,8 @@
+2026-11-22 22:17:08 watchdog start tag=P_c1 stall=240s
+2026-11-22 22:17:20 watchdog exit tag=P_c1 last=''
+2026-11-22 22:17:30 watchdog start tag=T_c0 stall=240s
+2026-11-22 22:18:43 watchdog exit tag=T_c0 last='tran: time = 58.5 ms     '
+2026-11-22 22:18:59 watchdog start tag=T_c1 stall=240s
+2026-11-22 22:20:11 watchdog exit tag=T_c1 last='tran: time = 58.5 ms     '
+2026-11-22 22:20:24 watchdog start tag=T_c2 stall=240s
+2026-11-22 22:21:36 watchdog exit tag=T_c2 last='tran: time = 58.5 ms     '

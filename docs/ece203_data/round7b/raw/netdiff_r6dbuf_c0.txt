@@ -1,0 +1,20 @@
+4,5c4,5
+<     ccp=5.3052e-12 rcp=1000.0 a0=1.0 fin=100.0 vd=0.0 pb=0.0 pa=1.0 \
+<     tch=0.0005 chen=0.0 vos=0.0 rffc=1e+15 rff2=1.0 rff1=1e+15 tzo=1.0 \
+---
+>     ccp=5.3052e-12 rcp=1000.0 a0=1.0 fin=100.0 vd=0.001 pb=0.0 pa=1.0 \
+>     tch=0.0005 chen=1.0 vos=0.0 rffc=1e+15 rff2=1.0 rff1=1e+15 tzo=1.0 \
+8,11c8,11
+<     ccm=1e-12 rcm=1e+10 pacd=0.0 dcc=0.01 vcmin=0.0 adm=0.0 itr=0.0 \
+<     icm=0.0 cbody=2e-10 ce=5e-08 re=1000000.0 rs=2000.0 rfb=3.1831e+12 \
+<     cfb=5e-13 cc=5e-11 ibd=5e-08 ib3=5e-08 vcas=1.1 vref=0.9 vdd=1.8 \
+<     phires=0 p5vonly=0
+---
+>     ccm=1e-12 rcm=1e+10 pacd=0.0 dcc=0.0 vcmin=0.0 adm=0.0 itr=0.0 icm=0.0 \
+>     cbody=2e-10 ce=5e-08 re=1000000.0 rs=2000.0 rfb=3.1831e+12 cfb=5e-13 \
+>     cc=5e-11 ibd=5e-08 ib3=5e-08 vcas=1.1 vref=0.9 vdd=1.8 phires=0 \
+>     p5vonly=0
+201c201
+< stb stb start=1m stop=100M dec=20 probe=IPRD annotate=status 
+---
+> finalTimeOP info what=oppoint where=rawfile

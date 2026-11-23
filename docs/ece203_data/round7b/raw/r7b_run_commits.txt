@@ -1,0 +1,8 @@
+== ece203_r7b_build_c0_run.out [run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 75e6685
+== ece203_r7b_build_c1_run.out [run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 75e6685
+== ece203_r7b_build_c2_run.out [run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 75e6685
+== ece203_r7b_cap_run.out [run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ e4be71f
+== ece203_r7b_smoke_run.out [run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 75e6685
+== ece203_r7b_tran_c0_run.out [run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 75e6685
+== ece203_r7b_tran_c1_run.out [run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 75e6685
+== ece203_r7b_tran_c2_run.out [run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 75e6685

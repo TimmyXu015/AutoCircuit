@@ -1,0 +1,2 @@
+tag,case,stop,status,reason,t_end,stalled_at,fp_cm_avg,op_cm_avg,buf_cm_avg,vg_min,vg_max,I_VDD,I_VDDD,rows,csv
+T_c0,c0,0.06,ok,n/a,0.06,n/a,0.900058,0.90006,0.542746,1.32384,1.36297,-4.93369e-07,-2.83139e-07,168582,/tmp/lix015_r7b/out/T_c0_tran.csv.gz

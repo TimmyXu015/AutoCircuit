@@ -1,0 +1,3 @@
+116a117,118
+> CCON (on 0) capacitor c=134.800f
+> CCOP (op 0) capacitor c=134.800f

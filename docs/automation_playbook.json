@@ -285,7 +285,9 @@
   "After `module load ECE203_FA26_001`, /usr/bin/python3 dies (undefined symbol _Py_LegacyLocaleDetected) because the module's LD_LIBRARY_PATH is inherited: run python with LD_LIBRARY_PATH= and hand the saved value back only to the spectre subprocess (/tmp/lix015_r7a/go.sh pattern).",
   "Spectre 15.1 assert logging: options dochecklimit=no disables all asserts; checklimit analysis parameter is checkallasserts=no (NOT checkall); checklimitdest = file | psf | both. The cmrf7sf asserts are vbs/vbd forward-bias checks (vbs_chkfwd, vbd_chkfwd).",
   "Claude-side file transfer to the Windows notebook: device_commit_files caches by stagedPath name -- re-committing a changed file under the same /mnt/user-data/outputs name silently writes the OLD bytes. Use a new staged file name for every revision (x_v2.py) and check md5 on the device.",
-  "Do not fetch a job's CSV while the job is still running (the op CSV is written row by row): check the run.out end marker / line count first (R7A a0 first fetch was truncated)."
+  "Do not fetch a job's CSV while the job is still running (the op CSV is written row by row): check the run.out end marker / line count first (R7A a0 first fetch was truncated).",
+  "SKILL sprintf has no '+' flag (\"%+.0f\" -> *Error* illegal format spec); build the sign by hand.",
+  "MOS input capacitance seen by a driving node: measure Im(Y_in)/(2 pi f) of the unchanged cell at its real bias (vsource with acm on that input only, Y = -i(Vsrc:PLUS)); BSIM cgg over-states it when the source moves (R7B: cgg 110 fF vs effective 67 fF for a diff-pair input, source-follow k 0.43). Op params cgg/cgs/cgd/cgb are readable with pv(\"/XC/MA1\" \"cgg\" ?result \"dcOpInfo\")."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",
@@ -300,7 +302,7 @@
   "ECE203 Round 5N-L done (2026-11-16): M3/M4 8u/36u on P2 -> 3.19 uV (best, all other specs PASS, ADE r5nl_mirrorL36_best); 3 uV not reached; input-pair 1/f (2.36 uV) dominant.",
   "R6C-I follow-up (not run): ideal CMFB + dummy capacitors on op/on equal to the DD-pair input capacitance, to test whether the larger TG-edge CM spike (22.5 -> 48.4 mV) is only the missing sensor capacitance.",
   "R6D-R: R6D Stage B recovered with tran cmin 1e-17 F (all 5 cases, 60 ms). Buffer value only as load isolation; DIRECT 10 pF low-passes chopper edge errors (smaller residual) at the cost of 12.9 deg phase lag / -3.3 % core gain.",
-  "R7A: real MOS CMFB candidate A (linearised DD-pair 0.5u/40u inputs, 10u/8u tails from IBIAS, diode MD 2.932u/4u, 331.5 nA) replaces the ideal CMFB in the BUFFERED 10 pF chopper bench: all registered gates PASS (op/on CM -0.06 mV, 200 Hz CM 3.9 uV, Hpre -1.9 %, CMFB PM 84.5, DRL PM 90.3). Open: DM edge error 3.3x larger (hypothesis: detector input gate cap on op/on, unverified), CMFB LG10 276 (A_ctrl 0.26), DC zero relies on MD width trim (tt only, no PVT/MC)."
+  "R7A: real MOS CMFB candidate A (linearised DD-pair 0.5u/40u inputs, 10u/8u tails from IBIAS, diode MD 2.932u/4u, 331.5 nA) replaces the ideal CMFB in the BUFFERED 10 pF chopper bench: all registered gates PASS (op/on CM -0.06 mV, 200 Hz CM 3.9 uV, Hpre -1.9 %, CMFB PM 84.5, DRL PM 90.3). Open: DM edge error 3.3x larger (hypothesis: detector input gate cap on op/on, unverified), CMFB LG10 276 (A_ctrl 0.26), DC zero relies on MD width trim (tt only, no PVT/MC). R7B: the DM edge degradation is reproduced by a passive 67.4 fF on op/on of the ideal-CMFB bench (F 1.02/1.00, waveform match 0.23 %) -> next lever is the detector's effective input capacitance."
  ],
  "local_code_mode": {
   "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",
