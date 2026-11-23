@@ -31,7 +31,12 @@ r7aStall = 240
 ;;   MD sized so that VCMFB = the vg the OTA needs (1.32506 V from the ideal baseline) when the pairs are balanced.
 r7aCands = list(nil
   'a0 list(nil 'kind "A" 'win 0.5e-6 'lin 40e-6 'wt 10e-6 'lt 8e-6 'wmd 2.085e-6 'lmd 4e-6
-           'note "A round 0: initial sizing from the single-device characterisation"))
+           'note "A round 0: initial sizing from the single-device characterisation")
+  ;; round 1 (only MD changes): a0 gave vg 1.30349 V at vcm 0.9 (target 1.32506 V, Vcm0 +74 mV, FAIL S3) because the tails
+  ;; carry 166 nA (not 120): MD sits at VSG 0.4965 V. Width for VSG 0.47494 V at 165.7 nA from the device characterisation
+  ;; (diode pfet W 2u/4u, 100-150 nA; dVSG/dlnW 0.0615 incl. the narrow-width effect): 2.085u * exp(0.02157/0.0615) = 2.95u
+  'a1 list(nil 'kind "A" 'win 0.5e-6 'lin 40e-6 'wt 10e-6 'lt 8e-6 'wmd 2.95e-6 'lmd 4e-6
+           'note "A round 1: MD 2.085u -> 2.95u (DC zero only)"))
 procedure( r7aCand() or(getShellEnvVar("AC_R7A_CAND") "a0") )
 procedure( r7aCandP(v) let( (p) p = get(r7aCands stringToSymbol(v)) unless( p error("unknown candidate %s" v)) p ) )
 procedure( r7aCmfbCell(v) strcat("ece203_r7a_cmfb_" v) )
