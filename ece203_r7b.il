@@ -17,7 +17,7 @@ r7bDir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_r7b")
 r7bTmp = "/tmp/lix015_r7b"
 r7bStall = 240
 ;; Cextra per branch (F): filled from the pre-registered estimate in docs/ece203_data/round7b/r7b_cap_plan.md
-r7bCases = list(nil 'c0 nil 'c1 nil 'c2 nil)
+r7bCases = list(nil 'c0 nil 'c1 67.4e-15 'c2 134.8e-15)   ;; C_est 67.4 fF (r7b_cap_plan.md), C2 = 2x
 procedure( r7bCase() or(getShellEnvVar("AC_R7B_CASE") "c0") )
 procedure( r7bCell(c) strcat("ece203_r7b_tb_" c) )
 procedure( r7bMkdir(d) unless( isDir(d) sh(sprintf(nil "mkdir -p %s" d))) )

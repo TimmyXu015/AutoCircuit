@@ -1,0 +1,10 @@
+/XC/MA1
+XC.MA1.cwds
+XC.MA1.cwgs
+XC.MA1.cwgd
+XC.MA1.dsb
+XC.MA1.ddb
+XC.MA1.rsb
+XC.MA1.rgate
+XC.MA1.rsext
+XC.MA1.rdext

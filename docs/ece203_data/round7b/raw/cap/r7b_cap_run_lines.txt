@@ -1,0 +1,10 @@
+AC> r7b capop XC.MA1 (/XC/MA1): cgg 1.096e-13 cgs -9.906e-14 cgd -1.338e-16 cgb -1.036e-14 ids 8.309e-08
+AC> r7b capop XC.MB1 (/XC/MB1): cgg 1.096e-13 cgs -9.906e-14 cgd -1.338e-16 cgb -1.036e-14 ids 8.309e-08
+AC> r7b capop XC.MA2 (/XC/MA2): cgg 1.096e-13 cgs -9.909e-14 cgd -1.605e-16 cgb -1.036e-14 ids 8.265e-08
+AC> r7b capop XC.MB2 (/XC/MB2): cgg 1.096e-13 cgs -9.909e-14 cgd -1.605e-16 cgb -1.036e-14 ids 8.265e-08
+AC> r7b cin cin_op_vdm94mV: Ceff 1k 7.173e-14 100k 7.177e-14 1M 7.213e-14 10M 7.101e-14 F | Re Y 1k -6.956e-15 S | vg 1.32506
+AC> r7b cin cin_op_vdp0mV: Ceff 1k 6.731e-14 100k 6.738e-14 1M 6.886e-14 10M 7.075e-14 F | Re Y 1k -2.39e-14 S | vg 1.32506
+AC> r7b cin cin_op_vdp94mV: Ceff 1k 6.286e-14 100k 6.294e-14 1M 6.557e-14 10M 7.046e-14 F | Re Y 1k -4.106e-14 S | vg 1.32506
+AC> r7b cin cin_on_vdm94mV: Ceff 1k 6.286e-14 100k 6.294e-14 1M 6.557e-14 10M 7.046e-14 F | Re Y 1k -4.106e-14 S | vg 1.32506
+AC> r7b cin cin_on_vdp0mV: Ceff 1k 6.731e-14 100k 6.738e-14 1M 6.886e-14 10M 7.075e-14 F | Re Y 1k -2.39e-14 S | vg 1.32506
+AC> r7b cin cin_on_vdp94mV: Ceff 1k 7.173e-14 100k 7.177e-14 1M 7.213e-14 10M 7.101e-14 F | Re Y 1k -6.956e-15 S | vg 1.32506
