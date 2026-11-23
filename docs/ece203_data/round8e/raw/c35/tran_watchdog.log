@@ -1,0 +1,2 @@
+2026-11-23 07:32:41 watchdog start tag=T_c35 stall=240s
+2026-11-23 07:34:33 watchdog exit tag=T_c35 last='tran: time = 58.5 ms     '

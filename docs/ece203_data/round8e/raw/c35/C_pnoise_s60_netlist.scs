@@ -1,0 +1,286 @@
+// Generated for: spectre
+// Generated on: Nov 23 07:24:42 2026
+// Design library name: Project
+// Design cell name: ece203_r8e_tb_c35
+// Design view name: schematic
+simulator lang=spectre
+global 0
+parameters prl=2e-06 prw=4e-06 clb=1e-11 cld=1e-12 vclmin=0.0 vclmax=1.8 \
+    vb=1.325 ccp=5.3052e-12 rcp=1000.0 a0=1.0 fin=100.0 vd=0.0 pb=0.0 \
+    pa=1.0 tch=0.0005 chen=1.0 vos=0.0 rffc=1e+15 rff2=1.0 rff1=1e+15 \
+    tzo=1.0 izst=0.0 izdc=0.0 izo=0.0 aug=0.0 aub=0.0 woo=1.0 wio=0.0 \
+    wob=0.0 wib=1.0 ko=0.0 kb=0.0 cvg=1e-18 rcf=1.0 rub=1e+15 \
+    rdr=1000000.0 ccm=1e-12 rcm=1e+10 pacd=1.0 dcc=0.0 vcmin=0.0 adm=0.0 \
+    itr=0.0 icm=0.0 cbody=2e-10 ce=5e-08 re=1000000.0 rs=2000.0 \
+    rfb=3.1831e+12 cfb=1.75e-12 cc=2.1e-10 ibd=5e-08 ib3=5e-08 vcas=1.1 \
+    vref=0.9 vdd=1.8 phires=0 p5vonly=0
+include "design.scs"
+include "wafer.scs"
+include "allModels.scs" section=tt
+
+// Library name: Project
+// Cell name: ece203_r6a_fd_ota
+// View name: schematic
+subckt ece203_r6a_fd_ota GND IBIAS INN INP ON OP VCAS VCMFB VDD
+    MREF (IBIAS IBIAS GND GND) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MT (tail IBIAS GND GND) nfet l=4u w=8u nf=1 m=1 par=1 ad=4.32e-12 \
+        as=4.32e-12 pd=17.080u ps=17.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MC2 (OP VCAS x2 GND) nfet l=4u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MC1 (ON VCAS x1 GND) nfet l=4u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    M2 (x2 INN tail GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    M1 (x1 INP tail GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    M4 (OP VCMFB VDD VDD) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+    M3 (ON VCMFB VDD VDD) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+ends ece203_r6a_fd_ota
+// End of subcircuit definition.
+
+// Library name: Project
+// Cell name: ece203_r4_drl_ota
+// View name: schematic
+subckt ece203_r4_drl_ota GND IBIAS INN INP OUT VDD
+    M4 (OUT n1 VDD VDD) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+    M3 (n1 n1 VDD VDD) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+    MREF (IBIAS IBIAS GND GND) nfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MT (tail IBIAS GND GND) nfet l=4u w=8u nf=1 m=1 par=1 ad=4.32e-12 \
+        as=4.32e-12 pd=17.080u ps=17.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    M2 (OUT INN tail GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    M1 (n1 INP tail GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+ends ece203_r4_drl_ota
+// End of subcircuit definition.
+
+// Library name: Project
+// Cell name: ece203_r6b_tgchop
+// View name: schematic
+subckt ece203_r6b_tgchop CKA CKAB CKB CKBB GND INN INP OUTN OUTP VDD
+    MN4 (INN CKB OUTP GND) nfet l=180.00n w=1u nf=1 m=1 par=1 ad=5.4e-13 \
+        as=5.4e-13 pd=3.08u ps=3.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MN3 (INP CKB OUTN GND) nfet l=180.00n w=1u nf=1 m=1 par=1 ad=5.4e-13 \
+        as=5.4e-13 pd=3.08u ps=3.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MN2 (INN CKA OUTN GND) nfet l=180.00n w=1u nf=1 m=1 par=1 ad=5.4e-13 \
+        as=5.4e-13 pd=3.08u ps=3.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MN1 (INP CKA OUTP GND) nfet l=180.00n w=1u nf=1 m=1 par=1 ad=5.4e-13 \
+        as=5.4e-13 pd=3.08u ps=3.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MP4 (INN CKBB OUTP VDD) pfet l=180.00n w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+    MP3 (INP CKBB OUTN VDD) pfet l=180.00n w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+    MP2 (INN CKAB OUTN VDD) pfet l=180.00n w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+    MP1 (INP CKAB OUTP VDD) pfet l=180.00n w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+ends ece203_r6b_tgchop
+// End of subcircuit definition.
+
+// Library name: Project
+// Cell name: ece203_r6d_cd
+// View name: schematic
+subckt ece203_r6d_cd BUFN BUFP FN FP GND IBIAS VDD
+    MKN (BUFN IBIAS GND GND) nfet l=4u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+        as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MKP (BUFP IBIAS GND GND) nfet l=4u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+        as=2.16e-12 pd=9.08u ps=9.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MSN (VDD FN BUFN GND) nfet l=1u w=6u nf=1 m=1 par=1 ad=3.24e-12 \
+        as=3.24e-12 pd=13.080u ps=13.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MSP (VDD FP BUFP GND) nfet l=1u w=6u nf=1 m=1 par=1 ad=3.24e-12 \
+        as=3.24e-12 pd=13.080u ps=13.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+ends ece203_r6d_cd
+// End of subcircuit definition.
+
+// Library name: Project
+// Cell name: ece203_r7a_cmfb_a2
+// View name: schematic
+subckt ece203_r7a_cmfb_a2 GND IBIAS ON OP VCMFB VDD VREF
+    MTB (tb IBIAS GND GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MTA (ta IBIAS GND GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+        as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+        gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MB2 (VCMFB VREF tb GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+        as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MB1 (VDD ON tb GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+        as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MA2 (VCMFB VREF ta GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+        as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MA1 (VDD OP ta GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+        as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+        rf=0 stis=2 rsx=50 dtemp=0 gns=0
+    MD (VCMFB VCMFB VDD VDD) pfet l=4u w=2.932u nf=1 m=1 par=1 \
+        ad=1.58328e-12 as=1.58328e-12 pd=6.944u ps=6.944u nrd=0.5909091 \
+        nrs=0.5909091 gcon=1 rf=0 rsx=50 dtemp=0
+ends ece203_r7a_cmfb_a2
+// End of subcircuit definition.
+
+// Library name: Project
+// Cell name: ece203_ss_pr_cell
+// View name: schematic
+subckt ece203_ss_pr_cell A B
+    MP (B B A B) pfet33 l=prl w=prw nf=1 m=1 par=1 ad=prw*0.54e-6 \
+        as=prw*0.54e-6 pd=2*(prw+0.54e-6) ps=2*(prw+0.54e-6) nrd=0.6818182 \
+        nrs=0.6818182 gcon=1 rf=0 rsx=50 dtemp=0
+ends ece203_ss_pr_cell
+// End of subcircuit definition.
+
+// Library name: Project
+// Cell name: ece203_r8e_tb_c35
+// View name: schematic
+VUB (ub b2) vsource dc=0 mag=aub type=dc
+VUG (gac g2) vsource dc=0 mag=aug type=dc
+VOS (iax ia) vsource dc=vos mag=0 type=dc
+VDDD (vddd 0) vsource dc=vdd mag=0 type=dc
+VDD (vdd 0) vsource dc=vdd mag=0 type=dc
+VCAS (vcas 0) vsource dc=vcas mag=0 type=dc
+VREF (vref 0) vsource dc=vref mag=0 type=dc
+COUTN (outn 0) capacitor c=10p
+COUTP (outp 0) capacitor c=10p
+CLP_N (outn 0) capacitor c=148p
+CLP_P (outp 0) capacitor c=148p
+CLBN (bufn 0) capacitor c=clb
+CLBP (bufp 0) capacitor c=clb
+CER (rl1 body) capacitor c=ce
+CCMN (inn cm) capacitor c=ccm
+CCMP (inp cm) capacitor c=ccm
+CVG (vg gac) capacitor c=cvg
+CFP (fn p) capacitor c=cfb
+CFN (fp n) capacitor c=cfb
+CCN (inn n) capacitor c=cc
+CCX (inp p) capacitor c=cc*dcc
+CCP (inp p) capacitor c=cc
+CEN (en1 inn) capacitor c=ce
+CEP (ep1 inp) capacitor c=ce
+CBODY (body 0) capacitor c=cbody
+IREF (pref 0) isource dc=100n mag=0 type=dc
+IINT (0 body) isource dc=0 mag=icm type=dc
+IINTT (0 body) isource mag=0 type=sine sinedc=0 ampl=itr freq=60
+RLP_N (bufn outn) resistor r=4.0M
+RLP_P (bufp outp) resistor r=4.0M
+RER (rl1 body) resistor r=re
+RSR (rl0b rl1) resistor r=rs
+RUB (ub rl0) resistor r=rub
+RHP (oac vref) resistor r=1T
+RDRR (drlr rl0) resistor r=rdr
+RCMN (inn cm) resistor r=rcm
+RCMP (inp cm) resistor r=rcm
+RCF (vcf2 vg) resistor r=rcf
+RFFC (cm vrc) resistor r=rffc
+RFF1 (drlr vrc) resistor r=rff1
+RFF2 (vref vrc) resistor r=rff2
+REN (en1 inn) resistor r=re
+RSN (en en1) resistor r=rs
+REP (ep1 inp) resistor r=re
+RSP (ep ep1) resistor r=rs
+XA (0 ib ibx iax on op vcas vg vdd) ece203_r6a_fd_ota
+IZN (0 on) isource mag=izo type=pulse val0=izdc val1=izdc+izst period=20 \
+        delay=tzo rise=1u fall=1u width=10
+IZP (0 op) isource mag=izo type=pulse val0=izdc val1=izdc+izst period=20 \
+        delay=tzo rise=1u fall=1u width=10
+EB2 (b2 b1 oac vref) vcvs gain=-kb*wob
+EB1 (b1 vref icm vref) vcvs gain=-kb*wib
+EG2 (g2 g1 icm vref) vcvs gain=ko*wio
+EG1 (g1 0 ocm vref) vcvs gain=ko*woo
+EIB (icm ih inn 0) vcvs gain=0.5
+EIA (ih 0 inp 0) vcvs gain=0.5
+EOB (ocm oh on 0) vcvs gain=0.5
+EOA (oh 0 op 0) vcvs gain=0.5
+IPRD (rl0 rl0b) iprobe
+IPRC (vcf vcf2) iprobe
+XD (0 ibd cm vref drlr vddd) ece203_r4_drl_ota
+VCKBB (ckbb 0) vsource mag=0 type=pulse pacmag=0 pacphase=0 \
+        val0=1.8-1.8*pb val1=1.8-1.8*(pb+chen) period=tch delay=tch/2+10n \
+        rise=1n fall=1n width=tch/2-21n
+VCKB (ckb 0) vsource mag=0 type=pulse pacmag=0 pacphase=0 val0=1.8*pb \
+        val1=1.8*(pb+chen) period=tch delay=tch/2+10n rise=1n fall=1n \
+        width=tch/2-21n
+VCKAB (ckab 0) vsource mag=0 type=pulse pacmag=0 pacphase=0 \
+        val0=1.8-1.8*pa val1=1.8-1.8*pa*(1-chen) period=tch delay=tch/2 \
+        rise=1n fall=1n width=tch/2-1n
+VCKA (cka 0) vsource mag=0 type=pulse pacmag=0 pacphase=0 val0=1.8*pa \
+        val1=1.8*pa*(1-chen) period=tch delay=tch/2 rise=1n fall=1n \
+        width=tch/2-1n
+VSN (en0 body) vsource mag=-adm/2+vcmin type=pulse pacmag=pacd \
+        pacphase=180 val0=0 val1=0 period=2 delay=1 rise=1n fall=1n \
+        width=1
+VSP (ep0 body) vsource mag=adm/2+vcmin type=pulse pacmag=pacd pacphase=0 \
+        val0=0 val1=0 period=2 delay=1 rise=1n fall=1n width=1
+VSNS (en en0) vsource dc=0 mag=0 type=sine sinedc=0 ampl=vd/2 \
+        sinephase=180 freq=fin
+VSPS (ep ep0) vsource dc=0 mag=0 type=sine sinedc=0 ampl=vd/2 sinephase=0 \
+        freq=fin
+XCO (cka ckab ckb ckbb 0 on op fn fp vdd) ece203_r6b_tgchop
+XCI (cka ckab ckb ckbb 0 n p ibx ia vdd) ece203_r6b_tgchop
+XCD (bufn bufp fn fp 0 ib vdd) ece203_r6d_cd
+XC (0 ib on op vcf vdd vrc) ece203_r7a_cmfb_a2
+XPRP (p fn) ece203_ss_pr_cell
+XPRN (n fp) ece203_ss_pr_cell
+MP2 (ibd pref vddd vddd) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+MP1 (ib pref vdd vdd) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
+        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+MP0 (pref pref vdd vdd) pfet l=4u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
+        as=2.16e-12 pd=9.08u ps=9.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
+        rf=0 rsx=50 dtemp=0
+simulatorOptions options reltol=1e-5 vabstol=1e-6 iabstol=1e-17 temp=27 \
+    tnom=25 scalem=1.0 scale=1.0 gmin=1e-18 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 pivrel=1e-3 \
+    sensfile="../../../../../../../../../../../tmp/lix015_r8e_c35/sim_C_pnoise_s60/psf/sens.output" \
+    checklimitdest=psf 
+pss  pss  fund=2k  harms=40  errpreset=moderate  tstab=5m
++    cmin=1e-17  readpss="/tmp/lix015_r8e_c35/pss_converged.pss"
++    itres=1e-4  maxacfreq=200k  maxperiods=40  annotate=status
+pac  pac  sweeptype=relative  relharmnum=0  start=0.1  stop=250
++    dec=20  maxsideband=1  annotate=status
+pnoise  (  outp  outn  )  pnoise  sweeptype=relative
++       relharmnum=0  start=0.1  stop=250  dec=20  pnoisemethod=default
++       maxsideband=60  annotate=status
+modelParameter info what=models where=rawfile
+element info what=inst where=rawfile
+outputParameter info what=output where=rawfile
+designParamVals info what=parameters where=rawfile
+primitives info what=primitives where=rawfile
+subckts info what=subckts where=rawfile
+save VSP:p ckbb ckab ckb cka ib pref n p outn outp bufn bufp vg on op fn \
+    fp en ep 
+saveOptions options save=selected

@@ -126,6 +126,20 @@ if nrow:
     with open('r8e_pnoise_convergence.csv', 'w') as fh_:
         w = csv.DictWriter(fh_, cols, restval=''); w.writeheader()
         for r in nrow: w.writerow({k: ('%.6g' % v if isinstance(v, float) else v) for k, v in r.items()})
+# ---------------- Stage D (tran summary from ../round7e/r7e_analysis.py -> r8e_tran_summary.csv) ----------------
+if ex('r8e_tran_summary.csv'):
+    t = [r for r in csv.DictReader(open('r8e_tran_summary.csv')) if r['window_ms'] == '40-60'][0]
+    ref = [r for r in csv.DictReader(open('../round7f/r7f_stageC_summary.csv')) if r['case'].startswith('C1') and r['window_ms'] == '40-60'][0]
+    say('== Stage D tran (B35, 40-60 ms window; R7F G0 in brackets)'); g = []
+    hd = dB(num(t['Hout_gain']))
+    gate(g, 38 <= hd <= 42, 'Hout(100 Hz) %.4f = %.3f dB in 38-42 [R7F %.4f]' % (num(t['Hout_gain']), hd, num(ref['Hout_gain'])))
+    rng = [num(t[k]) for k in ('op_min_V', 'op_max_V', 'on_min_V', 'on_max_V', 'fp_min_V', 'fp_max_V', 'bufp_min_V', 'bufp_max_V', 'outp_min_V', 'outp_max_V')]
+    gate(g, all(0.1 <= v <= 1.7 for v in rng), 'no clipping: op/on/fp/bufp/outp ranges %.3f..%.3f V' % (min(rng), max(rng)))
+    gate(g, num(t['P_total_uW']) < 4, 'P %.4f uW < 4 [R7F %.4f]' % (num(t['P_total_uW']), num(ref['P_total_uW'])))
+    say('  info: H3 %.1f dBc [R7F %.1f], output deterministic residual >= 1 kHz %.1f uVrms [R7F %.1f], 4 kHz spur %.1f uV [%.1f], out CM %.6f V, op/on CM %.6f V, VPRN %.1f..%.1f mV'
+        % (num(t['Hout_H3_dBc']), num(ref['Hout_H3_dBc']), num(t['out_dm_ge1k_rms_uV']), num(ref['out_dm_ge1k_rms_uV']), num(t['out_dm_4k_uV']), num(ref['out_dm_4k_uV']),
+           num(t['out_cm_avg_V']), num(t['opon_cm_avg_V']), num(t['VPRN_min_mV']), num(t['VPRN_max_mV'])))
+    say('  Stage D: ' + ('PASS' if all(g) else 'FAIL'))
 open('r8e_gates.txt', 'w').write('\n'.join(out) + '\n')
 # ---------------- figures ----------------
 import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt

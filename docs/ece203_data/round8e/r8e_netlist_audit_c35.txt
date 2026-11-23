@@ -46,3 +46,53 @@ PASS  CHP absent (fixture stays removed)
 analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8e_c35/pss_converged.pss" | + itres=1e-4 maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.01 stop=1000 | + dec=40 maxsideband=1 annotate=status
 analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.01 stop=250 | + dec=40 maxsideband=1 annotate=status
 AUDIT PASS
+
+=== C_pnoise_s90 (c35) vs R8B gate D C_pnoise_s90 netlist
+PASS  removed = [] (expected [])
+PASS  added = [] (expected [])
+PASS  changed = [] (expected exactly the remastered [])
+PASS  parameter differences {'cc': ('6e-11', '2.1e-10'), 'cfb': ('5e-13', '1.75e-12')} (allowed {'cc': '2.1e-10', 'cfb': '1.75e-12'})
+PASS  subckts: common identical ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']; removed [] (expected []); added [] (expected [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8e_c35/pss_converged.pss" | + itres=1e-4 maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.1 stop=250 | + dec=20 maxsideband=1 annotate=status | pnoise ( outp outn ) pnoise sweeptype=relative | + relharmnum=0 start=0.1 stop=250 dec=20 pnoisemethod=default | + maxsideband=90 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.1 stop=250 | + dec=20 maxsideband=1 annotate=status | pnoise ( outp outn ) pnoise sweeptype=relative | + relharmnum=0 start=0.1 stop=250 dec=20 pnoisemethod=default | + maxsideband=90 annotate=status
+AUDIT PASS
+
+=== C_pnoise_s30 (c35) vs R8B gate D C_pnoise_s30 netlist
+PASS  removed = [] (expected [])
+PASS  added = [] (expected [])
+PASS  changed = [] (expected exactly the remastered [])
+PASS  parameter differences {'cfb': ('5e-13', '1.75e-12'), 'cc': ('6e-11', '2.1e-10')} (allowed {'cc': '2.1e-10', 'cfb': '1.75e-12'})
+PASS  subckts: common identical ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']; removed [] (expected []); added [] (expected [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8e_c35/pss_converged.pss" | + itres=1e-4 maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.1 stop=250 | + dec=20 maxsideband=1 annotate=status | pnoise ( outp outn ) pnoise sweeptype=relative | + relharmnum=0 start=0.1 stop=250 dec=20 pnoisemethod=default | + maxsideband=30 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.1 stop=250 | + dec=20 maxsideband=1 annotate=status | pnoise ( outp outn ) pnoise sweeptype=relative | + relharmnum=0 start=0.1 stop=250 dec=20 pnoisemethod=default | + maxsideband=30 annotate=status
+AUDIT PASS
+
+=== C_pnoise_s60 (c35) vs R8B gate D C_pnoise_s60 netlist
+PASS  removed = [] (expected [])
+PASS  added = [] (expected [])
+PASS  changed = [] (expected exactly the remastered [])
+PASS  parameter differences {'cc': ('6e-11', '2.1e-10'), 'cfb': ('5e-13', '1.75e-12')} (allowed {'cc': '2.1e-10', 'cfb': '1.75e-12'})
+PASS  subckts: common identical ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']; removed [] (expected []); added [] (expected [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8e_c35/pss_converged.pss" | + itres=1e-4 maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.1 stop=250 | + dec=20 maxsideband=1 annotate=status | pnoise ( outp outn ) pnoise sweeptype=relative | + relharmnum=0 start=0.1 stop=250 dec=20 pnoisemethod=default | + maxsideband=60 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.1 stop=250 | + dec=20 maxsideband=1 annotate=status | pnoise ( outp outn ) pnoise sweeptype=relative | + relharmnum=0 start=0.1 stop=250 dec=20 pnoisemethod=default | + maxsideband=60 annotate=status
+AUDIT PASS
+
+=== T_c35 (tran) vs R7F Stage C T_gain_g0_load10p netlist (R7F cell still had the inert EOC + CHP, removed in R8B)
+PASS  removed = ['CHP', 'EOC'] (expected ['CHP', 'EOC'])
+    REF CHP (ocx oac) capacitor c=1M
+    REF EOC (ocx vref ocm vref) vcvs gain=1
+PASS  added = [] (expected [])
+PASS  changed = [] (expected exactly the remastered [])
+PASS  parameter differences {'cfb': ('5e-13', '1.75e-12'), 'cc': ('6e-11', '2.1e-10')} (allowed {'cc': '2.1e-10', 'cfb': '1.75e-12'})
+PASS  subckts: common identical ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']; removed [] (expected []); added [] (expected [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: tran tran stop=60m maxstep=0.5u cmin=1e-17 write="spectre.ic" writefinal="spectre.fc" annotate=status maxiters=5
+analysis REF: tran tran stop=60m maxstep=0.5u cmin=1e-17 write="spectre.ic" writefinal="spectre.fc" annotate=status maxiters=5
+AUDIT PASS

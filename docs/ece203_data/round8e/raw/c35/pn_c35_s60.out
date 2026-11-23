@@ -1,0 +1,16 @@
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ b15dedf
+[run] virtuoso: /software/ECE/IC-618/tools/dfII/bin/virtuoso
+[run] working folder: /home/linux/ieng6/ECE203_FA26_001/lix015
+[run] running job 'ece203_r8e_pnoise' (log: /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e_pnoise.log) ...
+[run] finished in 49 s
+[run] status: OK
+------------------------------------------------------------
+*Error* eval: unbound variable - f
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/c35/C_pnoise_s60_pss_td.csv (1092 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/c35/C_pnoise_s60_pac.csv (69 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/c35/C_pnoise_s60_pnoise.csv (69 rows)
+AC> r8P C_pnoise_s60: ok  | PAC vd 2 Hon 0.1/1/10/100/250 64.37461 90.75098 90.844 83.56077 61.87759 ph100 -25.67011 | out rms 0.0002058685 app 2.463698e-06 deemb 2.567425e-06 | in 0.1/1/10/100/250 2.304056e-06 3.636706e-07 1.754648e-07 1.520462e-07 1.513868e-07 | ok
+------------------------------------------------------------
+------------------------------------------------------------
+[run] transistor line in netlist (/home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8e_tb_c35/spectre/schematic/netlist/input.scs):

@@ -34,3 +34,13 @@
   PASS  H100_ON 83.5608 = 38.440 dB in 38-42
   PASS  PAC sb0 Zin(10 Hz) 157.2 MOhm >= 100
   ON gates: PASS
+== Stage C PNoise
+  c35 S30  app 2.4545 uV  deemb 2.5579 uV  in 1/10/100 Hz 359.2/175.2/151.8 nV/rtHz    PSS reused: True
+  c35 S60  app 2.4637 uV  deemb 2.5674 uV  in 1/10/100 Hz 363.7/175.5/152.0 nV/rtHz  d +0.37/+0.37 % dens +1.24/+0.16/+0.15 % conv True  PSS reused: True
+  c35 S90  app 2.4704 uV  deemb 2.5744 uV  in 1/10/100 Hz 367.8/175.6/152.1 nV/rtHz  d +0.27/+0.27 % dens +1.15/+0.08/+0.05 % conv True  PSS reused: True
+== Stage D tran (B35, 40-60 ms window; R7F G0 in brackets)
+  PASS  Hout(100 Hz) 83.5556 = 38.440 dB in 38-42 [R7F 83.2466]
+  PASS  no clipping: op/on/fp/bufp/outp ranges 0.494..0.964 V
+  PASS  P 2.3058 uW < 4 [R7F 2.3111]
+  info: H3 -94.2 dBc [R7F -85.8], output deterministic residual >= 1 kHz 76.2 uVrms [R7F 141.7], 4 kHz spur 75.8 uV [133.7], out CM 0.540182 V, op/on CM 0.899524 V, VPRN -55.6..55.3 mV
+  Stage D: PASS
