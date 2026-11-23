@@ -9,6 +9,7 @@
 r7eDir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_r7e")
 r7eTmp = "/tmp/lix015_r7e"
 r7eStall = 240
+r7eWd = "r7e_watchdog.sh"   ;; (R7F rebinds this and r7eTmp/r7eDir)
 r7eCases = list(nil 'lp_a0 list(nil 'cell "ece203_r7e_tb_lp_a0" 'load nil)
                     'lp_load10p list(nil 'cell "ece203_r7e_tb_lp_load10p" 'load t))
 procedure( r7eCase() or(getShellEnvVar("AC_R7E_CASE") "lp_a0") )
@@ -42,7 +43,7 @@ procedure( r7eLp(c)
     p = r7eC(c) cell = p->cell tag = sprintf(nil "L_%s" c)
     port = r7cOpen(sprintf(nil "%s.csv" tag) r7eLCols)
     r = list(nil 'case c 'cell cell 'status "ok")
-    vars = r7eVars()
+    vars = append(r7eVars() p->extra)   ;; (R7F) optional per-case overrides; none for the R7E cases
     ok = errset(
       progn(
         r7cAc(cell strcat(tag "_dm") append(vars list(list("adm" 1.0) list("dcc" 0.01))) r6bSysOpts)
@@ -129,8 +130,8 @@ procedure( r7eStageC()
         car(errset(saveOption('save "selected") nil))
         car(errset(save('v "/ep" "/en" "/fp" "/fn" "/op" "/on" "/vg" "/drlr" "/bufp" "/bufn" "/outp" "/outn" "/p" "/n" "/pref" "/ib" "/ibd") nil))
         car(errset(save('i "/VDD/PLUS" "/VDDD/PLUS" "/IREF/PLUS" "/MP1/D" "/MP2/D") nil))
-        r6bSet(r6Vars append(r7eVars() list(list("chen" 1.0) list("tch" 500e-6) list("vd" 1e-3))))
-        sh(sprintf(nil "nohup bash %s/tools/r7e_watchdog.sh %s %s %d %s > /dev/null 2>&1 &" acRoot tag psf r7eStall wlog))
+        r6bSet(r6Vars append(append(r7eVars() r7eC(c)->extra) list(list("chen" 1.0) list("tch" 500e-6) list("vd" 1e-3))))
+        sh(sprintf(nil "nohup bash %s/tools/%s %s %s %d %s > /dev/null 2>&1 &" acRoot r7eWd tag psf r7eStall wlog))
         run()
         when( isFile(strcat(sim "/WATCHDOG_STALL"))
           r->stalled_at = car(errset(let( (pt l) pt = infile(strcat(sim "/WATCHDOG_STALL")) gets(l pt) close(pt) car(parseString(l "\n"))) nil))

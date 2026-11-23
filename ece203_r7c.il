@@ -89,7 +89,8 @@ procedure( r7cBuild()
     t
   )
 )
-procedure( r7cVars(c) append(r7aSysBase if( r7cC(c)->prw list(list("prw" r7cC(c)->prw) list("prl" 2e-6)) nil)) )
+;; (R7F) a case may carry 'extra design-variable overrides (e.g. cc); old cases have none -> unchanged behaviour
+procedure( r7cVars(c) append(append(r7aSysBase if( r7cC(c)->prw list(list("prw" r7cC(c)->prw) list("prl" 2e-6)) nil)) r7cC(c)->extra) )
 
 ;; ---------- Stage B: TG static phase A ----------
 r7cBCols = '(case cell opts status reason op on op_cm fp fn fp_cm p n pn_cm vg bufp bufn I_VDD I_VDDD P_uW
