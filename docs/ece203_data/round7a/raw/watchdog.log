@@ -1,0 +1,2 @@
+2026-11-22 21:45:54 watchdog start tag=T_a2_buf10p stall=240s
+2026-11-22 21:47:17 watchdog exit tag=T_a2_buf10p last='tran: time = 58.5 ms     '

@@ -1,0 +1,65 @@
+4,5c4,5
+<     ccp=5.3052e-12 rcp=1000.0 a0=1.0 fin=100.0 vd=0.0 pb=0.0 pa=1.0 \
+<     tch=0.0005 chen=0.0 vos=0.0 rffc=1e+15 rff2=1.0 rff1=1e+15 tzo=1.0 \
+---
+>     ccp=5.3052e-12 rcp=1000.0 a0=1.0 fin=100.0 vd=0.001 pb=0.0 pa=1.0 \
+>     tch=0.0005 chen=1.0 vos=0.0 rffc=1e+15 rff2=1.0 rff1=1e+15 tzo=1.0 \
+8,11c8,11
+<     ccm=1e-12 rcm=1e+10 pacd=0.0 dcc=0.01 vcmin=0.0 adm=0.0 itr=0.0 \
+<     icm=0.0 cbody=2e-10 ce=5e-08 re=1000000.0 rs=2000.0 rfb=3.1831e+12 \
+<     cfb=5e-13 cc=5e-11 ibd=5e-08 ib3=5e-08 vcas=1.1 vref=0.9 vdd=1.8 \
+<     phires=0 p5vonly=0
+---
+>     ccm=1e-12 rcm=1e+10 pacd=0.0 dcc=0.0 vcmin=0.0 adm=0.0 itr=0.0 icm=0.0 \
+>     cbody=2e-10 ce=5e-08 re=1000000.0 rs=2000.0 rfb=3.1831e+12 cfb=5e-13 \
+>     cc=5e-11 ibd=5e-08 ib3=5e-08 vcas=1.1 vref=0.9 vdd=1.8 phires=0 \
+>     p5vonly=0
+106c106,129
+< VBC (cvb 0) vsource dc=vb mag=0 type=dc
+---
+> subckt ece203_r7a_cmfb_a2 GND IBIAS ON OP VCMFB VDD VREF
+>     MTB (tb IBIAS GND GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+>         as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+>         gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+>     MTA (ta IBIAS GND GND) nfet l=8u w=10u nf=1 m=1 par=1 ad=5.4e-12 \
+>         as=5.4e-12 pd=21.080u ps=21.080u nrd=0.4814815 nrs=0.4814815 \
+>         gcon=1 rf=0 stis=2 rsx=50 dtemp=0 gns=0
+>     MB2 (VCMFB VREF tb GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+>         as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+>         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+>     MB1 (VDD ON tb GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+>         as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+>         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+>     MA2 (VCMFB VREF ta GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+>         as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+>         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+>     MA1 (VDD OP ta GND) nfet l=40u w=500.0n nf=1 m=1 par=1 ad=2.7e-13 \
+>         as=2.7e-13 pd=2.08u ps=2.08u nrd=0.4814815 nrs=0.4814815 gcon=1 \
+>         rf=0 stis=2 rsx=50 dtemp=0 gns=0
+>     MD (VCMFB VCMFB VDD VDD) pfet l=4u w=2.932u nf=1 m=1 par=1 \
+>         ad=1.58328e-12 as=1.58328e-12 pd=6.944u ps=6.944u nrd=0.5909091 \
+>         nrs=0.5909091 gcon=1 rf=0 rsx=50 dtemp=0
+> ends ece203_r7a_cmfb_a2
+> 
+119d141
+< CPC (cea2 0) capacitor c=ccp
+134d155
+< RPC (cea1 cea2) resistor r=rcp
+157,161d177
+< ELM (vcf 0 csum 0) vcvs gain=1 min=vclmin max=vclmax
+< EAD (csum cvb cea2 0) vcvs gain=1
+< EEA (cea1 0 csen vrc) vcvs gain=a0
+< ESB (csen csh on 0) vcvs gain=0.5
+< ESA (csh 0 op 0) vcvs gain=0.5
+197a214
+> XC (0 ib on op vcf vdd vrc) ece203_r7a_cmfb_a2
+201c218,219
+< stb stb start=1m stop=100M dec=20 probe=IPRD annotate=status 
+---
+>     writefinal="spectre.fc" annotate=status maxiters=5 
+> finalTimeOP info what=oppoint where=rawfile
+208c226,227
+< saveOptions options save=allpub
+---
+> save VDDD:p VDD:p XC.tb XC.ta bufn bufp drlr vg on op fn fp en ep 
+> saveOptions options save=selected

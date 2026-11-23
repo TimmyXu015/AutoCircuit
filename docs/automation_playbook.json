@@ -280,7 +280,12 @@
   "R6D-R fix for the 2 kHz TG-chopper tran stall (first TG edge, sub-fs steps, 'trapezoidal ringing on node XA.MT.s1'): adding the tran parameter cmin=1e-17 F (analysis('tran ... ?cmin \"1e-17\"'), echoed as 'cmin = 10 aF') lets all R6D benches run 60 ms; iabstol 1e-17 -> 1e-15 alone did NOT help, gear2only made it worse. Cross-check vs the default runs: gain -0.003 %, edge spikes within 1 %.",
   "Pinned server clone outside the home quota: git clone --depth 1 https://github.com/TimmyXu015/AutoCircuit.git /tmp/<user>_<round>/AutoCircuit, run with AC_SKIP_GIT_PULL=1 <clone>/run.sh <job> (run.sh prints the commit). To update a shallow clone: git fetch --depth 1 origin main && git reset --hard origin/main (git pull on a shallow clone fails with 'divergent branches').",
   "Watchdog pattern for blocking OCEAN run(): before run(), sh(\"nohup bash tools/r6dr_watchdog.sh <tag> <psf> <stall_s> <log> &\"); it matches only this run's Spectre by its '+log .../sim_<tag>/psf/spectre.out' argument, writes a marker and pkills it if 'tran: time = X' stops changing. Write the marker BEFORE killing (run() returns immediately).",
-  "spectre -h on ieng6 fails (32-bit wrapper: libelf.so.1 missing); verify options via the netlist and the parameter echo in spectre.out instead."
+  "spectre -h on ieng6 fails only because the wrapper picks the 32-bit binary: export CDS_AUTO_64BIT=ALL (after module load) and `spectre -h options` / `spectre -h checklimit` work (R7A).",
+  "Stand-alone Spectre netlists (no ADE) on cmrf7sf must declare `parameters p5vonly=0 phires=0` before the PDK includes (process.scs uses them), include design.scs / wafer.scs / allModels.scs section=tt and pass -I<PDK>/Spectre/models (R7A device characterisation).",
+  "After `module load ECE203_FA26_001`, /usr/bin/python3 dies (undefined symbol _Py_LegacyLocaleDetected) because the module's LD_LIBRARY_PATH is inherited: run python with LD_LIBRARY_PATH= and hand the saved value back only to the spectre subprocess (/tmp/lix015_r7a/go.sh pattern).",
+  "Spectre 15.1 assert logging: options dochecklimit=no disables all asserts; checklimit analysis parameter is checkallasserts=no (NOT checkall); checklimitdest = file | psf | both. The cmrf7sf asserts are vbs/vbd forward-bias checks (vbs_chkfwd, vbd_chkfwd).",
+  "Claude-side file transfer to the Windows notebook: device_commit_files caches by stagedPath name -- re-committing a changed file under the same /mnt/user-data/outputs name silently writes the OLD bytes. Use a new staged file name for every revision (x_v2.py) and check md5 on the device.",
+  "Do not fetch a job's CSV while the job is still running (the op CSV is written row by row): check the run.out end marker / line count first (R7A a0 first fetch was truncated)."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",
@@ -294,7 +299,8 @@
   "ECE203 Round 5N done (2026-11-16): submission baseline r5n_submission_baseline (prw 4u, fL 0.1007 Hz, noise 16.58 uV FAIL); best no-chopper noise 4.07 uV (OTA1 16x/16x + tail x4, 3.18 uW, ADE r5n_low_noise_best). 3 uV not reached.",
   "ECE203 Round 5N-L done (2026-11-16): M3/M4 8u/36u on P2 -> 3.19 uV (best, all other specs PASS, ADE r5nl_mirrorL36_best); 3 uV not reached; input-pair 1/f (2.36 uV) dominant.",
   "R6C-I follow-up (not run): ideal CMFB + dummy capacitors on op/on equal to the DD-pair input capacitance, to test whether the larger TG-edge CM spike (22.5 -> 48.4 mV) is only the missing sensor capacitance.",
-  "R6D-R: R6D Stage B recovered with tran cmin 1e-17 F (all 5 cases, 60 ms). Buffer value only as load isolation; DIRECT 10 pF low-passes chopper edge errors (smaller residual) at the cost of 12.9 deg phase lag / -3.3 % core gain."
+  "R6D-R: R6D Stage B recovered with tran cmin 1e-17 F (all 5 cases, 60 ms). Buffer value only as load isolation; DIRECT 10 pF low-passes chopper edge errors (smaller residual) at the cost of 12.9 deg phase lag / -3.3 % core gain.",
+  "R7A: real MOS CMFB candidate A (linearised DD-pair 0.5u/40u inputs, 10u/8u tails from IBIAS, diode MD 2.932u/4u, 331.5 nA) replaces the ideal CMFB in the BUFFERED 10 pF chopper bench: all registered gates PASS (op/on CM -0.06 mV, 200 Hz CM 3.9 uV, Hpre -1.9 %, CMFB PM 84.5, DRL PM 90.3). Open: DM edge error 3.3x larger (hypothesis: detector input gate cap on op/on, unverified), CMFB LG10 276 (A_ctrl 0.26), DC zero relies on MD width trim (tt only, no PVT/MC)."
  ],
  "local_code_mode": {
   "what": "The user can open C:\\Users\\Timmy\\AutoCircuit_Results in Claude Code (desktop 'code' mode) on their Windows PC. That session runs natively (Git Bash), so it reaches ieng6 with plain ssh/scp -- no MATLAB-MCP detour, no 60 s bridge limit.",

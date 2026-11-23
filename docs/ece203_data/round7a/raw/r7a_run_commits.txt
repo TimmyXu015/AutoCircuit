@@ -1,0 +1,32 @@
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_ade_a2_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ f8b0032
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_base_run.out
+[run] git pull ok
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_build_det_a1_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ d9af5fc
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_build_det_a2_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ a6b6981
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_build_det_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 7f29c7a
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_build_sys_a2_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ f8b0032
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_det_a1_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ d9af5fc
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_det_a2_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ a6b6981
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_det_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 7f29c7a
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_sys_a_a2_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ f8b0032
+== /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r7a_sys_b_a2_run.out
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ f8b0032

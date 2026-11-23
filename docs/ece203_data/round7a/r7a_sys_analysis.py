@@ -38,6 +38,15 @@ def glitch(t, o, w0, w1, tch=500e-6):
         k += 1
     return max(pos), min(neg), max(rec), len(pos)
 
+def edge_settle(t, e, aref, w0, w1, tch=500e-6):
+    # per TG edge: peak |error| after the edge and the time until |error| stays < 1 % of the 100 Hz amplitude
+    k = math.ceil((w0 + 1e-6) / (tch / 2)); pk = []; ts = []
+    while k * tch / 2 + tch / 2 <= w1:
+        te = k * tch / 2; m = (t >= te - 50e-9) & (t < te + tch / 2 - 1e-6)
+        dt = t[m] - te; ee = np.abs(e[m]); pk.append(ee.max())
+        big = dt[ee > 0.01 * aref]; ts.append(big.max() if big.size else 0.0); k += 1
+    return max(pk), sum(pk) / len(pk), max(ts), sorted(ts)[len(ts) // 2]
+
 def analyse(tag, fn):
     d = load(fn); t = d['t_s']; out = []
     vpre = d['fp_V'] - d['fn_V']; vbuf = d['bufp_V'] - d['bufn_V']
@@ -53,6 +62,11 @@ def analyse(tag, fn):
             m[lab + '_H2_dBc'] = 20 * math.log10(max(abs(amp(c, 2)), 1e-30) / abs(amp(c, 1)))
             m[lab + '_H3_dBc'] = 20 * math.log10(abs(amp(c, 3)) / abs(amp(c, 1)))
             m[lab + '_resid_rms_uV'] = float(np.sqrt(np.mean(res ** 2))) * 1e6
+            sel = (t >= w0) & (t <= w1); tn = t[sel]
+            fn_ = c[0] + c[1] * tn + sum(c[2 * k] * np.sin(2 * np.pi * k * 100 * tn) + c[2 * k + 1] * np.cos(2 * np.pi * k * 100 * tn) for k in (1, 2, 3))
+            pk, pm, tsx, tsm = edge_settle(tn, arr[sel] - fn_, abs(amp(c, 1)), w0, w1)
+            m[lab + '_edge_err_max_mV'] = pk * 1e3; m[lab + '_edge_err_mean_mV'] = pm * 1e3
+            m[lab + '_settle1pct_max_us'] = tsx * 1e6; m[lab + '_settle1pct_median_us'] = tsm * 1e6
         for lab, arr in cms.items():
             y = R(arr); c, _ = fit(tt, y, harm=(1, 2))
             m[lab + '_avg_V'] = float(y.mean()); m[lab + '_200Hz_uV'] = abs(amp(c, 2)) * 1e6

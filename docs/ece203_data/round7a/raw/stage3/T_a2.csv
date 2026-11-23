@@ -1,0 +1,2 @@
+tag,status,reason,t_end,stalled_at,fp_cm_avg,op_cm_avg,buf_cm_avg,vg_min,vg_max,I_VDD,I_VDDD,rows,csv
+T_a2_buf10p,ok,n/a,0.06,n/a,0.899922,0.899923,0.542636,1.32321,1.32586,-8.24855e-07,-2.83139e-07,167885,/tmp/lix015_r7a/out/T_a2_buf10p_tran.csv.gz
