@@ -1,0 +1,19 @@
+== Stage A: ideal TG surrogate
+  PASS  analogLib switch read in Cadence: terminals N+ N- NC+ NC-, CDF params vt1 vt2 ro rc
+  PASS  subckt ece203_r8d_ideal_tg has exactly 4 relays ['SA1', 'SA2', 'SB1', 'SB2'] (lines 4)
+  FAIL  SA1: INP OUTP CKA GND relay vt1=800.0m vt2=1.0 ropen=100e+18 rclosed=1.68K
+  FAIL  SA2: INN OUTN CKA GND relay vt1=800.0m vt2=1.0 ropen=100e+18 rclosed=1.68K
+  FAIL  SB1: INP OUTN CKB GND relay vt1=800.0m vt2=1.0 ropen=100e+18 rclosed=1.68K
+  FAIL  SB2: INN OUTP CKB GND relay vt1=800.0m vt2=1.0 ropen=100e+18 rclosed=1.68K
+    subckt: SB2 (INN OUTP CKB GND) relay vt1=800.0m vt2=1.0 ropen=100e+18 rclosed=1.68K | SB1 (INP OUTN CKB GND) relay vt1=800.0m vt2=1.0 ropen=100e+18 rclosed=1.68K | SA2 (INN OUTN CKA GND) relay vt1=800.0m vt2=1.0 ropen=100e+18 rclosed=1.68K | SA1 (INP OUTP CKA GND) relay vt1=800.0m vt2=1.0 ropen=100e+18 rclosed=1.68K
+  PASS  Ron phase A 1680.00 / phase B 1680.00 Ohm (1.68 kOhm +- 0.5 %; real TG at 0.9 V: 1681)
+  PASS  static polarity 10 mV: A +1.000000, B -1.000000
+  PASS  static polarity 0.1 mV: A +1.00000, B -1.00000
+  PASS  both phases off (inputs +-0.1 V, 1 TOhm to vcm): outp-vcm 0 V, outn-vcm 0 V -> Roff >= 1e+30 Ohm (>> 3.128 TOhm)
+  PASS  tran reached 0.002 s (2 ms smoke, <= 2 ms)
+  PASS  chopped 2 kHz per-phase vod/vid: A ['1.00000', '1.00000', '1.00000'], B ['-1.00000', '-1.00000', '-1.00000', '-1.00000']
+  PASS  no overlap: max over time of min(V(cka), V(ckb)) = 0 V (< 0.8 V relay-open threshold)
+  PASS  dead times (both < 0.8 V): 7 intervals, min 10 ns, max 10 ns
+  PASS  no spike: max|vod| 0.9511 mV vs max|vid| 0.9511 mV
+    output CM deviation max 1.11e-10 uV (ideal: no charge injection)
+Stage A: FAIL

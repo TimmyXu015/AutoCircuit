@@ -1,0 +1,103 @@
+
+*******************
+Four Terminal Relay
+*******************
+
+The four-terminal relay is a voltage controlled relay, tied between terminals
+`t1' and `t2'. The voltage between terminals `ps' and `ns' controls the relay
+resistance. The relay resistance varies nonlinearly between the open relay
+resistance, ropen, and the closed relay resistance, rclosed. These resistance
+values correspond to control voltages of `vt1' and `vt2' respectively. Four
+parameters, can be instance or model parameters: vt1, vt2, ropen, and rclosed.
+
+As an alternative, you can specify the threshold voltage, `vth', and the
+transition width, `trans', rather than specifying `vt1' and `vt2'. These two
+parameters are then calculated from `vth' and `trans'. If all four parameters
+are specified, `vth' and `trans' override `vt1' and `vt2'. However, the values
+you specify for 'vt1' and 'vt2' on the instance override any model parameter
+specifications.
+
+The final model parameter, `hysteresis', designates a hysteresis with the ON
+voltage shifted from `vth' by an amount `hysteresis' and the OFF voltage
+shifted by the same amount in the opposite direction. The direction of shift
+depends on the sign of `trans' or the relative magnitudes of `vt1' and `vt2'.
+If `trans' is positive, the ON voltage shifts by `+hysteresis'; if trans is
+negative implying that the relay is ON, the ON voltage shifts by
+`-hysteresis'.
+
+Operating conductance is calculated from the instance parameters as shown
+below:
+When Vc lies between vt1 and vt2,
+    G = Gmin + (Gmin - Gmax) * [ 2 * (Vc - vt1)^3
+        - 3 * (vt2 - vt1) * (Vc - vt1)^2] / (vt2 - vt1)^3
+Otherwise, if vt1 < vt2, then
+    G = Gmin    for Vc < vt1 and
+    G = Gmax    for Vc > vt2.
+If vt1 > vt2,
+    G = Gmin    for Vc > vt1 and 
+    G = Gmax    for Vc < vt2.
+where Gmin = 1 / ropen, Gmax = 1 / rclosed, and Vc = V(ps) - V(ns).
+
+Sample Instance Statement:
+rel1 (1 2 ps ns) my_relay ropen=1G rclosed=2
+
+Sample Model Statement:
+model my_relay relay vt1=2.5 vt2=5 ropen=100M rclosed=0.1
+
+This device is not supported within altergroup.
+
+Synopsis:
+Name ( 1 2 ps ns ) ModelName <parameter=value> ...
+Name ( 1 2 ps ns ) relay <parameter=value> ...
+
+Model Synopsis:
+model ModelName relay <parameter=value> ...
+
+
+===================
+Instance Parameters
+===================
+
+1       vt1 (V)           Relay resistance is `ropen' at this voltage.
+2       vt2=vt1+1.0 V     Relay resistance is `rclosed' at this voltage.
+3       ropen=infinity Ohm
+                          Resistance of a fully open relay.
+4       rclosed=1.0 Ohm   Resistance of a fully closed relay.
+5       m=1.0             Multiplicity factor.
+6       region=off        Estimated operating region. Spectre outputs number
+                          (0-1) in a rawfile. Possible values are off and on.
+
+
+================
+Model Parameters
+================
+
+1       vt1 (V)           Relay resistance is `ropen' at this voltage.
+2       vt2=vt1+1.0 V     Relay resistance is `rclosed' at this voltage.
+3       ropen=infinity Ohm
+                          Resistance of a fully open relay.
+4       rclosed=1.0 Ohm   Resistance of a fully closed relay.
+5       hysteresis=0.0 V  Switching Hysteresis.
+6       vth=0.0 V         Threshold Voltage.
+7       trans=0.0 V       Switch Transition Region Width.
+
+
+==========================
+Operating Point Parameters
+==========================
+
+1       region=off        Estimated operating region. Spectre outputs number
+                          (0-1) in a rawfile. Possible values are off and on.
+2       res (Ohm)         Relay resistance.
+
+
+===============
+Parameter Index
+===============
+
+    hysteresis ....... M-5   region .......... OP-1   vt1 .............. I-1
+    m ................ I-5   res ............. OP-2   vt1 .............. M-1
+    rclosed .......... I-4   ropen ............ I-3   vt2 .............. I-2
+    rclosed .......... M-4   ropen ............ M-3   vt2 .............. M-2
+    region ........... I-6   trans ............ M-7   vth .............. M-6
+

@@ -17,11 +17,16 @@ found = {}
 for l in body:
     q = re.match(r'(\w+) \((\S+) (\S+) (\S+) (\S+)\) relay (.*)', l)
     if q: found[q.group(1)] = (q.group(2), q.group(3), q.group(4), q.group(5), q.group(6))
-def prm(s, k): r = re.search(r'\b%s=(\S+)' % k, s); return r.group(1) if r else None
+SI = {'T': 1e12, 'G': 1e9, 'M': 1e6, 'K': 1e3, 'k': 1e3, 'm': 1e-3, 'u': 1e-6, 'n': 1e-9, 'p': 1e-12, 'f': 1e-15}
+def si(v):
+    try: return float(v)
+    except ValueError: return float(v[:-1]) * SI[v[-1]]
+def prm(s, k): r = re.search(r'\b%s=(\S+)' % k, s); return si(r.group(1)) if r else None   # numeric (netlister writes 800.0m, 100e+18, 1.68K)
+def near(a, b): return a is not None and abs(a / b - 1) < 1e-9
 gate(len(body) == 4 and set(found) == set(want), 'subckt ece203_r8d_ideal_tg has exactly 4 relays %s (lines %d)' % (sorted(found), len(body)))
 for n, (a, b, ck) in want.items():
     g = found.get(n)
-    gate(g and g[:4] == (a, b, ck, 'GND') and prm(g[4], 'vt1') == '0.8' and prm(g[4], 'vt2') == '1.0' and prm(g[4], 'ropen') == '1e20' and prm(g[4], 'rclosed') in ('1.68k', '1680'),
+    gate(g and g[:4] == (a, b, ck, 'GND') and near(prm(g[4], 'vt1'), 0.8) and near(prm(g[4], 'vt2'), 1.0) and near(prm(g[4], 'ropen'), 1e20) and near(prm(g[4], 'rclosed'), 1680),
          '%s: %s' % (n, ' '.join(g[:4]) + ' relay ' + g[4] if g else 'missing'))
 say('    subckt: ' + ' | '.join(body))
 gate(f('ron_A') and abs(f('ron_A') / 1680 - 1) <= 0.005 and abs(f('ron_B') / 1680 - 1) <= 0.005, 'Ron phase A %.2f / phase B %.2f Ohm (1.68 kOhm +- 0.5 %%; real TG at 0.9 V: 1681)' % (f('ron_A'), f('ron_B')))

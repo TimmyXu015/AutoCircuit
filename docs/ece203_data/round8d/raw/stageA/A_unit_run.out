@@ -1,0 +1,26 @@
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ db61f5b
+[run] virtuoso: /software/ECE/IC-618/tools/dfII/bin/virtuoso
+[run] working folder: /home/linux/ieng6/ECE203_FA26_001/lix015
+[run] running job 'ece203_r8d_unit' (log: /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8d_unit.log) ...
+[run] finished in 53 s
+[run] status: OK
+------------------------------------------------------------
+*Error* eval: unbound variable - f
+schCheck (errors warnings): (0 6)
+AC> schCheck "warning": "Floating net \"CKAB\" at (-2.5000, -3.7500).\n"
+AC> schCheck "warning": "Floating net \"CKBB\" at (-2.5000, -5.2500).\n"
+AC> schCheck "warning": "Floating net \"VDD\" at (-2.5000, -6.0000).\n"
+AC> schCheck "warning": "Pin \"VDD\": floating input/output.\n"
+AC> schCheck "warning": "Pin \"CKBB\": floating output.\n"
+AC> schCheck "warning": "Pin \"CKAB\": floating output.\n"
+Built Project/ece203_r8d_ideal_tg/schematic
+AC> ece203_r8d_ideal_tg: symbol generated -> (t), pins ("CKA" "CKAB" "CKB" "CKBB" "GND" "INN" "INP" "OUTN" "OUTP" "VDD")
+schCheck (errors warnings): (0 0)
+Built Project/ece203_r8d_tg_tb/schematic
+AC> r8dA static: ok  | Ron A 1680 B 1680 | vod(10 mV) A 0.01 B -0.01 | vod(0.1 mV) A 0.0001 B -0.0001 | off dV P 0 N 0 | I_VDD -0
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8d/A_unit_tran.csv (40068 rows)
+AC> r8dA tran: ok  (per-phase analysis in r8d_unit_analysis.py)
+------------------------------------------------------------
+------------------------------------------------------------
+[run] transistor line in netlist (/home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8d_tg_tb/spectre/schematic/netlist/input.scs):

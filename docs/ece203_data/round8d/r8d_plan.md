@@ -100,3 +100,10 @@ All of the following:
 - The unit smoke tran is ≤ 2 ms.
 - The watchdog (stall 900 s, hard 5400 s) kills only `lix015_r8d/sim_<tag>`. The user's Virtuoso/Spectre is never touched.
 - R8B/R8C cells and data are read-only. No PDK model content goes into the repo.
+
+## Update 1 (after Stage A ran, before any system run) — parser fix, no gate change
+
+- The netlister writes relay values as `vt1=800.0m`, `ropen=100e+18` and `rclosed=1.68K`.
+- The first `r8d_unit_analysis.py` compared them as strings ('0.8', '1e20', '1.68k'), so the four connectivity/parameter lines reported FAIL although the values are the registered ones.
+- Fix: compare numerically with SI suffixes (relative 1e-9). Gate meaning unchanged. The pre-fix output is kept in `r8d_stageA_gate_prefix.txt`.
+- Spectre relay help (`raw/stageA/spectre_help_relay.txt`): smooth cubic conductance between vt1 and vt2; model `hysteresis` default 0 V, so the relay carries no switching memory.

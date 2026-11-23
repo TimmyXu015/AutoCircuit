@@ -1,0 +1,12 @@
+key,value
+i_vdd,-0
+Roff_lower_bound_P,1e+30
+off_outn_minus_vcm,0
+off_outp_minus_vcm,0
+vod_B_0p1mV,-0.0001
+vod_A_0p1mV,0.0001
+vod_B,-0.01
+vod_A,0.01
+ron_B,1680
+ron_A,1680
+status,ok

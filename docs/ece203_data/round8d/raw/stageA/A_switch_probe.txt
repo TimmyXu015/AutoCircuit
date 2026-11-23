@@ -1,0 +1,8 @@
+param vt1 default="" prompt="Open voltage"
+param vt2 default="" prompt="Closed voltage"
+param ro default="1T" prompt="Open switch resistance"
+param rc default="1.0" prompt="Close switch resistance"
+param m default="" prompt="Multiplier"
+param region default=" " prompt="Estimated operating region"
+simInfo spectre: (nil namePrefix "" instParameters (vt1 vt2 ropen rclosed m region) termOrder (N\+ N\- NC\+ NC\-) termMapping (nil N\+ \:1 N\- "(FUNCTION minus(root(\"N+\")))" NC\+ "(FUNCTION zero(root(\"N+\")))" NC\- "(FUNCTION zero(root(\"N+\")))") propMapping (nil ropen ro rclosed rc) componentName relay)
+symbol terminals: ("NC+" "NC-" "N+" "N-")
