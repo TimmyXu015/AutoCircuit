@@ -1,0 +1,4 @@
+2026-11-23 03:54:58 watchdog start tag=T0_on_zero stall=240s hard=3600s
+2026-11-23 03:55:45 watchdog exit tag=T0_on_zero after 45 s, spectre.out 25822 bytes
+2026-11-23 03:55:59 watchdog start tag=B_pss_a1 stall=900s hard=5400s
+2026-11-23 03:56:46 watchdog exit tag=B_pss_a1 after 45 s, spectre.out 72665 bytes

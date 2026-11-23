@@ -1,0 +1,215 @@
+
+**************
+Noise Analysis
+**************
+
+Noise analysis linearizes the circuit about the operating point and computes
+the noise spectral density at the output. If you identify an input source, the
+transfer function and the input-referred noise for an equivalent noise-free
+network are computed. If the input source is noisy, the noise figure is also
+computed.
+
+The noise is computed at the output of the circuit. The output is specified
+with either a pair of nodes or a probe component. To specify the output of a
+circuit with a probe, specify it with the `oprobe' parameter. If the output is
+voltage (or potential), choose a `resistor' or a `port' as the output probe. If
+the output is current (or flow), choose a `vsource' or `iprobe' as the output
+probe.
+
+If the input-referred noise is desired, specify the input source by using the
+`iprobe' parameter. Currently, only a `vsource', an `isource', or a `port' may
+be used as an input probe. If the input source is noisy, as is a `port', the
+noise analysis computes the noise factor (F) and noise figure (NF). To match
+the IEEE definition of noise figure, the input probe must be a port with no
+excess noise and its `noisetemp' must be set to 16.85C (290K). In addition, the
+output load must be a `resistor' or `port' and must be identified as the
+`oprobe'.
+
+If `port' is specified as the input probe, both input-referred noise and gain
+are referred back to the equivalent voltage source inside the port. S-parameter
+analysis calculates those values in traditional sense.
+
+The noise analysis always computes the total noise at the output, which
+includes contributions from the input source and the output load. The amount of
+output noise that is attributable to each noise source in the circuit is also
+computed and output individually. If the input source is identified, the
+input-referred noise is computed, which includes the noise from the input
+source itself. Finally, if the input source is identified and is noisy, the
+noise factor and noise figure are computed. Therefore, if:
+
+No = total output noise
+Ns = noise at the output due to the input probe (the source)
+Nl = noise at the output due to the output probe (the load)IRN = input referred
+noise
+G = gain of the circuit
+F = noise factor
+NF = noise figure
+Then:
+IRN = sqrt(No^2 / G^2)
+F = (No^2 - Nl^2)/Ns^2
+NF = 10*log10(F)
+When the results are output, No is named `out', IRN is named `in', G is named
+`gain', F is named `F', and NF is named `NF'.
+
+Spectre can perform Noise analysis while sweeping a parameter. The parameter
+can be frequency, temperature, component instance parameter, component model
+parameter, or netlist parameter. If changing a parameter affects the DC
+operating point, the operating point is recomputed at each step. You can sweep
+the circuit temperature by giving the parameter name as `temp', without a `dev'
+or `mod' parameter. In addition, you can sweep a netlist parameter by giving
+the parameter name without a `dev' or `mod' parameter. After the analysis is
+complete, the modified parameter returns to its original value.
+
+
+Synopsis:
+Name ( [p] [n] ) noise <parameter=value> ...
+
+The optional terminals (p and n) specify the output of the circuit. If you do
+not specify the terminals, you must specify the output with a probe component.
+
+
+
+
+==========
+Parameters
+==========
+
+1       prevoppoint=no    Use the operating point computed in the previous
+                          analysis. Possible values are no and yes.
+
+Sweep interval parameters
+2       start=0           Start sweep limit.
+3       stop              Stop sweep limit.
+4       center            Center of sweep.
+5       span=0            Sweep limit span.
+6       step              Step size, linear sweep.
+7       lin=50            Number of steps, linear sweep.
+8       dec               Points per decade.
+9       log=50            Number of steps, log sweep.
+10      values=[...]      Array of sweep values.
+
+Sweep variable parameters
+11      dev               Device instance whose parameter value is to be
+                          swept.
+12      mod               Model whose parameter value is to be swept.
+13      param             Name of parameter to sweep.
+14      freq (Hz)         Frequency when a parameter other than frequency is
+                          being swept.
+
+Probe parameters
+15      oprobe            Compute total noise at the output defined by this
+                          component.
+16      iprobe            Input probe. Refer the output noise to this
+                          component.
+
+State-file parameters
+17      readns            File that contains an estimate of the DC solution
+                          (nodeset).
+18      write             DC operating point output file at the first step of
+                          the sweep.
+19      writefinal        DC operating point output file at the last step of
+                          the sweep.
+
+Initial condition parameters
+20      force=none        The set of initial conditions to use. Possible values
+                          are none, node, dev, and all.
+21      readforce         File that contains initial conditions.
+22      skipdc=no         Skip DC analysis. Possible values are no and yes.
+23      useprevic=no      If set to yes or ns, use the converged initial
+                          condition from previous analysis as ic or ns. 
+                          Possible values are no, yes, and ns.
+
+Output parameters
+24      save              Signals to output. Possible values are all, lvl,
+                          allpub, lvlpub, and selected.
+25      nestlvl           Levels of subcircuits to output.
+26      oppoint=no        Determines whether operating point information should
+                          be computed:if yes, where should it be printed
+                          (screen or file). Operating point information is not
+                          printed if the operating point computed in the
+                          previous analysis remains unchanged. Possible values
+                          are no, screen, logfile, and rawfile.
+27      separatenoise=no  Separate noise into sources and transfer functions. 
+                          Possible values are no and yes.
+
+Convergence parameters
+28      restart=yes       Restart the DC solution from scratch if any condition
+                          has changed. If not, use the previous solution as an
+                          initial guess. Possible values are no and yes.
+
+Annotation parameters
+29      annotate=sweep    Degree of annotation. Possible values are no, title,
+                          sweep, status, and steps.
+30      title             Analysis title.
+
+You can define sweep limits by specifying the end points or the center value
+and span of the sweep. Steps can be linear or logarithmic, and you can specify
+the number of steps or the size of each step. You can specify a step size
+parameter (`step', `lin', `log' or `dec') to determine whether the sweep is
+linear or logarithmic. If you do not specify a step size parameter, the sweep
+is linear when the ratio of stop to start values is less than 10 and
+logarithmic when this ratio is 10 or greater. All frequencies are in Hertz.
+
+The small-signal analysis begins by linearizing the circuit about an operating
+point. By default, this analysis computes the operating point, if it is not
+known, or recomputes it if any significant component or circuit parameter has
+changed. However, if an operating point was computed during a previous
+analysis, you can set `prevoppoint=yes' to avoid recomputing it. For example,
+if `prevoppoint=yes' and the previous analysis was a transient analysis, the
+operating point is the state of the circuit at the final time point.
+
+Nodesets help find the DC or the initial transient solution. You can specify
+nodesets in the circuit description file with nodeset statements or in a
+separate file by using the readns parameter. When nodesets are specified,
+Spectre computes an initial guess of the solution by performing DC analysis,
+while forcing the specified values on to nodes by using a voltage source in
+series with a resistor whose resistance is rforce. Spectre then removes these
+voltage sources and resistors and computes the required solution from this
+initial guess.
+
+Nodesets have two important uses. First, if a circuit has two or more
+solutions, nodesets can bias the simulator towards computing the required
+solution. Second, these are a convergence aid. By estimating the solution of
+the largest possible number of nodes, you might be able to eliminate a
+convergence problem or significantly speed up convergence.
+
+When you simulate the same circuit multiple times, it is recommended that you
+use both `write' and `readns' parameters and assign the same file name to both
+parameters. DC analysis then converges quickly even if the circuit has changed
+since the last simulation, and the nodeset file is automatically updated.
+
+During the initial operating point DC analysis, you may force certain circuit
+variables to use the values given in the `ic' file, `ic' statements, or `ic'
+parameter on the capacitors and inductors. The `ic' parameter controls the
+interaction of various methods of setting the force values. The effects of
+individual settings are as follows:
+`force'=`none':All initial conditions are ignored.
+`force'=`node':The `ic' statements are used, and the `ic' parameters on the
+                  capacitors and inductors are ignored.
+`force'=`dev':The `ic' parameters on the capacitors and inductors are used, and
+                  the `ic' statements are ignored.
+`force'=`all':Both `ic' statements and `ic' parameters are used, with the `ic'
+                  parameters overriding the `ic' statements.
+If you specify an `ic' file with the `readforce' parameter, force values from
+the file are used and any `ic' statements are ignored.
+
+After you specify the initial conditions, Spectre computes the DC operating
+point with the specified nodes forced to the given value by using a voltage
+source in series with a resistor whose resistance is `rforce' (see `options').
+
+===============
+Parameter Index
+===============
+
+    annotate .......... 29   nestlvl ........... 25   skipdc ............ 22
+    center ............. 4   oppoint ........... 26   span ............... 5
+    dec ................ 8   oprobe ............ 15   start .............. 2
+    dev ............... 11   param ............. 13   step ............... 6
+    force ............. 20   prevoppoint ........ 1   stop ............... 3
+    freq .............. 14   readforce ......... 21   title ............. 30
+    iprobe ............ 16   readns ............ 17   useprevic ......... 23
+    lin ................ 7   restart ........... 28   values ............ 10
+    log ................ 9   save .............. 24   write ............. 18
+    mod ............... 12   separatenoise ..... 27   writefinal ........ 19
+
+

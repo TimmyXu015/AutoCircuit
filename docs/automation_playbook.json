@@ -292,7 +292,10 @@
   "MOS pseudo-R (pfet33x, gate+well on B) in a capacitive-feedback amp: asymmetric I-V rectifies the output swing into a net DC current (R7C: +-47 mV -> ~10.7 fA per side), a slow common-mode drift of the OTA-input nodes (-0.18 mV/s with ~59 pF/node, steady state tens of mV after minutes). A 60 ms tran shows it only as a slope of (p+n)/2; save p/n in the tran.",
   "From cmd/MATLAB system() ssh commands, put remote grep -E patterns in single quotes (doubled inside the MATLAB string); an escaped \\\" lets cmd see the | inside the pattern ('done' is not recognized as a command).",
   "Reusing a stage function that reads its own case env var (r7eStageC reads AC_R7E_CASE) from a wrapper for another round: export that env var too (R7F's first Stage C launch silently simulated the R7E default case). Wrappers should refuse to start when the inner case does not match.",
-  "A source follower driving a low-impedance passive load has a Thevenin output resistance (R7F CD: Ro ~0.28 MOhm at ~112 nA) that adds to a following RC: a loaded RC corner is set by (R + Ro)(C + Cl), not R(C + Cl)."
+  "A source follower driving a low-impedance passive load has a Thevenin output resistance (R7F CD: Ro ~0.28 MOhm at ~112 nA) that adds to a following RC: a loaded RC corner is set by (R + Ro)(C + Cl), not R(C + Cl).",
+  "OCEAN waveform arithmetic between results on different x grids (e.g. noise 0.1-250 Hz / AC 1 mHz-100 kHz) returns a wave on another grid; spsWriteWaves then writes it by row index next to the first wave's x -> misaligned CSV column. Export each wave with its own x, or interpolate in Python (R8 r8_spec.py).",
+  "PSS shooting cannot converge when the netlist contains an extreme inert time constant: the R6A-era diagnostic branch EOC (vcvs) -> CHP 1 MF -> RHP 1 TOhm (tau 1e18 s, Floquet multiplier = 1) keeps the shooting Newton oscillating with equal/opposite residuals on EOC:p and VREF:p (R8 a1/a2). Remove or isolate such aids in a noise-only bench (after proving static equivalence) before PSS/PNoise.",
+  "Spectre 15.1 help (spectre -h pss / pnoise, with CDS_AUTO_64BIT=ALL): pnoise noisetype default = timeaverage, shooting maxsideband default 7; pss supports cmin, itres, maxacfreq, writepss/readpss, steadyratio."
  ],
  "open_items": [
   "Auto-load ac.il via ~/.cdsinit (offered, not done).",

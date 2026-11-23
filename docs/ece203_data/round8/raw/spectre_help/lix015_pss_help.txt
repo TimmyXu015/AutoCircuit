@@ -1,0 +1,971 @@
+
+******************************
+Periodic Steady-State Analysis
+******************************
+
+This analysis computes the periodic steady-state (PSS) response of a circuit by
+using harmonic balance (in the frequency domain) or shooting (in the time
+domain). The simulation time of PSS analysis is independent of the
+time-constants of the circuit. In addition, PSS analysis determines the
+periodic operating point for the circuit. The periodic operating point can then
+be used during a periodic time-varying small-signal analysis, such as PAC, PXF,
+PNOISE, PSP, or PSTB.
+
+Generally, harmonic balance (HB) is very efficient in simulating weak
+non-linear circuits while shooting is more suitable for highly non-linear
+circuits with sharply rising and falling signals. HB is also advantageous over
+shooting in handling frequency dependent components, such as delay,
+transmission line, and S-parameter data.
+
+PSS analysis can handle both autonomous (non-driven) and driven
+(non-autonomous) circuits. Autonomous circuits,even though they are not driven
+by a time-varying stimulus, generate non-constant waveforms. Driven circuits
+require some time-varying stimulus to generate a time-varying response. The
+most common example of an autonomous circuit is an oscillator. Common driven
+circuits include amplifiers, filters, and mixers. When PSS is applied to
+autonomous circuits, it requires you to specify a pair of nodes, `p' and `n'.
+This is how PSS analysis determines whether it is being applied to an
+autonomous or a driven circuit. If the pair of nodes is supplied, PSS assumes
+the circuit is autonomous; if not, the circuit is assumed to be driven.
+
+With driven circuits, specify the analysis period, or its corresponding
+fundamental frequency `fund'. The `period' must be an integer multiple of the
+period of the drive signal or signals. Autonomous circuits have no drive
+signal, and the actual period of oscillation is not known precisely in advance.
+Instead, you specify an estimate of the oscillation period and PSS analysis
+computes the precise period along with the periodic solution waveforms.
+
+PSS analysis consists of two phases, an initial transient phase, which
+initializes the circuit, and the shooting or harmonic balance phase, which
+computes the periodic steady-state solution. The transient phase consists of
+three intervals. The first interval starts at `tstart', which is normally 0,
+and continues through the onset of periodicity `tonset' for the independent
+sources. The onset of periodicity, which is automatically generated, is the
+minimum time for which all sources are periodic. The second interval is an
+optional user-specified stabilization interval whose length is `tstab'. The
+final interval length is `period' for driven circuits, or four times `period'
+for autonomous circuits. This interval has a special use for the autonomous PSS
+analysis, that is, the PSS analysis monitors the waveforms in the circuit and
+develops a better estimate of the oscillation period. After the initial
+transient phase is complete, the shooting or HB phase begins. In this phase,
+the circuit is iteratively solved using Newton method to find the periodic
+steady-state solution (and the period when applied to autonomous circuits). 
+
+
+Synopsis:
+Name ( [p] [n] ) pss <parameter=value> ...
+
+
+==========
+Parameters
+==========
+
+Simulation interval parameters
+1       period (s)        Steady state analysis period (or its estimate for
+                          autonomous circuits).
+2       fund (Hz)         Alternative to period specification. Steady state
+                          analysis fundamental frequency (or its estimate for
+                          autonomous circuits).
+3       autofund=no       If the value is yes, the program ignores period/fund
+                          value and calculates the fundamental frequency
+                          automatically from source information. Possible
+                          values are no and yes.
+4       harms=9 for shooting, 10 for HB
+                          For shooting, it is the number of solution harmonics
+                          to output when outputtype=`freq' or `all'; for HB, it
+                          directly determines the solution dimension to be
+                          solved and impacts the accuracy and convergence of
+                          the simulation.
+5       autoharms=no      Activates automatic harmonic number calculation in
+                          harmonic balance. Applies only if tstab>0 or if
+                          autotstab=yes. If a steady-state is reached, Spectre
+                          does a spectrum analysis to calculate the optimal
+                          number of harmonics for HB. The minimum number of
+                          harmonics is specified by maxharms. If steady-state
+                          is not reached to sufficient tolerance, autoharms may
+                          be disabled. Possible values are no and yes.
+6       tstab=0.0 s       Extra stabilization time after the onset of
+                          periodicity for independent sources.
+7       autotstab=no      Activates the automatic initial transient (tstab) in
+                          harmonic balance and PSS shooting. If set to yes, the
+                          simulator decides whether to run tstab and for how
+                          long. Typically, the initial length of tstab is 50
+                          periods; however, it could be longer depending on the
+                          type of circuit and its behavior. If steady-state is
+                          reached (or nearly reached), tstab terminates early.
+                          Possible values are no and yes.
+8       autosteady=no     Activates the automatic steady state detection during
+                          initial transient (tstab) in harmonic balance and PSS
+                          shooting. When steady state is reached (or nearly
+                          reached), tstab terminates early. This parameter
+                          applies only when tstab>0 or when autotstab=yes. 
+                          Possible values are no and yes.
+9       tstart=0.0 s      Initial transient analysis start time.
+10      tstabenvlp=no     Determines the envelope method to be used for tstab.
+                          If the value is set to yes, envelope method will be
+                          used for tstab. Default value is no. Possible values
+                          are no and yes.
+11      envlpname         Name of envelope analysis to be performed at tstab
+                          for pss.
+
+Time-step parameters
+12      maxstep (s)       Maximum time step. The default is derived from
+                          `errpreset'.
+13      maxacfreq         Maximum frequency requested in a subsequent periodic
+                          small-signal analysis. The default is derived from
+                          `errpreset' and `harms'. This parameter is valid only
+                          for shooting.
+14      step=0.001*period s
+                          Minimum time step that would be used solely to
+                          maintain the aesthetics of the results. This
+                          parameter is valid only for shooting.
+
+Initial-condition parameters
+15      ic=all            The value to be used to set the initial condition. 
+                          Possible values are dc, node, dev, and all.
+16      skipdc=no         If set to yes, there is no DC analysis for initial
+                          transient. Possible values are no, yes, and
+                          sigrampup.
+17      readic            File that contains initial condition.
+18      oscic=default     Oscillator IC method. It determines how the starting
+                          values for the oscillator are calculated. `oscic=lin'
+                          provides you an accurate initial value, but it takes
+                          time; `oscic=fastic' is fast, but it is less
+                          accurate. 'oscic=skip' directly uses the frequency
+                          provided by you as the initial guess frequency. It is
+                          only for the two-tier method. Possible values are
+                          default, lin, lin_ic, linar, fastic, and skip.
+19      useprevic=no      If set to yes or ns, use the converged initial
+                          condition from previous analysis as ic or ns. 
+                          Possible values are no, yes, and ns.
+
+Convergence parameters
+20      readns            File that contains an estimate of the initial
+                          transient solution.
+21      cmin=0 F          Minimum capacitance from each node to ground.
+
+Output parameters
+22      harmsvec=[...]    Array of desired harmonics. An alternative form of
+                          `harms' that allows selection of specific harmonics.
+                          This parameter is valid only for shooting.
+23      outputtype= 'all' 
+                          Output type. Possible values are all, time, and
+                          freq.
+24      save              Signals to output. Possible values are all, lvl,
+                          allpub, lvlpub, selected, none, and nooutput.
+25      nestlvl           Levels of subcircuits to output.
+26      oppoint=no        Should operating point information be computed for
+                          initial timestep; if yes, where should it be printed
+                          (screen or file). Possible values are no, screen,
+                          logfile, and rawfile.
+27      skipstart=0 s     The time to start skipping output data.
+28      skipstop=stop s   The time to stop skipping output data.
+29      skipcount=1       Save only one of every skipcount points.
+30      strobeperiod=0 s  The output strobe interval (in seconds) of transient
+                          time.
+31      strobedelay=0 s   The delay (phase shift) between the skipstart time
+                          and the first strobe point.
+32      saveinit=no       If set to yes, the waveforms for the initial
+                          transient before steady state are saved. Possible
+                          values are no and yes.
+
+State-file parameters
+33      write             File to which initial transient solution (before
+                          steady-state) is written.
+34      writefinal        File to which final transient solution in
+                          steady-state is written. This parameter is now valid
+                          only for shooting.
+35      swapfile          Temporary file to hold steady-state information. It
+                          tells Spectre to use a regular file, rather than
+                          virtual memory to hold the periodic operating point.
+                          Use this option if Spectre complains about not having
+                          enough memory to complete the analysis. This
+                          parameter is now valid only for shooting.
+36      writepss          File to which the converged steady-state solution is
+                          written. The file of shooting and HB cannot be
+                          mutually reused.
+37      readpss           File from which a previously converged steady-state
+                          solution is read. For shooting method, PSS loads the
+                          solution and checks the residue of the circuit
+                          equations only. The solution is re-used if the
+                          residue is satisfactory. Otherwise, the solution is
+                          re-converged using the finite difference method. The
+                          results from shooting QPSS cannot be used in HB QPSS
+                          analysis and vice-versa.
+38      checkpss=yes      If set to yes, the previous PSS results (from readpss
+                          file) are checked and PSS+MIC is rerun if any
+                          condition has changed. If set to no, the simulator
+                          assumes that nothing has changed and uses the
+                          solution from the file without checking and running
+                          PSS+MIC again. This parameter is now valid only for
+                          shooting. Possible values are no and yes.
+
+Integration method parameters
+39      method            Integration method. The default is derived from
+                          `errpreset'. This parameter is valid only for
+                          shooting. Possible values are euler, trap, traponly,
+                          gear2, and gear2only.
+40      tstabmethod       Integration method used in stabilization time. The
+                          default is `traponly' for autonomous circuits, or is
+                          derived from `errpreset' for driven circuits. 
+                          Possible values are euler, trap, traponly, gear2, and
+                          gear2only.
+
+Accuracy parameters
+41      errpreset         Selects a reasonable collection of parameter
+                          settings. Possible values are liberal, moderate, and
+                          conservative.
+42      relref            Reference used for the relative convergence criteria.
+                          The default is derived from `errpreset'. Possible
+                          values are pointlocal, alllocal, sigglobal, and
+                          allglobal.
+43      lteratio          Ratio used to compute LTE tolerances from Newton
+                          tolerance. The default is derived from `errpreset'.
+44      lteminstep=0.0 s  Local truncation error is ignored if the step size is
+                          less than lteminstep.
+45      steadyratio       Ratio used to compute steady-state tolerances from
+                          LTE tolerance. The default is derived from
+                          `errpreset'.
+46      maxperiods        Maximum number of iterations allowed before
+                          convergence is reached in shoorting or harmonic
+                          balance Newton iteration. For PSS and QPSS, the
+                          default is 20 for driven circuits, and 50 for
+                          oscillators; For HB, the default is 100.
+47      lnsolver=gmres    Linear solver. Possible values are gmres, qmr,
+                          bicgstab, resgmres, and gmres_cycle.
+48      itres=1e-4 for shooting, 0.9 for HB
+                          Controls the residual for iterative solution of
+                          linearized matrix equation at each Newton iteration.
+                          Tightening the parameter can help with the Newton
+                          convergence, but does not affect the result accuracy.
+                          The value should be between [0, 1].
+49      inexactNewton=no  Inexact Newton method. Possible values are no and
+                          yes.
+50      finitediff        Enable finite difference method refinement for driven
+                          circuits after shooting method. Possible values are
+                          no, yes, and refine.
+51      highorder         Perform a high-order refinement after low-order
+                          convergence. The Multi-Interval Chebyshev polynomial
+                          spectral algorithm is used. This parameter is only
+                          valid for shooting. Possible values are no and yes.
+52      psaratio=1        Ratio used to compute high-order polynomial spectral
+                          accuracy from Newton tolerance. This parameter is
+                          only valid for shooting.
+53      maxorder          The maximum order of the Chebyshev polynomials used
+                          in waveform approximation. Possible values are from 2
+                          to 16. Default value is 16 for driven circuits and 12
+                          for autonomous circuits. This parameter is valid only
+                          for shooting.
+54      fullpssvec        Use the full vector containing solutions at all PSS
+                          time steps in the linear solver. The default is
+                          derived from the size of the equation and the
+                          property of the PSS time steps. This parameter is
+                          only valid for shooting. Possible values are no and
+                          yes.
+55      fdharms=10        Number of harmonics considered for distributed
+                          (frequency-domain) components, such as nport, delay,
+                          mtline, and delayed controlled sources. This
+                          parameter is valid only for shooting and for those
+                          components for which 'Fmax' parameter of neither
+                          model nor instance is set.
+
+Harmonic Balance parameters
+56      harmonicbalance=no
+                          Use Harmonic Balance engine instead of time-domain
+                          shooting. Possible values are no and yes.
+57      flexbalance=no    Same parameter as `harmonicbalance'. Possible values
+                          are no and yes.
+58      pinnode           Node to pin during autonomous HB simulation.
+59      pinnodeminus      Second node to pin during autonomous HB simulation.
+                          Needed only when differential nodes exist in
+                          oscillator.
+60      pinnoderank       Harmonic rank to pin during autonomous HB
+                          simulation.
+61      pinnodemag        This parameter gives an estimate of the magnitude of
+                          the pin node voltage. Default value is 0.01.
+62      oversamplefactor=1
+                          Oversample device evaluations.
+63      oversample=[...]  Array of oversample factors for each tone. This
+                          parameter overrides oversamplefactor.
+64      oscmethod         Osc Newton method for autonomous HB. Possible values
+                          are onetier and twotier.
+65      hbhomotopy=tone   Name of Harmonic Balance homotopy selection methods.
+                          Possible values are tstab, source, gsweep, tone,
+                          inctone, and aggregation.
+66      sweepic=none      IC extrapolation method in sweep HB analysis. 
+                          Possible values are none, linear, and log.
+67      gstart=1.e-7      Start conductance for hbhomotopy of gsweep.
+68      gstop=1.e-12      Stop conductance for hbhomotopy of gsweep.
+69      glog=5            Number of steps, log sweep for hbhomotopy of gsweep.
+70      backtracking=yes  This parameter is used to activate the backtracing
+                          utility of Newton's method. The default is yes. 
+                          Possible values are no, yes, and forced.
+71      krylov_size=10    The minimum iteration count of the linear matrix
+                          solver used in HB large-signal analysis. After
+                          reaching krylov_size  iterations, the iteration is
+                          forced to terminate because of the poor rate of
+                          convergence. Increase krylov_size if the simulation
+                          reports insufficient norm reduction errors in GMRES.
+72      hbprecond_block_powerratio=1e-7
+                          Nonlinear block power ratio in block preconditioner.
+73      hbprecond_pivot_th=1.0e-15
+                          HB preconditioner small pivot threshold.
+
+Annotation parameters
+74      annotate=sweep    Degree of annotation. Possible values are no, title,
+                          sweep, status, estimated, steps, iters, detailed,
+                          rejects, alliters, detailed_hb, and internal_hb.
+75      annotateic=no     Degree of annotation for initial condition. Possible
+                          values are no, title, sweep, status, steps, iters,
+                          detailed, and rejects.
+76      title             Analysis title.
+
+Newton parameters
+77      maxiters=5        Maximum number of iterations per time step.
+78      restart=no        Restart the DC/PSS solution if set to 'yes'; if set
+                          to 'no', reuse the previous solution as an initial
+                          guess; if set to 'firstonly', restart if it is the
+                          first point of sweep (supported only in HB). The
+                          default value is 'no' for HB and 'yes' for shooting.
+                          Possible values are no, yes, and firstonly.
+
+Circuit age
+79      circuitage (Years)
+                          Stress time. Age of the circuit used to simulate
+                          hot-electron degradation of MOSFET and BSIM
+                          circuits.
+
+Tstab save/restart parameters
+80      ckptperiod        Checkpoint the analysis periodically by using the
+                          specified period.
+81      saveperiod        Save the tran analysis periodically on the simulation
+                          time.
+82      saveperiodhistory=no
+                          Maintains the history of saved files. If yes,
+                          maintains all the saved files. Possible values are no
+                          and yes.
+83      saveclock (s)     Save the tran analysis periodically on the wall clock
+                          time. The default is 1800s for Spectre. This
+                          parameter is disabled in the APS mode by default.
+84      savetime=[...]    Save the analysis states into files on the specified
+                          time points.
+85      savefile          Save the analysis states into the specified file.
+86      recover           Specify the file to be restored.
+
+Oscillator PPV parameters
+87      ppv=no            If set to yes, save the oscillators' perturbation
+                          projection vector (PPV), representing the
+                          oscillators' phase sensitivity to perturbations in
+                          the voltage or current at the nodes of the
+                          oscillator. Possible values are no and yes.
+
+Compression parameters
+88      xdbcompression="no"
+                          Sets the automatic gain compression analysis. In
+                          automatic gain compression analysis, Spectre
+                          automatically sweeps the input excitation until the
+                          gain, as defined by the analysis parameter xdbgain,
+                          compresses by the amount specified by the analysis
+                          parameter xdblevel. In gain compression analysis,
+                          Spectre ouputs the hb solution at the calculated
+                          compression point only. Dependent analyses, such as
+                          hbnoise and hbac, are supported and calculated about
+                          the calculated compression level. Auxiliary output
+                          includes the gain and voltage/power compression
+                          curves. These outputs are available for analysis and
+                          post-processing in ADE. The possible values are yes
+                          and no. Default is no.
+89      xdblevel=[...]    Sets the gain compression level for compression
+                          analysis. The reference point for gain compression is
+                          the small-signal gain of the circuits, or as
+                          specified by the analysis parameter xdbref. Default
+                          is 1.
+90      xdbgain="power"   Chooses between the voltage gain and transducer power
+                          gain as the target for compression point calculation.
+                          When xdbgain=power, the gain is defined as G (dB) =
+                          Pload (dBm) - Pavailable (dBm). When xdbgain=voltage,
+                          the gain is defined as G (dB) =
+                          dB20(|Vload|/|Vsource|). In both cases, Spectre
+                          sweeps the excitation source until xdbref - G =
+                          xdblevel, where the analysis parameter xdbref defines
+                          the reference level for compression calculation.
+                          Possible values are power and voltage. Default is
+                          power.
+91      xdbref="linear"   Sets the reference point for gain compression
+                          calculations. When xdbref=linear, spectre uses the
+                          small-signal gain as the reference. When xdbref=max,
+                          spectre uses the maximum observed gain as the
+                          reference. Possible values are linear and max.
+                          Default is linear.
+92      xdbsource         The instance name of the excitation source, which is
+                          swept automatically to reach the compression level.
+                          When xdbgain=power, the excitation source must be a
+                          port instance. When xdbgain=voltage, the excitation
+                          source must be a vsource instance.
+93      xdbload           The instance name of the load termination. When
+                          xdbgain is power, xdbload can be a port, a resistor,
+                          or a current probe.
+94      xdbnodep          The output terminals for voltage gain calculation
+                          when xdbgain=voltage. If either is left unspecified,
+                          the terminal is assumed to be the global ground.
+95      xdbnoden          The output terminals for voltage gain calculation
+                          when xdbgain=voltage. If either is left unspecified,
+                          the terminal is assumed to be the global ground.
+96      xdbrefnode        The reference node when xdbload is a current probe.
+                          The default is the ground node.
+97      xdbharm=[...]     The Integer array which specifies the harmonic
+                          indexes of the output voltage or power component.
+98      xdbsteps=100      The maximum number of steps for the compression point
+                          search. The simulator terminates if xdbsteps exceeds
+                          before the compression point is found. The default is
+                          100.
+99      xdbmax            The maximum input power (or voltage) for the
+                          compression point search. Default is 10 dBm when
+                          xdbgain=power, and 0.1 V when xdbgain=voltage.
+100     xdbstart          The starting input power (or voltage) for the
+                          compression point search. Default is (xdbmax-50) dBm
+                          when xdbgain=power, and xdbmax/1000 when
+                          xdbgain=voltage.
+101     xdbtol=0.01       Sets the tolerance for compression analysis.  This
+                          tolerance is used in compression curve fitting and
+                          calculating the compression point.
+102     xdbrapid="no"     Sets the automatic gain compression analysis in rapid
+                          mode. In this mode, Spectre does not trace the
+                          compression curve and calculates only the compression
+                          point.
+103     xdbcpi            Sets the estimated input-referred compression point
+                          for rapid compression analysis.
+
+Memory estimation parameters
+104     memoryestimate="no"
+                          Sets the memory usage estimate for Harmonic Balance.
+                          If yes, a memory estimate is printed in the log file.
+                          You can use this memory estimate to plan the
+                          computing resources before submitting harmonic
+                          balance runs. In memory estimate mode, a short
+                          simulation is performed first, and the engine exits
+                          after printing the estimate in the log file without
+                          saving harmonic balance results. You must turn it off
+                          to perform an actual simulation. Memory estimation is
+                          not recommended for simulations that require less
+                          than 500MB approximately. For PSS analysis, memory
+                          estimate mode does not apply unless flexbalance=yes.
+                          The estimate applies only to large-signal analysis,
+                          and does not include subsequent noise or other
+                          small-signal simulations.
+
+Oscillator tuning mode parameters
+105     tuneparam         When set, tuneparam enables the tuning mode
+                          oscillator analysis. In the tuning mode analysis, a
+                          circuit parameter is automatically varied to reach
+                          the oscillation frequency specified by the fundfreqs
+                          parameter. The tuning parameter can be a device
+                          instance parameter (as determined by the parameters
+                          tunedev) or a netlist parameter. This mode applies
+                          only to autonomous circuits (oscillators).
+106     tunedev           Sets the instance name of a device whose parameter
+                          (identified by tuneparam) will be varied such that
+                          the circuit oscillates at the specified frequency.
+                          Applies only in tuning mode autonomous analysis.
+                          Tunedev must be used with tuneparam.
+107     tunerange=[...]   The tuning range of the parameter identified by
+                          tuneparam. Although tunerange is not required, it can
+                          aid in convergence if set. Tunerange also can be used
+                          with 'tunestep' or 'tunelin' to decide the acceptable
+                          discrete parameter set.
+108     tunestep          Specify the step size between two adjacent discrete
+                          tuning points. Must be used with 'tunerange'.
+109     tunelin           Specify the numbers of discrete tuning points. Must
+                          be used with 'tunerange'.
+110     tunevalues=[...]  Specify the values of discrete tuning points.
+
+LSSP parameters
+111     lsspports=[...]   Specifies the list of ports on which the large-signal
+                          2-port S-parameters are calculated.
+112     lsspharms=[...]   Specifies the output harmonic for large-signal
+                          S-parameter calculations. The input harmonic is
+                          defined by the frequency parameters on the input port
+                          instance.
+113     lsspfile          Identifies the file name for large-signal S-parameter
+                          output.
+114     lsspdatafmt="touchtone"
+                          Sets the file format of the large-signal S-parameter
+                          output. Possible values are spectre and touchstone.
+                          Default is touchstone.
+115     lsspdatatype="msgphase"
+                          Sets the data format or the large-signal S-parameter
+                          output. Possible values are realimag, magphase and
+                          phase. Default is magphase.
+
+Dynamic parameters
+116     param             Name of the parameter to be updated during pss/hb
+                          analysis (tstab stage). When param=paramName and
+                          param_vec=[t1 value1 t2 value2 ... valuen tn],
+                          paramName is set to value1 at t1, value2 at t2, and
+                          so on. Pss/hb analysis uses the last value in the
+                          param_vec(valuen) to find the steady state.
+117     paramset          Name of the dynamic parameter set.
+118     param_vec=[...]   The time_value points to param=name.
+119     param_file        The file that contains the time_value points to
+                          param=name.
+120     sub               Name of the subcircuit instance parameter specified
+                          in param=name.
+121     mod               Name of the device model parameter specified in
+                          param=name.
+122     dev               Name of the device instance parameter specified in
+                          param=name.
+123     param_step        Defines the frequency of updating the dynamic
+                          parameter values. If param_step=0, it updates the
+                          parameter value at a given time point.
+
+The initial transient analysis provides a flexible mechanism to direct the
+circuit to a particular steady-state solution of interest, and to avoid
+undesired solutions. Another use of the initial transient simulation is to help
+in convergence by eliminating large but fast decaying modes that are present in
+many circuits. For example, in case of driven circuits, consider the reset
+signal in the figure below.
+            __    __    __    __    __    __    __    __
+clock _____|  |__|  |__|  |__|  |__|  |__|  |__|  |__|  |__
+                         __________________________________
+reset __________________|
+                               _____       _____       ____
+Q2    ________________________|     |_____|     |_____|
+               ^        ^         ^           ^
+         tstart|  tonset|    tinit|      tstop|
+                        |<-tstab->|<- period->|
+
+In the above figure, the initial transient analysis runs from `tstart' to
+`tstop'. If initial transient results  are relevant, you can output them  by
+setting `saveinit' to yes. The steady-state results are always computed for the
+specified `period', from `tinit' to `tstop'. By default, `tstart' and `tstab'
+are set to zero, while `tinit', `tonset' and `tstop' are always automatically
+generated.
+
+It happens in some circuits that the linearity of the relationship between the
+initial and final state depends on when the shooting or HB begins.
+Conceptually, when shooting or HB begins should not matter, as long as it is
+after the time when the stimuli have become periodic, because the periodic
+response repeats endlessly. However, in practice, starting at a good point can
+improve the convergence, and starting at a bad point can degrade the
+convergence and slow down the analysis. In general, it is best to try to avoid
+starting the shooting interval at a point where the circuit is undergoing
+strong nonlinear behavior. For example, when shooting is used to simulate
+switch-capacitor filters, it is best if `tinit' falls at the beginning of a
+clock transition, preferably a transition that follows a relatively long period
+of settling. If instead `tinit' occurred during a clock transition or soon
+after one, it is likely that the opamps will undergo slew-rate limiting at the
+start of the shooting interval, which will slow convergence. Switching mixers
+follow similar rules.
+
+When PSS analysis simulates oscillators, either transient or linear
+initialization is performed to obtain an initial guess of the steady-state
+solution and the oscillating frequency. Two initialization methods are
+implemented based on transient and linear analysis, respectively. When
+`oscic=default' is specified, transients initialization is used and the length
+of the transient is specified by `tstab'. It is necessary to start the
+oscillator by using initial conditions, or by using a brief impulsive stimulus,
+just as you would if you were simulating the turn-on transient of the
+oscillator using transient analysis. Initial conditions would be provided for
+the components of the oscillators' resonator. If an impulsive stimulus is used,
+it should be applied so as to couple strongly into the oscillatory mode of the
+circuit, and poorly into any other long-lasting modes, such as those associated
+with bias circuitry. The Designer's Guide to Spice and Spectre [K. S. Kundert,
+Kluwer Academic Publishers, 1995] describes techniques for starting oscillators
+in some depth. When `oscic=default' is specified, `oscic=lin', linear
+initialization is used. In this method, both oscillation frequency and
+amplitude are estimated based on linear analysis at DC solution. No impulsive
+stimulus or initial conditions are needed. Linear initialization is suitable
+for linear type of oscillators, such as LC and crystal oscillators. Note that
+tstab transient is still performed after linear initialization though it can be
+significantly shortened (or skipped in HB). Either way, specifying a non-zero
+`tstab' parameter can improve convergence. 
+
+By default, only the time-domain results are computed in shooting. If you
+specify either `harms' or `harmsvec', or set `outputtype' to `freq' or `all',
+the frequency-domain results will also be computed. If frequency-domain results
+are requested, but the desired harmonics are not specified, its default value
+is 9. The time-domain output waveform generation can be inhibited by setting
+`outputtype' to `freq'.
+
+The accuracy of the results does not depend on the number of harmonics that are
+requested, but only on the accuracy parameters, which are set in the same
+fashion as in the transient analysis. Besides a few new parameters, like
+`steadyratio' and `maxacfreq', all the others parameters work in PSS analysis
+in exactly the same manner as they work on transient analysis. For HB, besides
+`reltol', `abstol', `steadyratio' and `lteratio', the number of harmonics has
+the most impact on the accuracy of simulation results. When too few harmonics
+are used, an error occurs due to the aliasing effect. To obtain accurate
+results, `harms' should be big enough to cover the signal bandwidth.
+
+Several parameters determine the accuracy of the PSS analysis. `reltol' and
+`abstol' control the accuracy of the discretized equation solution. These
+parameters determine how well charge is conserved and how accurately
+steady-state or equilibrium points are computed. You can set the integration
+errors in the computation of the circuit dynamics (such as time constants),
+relative to `reltol' and `abstol', by setting the `lteratio' parameter. 
+
+For shooting, the `steadyratio' parameter adjusts the maximum allowed mismatch
+in node voltages or current branches from the beginning to the end of the
+steady-state period. For HB, the `steadyratio' parameter adjusts the maximum
+allowed error in the node voltages or in the current branches of the
+steady-state. This value is multiplied by `lteratio' and `reltol' to determine
+the convergence criterion. The relative convergence norm is printed along with
+the actual mismatch value at the end of each iteration, indicating the progress
+of the steady-state iteration.
+
+For shooting, the parameter `maxperiods' controls the maximum number of
+shooting iterations for PSS analysis. Its default value is set to 20 for driven
+PSS and 50 for autonomous PSS. For HB, the parameter 'maxperiods' controls the
+maximum number of HB iterations for both driven and autonomous HB analysis. Its
+default value is set to 100.
+
+The `finitediff' parameter allows the use of finite difference (FD) after
+shooting. Usually this eliminates the above mismatch in node voltages or
+current branches. It can also refine the grid of time steps. In some cases,
+numerical error of the linear solver still introduces a mismatch. You can set
+`steadyratio' to a smaller value to activate a tighter tolerance for the
+iterative linear solver. If `finitediff' is set to no, FD method is turned off.
+If it is set to yes, PSS applies FD method and tries to improve the beginning
+small time steps, if necessary. If it is set to refine, PSS applies FD method
+and tries to refine the time steps. When the simulation uses second-order
+method, uniform second-order gear is used. `finitediff' is automatically
+changed from no to yes when `readpss' and `writepss' are specified to re-use
+PSS results.
+
+The `maxacfreq' parameter is used to automatically adjust the `maxstep' and
+reduce errors due to aliasing in frequency-domain results. By default, the
+`maxacfreq' is set to four times the frequency of the largest requested
+harmonic, but is never set to less than forty times the fundamental.
+
+The parameter `relref' determines how the relative error is treated. The
+`relref' values are as follows:
+`relref=pointlocal': Compares the relative errors in quantities at each node to
+                     that node alone.
+`relref=alllocal':   Compares the relative errors at each node to the largest
+                     values found for that node alone for all past time.
+`relref=sigglobal':  Compares relative errors in each circuit signal to the
+                     maximum for all signals at any previous point in time.
+`relref=allglobal':  Same as `relref=sigglobal', except that it also compares
+                     the residues (KCL error) for each node to the maximum of
+                     each node's past history.
+
+The `errpreset' parameter lets you adjust the simulator parameters to fit your
+needs quickly. In most cases, it should also be the only parameter you need to
+adjust. 
+
+Guidelines for using errpreset in driven circuits in shooting are as follows: 
+If the circuit contains only one periodic tone and you are only interested in
+obtaining the periodic operating point, set errpreset to `liberal'. This
+setting provides reasonably accurate result and the fastest simulation speed. 
+If the circuit contains more than one periodic tone and you are interested in
+intermodulation results, set errpreset to `moderate'. This setting provides
+accurate results. 
+If you want a very low noise floor in your simulation result and accuracy is
+your main interest, set errpreset to `conservative'. 
+
+The effect of `errpreset' on other parameters for driven circuits is shown in
+the following table.
+----------------------------------------------------------------------------
+     Parameter defaults and estimated numerical noise floor in simulation 
+                      result as a function of `errpreset'
+----------------------------------------------------------------------------
+errpreset    reltol  relref     method     lteratio  steadyratio  maxstep
+----------------------------------------------------------------------------
+liberal      1e-3    sigglobal  traponly   3.5       0.001        period/50
+moderate     1e-3    alllocal   gear2only  3.5       0.001        period/200
+conservative 1e-4    alllocal   gear2only  *         0.01         period/200
+
+* : lteratio=10.0 for conservative `errpreset'. Only if user-specified reltol
+<= 1e-4 * 10.0/3.5, lteratio is set to 3.5. 
+
+The new errpreset settings include a new default `reltol', which is an enforced
+upper limit for appropriate setting. An increase of `reltol' above the default
+value is ignored by the simulator.by the simulator. You can decrease this value
+in the options statement. The only way to increase `reltol' is to `relax
+errpreset'. 
+
+Estimated numerical noise floor for a weak non-linear circuit is -70dB for
+liberal, -90dB for moderate, and -120dB for conservative settings. For a linear
+circuit, the noise floor is even lower.Multi-interval Chebyshev (MIC) is
+activated when you explicitly set `highorder=yes', which drops numerical noise
+floor by at least 30dB. MIC falls back to the original method if it encounters
+difficulty converging. You can tighten `psaratio' to further drop numerical
+noise floor. 
+
+Spectre sets the value of `maxstep' so that it cannot be larger than the value
+given in the table.  Except for `reltol' and `maxstep', `errpreset' does not
+change the value of parameters that you explicitly set. The actual values used
+for the PSS analysis are given in the log file. If `errpreset' is not specified
+in the netlist, `liberal' settings is used. For HB, only `reltol' is affected
+by `errpreset' and the effect is the same as that in shooting. However,
+`lteratio' remains 3.5 and `steadyratio' remains 1 with all values of
+`errpreset'.
+
+
+Guidelines for using errpreset in autonomous circuits are as follows: 
+If you want a fast simulation with reasonable accuracy, you can set errpreset
+to `liberal'. 
+If you have some concern for accuracy, you can set errpreset to `moderate'. 
+If accuracy is your main interest, you can set errpreset to `conservative'.
+
+The effect of `errpreset' on other parameters for autonomous circuits is shown
+in the following table.
+
+-------------------------------------------------------------------------------
+              Parameter defaults as a function of `errpreset'
+
+-------------------------------------------------------------------------------
+errpreset    reltol  relref     method      lteratio  steadyratio  maxstep
+
+-------------------------------------------------------------------------------
+liberal      1e-3    sigglobal  traponly    3.5       0.001        period/50 
+moderate     1e-4    alllocal   gear2only   3.5       0.01         period/200
+conservative 1e-5    alllocal   gear2only   *         0.1          period/400
+
+* : lteratio=10.0 for conservative `errpreset' by default. Only if
+user-specified reltol <= 1e-5*10.0/3.5, lteratio is set to 3.5. 
+
+The value of `reltol' can be decreased from default in the options statement.
+The only way to increase `reltol' is to `relax errpreset'. Spectre sets the
+value of `maxstep' so that it cannot be larger than the value given in the
+table. Except for `reltol' and `maxstep', `errpreset' does not change the value
+of any parameters you have explicitly set. The actual values used for the PSS
+analysis are given in the log file.If `errpreset' is not specified in the
+netlist, `liberal' settings will be used.Multi-interval Chebyshev (MIC) is
+activated when you explicitly set `highorder=yes', which drops numerical noise
+floor by at least 30dB. MIC falls back to the original method if it encounters
+difficulty in converging. You can tighten `psaratio' to further drop numerical
+noise floor. 
+
+A long stabilization (by specifying a large tstab) can help with PSS
+convergence. However, it can slow down simulation. By default, in the
+stabilization stage, the following settings are used: reltol=1e-3,
+maxstep=period/25, relref=sigglobal, and method=traponly. These settings are
+overwritten when maxstep, relref, or tstabmethod are specified explicitly in
+pss statement, or reltol is specified explicitly in options statement.
+
+If the circuit you are simulating has infinitely fast transitions (for example,
+a circuit that contains nodes with no capacitance), Spectre might have
+convergence problems. To avoid this, you must prevent the circuit from
+responding instantaneously. You can accomplish this by setting `cmin', the
+minimum capacitance to ground at each node, to a physically reasonable nonzero
+value. This often significantly improves Spectre convergence.
+
+You can specify the initial condition for the transient analysis by using the
+`ic' statement or the `ic' parameter on the capacitors and inductors. If you do
+not specify the initial condition, the DC solution is used as the initial
+condition. The `ic' parameter on the transient analysis controls the
+interaction of various methods of setting the initial conditions. The effects
+of individual settings are as follows:
+`ic=dc': All initial conditions are ignored, and the DC solution is used.
+`ic=node': The `ic' statements are used, and the `ic' parameter on the
+            capacitors and inductors is ignored.
+`ic=dev': The `ic' parameters on the capacitors and inductors are used, and the
+            `ic' statements are ignored.
+`ic=all': Both `ic' statements and `ic' parameters are used, and the `ic'
+            parameters override the `ic' statements.
+If you specify an initial condition file with the `readic' parameter, initial
+conditions from the file are used, and any `ic' statements are ignored.
+
+After you specify the initial conditions, Spectre computes the actual initial
+state of the circuit by performing a DC analysis. During this analysis, Spectre
+forces the initial conditions on nodes by using a voltage source in series with
+a resistor whose resistance is `rforce' (see `options').
+
+With the `ic' statement, it is possible to specify an inconsistent initial
+condition (one that cannot be sustained by the reactive elements). Examples of
+inconsistent initial conditions include setting the voltage on a node with no
+path of capacitors to ground, or setting the current through a branch that is
+not an inductor. If you initialize Spectre inconsistently, its solution jumps,
+that is, it changes instantly at the beginning of the simulation interval. You
+should avoid such changes because Spectre can have convergence problems while
+trying to make the jump.
+
+You can skip DC analysis entirely by using the parameter `skipdc'. If DC
+analysis is skipped, the initial solution is trivial or is given in the file
+that you specified by using the `readic' parameter, or if the `readic'
+parameter is not specified, by the values specified on the ic statements.
+Device-based initial conditions are not used for `skipdc'. Nodes that you do
+not specify with the `ic' file or `ic' statements start at zero. You should not
+use this parameter unless you are generating a nodeset file for circuits that
+have trouble in the DC solution; it usually takes longer to follow the initial
+transient spikes that occur when the DC analysis is skipped than it takes to
+find the real DC solution. The `skipdc' parameter might also cause convergence
+problems in the transient analysis.
+
+The possible settings of parameter `skipdc' and their descriptions are as
+                     follows:
+
+`skipdc=no':         Initial solution is calculated using normal DC analysis
+                     (default). 
+`skipdc=yes':        Initial solution is given in the file specified by the
+                     `readic' parameter or the values specified on the ic
+                     statements. 
+`skipdc=sigrampup':  Independent source values start at 0 and ramp up to their
+                     initial values in the first phase of the simulation. The
+                     waveform production in the time-varying independent source
+                     is enabled after the rampup phase.The rampup simulation is
+                     from `tstart' to time=0 s, and the main simulation is from
+                     time=0 s to `tstab'. If the `tstart' parameter is not
+                     specified,the default `tstart' time is set to
+                     -0.1*`tstab'.
+
+Nodesets help find the DC or the initial transient solution. You can specify
+nodesets in the circuit description file with nodeset statements or in a
+separate file by using the readns parameter. When nodesets are specified,
+Spectre computes an initial guess of the solution by performing DC analysis,
+while forcing the specified values on to nodes by using a voltage source in
+series with a resistor whose resistance is rforce. Spectre then removes these
+voltage sources and resistors and computes the required solution from this
+initial guess.
+
+Nodesets have two important uses. First, if a circuit has two or more
+solutions, nodesets can bias the simulator towards computing the required
+solution. Second, these are a convergence aid. By estimating the solution of
+the largest possible number of nodes, you might be able to eliminate a
+convergence problem or significantly speed up convergence.
+
+When you simulate the same circuit multiple times, it is recommended that you
+use both `write' and `readns' parameters and assign the same file name to both
+parameters. DC analysis then converges quickly even if the circuit has changed
+since the last simulation, and the nodeset file is automatically updated.
+
+Nodesets and initial conditions have similar implementation, but produce
+different effects. Initial conditions define the solution, whereas nodesets
+only influence it. When you simulate a circuit with a transient analysis,
+Spectre forms and solves a set of differential equations. Because differential
+equations have an infinite number of solutions, a complete set of initial
+conditions must be specified to identify the required solution. Any initial
+conditions that you do not specify are computed by the simulator to be
+consistent. The transient waveforms then start from initial conditions.
+Nodesets are usually used as a convergence aid and do not affect the final
+results. However, in a circuit with more than one solution, such as a latch,
+nodesets bias the simulator towards finding the solution closest to the nodeset
+values.
+
+The `method' parameter specifies the integration method. The possible settings
+and their meanings are as follows:
+`method=euler':      Backward-Euler is used exclusively.
+`method=traponly':   Trapezoidal rule is used almost exclusively.
+`method=trap':       Backward-Euler and the trapezoidal rule are used.
+`method=gear2only':  Gear's second-order backward-difference method is used
+                     almost exclusively.
+`method=gear2':      Backward-Euler and second-order Gear are used.
+The trapezoidal rule is usually the most efficient when you want high accuracy.
+This method can exhibit point-to-point ringing, but you can control this by
+tightening the error tolerances. For this reason, though, if you choose very
+loose tolerances to get a quick answer, the backward-Euler or second-order Gear
+will probably give better results than the trapezoidal rule. Second-order Gear
+and backward-Euler can make systems appear more stable than they really are.
+This effect is less pronounced with second-order Gear or when you request high
+accuracy.
+
+Spectre provides two methods for reducing the number of output data points
+saved: `strobing', based on the simulation time, and `skipping' time points,
+which saves only every N'th point. 
+
+The parameters `strobeperiod' and `strobedelay' control the strobing
+method.`strobeperiod' sets the interval between the points that you want to
+save, and `strobedelay' sets the offset within the period relative to
+`skipstart'. The simulator forces a time step on each point to be saved, so
+that the data is computed, and not interpolated. 
+
+The skipping method is controlled by `skipcount'. If this is set to N, only
+every N'th point is saved.
+
+The parameters `skipstart' and `skipstop' apply to both data reduction methods.
+Before `skipstart' and after `skipstop', Spectre saves all computed data. 
+
+With parameter 'hbhomotopy', you can specify harmonic balance homotopy
+selection methods. The possible values of parameter 'hbhomotopy' and their
+descriptions are as follows:
+'hbhomotopy=tstab': Simulator runs a transient analysis and generates an
+initial guess for harmonic balance analysis; it is recommended for nonlinear
+circuits or circuits with frequency dividers.
+'hbhomotopy=source': For driven circuit, the simulator ignores tstab and
+accordingly increases the source power level; for oscillators, the simulator
+accordingly adjusts the probe magnitude until the probe has no effect on the
+oscillators. It is recommended for strongly nonlinear or high Q circuits.
+'hbhomotopy=tone': This method is valid only for multi-tone circuit. The
+simulator first solves a single-tone circuit by turning off all the tones,
+except the first one, and then solves the multi-tone circuit by restoring all
+the tones and using the single-tone solution as its initial guess. It is
+recommended for multi-tone simulation with a strong first tone.
+'hbhomotopy=inctone': Simulator first solves a single tone, then turns on
+moderate tones incrementally till all tones are enabled. It is recommended for
+circuits with one strong large tone.
+'hbhomotopy=gsweep': A resistor, whose conductance is g, is connected with each
+node, and the sweep of g is controlled by gstart, gstop, and glog. It is
+recommended for circuits containing high-impedance or quasi-floating nodes.
+
+
+ 
+
+===============
+Parameter Index
+===============
+
+    annotate ....................... 74   pinnode ........................ 58
+    annotateic ..................... 75   pinnodemag ..................... 61
+    autofund ........................ 3   pinnodeminus ................... 59
+    autoharms ....................... 5   pinnoderank .................... 60
+    autosteady ...................... 8   ppv ............................ 87
+    autotstab ....................... 7   psaratio ....................... 52
+    backtracking ................... 70   readic ......................... 17
+    checkpss ....................... 38   readns ......................... 20
+    circuitage ..................... 79   readpss ........................ 37
+    ckptperiod ..................... 80   recover ........................ 86
+    cmin ........................... 21   relref ......................... 42
+    dev ........................... 122   restart ........................ 78
+    envlpname ...................... 11   save ........................... 24
+    errpreset ...................... 41   saveclock ...................... 83
+    fdharms ........................ 55   savefile ....................... 85
+    finitediff ..................... 50   saveinit ....................... 32
+    flexbalance .................... 57   saveperiod ..................... 81
+    fullpssvec ..................... 54   saveperiodhistory .............. 82
+    fund ............................ 2   savetime ....................... 84
+    glog ........................... 69   skipcount ...................... 29
+    gstart ......................... 67   skipdc ......................... 16
+    gstop .......................... 68   skipstart ...................... 27
+    harmonicbalance ................ 56   skipstop ....................... 28
+    harms ........................... 4   steadyratio .................... 45
+    harmsvec ....................... 22   step ........................... 14
+    hbhomotopy ..................... 65   strobedelay .................... 31
+    hbprecond_block_powerratio ..... 72   strobeperiod ................... 30
+    hbprecond_pivot_th ............. 73   sub ........................... 120
+    highorder ...................... 51   swapfile ....................... 35
+    ic ............................. 15   sweepic ........................ 66
+    inexactNewton .................. 49   title .......................... 76
+    itres .......................... 48   tstab ........................... 6
+    krylov_size .................... 71   tstabenvlp ..................... 10
+    lnsolver ....................... 47   tstabmethod .................... 40
+    lsspdatafmt ................... 114   tstart .......................... 9
+    lsspdatatype .................. 115   tunedev ....................... 106
+    lsspfile ...................... 113   tunelin ....................... 109
+    lsspharms ..................... 112   tuneparam ..................... 105
+    lsspports ..................... 111   tunerange ..................... 107
+    lteminstep ..................... 44   tunestep ...................... 108
+    lteratio ....................... 43   tunevalues .................... 110
+    maxacfreq ...................... 13   useprevic ...................... 19
+    maxiters ....................... 77   write .......................... 33
+    maxorder ....................... 53   writefinal ..................... 34
+    maxperiods ..................... 46   writepss ....................... 36
+    maxstep ........................ 12   xdbcompression ................. 88
+    memoryestimate ................ 104   xdbcpi ........................ 103
+    method ......................... 39   xdbgain ........................ 90
+    mod ........................... 121   xdbharm ........................ 97
+    nestlvl ........................ 25   xdblevel ....................... 89
+    oppoint ........................ 26   xdbload ........................ 93
+    oscic .......................... 18   xdbmax ......................... 99
+    oscmethod ...................... 64   xdbnoden ....................... 95
+    outputtype ..................... 23   xdbnodep ....................... 94
+    oversample ..................... 63   xdbrapid ...................... 102
+    oversamplefactor ............... 62   xdbref ......................... 91
+    param ......................... 116   xdbrefnode ..................... 96
+    param_file .................... 119   xdbsource ...................... 92
+    param_step .................... 123   xdbstart ...................... 100
+    param_vec ..................... 118   xdbsteps ....................... 98
+    paramset ...................... 117   xdbtol ........................ 101
+    period .......................... 1
+
+

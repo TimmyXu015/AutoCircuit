@@ -1,0 +1,1520 @@
+COPYRIGHT (C) 1992-2018  CADENCE DESIGN SYSTEMS INC.  ALL RIGHTS RESERVED.
+          (C) 1992-2018  UNIX SYSTEMS Laboratories INC.,
+                         Reproduced with permission.
+
+This Cadence Design Systems program and online documentation are
+proprietary/confidential information and may be disclosed/used only
+as authorized in a license agreement controlling such use and disclosure.
+
+          RESTRICTED RIGHTS NOTICE (SHORT FORM)
+Use/reproduction/disclosure is subject to restriction
+set forth at FAR 1252.227-19 or its equivalent.
+Loading geView.cxt 
+Loading menuBuilder.cxt 
+Loading schView.cxt 
+Loading selectSv.cxt 
+Loading wireEdit.cxt 
+Loading pte2.cxt 
+Loading xlUI.cxt 
+Loading auCore.cxt 
+Loading vhdl.cxt 
+Loading seismic.cxt 
+Loading ci.cxt 
+Loading layers.cxt 
+Loading ams.cxt 
+Loading cli.cxt 
+Loading cle.cxt 
+Virtuoso Framework License (111) was checked out successfully. Total checkout time was 0.03s.
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+END OF USER CUSTOMIZATION
+*Error* eval: unbound variable - f
+<<< Stack Trace >>>
+leSetEnv("gravityOn" f)
+loadi(".cdsinit")
+funobj@0x236c6b88()
+errset(lambda(nil loadi(".cdsinit")))
+Calibre Skill Interface not loaded.
+> Loading pe.cxt 
+t
+> PDK config loaded: cmrf7sf
+AutoCircuit loaded (46 files) from /home/linux/ieng6/oce/7f/lix015/AutoCircuit
+t
+> AC> ece203: library Project at /home/linux/ieng6/ECE203_FA26_001/lix015/Project, tech library = "cmrf7sf"
+Loading oasis.cxt 
+Loading dal.cxt 
+Loading awv.cxt 
+Loading analog.cxt 
+Loading asimenv.cxt 
+Loading spectrei.cxt 
+Loading devCheck.cxt 
+Loading relXpert.cxt 
+Loading socket.cxt 
+Loading par.cxt 
+Loading alvs.cxt 
+Loading caa.cxt 
+Loading amps.cxt 
+Loading adexlCore.cxt 
+Loading adexl.cxt 
+Loading lx.cxt 
+Loading lce.cxt 
+Loading le.cxt 
+Loading rte.cxt 
+Loading te.cxt 
+Loading schHDL.cxt 
+Loading vdsil.cxt 
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+ 
+Loading IBM PDK cmrf7sf procedures... 
+IBM PDK cmrf7sf procedures loaded (/software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/cdslib/cmrf7sf/cmrf7sf610.att). 
+ 
+IBM PDK cmrf7sf Device Status Table loaded. 
+ 
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+Loading simui.cxt 
+Simulation set up: Project/ece203_r7f_tb_gain_g0_load10p, corner tt
+WARNING (OCN-6000): Analysis: dc is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: ac is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: noise is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: stb is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: tran is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+Delete psf data in /home/linux/ieng6/oce/7f/lix015/simulation/ece203_r7f_tb_gain_g0_load10p/spectre/schematic_r8_A_off/psf.
+Loading spectreinl.cxt 
+Loading seCore.cxt 
+Begin Incremental Netlisting Nov 23 03:52:48 2026
+End netlisting Nov 23 03:52:49 2026
+Loading monte.cxt 
+
+	The netlist is up to date.
+	Time taken to compare the design with netlist:   1.0s
+Loading hspiceD.cxt 
+Loading msgHandler.cxt 
+Loading UltraSim.cxt 
+Loading AMSOSS.cxt 
+Loading AMS.cxt 
+
+Cadence (R) Virtuoso (R) Spectre (R) Circuit Simulator
+Version 15.1.0.803.isr18 64bit -- 21 Jun 2017
+Copyright (C) 1989-2017 Cadence Design Systems, Inc. All rights reserved
+        worldwide. Cadence, Virtuoso and Spectre are registered trademarks of
+        Cadence Design Systems, Inc. All others are the property of their
+        respective holders.
+
+Includes RSA BSAFE(R) Cryptographic or Security Protocol Software from RSA
+        Security, Inc.
+
+User: lix015   Host: ieng6-ece-10.ucsd.edu   HostID: 36808C43   PID: 30494
+Memory  available: 7.5099 GB  physical: 33.7804 GB
+Linux   : CentOS Linux release 7.9.2009 (Core)
+CPU Type: Intel(R) Xeon(R) Gold 5220 CPU @ 2.20GHz
+        Socket: Processors [Frequency] (Hyperthreaded Processor)
+        0:       0 [1723.4] (  1 ),  1 [1562.3] (),  2 [2687.8] (  3 )
+                 3 [2704.9] (),  4 [1162.0] (  5 ),  5 [1557.8] (),  6 [2712.4]
+        (  7 )
+                 7 [2713.3] ()
+        
+System load averages (1min, 5min, 15min) : 15.8 %, 15.6 %, 16.1 %
+Hyperthreading is enabled
+
+
+Simulating `input.scs' on ieng6-ece-10.ucsd.edu at 3:52:49 AM, Mon Nov 23, 2026
+        (process id: 30494).
+Current working directory:
+        /home/linux/ieng6/oce/7f/lix015/simulation/ece203_r7f_tb_gain_g0_load10p/spectre/schematic/netlist
+Command line:
+    /software/nonrdist64/mmsim151/tools/bin/spectre -64 input.scs  \
+        +escchars +log ../../schematic_r8_A_off/psf/spectre.out  \
+        +inter=mpsc +mpssession=spectre0_30205_1 -format psfxl -raw  \
+        ../../schematic_r8_A_off/psf  \
+        -I/software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models  \
+        +lqtimeout 900 -maxw 5 -maxn 5
+Reading file: 
+        /home/linux/ieng6/oce/7f/lix015/simulation/ece203_r7f_tb_gain_g0_load10p/spectre/schematic/netlist/input.scs
+Reading link:  /software/nonrdist64/mmsim151
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/configs/spectre.cfg
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/configs/mapsubckt.cfg
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/design.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/wafer.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/allModels.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/fixed_corner.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/process.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/process_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/models.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/hacap.va
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/ahdl/constants.vams
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/ahdl/disciplines.vams
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mvcap.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcap.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esd_modules.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdnsh_spe.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpsh_spe.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/jfetjc_xt.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/bondpad.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/coupledwires.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diffhavar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diffmosvar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dindpw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodenwx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodenx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepisx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepwpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dipdnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/divpnp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dualmim.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/efuse.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdndsx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdndpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdnsh_base.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpnpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpsh_base.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdvpnpnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/havar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/ind.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/indline.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/indstack.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/jfetjc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/k1res.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mim.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mimhk.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mosvar18.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mosvar50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfethv.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33tw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33tw_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet50tw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfettw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfettw_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwppcres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwrppres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwrrpres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/opndres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oppdres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/opppcres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oprppres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oprrpres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcapc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcdcap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcdcap33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfethv.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet33_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/p5pfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/psbd.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/rr_serpentine.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sbd.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sbdnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sblkndres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sblkpdres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/singlewire.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/subc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sxmodel.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/symind.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/vlnpn.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/vncap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/zvtnfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/zvtnfet33.scs
+Time for NDB Parsing: CPU = 229.587 ms, elapsed = 541.484 ms.
+Time accumulated: CPU = 270.355 ms, elapsed = 541.498 ms.
+Peak resident memory used = 41.8 Mbytes.
+
+
+The CPU load for active processors is :
+        Spectre  0 (11.5 %)      1 (9.3 %)       2 (26.9 %)      3 (3.9 %)
+                 4 (17.0 %)      5 (9.3 %)       7 (100.0 %)    
+        Other   
+Reading link: 
+        /software/nonrdist64/mmsim151/tools.lnx86/spectre/etc/ahdl/discipline.h
+Reading link: 
+        /software/nonrdist64/mmsim151/tools.lnx86/spectre/etc/ahdl/constants.h
+Time for Elaboration: CPU = 53.561 ms, elapsed = 60.6661 ms.
+Time accumulated: CPU = 324.185 ms, elapsed = 602.43 ms.
+Peak resident memory used = 50.5 Mbytes.
+
+
+Notice from spectre in `nfet':`XA.MREF', in `ece203_r6a_fd_ota':`XA', during
+        hierarchy flattening.
+    XA.MREF.cwgd: Terminals are connected together (to node `ib').
+Notice from spectre in `pfet':`XD.M3', in `ece203_r4_drl_ota':`XD', during
+        hierarchy flattening.
+    XD.M3.cwgd: Terminals are connected together (to node `XD.n1').
+Notice from spectre in `nfet':`XD.MREF', in `ece203_r4_drl_ota':`XD', during
+        hierarchy flattening.
+    XD.MREF.cwgd: Terminals are connected together (to node `ibd').
+Notice from spectre in `pfet':`XC.MD', in `ece203_r7a_cmfb_a2':`XC', during
+        hierarchy flattening.
+    XC.MD.cwgd: Terminals are connected together (to node `vcf').
+Notice from spectre in `pfet33':`XPRP.MP', in `ece203_ss_pr_cell':`XPRP',
+        during hierarchy flattening.
+    XPRP.MP.cwgd: Terminals are connected together (to node `fn').
+        Further occurrences of this notice will be suppressed (except in log
+        file).
+
+Time for EDB Visiting: CPU = 6.844 ms, elapsed = 6.8562 ms.
+Time accumulated: CPU = 331.272 ms, elapsed = 609.527 ms.
+Peak resident memory used = 51.9 Mbytes.
+
+
+Global user options:
+             reltol = 1e-05
+            vabstol = 1e-06
+            iabstol = 1e-17
+               temp = 27
+               gmin = 1e-18
+             rforce = 1
+           maxnotes = 5
+           maxwarns = 5
+             digits = 5
+               cols = 80
+             pivrel = 0.001
+           sensfile = ../../schematic_r8_A_off/psf/sens.output
+     checklimitdest = psf
+               save = allpub
+               tnom = 25
+             scalem = 1
+              scale = 1
+
+Scoped user options:
+
+Circuit inventory:
+              nodes 245
+             assert 368   
+            bsim3v3 46    
+          capacitor 157   
+              diode 92    
+             iprobe 2     
+            isource 5     
+           resistor 201   
+               vcvs 9     
+            vsource 15    
+
+Analysis and control statement inventory:
+                 ac 1     
+                 dc 1     
+               info 7     
+              noise 1     
+
+Output statements:
+             .probe 0     
+           .measure 0     
+               save 1     
+
+
+Notice from spectre.
+    2 notices suppressed.
+
+Time for parsing: CPU = 6.916 ms, elapsed = 8.64291 ms.
+Time accumulated: CPU = 338.397 ms, elapsed = 618.371 ms.
+Peak resident memory used = 53.7 Mbytes.
+
+~~~~~~~~~~~~~~~~~~~~~~
+Pre-Simulation Summary
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+Entering remote command mode using MPSC service (spectre, ipi, v0.0,
+        spectre0_30205_1, ).
+Spectre Control Language log file is `input.scllog'.
+simulate...
+
+Warning from spectre.
+    WARNING (SPECTRE-16707): Only tran supports psfxl format, result of other
+        analyses will be in psfbin format.
+
+
+*******************************************
+AC Analysis `ac': freq = (1 mHz -> 100 kHz)
+*******************************************
+
+Notice from spectre during AC analysis `ac'.
+    No checklimit analysis defined for asserts. A default checklimit analysis
+        'SpectreChecklimitAnal' has been created with all asserts enabled.
+
+The following asserts will be enabled for all subsequent analyses until the
+        next checklimit analysis statement is found:
+XA.MREF.vgd_check : ON 
+XA.MREF.vgb_check : ON 
+XA.MREF.vbd_check : ON 
+XA.MREF.vbd_chkfwd : ON 
+XA.MT.vgd_check : ON 
+XA.MT.vgb_check : ON 
+XA.MT.vbd_check : ON 
+XA.MT.vbd_chkfwd : ON 
+XA.MC2.vgd_check : ON 
+XA.MC2.vgb_check : ON 
+XA.MC2.vbd_check : ON 
+XA.MC2.vbd_chkfwd : ON 
+XA.MC1.vgd_check : ON 
+XA.MC1.vgb_check : ON 
+XA.MC1.vbd_check : ON 
+XA.MC1.vbd_chkfwd : ON 
+XA.M2.vgd_check : ON 
+XA.M2.vgb_check : ON 
+XA.M2.vbd_check : ON 
+XA.M2.vbd_chkfwd : ON 
+XA.M1.vgd_check : ON 
+XA.M1.vgb_check : ON 
+XA.M1.vbd_check : ON 
+XA.M1.vbd_chkfwd : ON 
+XA.M4.vgd_check : ON 
+XA.M4.vgb_check : ON 
+XA.M4.vbd_check : ON 
+XA.M4.vbd_chkfwd : ON 
+XA.M3.vgd_check : ON 
+XA.M3.vgb_check : ON 
+XA.M3.vbd_check : ON 
+XA.M3.vbd_chkfwd : ON 
+XD.M4.vgd_check : ON 
+XD.M4.vgb_check : ON 
+XD.M4.vbd_check : ON 
+XD.M4.vbd_chkfwd : ON 
+XD.M3.vgd_check : ON 
+XD.M3.vgb_check : ON 
+XD.M3.vbd_check : ON 
+XD.M3.vbd_chkfwd : ON 
+XD.MREF.vgd_check : ON 
+XD.MREF.vgb_check : ON 
+XD.MREF.vbd_check : ON 
+XD.MREF.vbd_chkfwd : ON 
+XD.MT.vgd_check : ON 
+XD.MT.vgb_check : ON 
+XD.MT.vbd_check : ON 
+XD.MT.vbd_chkfwd : ON 
+XD.M2.vgd_check : ON 
+XD.M2.vgb_check : ON 
+XD.M2.vbd_check : ON 
+XD.M2.vbd_chkfwd : ON 
+XD.M1.vgd_check : ON 
+XD.M1.vgb_check : ON 
+XD.M1.vbd_check : ON 
+XD.M1.vbd_chkfwd : ON 
+XCO.MN4.vgd_check : ON 
+XCO.MN4.vgb_check : ON 
+XCO.MN4.vbd_check : ON 
+XCO.MN4.vbd_chkfwd : ON 
+XCO.MN3.vgd_check : ON 
+XCO.MN3.vgb_check : ON 
+XCO.MN3.vbd_check : ON 
+XCO.MN3.vbd_chkfwd : ON 
+XCO.MN2.vgd_check : ON 
+XCO.MN2.vgb_check : ON 
+XCO.MN2.vbd_check : ON 
+XCO.MN2.vbd_chkfwd : ON 
+XCO.MN1.vgd_check : ON 
+XCO.MN1.vgb_check : ON 
+XCO.MN1.vbd_check : ON 
+XCO.MN1.vbd_chkfwd : ON 
+XCO.MP4.vgd_check : ON 
+XCO.MP4.vgb_check : ON 
+XCO.MP4.vbd_check : ON 
+XCO.MP4.vbd_chkfwd : ON 
+XCO.MP3.vgd_check : ON 
+XCO.MP3.vgb_check : ON 
+XCO.MP3.vbd_check : ON 
+XCO.MP3.vbd_chkfwd : ON 
+XCO.MP2.vgd_check : ON 
+XCO.MP2.vgb_check : ON 
+XCO.MP2.vbd_check : ON 
+XCO.MP2.vbd_chkfwd : ON 
+XCO.MP1.vgd_check : ON 
+XCO.MP1.vgb_check : ON 
+XCO.MP1.vbd_check : ON 
+XCO.MP1.vbd_chkfwd : ON 
+XCI.MN4.vgd_check : ON 
+XCI.MN4.vgb_check : ON 
+XCI.MN4.vbd_check : ON 
+XCI.MN4.vbd_chkfwd : ON 
+XCI.MN3.vgd_check : ON 
+XCI.MN3.vgb_check : ON 
+XCI.MN3.vbd_check : ON 
+XCI.MN3.vbd_chkfwd : ON 
+XCI.MN2.vgd_check : ON 
+XCI.MN2.vgb_check : ON 
+XCI.MN2.vbd_check : ON 
+XCI.MN2.vbd_chkfwd : ON 
+XCI.MN1.vgd_check : ON 
+XCI.MN1.vgb_check : ON 
+XCI.MN1.vbd_check : ON 
+XCI.MN1.vbd_chkfwd : ON 
+XCI.MP4.vgd_check : ON 
+XCI.MP4.vgb_check : ON 
+XCI.MP4.vbd_check : ON 
+XCI.MP4.vbd_chkfwd : ON 
+XCI.MP3.vgd_check : ON 
+XCI.MP3.vgb_check : ON 
+XCI.MP3.vbd_check : ON 
+XCI.MP3.vbd_chkfwd : ON 
+XCI.MP2.vgd_check : ON 
+XCI.MP2.vgb_check : ON 
+XCI.MP2.vbd_check : ON 
+XCI.MP2.vbd_chkfwd : ON 
+XCI.MP1.vgd_check : ON 
+XCI.MP1.vgb_check : ON 
+XCI.MP1.vbd_check : ON 
+XCI.MP1.vbd_chkfwd : ON 
+XCD.MKN.vgd_check : ON 
+XCD.MKN.vgb_check : ON 
+XCD.MKN.vbd_check : ON 
+XCD.MKN.vbd_chkfwd : ON 
+XCD.MKP.vgd_check : ON 
+XCD.MKP.vgb_check : ON 
+XCD.MKP.vbd_check : ON 
+XCD.MKP.vbd_chkfwd : ON 
+XCD.MSN.vgd_check : ON 
+XCD.MSN.vgb_check : ON 
+XCD.MSN.vbd_check : ON 
+XCD.MSN.vbd_chkfwd : ON 
+XCD.MSP.vgd_check : ON 
+XCD.MSP.vgb_check : ON 
+XCD.MSP.vbd_check : ON 
+XCD.MSP.vbd_chkfwd : ON 
+XC.MTB.vgd_check : ON 
+XC.MTB.vgb_check : ON 
+XC.MTB.vbd_check : ON 
+XC.MTB.vbd_chkfwd : ON 
+XC.MTA.vgd_check : ON 
+XC.MTA.vgb_check : ON 
+XC.MTA.vbd_check : ON 
+XC.MTA.vbd_chkfwd : ON 
+XC.MB2.vgd_check : ON 
+XC.MB2.vgb_check : ON 
+XC.MB2.vbd_check : ON 
+XC.MB2.vbd_chkfwd : ON 
+XC.MB1.vgd_check : ON 
+XC.MB1.vgb_check : ON 
+XC.MB1.vbd_check : ON 
+XC.MB1.vbd_chkfwd : ON 
+XC.MA2.vgd_check : ON 
+XC.MA2.vgb_check : ON 
+XC.MA2.vbd_check : ON 
+XC.MA2.vbd_chkfwd : ON 
+XC.MA1.vgd_check : ON 
+XC.MA1.vgb_check : ON 
+XC.MA1.vbd_check : ON 
+XC.MA1.vbd_chkfwd : ON 
+XC.MD.vgd_check : ON 
+XC.MD.vgb_check : ON 
+XC.MD.vbd_check : ON 
+XC.MD.vbd_chkfwd : ON 
+XPRP.MP.vgd_check : ON 
+XPRP.MP.vgb_check : ON 
+XPRP.MP.vbd_check : ON 
+XPRP.MP.vbd_chkfwd : ON 
+XPRN.MP.vgd_check : ON 
+XPRN.MP.vgb_check : ON 
+XPRN.MP.vbd_check : ON 
+XPRN.MP.vbd_chkfwd : ON 
+MP2.vgd_check : ON 
+MP2.vgb_check : ON 
+MP2.vbd_check : ON 
+MP2.vbd_chkfwd : ON 
+MP1.vgd_check : ON 
+MP1.vgb_check : ON 
+MP1.vbd_check : ON 
+MP1.vbd_chkfwd : ON 
+MP0.vgd_check : ON 
+MP0.vgb_check : ON 
+MP0.vbd_check : ON 
+MP0.vbd_chkfwd : ON 
+MP0.vbs_chkfwd : ON 
+MP0.vbs_check : ON 
+MP0.vgs_check : ON 
+MP0.vds_check : ON 
+MP1.vbs_chkfwd : ON 
+MP1.vbs_check : ON 
+MP1.vgs_check : ON 
+MP1.vds_check : ON 
+MP2.vbs_chkfwd : ON 
+MP2.vbs_check : ON 
+MP2.vgs_check : ON 
+MP2.vds_check : ON 
+XPRN.MP.vbs_chkfwd : ON 
+XPRN.MP.vbs_check : ON 
+XPRN.MP.vgs_check : ON 
+XPRN.MP.vds_check : ON 
+XPRP.MP.vbs_chkfwd : ON 
+XPRP.MP.vbs_check : ON 
+XPRP.MP.vgs_check : ON 
+XPRP.MP.vds_check : ON 
+XC.MD.vbs_chkfwd : ON 
+XC.MD.vbs_check : ON 
+XC.MD.vgs_check : ON 
+XC.MD.vds_check : ON 
+XC.MA1.vbs_chkfwd : ON 
+XC.MA1.vbs_check : ON 
+XC.MA1.vgs_check : ON 
+XC.MA1.vds_check : ON 
+XC.MA2.vbs_chkfwd : ON 
+XC.MA2.vbs_check : ON 
+XC.MA2.vgs_check : ON 
+XC.MA2.vds_check : ON 
+XC.MB1.vbs_chkfwd : ON 
+XC.MB1.vbs_check : ON 
+XC.MB1.vgs_check : ON 
+XC.MB1.vds_check : ON 
+XC.MB2.vbs_chkfwd : ON 
+XC.MB2.vbs_check : ON 
+XC.MB2.vgs_check : ON 
+XC.MB2.vds_check : ON 
+XC.MTA.vbs_chkfwd : ON 
+XC.MTA.vbs_check : ON 
+XC.MTA.vgs_check : ON 
+XC.MTA.vds_check : ON 
+XC.MTB.vbs_chkfwd : ON 
+XC.MTB.vbs_check : ON 
+XC.MTB.vgs_check : ON 
+XC.MTB.vds_check : ON 
+XCD.MSP.vbs_chkfwd : ON 
+XCD.MSP.vbs_check : ON 
+XCD.MSP.vgs_check : ON 
+XCD.MSP.vds_check : ON 
+XCD.MSN.vbs_chkfwd : ON 
+XCD.MSN.vbs_check : ON 
+XCD.MSN.vgs_check : ON 
+XCD.MSN.vds_check : ON 
+XCD.MKP.vbs_chkfwd : ON 
+XCD.MKP.vbs_check : ON 
+XCD.MKP.vgs_check : ON 
+XCD.MKP.vds_check : ON 
+XCD.MKN.vbs_chkfwd : ON 
+XCD.MKN.vbs_check : ON 
+XCD.MKN.vgs_check : ON 
+XCD.MKN.vds_check : ON 
+XCI.MP1.vbs_chkfwd : ON 
+XCI.MP1.vbs_check : ON 
+XCI.MP1.vgs_check : ON 
+XCI.MP1.vds_check : ON 
+XCI.MP2.vbs_chkfwd : ON 
+XCI.MP2.vbs_check : ON 
+XCI.MP2.vgs_check : ON 
+XCI.MP2.vds_check : ON 
+XCI.MP3.vbs_chkfwd : ON 
+XCI.MP3.vbs_check : ON 
+XCI.MP3.vgs_check : ON 
+XCI.MP3.vds_check : ON 
+XCI.MP4.vbs_chkfwd : ON 
+XCI.MP4.vbs_check : ON 
+XCI.MP4.vgs_check : ON 
+XCI.MP4.vds_check : ON 
+XCI.MN1.vbs_chkfwd : ON 
+XCI.MN1.vbs_check : ON 
+XCI.MN1.vgs_check : ON 
+XCI.MN1.vds_check : ON 
+XCI.MN2.vbs_chkfwd : ON 
+XCI.MN2.vbs_check : ON 
+XCI.MN2.vgs_check : ON 
+XCI.MN2.vds_check : ON 
+XCI.MN3.vbs_chkfwd : ON 
+XCI.MN3.vbs_check : ON 
+XCI.MN3.vgs_check : ON 
+XCI.MN3.vds_check : ON 
+XCI.MN4.vbs_chkfwd : ON 
+XCI.MN4.vbs_check : ON 
+XCI.MN4.vgs_check : ON 
+XCI.MN4.vds_check : ON 
+XCO.MP1.vbs_chkfwd : ON 
+XCO.MP1.vbs_check : ON 
+XCO.MP1.vgs_check : ON 
+XCO.MP1.vds_check : ON 
+XCO.MP2.vbs_chkfwd : ON 
+XCO.MP2.vbs_check : ON 
+XCO.MP2.vgs_check : ON 
+XCO.MP2.vds_check : ON 
+XCO.MP3.vbs_chkfwd : ON 
+XCO.MP3.vbs_check : ON 
+XCO.MP3.vgs_check : ON 
+XCO.MP3.vds_check : ON 
+XCO.MP4.vbs_chkfwd : ON 
+XCO.MP4.vbs_check : ON 
+XCO.MP4.vgs_check : ON 
+XCO.MP4.vds_check : ON 
+XCO.MN1.vbs_chkfwd : ON 
+XCO.MN1.vbs_check : ON 
+XCO.MN1.vgs_check : ON 
+XCO.MN1.vds_check : ON 
+XCO.MN2.vbs_chkfwd : ON 
+XCO.MN2.vbs_check : ON 
+XCO.MN2.vgs_check : ON 
+XCO.MN2.vds_check : ON 
+XCO.MN3.vbs_chkfwd : ON 
+XCO.MN3.vbs_check : ON 
+XCO.MN3.vgs_check : ON 
+XCO.MN3.vds_check : ON 
+XCO.MN4.vbs_chkfwd : ON 
+XCO.MN4.vbs_check : ON 
+XCO.MN4.vgs_check : ON 
+XCO.MN4.vds_check : ON 
+XD.M1.vbs_chkfwd : ON 
+XD.M1.vbs_check : ON 
+XD.M1.vgs_check : ON 
+XD.M1.vds_check : ON 
+XD.M2.vbs_chkfwd : ON 
+XD.M2.vbs_check : ON 
+XD.M2.vgs_check : ON 
+XD.M2.vds_check : ON 
+XD.MT.vbs_chkfwd : ON 
+XD.MT.vbs_check : ON 
+XD.MT.vgs_check : ON 
+XD.MT.vds_check : ON 
+XD.MREF.vbs_chkfwd : ON 
+XD.MREF.vbs_check : ON 
+XD.MREF.vgs_check : ON 
+XD.MREF.vds_check : ON 
+XD.M3.vbs_chkfwd : ON 
+XD.M3.vbs_check : ON 
+XD.M3.vgs_check : ON 
+XD.M3.vds_check : ON 
+XD.M4.vbs_chkfwd : ON 
+XD.M4.vbs_check : ON 
+XD.M4.vgs_check : ON 
+XD.M4.vds_check : ON 
+XA.M3.vbs_chkfwd : ON 
+XA.M3.vbs_check : ON 
+XA.M3.vgs_check : ON 
+XA.M3.vds_check : ON 
+XA.M4.vbs_chkfwd : ON 
+XA.M4.vbs_check : ON 
+XA.M4.vgs_check : ON 
+XA.M4.vds_check : ON 
+XA.M1.vbs_chkfwd : ON 
+XA.M1.vbs_check : ON 
+XA.M1.vgs_check : ON 
+XA.M1.vds_check : ON 
+XA.M2.vbs_chkfwd : ON 
+XA.M2.vbs_check : ON 
+XA.M2.vgs_check : ON 
+XA.M2.vds_check : ON 
+XA.MC1.vbs_chkfwd : ON 
+XA.MC1.vbs_check : ON 
+XA.MC1.vgs_check : ON 
+XA.MC1.vds_check : ON 
+XA.MC2.vbs_chkfwd : ON 
+XA.MC2.vbs_check : ON 
+XA.MC2.vgs_check : ON 
+XA.MC2.vds_check : ON 
+XA.MT.vbs_chkfwd : ON 
+XA.MT.vbs_check : ON 
+XA.MT.vgs_check : ON 
+XA.MT.vds_check : ON 
+XA.MREF.vbs_chkfwd : ON 
+XA.MREF.vbs_check : ON 
+XA.MREF.vgs_check : ON 
+XA.MREF.vds_check : ON 
+
+Notice from spectre during DC analysis, during AC analysis `ac'.
+    Bad pivoting is found during DC analysis. Option dc_pivot_check=yes is
+        recommended for possible improvement of convergence.
+
+DC simulation time: CPU = 7.79 ms, elapsed = 7.78699 ms.
+
+Opening the PSF file ../../schematic_r8_A_off/psf/ac.ac ...
+    ac: freq = 1.585 mHz    (2.5 %), step = 71.33 uHz    (250 m%)
+    ac: freq = 1.66 mHz    (2.75 %), step = 74.69 uHz    (250 m%)
+    ac: freq = 1.738 mHz      (3 %), step = 78.21 uHz    (250 m%)
+    ac: freq = 1.82 mHz    (3.25 %), step = 81.9 uHz     (250 m%)
+    ac: freq = 1.905 mHz    (3.5 %), step = 85.76 uHz    (250 m%)
+    ac: freq = 1.995 mHz   (3.75 %), step = 89.8 uHz     (250 m%)
+    ac: freq = 2.089 mHz      (4 %), step = 94.03 uHz    (250 m%)
+    ac: freq = 2.188 mHz   (4.25 %), step = 98.47 uHz    (250 m%)
+    ac: freq = 2.291 mHz    (4.5 %), step = 103.1 uHz    (250 m%)
+    ac: freq = 2.399 mHz   (4.75 %), step = 108 uHz      (250 m%)
+    ac: freq = 2.512 mHz      (5 %), step = 113.1 uHz    (250 m%)
+    ac: freq = 2.63 mHz    (5.25 %), step = 118.4 uHz    (250 m%)
+    ac: freq = 2.754 mHz    (5.5 %), step = 124 uHz      (250 m%)
+    ac: freq = 2.884 mHz   (5.75 %), step = 129.8 uHz    (250 m%)
+    ac: freq = 3.02 mHz       (6 %), step = 135.9 uHz    (250 m%)
+    ac: freq = 3.162 mHz   (6.25 %), step = 142.3 uHz    (250 m%)
+    ac: freq = 3.311 mHz    (6.5 %), step = 149 uHz      (250 m%)
+    ac: freq = 3.467 mHz   (6.75 %), step = 156.1 uHz    (250 m%)
+    ac: freq = 3.631 mHz      (7 %), step = 163.4 uHz    (250 m%)
+    ac: freq = 3.802 mHz   (7.25 %), step = 171.1 uHz    (250 m%)
+    ac: freq = 3.981 mHz    (7.5 %), step = 179.2 uHz    (250 m%)
+    ac: freq = 4.169 mHz   (7.75 %), step = 187.6 uHz    (250 m%)
+    ac: freq = 4.365 mHz      (8 %), step = 196.5 uHz    (250 m%)
+    ac: freq = 4.571 mHz   (8.25 %), step = 205.7 uHz    (250 m%)
+    ac: freq = 4.786 mHz    (8.5 %), step = 215.4 uHz    (250 m%)
+    ac: freq = 5.012 mHz   (8.75 %), step = 225.6 uHz    (250 m%)
+    ac: freq = 5.248 mHz      (9 %), step = 236.2 uHz    (250 m%)
+    ac: freq = 5.495 mHz   (9.25 %), step = 247.3 uHz    (250 m%)
+    ac: freq = 5.754 mHz    (9.5 %), step = 259 uHz      (250 m%)
+    ac: freq = 6.026 mHz   (9.75 %), step = 271.2 uHz    (250 m%)
+    ac: freq = 6.31 mHz      (10 %), step = 284 uHz      (250 m%)
+    ac: freq = 6.607 mHz   (10.2 %), step = 297.4 uHz    (250 m%)
+    ac: freq = 6.918 mHz   (10.5 %), step = 311.4 uHz    (250 m%)
+    ac: freq = 7.244 mHz   (10.8 %), step = 326 uHz      (250 m%)
+    ac: freq = 7.586 mHz     (11 %), step = 341.4 uHz    (250 m%)
+    ac: freq = 7.943 mHz   (11.2 %), step = 357.5 uHz    (250 m%)
+    ac: freq = 8.318 mHz   (11.5 %), step = 374.4 uHz    (250 m%)
+    ac: freq = 8.71 mHz    (11.8 %), step = 392 uHz      (250 m%)
+    ac: freq = 9.12 mHz      (12 %), step = 410.5 uHz    (250 m%)
+    ac: freq = 9.55 mHz    (12.2 %), step = 429.8 uHz    (250 m%)
+    ac: freq = 10 mHz      (12.5 %), step = 450.1 uHz    (250 m%)
+    ac: freq = 10.47 mHz   (12.8 %), step = 471.3 uHz    (250 m%)
+    ac: freq = 10.96 mHz     (13 %), step = 493.5 uHz    (250 m%)
+    ac: freq = 11.48 mHz   (13.2 %), step = 516.8 uHz    (250 m%)
+    ac: freq = 12.02 mHz   (13.5 %), step = 541.1 uHz    (250 m%)
+    ac: freq = 12.59 mHz   (13.8 %), step = 566.6 uHz    (250 m%)
+    ac: freq = 13.18 mHz     (14 %), step = 593.3 uHz    (250 m%)
+    ac: freq = 13.8 mHz    (14.2 %), step = 621.3 uHz    (250 m%)
+    ac: freq = 14.45 mHz   (14.5 %), step = 650.6 uHz    (250 m%)
+    ac: freq = 15.14 mHz   (14.8 %), step = 681.2 uHz    (250 m%)
+    ac: freq = 15.85 mHz     (15 %), step = 713.3 uHz    (250 m%)
+    ac: freq = 16.6 mHz    (15.2 %), step = 746.9 uHz    (250 m%)
+    ac: freq = 17.38 mHz   (15.5 %), step = 782.1 uHz    (250 m%)
+    ac: freq = 18.2 mHz    (15.8 %), step = 819 uHz      (250 m%)
+    ac: freq = 19.05 mHz     (16 %), step = 857.6 uHz    (250 m%)
+    ac: freq = 19.95 mHz   (16.2 %), step = 898 uHz      (250 m%)
+    ac: freq = 20.89 mHz   (16.5 %), step = 940.3 uHz    (250 m%)
+    ac: freq = 21.88 mHz   (16.8 %), step = 984.7 uHz    (250 m%)
+    ac: freq = 22.91 mHz     (17 %), step = 1.031 mHz    (250 m%)
+    ac: freq = 23.99 mHz   (17.2 %), step = 1.08 mHz     (250 m%)
+    ac: freq = 25.12 mHz   (17.5 %), step = 1.131 mHz    (250 m%)
+    ac: freq = 26.3 mHz    (17.8 %), step = 1.184 mHz    (250 m%)
+    ac: freq = 27.54 mHz     (18 %), step = 1.24 mHz     (250 m%)
+    ac: freq = 28.84 mHz   (18.2 %), step = 1.298 mHz    (250 m%)
+    ac: freq = 30.2 mHz    (18.5 %), step = 1.359 mHz    (250 m%)
+    ac: freq = 31.62 mHz   (18.8 %), step = 1.423 mHz    (250 m%)
+    ac: freq = 33.11 mHz     (19 %), step = 1.49 mHz     (250 m%)
+    ac: freq = 34.67 mHz   (19.2 %), step = 1.561 mHz    (250 m%)
+    ac: freq = 36.31 mHz   (19.5 %), step = 1.634 mHz    (250 m%)
+    ac: freq = 38.02 mHz   (19.8 %), step = 1.711 mHz    (250 m%)
+    ac: freq = 39.81 mHz     (20 %), step = 1.792 mHz    (250 m%)
+    ac: freq = 41.69 mHz   (20.2 %), step = 1.876 mHz    (250 m%)
+    ac: freq = 43.65 mHz   (20.5 %), step = 1.965 mHz    (250 m%)
+    ac: freq = 45.71 mHz   (20.8 %), step = 2.057 mHz    (250 m%)
+    ac: freq = 47.86 mHz     (21 %), step = 2.154 mHz    (250 m%)
+    ac: freq = 50.12 mHz   (21.2 %), step = 2.256 mHz    (250 m%)
+    ac: freq = 52.48 mHz   (21.5 %), step = 2.362 mHz    (250 m%)
+    ac: freq = 54.95 mHz   (21.8 %), step = 2.473 mHz    (250 m%)
+    ac: freq = 57.54 mHz     (22 %), step = 2.59 mHz     (250 m%)
+    ac: freq = 60.26 mHz   (22.2 %), step = 2.712 mHz    (250 m%)
+    ac: freq = 63.1 mHz    (22.5 %), step = 2.84 mHz     (250 m%)
+    ac: freq = 66.07 mHz   (22.8 %), step = 2.974 mHz    (250 m%)
+    ac: freq = 69.18 mHz     (23 %), step = 3.114 mHz    (250 m%)
+    ac: freq = 72.44 mHz   (23.2 %), step = 3.26 mHz     (250 m%)
+    ac: freq = 75.86 mHz   (23.5 %), step = 3.414 mHz    (250 m%)
+    ac: freq = 79.43 mHz   (23.8 %), step = 3.575 mHz    (250 m%)
+    ac: freq = 83.18 mHz     (24 %), step = 3.744 mHz    (250 m%)
+    ac: freq = 87.1 mHz    (24.2 %), step = 3.92 mHz     (250 m%)
+    ac: freq = 91.2 mHz    (24.5 %), step = 4.105 mHz    (250 m%)
+    ac: freq = 95.5 mHz    (24.8 %), step = 4.298 mHz    (250 m%)
+    ac: freq = 100 mHz       (25 %), step = 4.501 mHz    (250 m%)
+    ac: freq = 104.7 mHz   (25.2 %), step = 4.713 mHz    (250 m%)
+    ac: freq = 109.6 mHz   (25.5 %), step = 4.935 mHz    (250 m%)
+    ac: freq = 114.8 mHz   (25.8 %), step = 5.168 mHz    (250 m%)
+    ac: freq = 120.2 mHz     (26 %), step = 5.411 mHz    (250 m%)
+    ac: freq = 125.9 mHz   (26.2 %), step = 5.666 mHz    (250 m%)
+    ac: freq = 131.8 mHz   (26.5 %), step = 5.933 mHz    (250 m%)
+    ac: freq = 138 mHz     (26.8 %), step = 6.213 mHz    (250 m%)
+    ac: freq = 144.5 mHz     (27 %), step = 6.506 mHz    (250 m%)
+    ac: freq = 151.4 mHz   (27.3 %), step = 6.812 mHz    (250 m%)
+    ac: freq = 158.5 mHz   (27.5 %), step = 7.133 mHz    (250 m%)
+    ac: freq = 166 mHz     (27.8 %), step = 7.469 mHz    (250 m%)
+    ac: freq = 173.8 mHz     (28 %), step = 7.821 mHz    (250 m%)
+    ac: freq = 182 mHz     (28.2 %), step = 8.19 mHz     (250 m%)
+    ac: freq = 190.5 mHz   (28.5 %), step = 8.576 mHz    (250 m%)
+    ac: freq = 199.5 mHz   (28.7 %), step = 8.98 mHz     (250 m%)
+    ac: freq = 208.9 mHz     (29 %), step = 9.403 mHz    (250 m%)
+    ac: freq = 218.8 mHz   (29.2 %), step = 9.847 mHz    (250 m%)
+    ac: freq = 229.1 mHz   (29.5 %), step = 10.31 mHz    (250 m%)
+    ac: freq = 239.9 mHz   (29.8 %), step = 10.8 mHz     (250 m%)
+    ac: freq = 251.2 mHz     (30 %), step = 11.31 mHz    (250 m%)
+    ac: freq = 263 mHz     (30.2 %), step = 11.84 mHz    (250 m%)
+    ac: freq = 275.4 mHz   (30.5 %), step = 12.4 mHz     (250 m%)
+    ac: freq = 288.4 mHz   (30.8 %), step = 12.98 mHz    (250 m%)
+    ac: freq = 302 mHz       (31 %), step = 13.59 mHz    (250 m%)
+    ac: freq = 316.2 mHz   (31.2 %), step = 14.23 mHz    (250 m%)
+    ac: freq = 331.1 mHz   (31.5 %), step = 14.9 mHz     (250 m%)
+    ac: freq = 346.7 mHz   (31.8 %), step = 15.61 mHz    (250 m%)
+    ac: freq = 363.1 mHz     (32 %), step = 16.34 mHz    (250 m%)
+    ac: freq = 380.2 mHz   (32.2 %), step = 17.11 mHz    (250 m%)
+    ac: freq = 398.1 mHz   (32.5 %), step = 17.92 mHz    (250 m%)
+    ac: freq = 416.9 mHz   (32.8 %), step = 18.76 mHz    (250 m%)
+    ac: freq = 436.5 mHz     (33 %), step = 19.65 mHz    (250 m%)
+    ac: freq = 457.1 mHz   (33.2 %), step = 20.57 mHz    (250 m%)
+    ac: freq = 478.6 mHz   (33.5 %), step = 21.54 mHz    (250 m%)
+    ac: freq = 501.2 mHz   (33.8 %), step = 22.56 mHz    (250 m%)
+    ac: freq = 524.8 mHz     (34 %), step = 23.62 mHz    (250 m%)
+    ac: freq = 549.5 mHz   (34.2 %), step = 24.73 mHz    (250 m%)
+    ac: freq = 575.4 mHz   (34.5 %), step = 25.9 mHz     (250 m%)
+    ac: freq = 602.6 mHz   (34.8 %), step = 27.12 mHz    (250 m%)
+    ac: freq = 631 mHz       (35 %), step = 28.4 mHz     (250 m%)
+    ac: freq = 660.7 mHz   (35.2 %), step = 29.74 mHz    (250 m%)
+    ac: freq = 691.8 mHz   (35.5 %), step = 31.14 mHz    (250 m%)
+    ac: freq = 724.4 mHz   (35.8 %), step = 32.6 mHz     (250 m%)
+    ac: freq = 758.6 mHz     (36 %), step = 34.14 mHz    (250 m%)
+    ac: freq = 794.3 mHz   (36.2 %), step = 35.75 mHz    (250 m%)
+    ac: freq = 831.8 mHz   (36.5 %), step = 37.44 mHz    (250 m%)
+    ac: freq = 871 mHz     (36.8 %), step = 39.2 mHz     (250 m%)
+    ac: freq = 912 mHz       (37 %), step = 41.05 mHz    (250 m%)
+    ac: freq = 955 mHz     (37.2 %), step = 42.98 mHz    (250 m%)
+    ac: freq = 1 Hz        (37.5 %), step = 45.01 mHz    (250 m%)
+    ac: freq = 1.047 Hz    (37.8 %), step = 47.13 mHz    (250 m%)
+    ac: freq = 1.096 Hz      (38 %), step = 49.35 mHz    (250 m%)
+    ac: freq = 1.148 Hz    (38.2 %), step = 51.68 mHz    (250 m%)
+    ac: freq = 1.202 Hz    (38.5 %), step = 54.11 mHz    (250 m%)
+    ac: freq = 1.259 Hz    (38.8 %), step = 56.66 mHz    (250 m%)
+    ac: freq = 1.318 Hz      (39 %), step = 59.33 mHz    (250 m%)
+    ac: freq = 1.38 Hz     (39.2 %), step = 62.13 mHz    (250 m%)
+    ac: freq = 1.445 Hz    (39.5 %), step = 65.06 mHz    (250 m%)
+    ac: freq = 1.514 Hz    (39.8 %), step = 68.12 mHz    (250 m%)
+    ac: freq = 1.585 Hz      (40 %), step = 71.33 mHz    (250 m%)
+    ac: freq = 1.66 Hz     (40.2 %), step = 74.69 mHz    (250 m%)
+    ac: freq = 1.738 Hz    (40.5 %), step = 78.21 mHz    (250 m%)
+    ac: freq = 1.82 Hz     (40.8 %), step = 81.9 mHz     (250 m%)
+    ac: freq = 1.905 Hz      (41 %), step = 85.76 mHz    (250 m%)
+    ac: freq = 1.995 Hz    (41.2 %), step = 89.8 mHz     (250 m%)
+    ac: freq = 2.089 Hz    (41.5 %), step = 94.03 mHz    (250 m%)
+    ac: freq = 2.188 Hz    (41.8 %), step = 98.47 mHz    (250 m%)
+    ac: freq = 2.291 Hz      (42 %), step = 103.1 mHz    (250 m%)
+    ac: freq = 2.399 Hz    (42.2 %), step = 108 mHz      (250 m%)
+    ac: freq = 2.512 Hz    (42.5 %), step = 113.1 mHz    (250 m%)
+    ac: freq = 2.63 Hz     (42.8 %), step = 118.4 mHz    (250 m%)
+    ac: freq = 2.754 Hz      (43 %), step = 124 mHz      (250 m%)
+    ac: freq = 2.884 Hz    (43.2 %), step = 129.8 mHz    (250 m%)
+    ac: freq = 3.02 Hz     (43.5 %), step = 135.9 mHz    (250 m%)
+    ac: freq = 3.162 Hz    (43.8 %), step = 142.3 mHz    (250 m%)
+    ac: freq = 3.311 Hz      (44 %), step = 149 mHz      (250 m%)
+    ac: freq = 3.467 Hz    (44.2 %), step = 156.1 mHz    (250 m%)
+    ac: freq = 3.631 Hz    (44.5 %), step = 163.4 mHz    (250 m%)
+    ac: freq = 3.802 Hz    (44.8 %), step = 171.1 mHz    (250 m%)
+    ac: freq = 3.981 Hz      (45 %), step = 179.2 mHz    (250 m%)
+    ac: freq = 4.169 Hz    (45.2 %), step = 187.6 mHz    (250 m%)
+    ac: freq = 4.365 Hz    (45.5 %), step = 196.5 mHz    (250 m%)
+    ac: freq = 4.571 Hz    (45.8 %), step = 205.7 mHz    (250 m%)
+    ac: freq = 4.786 Hz      (46 %), step = 215.4 mHz    (250 m%)
+    ac: freq = 5.012 Hz    (46.2 %), step = 225.6 mHz    (250 m%)
+    ac: freq = 5.248 Hz    (46.5 %), step = 236.2 mHz    (250 m%)
+    ac: freq = 5.495 Hz    (46.8 %), step = 247.3 mHz    (250 m%)
+    ac: freq = 5.754 Hz      (47 %), step = 259 mHz      (250 m%)
+    ac: freq = 6.026 Hz    (47.2 %), step = 271.2 mHz    (250 m%)
+    ac: freq = 6.31 Hz     (47.5 %), step = 284 mHz      (250 m%)
+    ac: freq = 6.607 Hz    (47.8 %), step = 297.4 mHz    (250 m%)
+    ac: freq = 6.918 Hz      (48 %), step = 311.4 mHz    (250 m%)
+    ac: freq = 7.244 Hz    (48.2 %), step = 326 mHz      (250 m%)
+    ac: freq = 7.586 Hz    (48.5 %), step = 341.4 mHz    (250 m%)
+    ac: freq = 7.943 Hz    (48.8 %), step = 357.5 mHz    (250 m%)
+    ac: freq = 8.318 Hz      (49 %), step = 374.4 mHz    (250 m%)
+    ac: freq = 8.71 Hz     (49.2 %), step = 392 mHz      (250 m%)
+    ac: freq = 9.12 Hz     (49.5 %), step = 410.5 mHz    (250 m%)
+    ac: freq = 9.55 Hz     (49.8 %), step = 429.8 mHz    (250 m%)
+    ac: freq = 10 Hz         (50 %), step = 450.1 mHz    (250 m%)
+    ac: freq = 10.47 Hz    (50.2 %), step = 471.3 mHz    (250 m%)
+    ac: freq = 10.96 Hz    (50.5 %), step = 493.5 mHz    (250 m%)
+    ac: freq = 11.48 Hz    (50.7 %), step = 516.8 mHz    (250 m%)
+    ac: freq = 12.02 Hz      (51 %), step = 541.1 mHz    (250 m%)
+    ac: freq = 12.59 Hz    (51.2 %), step = 566.6 mHz    (250 m%)
+    ac: freq = 13.18 Hz    (51.5 %), step = 593.3 mHz    (250 m%)
+    ac: freq = 13.8 Hz     (51.7 %), step = 621.3 mHz    (250 m%)
+    ac: freq = 14.45 Hz      (52 %), step = 650.6 mHz    (250 m%)
+    ac: freq = 15.14 Hz    (52.2 %), step = 681.2 mHz    (250 m%)
+    ac: freq = 15.85 Hz    (52.5 %), step = 713.3 mHz    (250 m%)
+    ac: freq = 16.6 Hz     (52.8 %), step = 746.9 mHz    (250 m%)
+    ac: freq = 17.38 Hz      (53 %), step = 782.1 mHz    (250 m%)
+    ac: freq = 18.2 Hz     (53.2 %), step = 819 mHz      (250 m%)
+    ac: freq = 19.05 Hz    (53.5 %), step = 857.6 mHz    (250 m%)
+    ac: freq = 19.95 Hz    (53.8 %), step = 898 mHz      (250 m%)
+    ac: freq = 20.89 Hz      (54 %), step = 940.3 mHz    (250 m%)
+    ac: freq = 21.88 Hz    (54.2 %), step = 984.7 mHz    (250 m%)
+    ac: freq = 22.91 Hz    (54.5 %), step = 1.031 Hz     (250 m%)
+    ac: freq = 23.99 Hz    (54.8 %), step = 1.08 Hz      (250 m%)
+    ac: freq = 25.12 Hz      (55 %), step = 1.131 Hz     (250 m%)
+    ac: freq = 26.3 Hz     (55.2 %), step = 1.184 Hz     (250 m%)
+    ac: freq = 27.54 Hz    (55.5 %), step = 1.24 Hz      (250 m%)
+    ac: freq = 28.84 Hz    (55.8 %), step = 1.298 Hz     (250 m%)
+    ac: freq = 30.2 Hz       (56 %), step = 1.359 Hz     (250 m%)
+    ac: freq = 31.62 Hz    (56.2 %), step = 1.423 Hz     (250 m%)
+    ac: freq = 33.11 Hz    (56.5 %), step = 1.49 Hz      (250 m%)
+    ac: freq = 34.67 Hz    (56.8 %), step = 1.561 Hz     (250 m%)
+    ac: freq = 36.31 Hz      (57 %), step = 1.634 Hz     (250 m%)
+    ac: freq = 38.02 Hz    (57.2 %), step = 1.711 Hz     (250 m%)
+    ac: freq = 39.81 Hz    (57.5 %), step = 1.792 Hz     (250 m%)
+    ac: freq = 41.69 Hz    (57.8 %), step = 1.876 Hz     (250 m%)
+    ac: freq = 43.65 Hz      (58 %), step = 1.965 Hz     (250 m%)
+    ac: freq = 45.71 Hz    (58.2 %), step = 2.057 Hz     (250 m%)
+    ac: freq = 47.86 Hz    (58.5 %), step = 2.154 Hz     (250 m%)
+    ac: freq = 50.12 Hz    (58.8 %), step = 2.256 Hz     (250 m%)
+    ac: freq = 52.48 Hz      (59 %), step = 2.362 Hz     (250 m%)
+    ac: freq = 54.95 Hz    (59.2 %), step = 2.473 Hz     (250 m%)
+    ac: freq = 57.54 Hz    (59.5 %), step = 2.59 Hz      (250 m%)
+    ac: freq = 60.26 Hz    (59.8 %), step = 2.712 Hz     (250 m%)
+    ac: freq = 63.1 Hz       (60 %), step = 2.84 Hz      (250 m%)
+    ac: freq = 66.07 Hz    (60.2 %), step = 2.974 Hz     (250 m%)
+    ac: freq = 69.18 Hz    (60.5 %), step = 3.114 Hz     (250 m%)
+    ac: freq = 72.44 Hz    (60.8 %), step = 3.26 Hz      (250 m%)
+    ac: freq = 75.86 Hz      (61 %), step = 3.414 Hz     (250 m%)
+    ac: freq = 79.43 Hz    (61.3 %), step = 3.575 Hz     (250 m%)
+    ac: freq = 83.18 Hz    (61.5 %), step = 3.744 Hz     (250 m%)
+    ac: freq = 87.1 Hz     (61.8 %), step = 3.92 Hz      (250 m%)
+    ac: freq = 91.2 Hz       (62 %), step = 4.105 Hz     (250 m%)
+    ac: freq = 95.5 Hz     (62.3 %), step = 4.298 Hz     (250 m%)
+    ac: freq = 100 Hz      (62.5 %), step = 4.501 Hz     (250 m%)
+    ac: freq = 104.7 Hz    (62.7 %), step = 4.713 Hz     (250 m%)
+    ac: freq = 109.6 Hz      (63 %), step = 4.935 Hz     (250 m%)
+    ac: freq = 114.8 Hz    (63.2 %), step = 5.168 Hz     (250 m%)
+    ac: freq = 120.2 Hz    (63.5 %), step = 5.411 Hz     (250 m%)
+    ac: freq = 125.9 Hz    (63.7 %), step = 5.666 Hz     (250 m%)
+    ac: freq = 131.8 Hz      (64 %), step = 5.933 Hz     (250 m%)
+    ac: freq = 138 Hz      (64.2 %), step = 6.213 Hz     (250 m%)
+    ac: freq = 144.5 Hz    (64.5 %), step = 6.506 Hz     (250 m%)
+    ac: freq = 151.4 Hz    (64.8 %), step = 6.812 Hz     (250 m%)
+    ac: freq = 158.5 Hz      (65 %), step = 7.133 Hz     (250 m%)
+    ac: freq = 166 Hz      (65.2 %), step = 7.469 Hz     (250 m%)
+    ac: freq = 173.8 Hz    (65.5 %), step = 7.821 Hz     (250 m%)
+    ac: freq = 182 Hz      (65.8 %), step = 8.19 Hz      (250 m%)
+    ac: freq = 190.5 Hz      (66 %), step = 8.576 Hz     (250 m%)
+    ac: freq = 199.5 Hz    (66.2 %), step = 8.98 Hz      (250 m%)
+    ac: freq = 208.9 Hz    (66.5 %), step = 9.403 Hz     (250 m%)
+    ac: freq = 218.8 Hz    (66.8 %), step = 9.847 Hz     (250 m%)
+    ac: freq = 229.1 Hz      (67 %), step = 10.31 Hz     (250 m%)
+    ac: freq = 239.9 Hz    (67.2 %), step = 10.8 Hz      (250 m%)
+    ac: freq = 251.2 Hz    (67.5 %), step = 11.31 Hz     (250 m%)
+    ac: freq = 263 Hz      (67.8 %), step = 11.84 Hz     (250 m%)
+    ac: freq = 275.4 Hz      (68 %), step = 12.4 Hz      (250 m%)
+    ac: freq = 288.4 Hz    (68.2 %), step = 12.98 Hz     (250 m%)
+    ac: freq = 302 Hz      (68.5 %), step = 13.59 Hz     (250 m%)
+    ac: freq = 316.2 Hz    (68.8 %), step = 14.23 Hz     (250 m%)
+    ac: freq = 331.1 Hz      (69 %), step = 14.9 Hz      (250 m%)
+    ac: freq = 346.7 Hz    (69.2 %), step = 15.61 Hz     (250 m%)
+    ac: freq = 363.1 Hz    (69.5 %), step = 16.34 Hz     (250 m%)
+    ac: freq = 380.2 Hz    (69.8 %), step = 17.11 Hz     (250 m%)
+    ac: freq = 398.1 Hz      (70 %), step = 17.92 Hz     (250 m%)
+    ac: freq = 416.9 Hz    (70.2 %), step = 18.76 Hz     (250 m%)
+    ac: freq = 436.5 Hz    (70.5 %), step = 19.65 Hz     (250 m%)
+    ac: freq = 457.1 Hz    (70.8 %), step = 20.57 Hz     (250 m%)
+    ac: freq = 478.6 Hz      (71 %), step = 21.54 Hz     (250 m%)
+    ac: freq = 501.2 Hz    (71.2 %), step = 22.56 Hz     (250 m%)
+    ac: freq = 524.8 Hz    (71.5 %), step = 23.62 Hz     (250 m%)
+    ac: freq = 549.5 Hz    (71.8 %), step = 24.73 Hz     (250 m%)
+    ac: freq = 575.4 Hz      (72 %), step = 25.9 Hz      (250 m%)
+    ac: freq = 602.6 Hz    (72.2 %), step = 27.12 Hz     (250 m%)
+    ac: freq = 631 Hz      (72.5 %), step = 28.4 Hz      (250 m%)
+    ac: freq = 660.7 Hz    (72.8 %), step = 29.74 Hz     (250 m%)
+    ac: freq = 691.8 Hz      (73 %), step = 31.14 Hz     (250 m%)
+    ac: freq = 724.4 Hz    (73.2 %), step = 32.6 Hz      (250 m%)
+    ac: freq = 758.6 Hz    (73.5 %), step = 34.14 Hz     (250 m%)
+    ac: freq = 794.3 Hz    (73.8 %), step = 35.75 Hz     (250 m%)
+    ac: freq = 831.8 Hz      (74 %), step = 37.44 Hz     (250 m%)
+    ac: freq = 871 Hz      (74.2 %), step = 39.2 Hz      (250 m%)
+    ac: freq = 912 Hz      (74.5 %), step = 41.05 Hz     (250 m%)
+    ac: freq = 955 Hz      (74.8 %), step = 42.98 Hz     (250 m%)
+    ac: freq = 1 kHz         (75 %), step = 45.01 Hz     (250 m%)
+    ac: freq = 1.047 kHz   (75.2 %), step = 47.13 Hz     (250 m%)
+    ac: freq = 1.096 kHz   (75.5 %), step = 49.35 Hz     (250 m%)
+    ac: freq = 1.148 kHz   (75.8 %), step = 51.68 Hz     (250 m%)
+    ac: freq = 1.202 kHz     (76 %), step = 54.11 Hz     (250 m%)
+    ac: freq = 1.259 kHz   (76.2 %), step = 56.66 Hz     (250 m%)
+    ac: freq = 1.318 kHz   (76.5 %), step = 59.33 Hz     (250 m%)
+    ac: freq = 1.38 kHz    (76.8 %), step = 62.13 Hz     (250 m%)
+    ac: freq = 1.445 kHz     (77 %), step = 65.06 Hz     (250 m%)
+    ac: freq = 1.514 kHz   (77.2 %), step = 68.12 Hz     (250 m%)
+    ac: freq = 1.585 kHz   (77.5 %), step = 71.33 Hz     (250 m%)
+    ac: freq = 1.66 kHz    (77.8 %), step = 74.69 Hz     (250 m%)
+    ac: freq = 1.738 kHz     (78 %), step = 78.21 Hz     (250 m%)
+    ac: freq = 1.82 kHz    (78.2 %), step = 81.9 Hz      (250 m%)
+    ac: freq = 1.905 kHz   (78.5 %), step = 85.76 Hz     (250 m%)
+    ac: freq = 1.995 kHz   (78.8 %), step = 89.8 Hz      (250 m%)
+    ac: freq = 2.089 kHz     (79 %), step = 94.03 Hz     (250 m%)
+    ac: freq = 2.188 kHz   (79.2 %), step = 98.47 Hz     (250 m%)
+    ac: freq = 2.291 kHz   (79.5 %), step = 103.1 Hz     (250 m%)
+    ac: freq = 2.399 kHz   (79.8 %), step = 108 Hz       (250 m%)
+    ac: freq = 2.512 kHz     (80 %), step = 113.1 Hz     (250 m%)
+    ac: freq = 2.63 kHz    (80.2 %), step = 118.4 Hz     (250 m%)
+    ac: freq = 2.754 kHz   (80.5 %), step = 124 Hz       (250 m%)
+    ac: freq = 2.884 kHz   (80.8 %), step = 129.8 Hz     (250 m%)
+    ac: freq = 3.02 kHz      (81 %), step = 135.9 Hz     (250 m%)
+    ac: freq = 3.162 kHz   (81.2 %), step = 142.3 Hz     (250 m%)
+    ac: freq = 3.311 kHz   (81.5 %), step = 149 Hz       (250 m%)
+    ac: freq = 3.467 kHz   (81.8 %), step = 156.1 Hz     (250 m%)
+    ac: freq = 3.631 kHz     (82 %), step = 163.4 Hz     (250 m%)
+    ac: freq = 3.802 kHz   (82.2 %), step = 171.1 Hz     (250 m%)
+    ac: freq = 3.981 kHz   (82.5 %), step = 179.2 Hz     (250 m%)
+    ac: freq = 4.169 kHz   (82.8 %), step = 187.6 Hz     (250 m%)
+    ac: freq = 4.365 kHz     (83 %), step = 196.5 Hz     (250 m%)
+    ac: freq = 4.571 kHz   (83.2 %), step = 205.7 Hz     (250 m%)
+    ac: freq = 4.786 kHz   (83.5 %), step = 215.4 Hz     (250 m%)
+    ac: freq = 5.012 kHz   (83.8 %), step = 225.6 Hz     (250 m%)
+    ac: freq = 5.248 kHz     (84 %), step = 236.2 Hz     (250 m%)
+    ac: freq = 5.495 kHz   (84.2 %), step = 247.3 Hz     (250 m%)
+    ac: freq = 5.754 kHz   (84.5 %), step = 259 Hz       (250 m%)
+    ac: freq = 6.026 kHz   (84.8 %), step = 271.2 Hz     (250 m%)
+    ac: freq = 6.31 kHz      (85 %), step = 284 Hz       (250 m%)
+    ac: freq = 6.607 kHz   (85.2 %), step = 297.4 Hz     (250 m%)
+    ac: freq = 6.918 kHz   (85.5 %), step = 311.4 Hz     (250 m%)
+    ac: freq = 7.244 kHz   (85.8 %), step = 326 Hz       (250 m%)
+    ac: freq = 7.586 kHz     (86 %), step = 341.4 Hz     (250 m%)
+    ac: freq = 7.943 kHz   (86.2 %), step = 357.5 Hz     (250 m%)
+    ac: freq = 8.318 kHz   (86.5 %), step = 374.4 Hz     (250 m%)
+    ac: freq = 8.71 kHz    (86.8 %), step = 392 Hz       (250 m%)
+    ac: freq = 9.12 kHz      (87 %), step = 410.5 Hz     (250 m%)
+    ac: freq = 9.55 kHz    (87.2 %), step = 429.8 Hz     (250 m%)
+    ac: freq = 10 kHz      (87.5 %), step = 450.1 Hz     (250 m%)
+    ac: freq = 10.47 kHz   (87.8 %), step = 471.3 Hz     (250 m%)
+    ac: freq = 10.96 kHz     (88 %), step = 493.5 Hz     (250 m%)
+    ac: freq = 11.48 kHz   (88.2 %), step = 516.8 Hz     (250 m%)
+    ac: freq = 12.02 kHz   (88.5 %), step = 541.1 Hz     (250 m%)
+    ac: freq = 12.59 kHz   (88.8 %), step = 566.6 Hz     (250 m%)
+    ac: freq = 13.18 kHz     (89 %), step = 593.3 Hz     (250 m%)
+    ac: freq = 13.8 kHz    (89.2 %), step = 621.3 Hz     (250 m%)
+    ac: freq = 14.45 kHz   (89.5 %), step = 650.6 Hz     (250 m%)
+    ac: freq = 15.14 kHz   (89.8 %), step = 681.2 Hz     (250 m%)
+    ac: freq = 15.85 kHz     (90 %), step = 713.3 Hz     (250 m%)
+    ac: freq = 16.6 kHz    (90.2 %), step = 746.9 Hz     (250 m%)
+    ac: freq = 17.38 kHz   (90.5 %), step = 782.1 Hz     (250 m%)
+    ac: freq = 18.2 kHz    (90.8 %), step = 819 Hz       (250 m%)
+    ac: freq = 19.05 kHz     (91 %), step = 857.6 Hz     (250 m%)
+    ac: freq = 19.95 kHz   (91.2 %), step = 898 Hz       (250 m%)
+    ac: freq = 20.89 kHz   (91.5 %), step = 940.3 Hz     (250 m%)
+    ac: freq = 21.88 kHz   (91.8 %), step = 984.7 Hz     (250 m%)
+    ac: freq = 22.91 kHz     (92 %), step = 1.031 kHz    (250 m%)
+    ac: freq = 23.99 kHz   (92.2 %), step = 1.08 kHz     (250 m%)
+    ac: freq = 25.12 kHz   (92.5 %), step = 1.131 kHz    (250 m%)
+    ac: freq = 26.3 kHz    (92.8 %), step = 1.184 kHz    (250 m%)
+    ac: freq = 27.54 kHz     (93 %), step = 1.24 kHz     (250 m%)
+    ac: freq = 28.84 kHz   (93.2 %), step = 1.298 kHz    (250 m%)
+    ac: freq = 30.2 kHz    (93.5 %), step = 1.359 kHz    (250 m%)
+    ac: freq = 31.62 kHz   (93.8 %), step = 1.423 kHz    (250 m%)
+    ac: freq = 33.11 kHz     (94 %), step = 1.49 kHz     (250 m%)
+    ac: freq = 34.67 kHz   (94.2 %), step = 1.561 kHz    (250 m%)
+    ac: freq = 36.31 kHz   (94.5 %), step = 1.634 kHz    (250 m%)
+    ac: freq = 38.02 kHz   (94.8 %), step = 1.711 kHz    (250 m%)
+    ac: freq = 39.81 kHz     (95 %), step = 1.792 kHz    (250 m%)
+    ac: freq = 41.69 kHz   (95.2 %), step = 1.876 kHz    (250 m%)
+    ac: freq = 43.65 kHz   (95.5 %), step = 1.965 kHz    (250 m%)
+    ac: freq = 45.71 kHz   (95.8 %), step = 2.057 kHz    (250 m%)
+    ac: freq = 47.86 kHz     (96 %), step = 2.154 kHz    (250 m%)
+    ac: freq = 50.12 kHz   (96.2 %), step = 2.256 kHz    (250 m%)
+    ac: freq = 52.48 kHz   (96.5 %), step = 2.362 kHz    (250 m%)
+    ac: freq = 54.95 kHz   (96.8 %), step = 2.473 kHz    (250 m%)
+    ac: freq = 57.54 kHz     (97 %), step = 2.59 kHz     (250 m%)
+    ac: freq = 60.26 kHz   (97.2 %), step = 2.712 kHz    (250 m%)
+    ac: freq = 63.1 kHz    (97.5 %), step = 2.84 kHz     (250 m%)
+    ac: freq = 66.07 kHz   (97.8 %), step = 2.974 kHz    (250 m%)
+    ac: freq = 69.18 kHz     (98 %), step = 3.114 kHz    (250 m%)
+    ac: freq = 72.44 kHz   (98.2 %), step = 3.26 kHz     (250 m%)
+    ac: freq = 75.86 kHz   (98.5 %), step = 3.414 kHz    (250 m%)
+    ac: freq = 79.43 kHz   (98.8 %), step = 3.575 kHz    (250 m%)
+    ac: freq = 83.18 kHz     (99 %), step = 3.744 kHz    (250 m%)
+    ac: freq = 87.1 kHz    (99.2 %), step = 3.92 kHz     (250 m%)
+    ac: freq = 91.2 kHz    (99.5 %), step = 4.105 kHz    (250 m%)
+    ac: freq = 95.5 kHz    (99.8 %), step = 4.298 kHz    (250 m%)
+    ac: freq = 100 kHz      (100 %), step = 4.501 kHz    (250 m%)
+Accumulated DC solution time = 0 s.
+Intrinsic ac analysis time =              0 s.
+Total time required for ac analysis `ac': CPU = 153.641 ms, elapsed = 177.993
+        ms.
+Time accumulated: CPU = 497.703 ms, elapsed = 1.11577 s.
+Peak resident memory used = 57.5 Mbytes.
+
+
+******************
+DC Analysis `dcOp'
+******************
+
+Opening the PSF file ../../schematic_r8_A_off/psf/dcOp.dc ...
+Important parameter values:
+    reltol = 10e-06
+    abstol(V) = 1 uV
+    abstol(I) = 10 aA
+    temp = 27 C
+    tnom = 25 C
+    tempeffects = all
+    gmindc = 1 aS
+Convergence achieved in 3 iterations.
+DC simulation time: CPU = 512.322 ms, elapsed = 1.14703 s.
+Total time required for dc analysis `dcOp': CPU = 14.197 ms, elapsed = 30.844
+        ms.
+Time accumulated: CPU = 513.185 ms, elapsed = 1.15098 s.
+Peak resident memory used = 57.6 Mbytes.
+
+dcOpInfo: writing operating point information to rawfile.
+
+Opening the PSF file ../../schematic_r8_A_off/psf/dcOpInfo.info ...
+
+**************************************************
+Noise Analysis `noise': freq = (100 mHz -> 250 Hz)
+**************************************************
+
+Notice from spectre during Noise analysis `noise'.
+    Operating points will not be recomputed: the circuit and conditions were
+        not changed since previous analysis.
+
+
+Opening the PSF file ../../schematic_r8_A_off/psf/noise.noise ...
+    noise: freq = 125.9 mHz   (2.94 %), step = 13.69 mHz    (1.47 %)
+    noise: freq = 141.3 mHz   (4.41 %), step = 15.36 mHz    (1.47 %)
+    noise: freq = 158.5 mHz   (5.88 %), step = 17.24 mHz    (1.47 %)
+    noise: freq = 177.8 mHz   (7.35 %), step = 19.34 mHz    (1.47 %)
+    noise: freq = 199.5 mHz   (8.82 %), step = 21.7 mHz     (1.47 %)
+    noise: freq = 223.9 mHz   (10.3 %), step = 24.35 mHz    (1.47 %)
+    noise: freq = 251.2 mHz   (11.8 %), step = 27.32 mHz    (1.47 %)
+    noise: freq = 281.8 mHz   (13.2 %), step = 30.65 mHz    (1.47 %)
+    noise: freq = 316.2 mHz   (14.7 %), step = 34.39 mHz    (1.47 %)
+    noise: freq = 354.8 mHz   (16.2 %), step = 38.59 mHz    (1.47 %)
+    noise: freq = 398.1 mHz   (17.6 %), step = 43.29 mHz    (1.47 %)
+    noise: freq = 446.7 mHz   (19.1 %), step = 48.58 mHz    (1.47 %)
+    noise: freq = 501.2 mHz   (20.6 %), step = 54.5 mHz     (1.47 %)
+    noise: freq = 562.3 mHz   (22.1 %), step = 61.15 mHz    (1.47 %)
+    noise: freq = 631 mHz     (23.5 %), step = 68.62 mHz    (1.47 %)
+    noise: freq = 707.9 mHz     (25 %), step = 76.99 mHz    (1.47 %)
+    noise: freq = 794.3 mHz   (26.5 %), step = 86.38 mHz    (1.47 %)
+    noise: freq = 891.3 mHz   (27.9 %), step = 96.92 mHz    (1.47 %)
+    noise: freq = 1 Hz        (29.4 %), step = 108.7 mHz    (1.47 %)
+    noise: freq = 1.122 Hz    (30.9 %), step = 122 mHz      (1.47 %)
+    noise: freq = 1.259 Hz    (32.4 %), step = 136.9 mHz    (1.47 %)
+    noise: freq = 1.413 Hz    (33.8 %), step = 153.6 mHz    (1.47 %)
+    noise: freq = 1.585 Hz    (35.3 %), step = 172.4 mHz    (1.47 %)
+    noise: freq = 1.778 Hz    (36.8 %), step = 193.4 mHz    (1.47 %)
+    noise: freq = 1.995 Hz    (38.2 %), step = 217 mHz      (1.47 %)
+    noise: freq = 2.239 Hz    (39.7 %), step = 243.5 mHz    (1.47 %)
+    noise: freq = 2.512 Hz    (41.2 %), step = 273.2 mHz    (1.47 %)
+    noise: freq = 2.818 Hz    (42.6 %), step = 306.5 mHz    (1.47 %)
+    noise: freq = 3.162 Hz    (44.1 %), step = 343.9 mHz    (1.47 %)
+    noise: freq = 3.548 Hz    (45.6 %), step = 385.9 mHz    (1.47 %)
+    noise: freq = 3.981 Hz    (47.1 %), step = 432.9 mHz    (1.47 %)
+    noise: freq = 4.467 Hz    (48.5 %), step = 485.8 mHz    (1.47 %)
+    noise: freq = 5.012 Hz      (50 %), step = 545 mHz      (1.47 %)
+    noise: freq = 5.623 Hz    (51.5 %), step = 611.5 mHz    (1.47 %)
+    noise: freq = 6.31 Hz     (52.9 %), step = 686.2 mHz    (1.47 %)
+    noise: freq = 7.079 Hz    (54.4 %), step = 769.9 mHz    (1.47 %)
+    noise: freq = 7.943 Hz    (55.9 %), step = 863.8 mHz    (1.47 %)
+    noise: freq = 8.913 Hz    (57.4 %), step = 969.2 mHz    (1.47 %)
+    noise: freq = 10 Hz       (58.8 %), step = 1.087 Hz     (1.47 %)
+    noise: freq = 11.22 Hz    (60.3 %), step = 1.22 Hz      (1.47 %)
+    noise: freq = 12.59 Hz    (61.8 %), step = 1.369 Hz     (1.47 %)
+    noise: freq = 14.13 Hz    (63.2 %), step = 1.536 Hz     (1.47 %)
+    noise: freq = 15.85 Hz    (64.7 %), step = 1.724 Hz     (1.47 %)
+    noise: freq = 17.78 Hz    (66.2 %), step = 1.934 Hz     (1.47 %)
+    noise: freq = 19.95 Hz    (67.6 %), step = 2.17 Hz      (1.47 %)
+    noise: freq = 22.39 Hz    (69.1 %), step = 2.435 Hz     (1.47 %)
+    noise: freq = 25.12 Hz    (70.6 %), step = 2.732 Hz     (1.47 %)
+    noise: freq = 28.18 Hz    (72.1 %), step = 3.065 Hz     (1.47 %)
+    noise: freq = 31.62 Hz    (73.5 %), step = 3.439 Hz     (1.47 %)
+    noise: freq = 35.48 Hz      (75 %), step = 3.859 Hz     (1.47 %)
+    noise: freq = 39.81 Hz    (76.5 %), step = 4.329 Hz     (1.47 %)
+    noise: freq = 44.67 Hz    (77.9 %), step = 4.858 Hz     (1.47 %)
+    noise: freq = 50.12 Hz    (79.4 %), step = 5.45 Hz      (1.47 %)
+    noise: freq = 56.23 Hz    (80.9 %), step = 6.115 Hz     (1.47 %)
+    noise: freq = 63.1 Hz     (82.4 %), step = 6.862 Hz     (1.47 %)
+    noise: freq = 70.79 Hz    (83.8 %), step = 7.699 Hz     (1.47 %)
+    noise: freq = 79.43 Hz    (85.3 %), step = 8.638 Hz     (1.47 %)
+    noise: freq = 89.13 Hz    (86.8 %), step = 9.692 Hz     (1.47 %)
+    noise: freq = 100 Hz      (88.2 %), step = 10.87 Hz     (1.47 %)
+    noise: freq = 112.2 Hz    (89.7 %), step = 12.2 Hz      (1.47 %)
+    noise: freq = 125.9 Hz    (91.2 %), step = 13.69 Hz     (1.47 %)
+    noise: freq = 141.3 Hz    (92.6 %), step = 15.36 Hz     (1.47 %)
+    noise: freq = 158.5 Hz    (94.1 %), step = 17.24 Hz     (1.47 %)
+    noise: freq = 177.8 Hz    (95.6 %), step = 19.34 Hz     (1.47 %)
+    noise: freq = 199.5 Hz    (97.1 %), step = 21.7 Hz      (1.47 %)
+    noise: freq = 223.9 Hz    (98.5 %), step = 24.35 Hz     (1.47 %)
+    noise: freq = 250 Hz       (100 %), step = 26.13 Hz     (1.47 %)
+Accumulated DC solution time = 0 s.
+Intrinsic noise analysis time =              0 s.
+Total time required for noise analysis `noise': CPU = 34.456 ms, elapsed =
+        58.7511 ms.
+Time accumulated: CPU = 556.831 ms, elapsed = 1.22477 s.
+Peak resident memory used = 58.4 Mbytes.
+
+modelParameter: writing model parameter values to rawfile.
+
+Opening the PSF file ../../schematic_r8_A_off/psf/modelParameter.info ...
+element: writing instance parameter values to rawfile.
+
+Opening the PSF file ../../schematic_r8_A_off/psf/element.info ...
+outputParameter: writing output parameter values to rawfile.
+
+Opening the PSF file ../../schematic_r8_A_off/psf/outputParameter.info ...
+designParamVals: writing netlist parameters to rawfile.
+
+Opening the PSFASCII file ../../schematic_r8_A_off/psf/designParamVals.info
+        ...
+primitives: writing primitives to rawfile.
+
+Opening the PSFASCII file
+        ../../schematic_r8_A_off/psf/primitives.info.primitives ...
+subckts: writing subcircuits to rawfile.
+
+Opening the PSFASCII file ../../schematic_r8_A_off/psf/subckts.info.subckts
+        ...
+INFO (ADE-3071): Simulation completed successfully.
+reading simulation data...
+Loading viva.cxt 
+      ...successful.
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8/A_off_ac.csv (401 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8/A_off_noise.csv (69 rows)
+AC> op XA.M1  /XA/M1       id 1.244e-07 gm 2.857e-06 vgs 0.3933 vds 0.1922 vdsat 0.04995 region 3
+AC> op XA.M2  /XA/M2       id 1.244e-07 gm 2.857e-06 vgs 0.3933 vds 0.1922 vdsat 0.04995 region 3
+AC> op XA.M3  /XA/M3       id -1.244e-07 gm 1.874e-06 vgs -0.4793 vds -0.9005 vdsat -0.09144 region 2
+AC> op XA.M4  /XA/M4       id -1.244e-07 gm 1.874e-06 vgs -0.4793 vds -0.9005 vdsat -0.09144 region 2
+AC> op XA.MC1 /XA/MC1      id 1.244e-07 gm 3.018e-06 vgs 0.4016 vds 0.2011 vdsat 0.04624 region 3
+AC> op XA.MC2 /XA/MC2      id 1.244e-07 gm 3.018e-06 vgs 0.4016 vds 0.2011 vdsat 0.04624 region 3
+AC> op XA.MT  /XA/MT       id 2.489e-07 gm 5.551e-06 vgs 0.3116 vds 0.5062 vdsat 0.05034 region 3
+AC> op XCD.MSP /XCD/MSP     id 1.123e-07 gm 2.956e-06 vgs 0.3594 vds 1.26 vdsat 0.04399 region 3
+AC> op XCD.MKP /XCD/MKP     id 1.123e-07 gm 2.523e-06 vgs 0.3116 vds 0.5401 vdsat 0.05005 region 3
+AC> op MP0    /MP0         id -1e-07 gm 1.841e-06 vgs -0.428 vds -0.428 vdsat -0.06699 region 2
+AC> op MP1    /MP1         id -5.345e-08 gm 9.708e-07 vgs -0.428 vds -1.488 vdsat -0.06754 region 2
+AC> op MP2    /MP2         id -5.345e-08 gm 9.708e-07 vgs -0.428 vds -1.488 vdsat -0.06754 region 2
+AC> op XC.MA1 /XC/MA1      id 8.849e-08 gm 7.029e-07 vgs 0.6066 vds 1.507 vdsat 0.2215 region 2
+AC> op XC.MA2 /XC/MA2      id 8.832e-08 gm 7.006e-07 vgs 0.6071 vds 1.028 vdsat 0.2219 region 2
+AC> op XC.MB1 /XC/MB1      id 8.849e-08 gm 7.029e-07 vgs 0.6066 vds 1.507 vdsat 0.2215 region 2
+AC> op XC.MB2 /XC/MB2      id 8.832e-08 gm 7.006e-07 vgs 0.6071 vds 1.028 vdsat 0.2219 region 2
+AC> op XC.MTA /XC/MTA      id 1.768e-07 gm 3.901e-06 vgs 0.3116 vds 0.2929 vdsat 0.05147 region 3
+AC> op XC.MTB /XC/MTB      id 1.768e-07 gm 3.901e-06 vgs 0.3116 vds 0.2929 vdsat 0.05147 region 3
+AC> op XC.MD  /XC/MD       id -1.766e-07 gm 2.689e-06 vgs -0.4793 vds -0.4793 vdsat -0.09085 region 2
+rm: cannot remove '/home/linux/ieng6/oce/7f/lix015/simulation/ece203_r7f_tb_gain_g0_load10p/spectre/schematic_r8_A_off/psf': Directory not empty
+AC> r8A A_off: ok  | Hoff 0.1/1/10/60/100/250 67.72667 92.78288 93.03005 90.21196 85.66635 63.73034 ph100 -23.96063 | out rms 0.001444933 V | app 1.686698e-05 deemb 1.631746e-05 V | in 0.1/1/10/100/250 2.265842e-05 6.044602e-06 1.722278e-06 5.29384e-07 3.429669e-07 | DC out 0.5401403 0.5401403 op 0.8995052 0.8995052 p 0.899506 n 0.899506 | I 9.805934e-07 3.023958e-07 | summary ok
+AC_BATCH_DONE
+(t)
+> 

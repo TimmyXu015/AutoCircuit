@@ -1,0 +1,294 @@
+
+********************
+Periodic AC Analysis
+********************
+
+The periodic AC (PAC) analysis is used to compute transfer functions for
+circuits that exhibit frequency translation. Such circuits include mixers,
+switched-capacitor filters, samplers, phase-locked loops, and the like. PAC is
+a small-signal analysis similar to AC analysis, except that the circuit is
+first linearized about a periodically varying operating point as opposed to a
+simple DC operating point. Linearizing about a periodically time-varying
+operating point allows transfer-functions that include frequency translation,
+which is not the case when linearizing about a DC operating point because
+linear time-invariant circuits do not exhibit frequency translation. In
+addition, the frequency of the sinusoidal stimulus is not constrained by the
+period of the large periodic solution.
+
+Computing the small-signal response of a periodically varying circuit is a
+two-step process. First, the small stimulus is ignored and the periodic
+steady-state response of the circuit to possibly large periodic stimulus is
+computed using PSS analysis. As part of the PSS analysis, the periodically
+time-varying representation of the circuit is computed and saved for later use.
+The second step is to apply the small stimulus to the periodically varying
+linear representation to compute the small signal response. This is done using
+the PAC analysis. A PAC analysis cannot be used alone, it must follow a PSS
+analysis. However, any number of periodic small-signal analyses such as PAC,
+PSP, PXF, and PNoise, can follow a PSS analysis.
+
+Modulated small signal measurements are possible by using Analog Design
+Environment (ADE) environment. The `modulated' option for PAC and the other
+modulated parameters are set by Artist. PAC analyses with this option produces
+results that could have limited use outside such an environment. Direct Plot is
+configured to analyze these results and combine several wave forms to measure
+AM and PM response due to single sideband or modulated stimuli. For details,
+see the SpectreRF User Guide.
+
+Unlike AC analysis, PAC analysis can print the time-domain simulation results
+by specifying the `outputperiod' parameter. In addition, unlike other analyses
+in Spectre, this analysis can only sweep frequency.
+
+Unlike other analyses in Spectre, this analysis can only sweep frequency.
+
+
+Synopsis:
+Name ... pac <parameter=value> ...
+
+
+==========
+Parameters
+==========
+
+Sweep interval parameters
+1       start=0           Start sweep limit.
+2       stop              Stop sweep limit.
+3       center            Center of sweep.
+4       span=0            Sweep limit span.
+5       step              Step size, linear sweep.
+6       lin=50            Number of steps, linear sweep.
+7       dec               Points per decade.
+8       log=50            Number of steps, log sweep.
+9       values=[...]      Array of sweep values.
+10      sweeptype=unspecified
+                          Specifies if the sweep frequency range is the
+                          absolute frequency of input or if it is relative to
+                          the port harmonics. When the unspecified value is
+                          used, Spectre RF sweeps using relative when
+                          autonomous simulation is performed or when the
+                          analysis is PSP; for other cases Spectre RF sweeps
+                          the absolute value of the input. Possible values are
+                          absolute, relative, and unspecified.
+11      relharmnum=1      Harmonic to which relative frequency sweep should be
+                          referenced.
+
+Sampled analysis parameters
+12      ptvtype=timeaveraged
+                          Specifies whether the PTV analysis will be
+                          traditional or sampled under certain conditions. 
+                          Possible values are timeaveraged and sampled.
+13      sampleprobe       The crossing event at this port triggers the sampled
+                          small signal computation.
+14      thresholdvalue=0  Sampled measurement is done when the signal crosses
+                          this value.
+15      crossingdirection=all
+                          Specifies the transitions for which sampling must be
+                          done. Possible values are all, rise, fall, and
+                          ignore.
+16      maxsamples=16     Maximum number of sampled events to be processed
+                          during the sampled analysis.
+17      extrasampletimepoints=[...]
+                          Additional time points for sampled PTV analysis.
+
+Output parameters
+18      sidebands=[...]   Array of relevant sidebands for the analysis.
+19      maxsideband=7     An alternative to the `sidebands' array
+                          specification, which automatically generates the
+                          array: [ -maxsideband ... 0 ... +maxsideband ]. For
+                          the shooting analysis, the default value is 7. For HB
+                          small signal analysis, the default value is the
+                          `harms/maxharms' setting in the HB large signal
+                          analysis. It is ignored in HB small signal when it is
+                          larger than the harms/maxharms value of large
+                          signal.
+20      freqaxis          Specifies whether the results should be printed as
+                          per the input frequency, the output frequency, or the
+                          absolute value of the output frequency. Default is
+                          `absout'. . Possible values are absout, out, and in.
+21      save              Signals to output. Possible values are all, lvl,
+                          allpub, lvlpub, selected, none, and nooutput.
+22      nestlvl           Levels of subcircuits to output.
+23      outputperiod=0.0 (no output)
+                          Time-domain output period. The time-domain
+                          small-signal response is computed for the period
+                          specified, rounded to the nearest integer multiple of
+                          the `pss' period.
+
+Convergence parameters
+24      tolerance         Tolerance for linear solver. The default value is
+                          1.0e-9 for shooting-based solver and 1.0e-4 for
+                          harmonicbalance-based solver.
+25      relativeTol       Relative tolerance for harmonic balance-based linear
+                          solver. Default value is 1.0e-2.
+26      gear_order=2      Gear order used for small-signal integration.
+27      solver=turbo      Solver type. Possible values are std and turbo.
+28      oscsolver=turbo   Oscillator solver type. It is recommended that you
+                          use ira for huge circuits. Possible values are std,
+                          turbo, ira, and direct.
+29      lnsolver=gmres    Linear solver. Possible values are gmres, qmr,
+                          bicgstab, resgmres, and gmres_cycle.
+30      resgmrescycle=short
+                          Restarts GMRES cycle. Possible values are instant,
+                          short, long, recycleinstant, recycleshort, and
+                          recyclelong.
+31      hbprecond_solver=autoset
+                          Select a linear solver for the GMRES preconditioner.
+                          Default is autoset. With autoset, the simulator will
+                          automatically select the appropriate precondtioner.
+                          The preconditioner affects the rate of convergence of
+                          the linear matrix solver used in periodic
+                          small-signal analysis. When autoset is selected, the
+                          simulator may decide to switch to a different
+                          preconditioner after the analysis begins. When that
+                          happens, the simulator may issue a warning
+                          instructing you to choose a different preconditioner
+                          during subsequent runs. Although not required,
+                          choosing a different preconditioner according to the
+                          simulator's instructions may speed up subsequent
+                          analyses. Possible values are basicsolver,
+                          blocksolver, and autoset.
+32      hbprecond_block_powerratio=1e-7
+                          Nonlinear block power ratio in block preconditioner.
+33      krylov_size=200   This parameter is used to set maximum iteration count
+                          of the linear matrix solver used in periodic
+                          small-signal analysis. After reaching
+                          1.25*krylov_size  iterations, the iteration is forced
+                          to terminate because of the poor rate of convergence.
+                          Increase the krylov_size if the simulation reports
+                          insufficient norm reduction errors in GMRES.
+34      osc_version=dts   Specifies the method to use in small signal analysis
+                          for autonomous circuit. Possible values are floquet,
+                          augmented, and dts.
+35      osc_accuracy=1    Accuracy control in small signal analysis for
+                          autonomous circuit when osc_version=dts. The higher
+                          this value, the more iterations GMRES solver will
+                          take. Maximum effective value is 5.
+36      freqdivide=1      Large signal frequency division. Used for oscillator
+                          circuit with divider in when osc_version=dts for
+                          shooting engine.
+
+Annotation parameters
+37      annotate=sweep    Degree of annotation. Possible values are no, title,
+                          sweep, status, steps, and detailed_hb.
+38      title             Analysis title.
+
+Modulation conversion parameters
+39      modulated=no      Compute transfer functions/conversion between
+                          modulated sources and outputs. Possible values are
+                          single, first, second, and no.
+40      inmodharmnum=1    Harmonic value for the input source modulation.
+41      outmodharmvec=[...]
+                          Harmonic list for the output modulations.
+42      moduppersideband=1
+                          Index of the upper sideband included in the
+                          modulation of an output for PAC and HBAC, or an input
+                          for PXF.
+43      modsource         Refer the output noise to this component.
+
+Rapid distortion analysis parameters
+44      perturbation=linear
+                          The type of PAC analysis. The default is linear for
+                          normal PAC analysis. im2ds stands for im2 distortion
+                          summary and ds stands for distortion summary. Triple
+                          beat analysis is not supported for shooting engine,
+                          PSS must be run before PAC with 'flexbalance=yes' or
+                          'harmonicbalance=yes'. Value multiple_beat is
+                          deprecated and will be removed in the future: use
+                          triple_beat instead. Possible values are linear, ds,
+                          ip3, ip2, im2ds, multiple_beat, and triple_beat.
+45      flin_out=0 Hz     Frequency of linear output signal.
+46      fim_out=0 Hz      Frequency of IM output signal.
+47      out1="NULL"       Output signal 1.
+48      out2="NULL"       Output signal 2.
+49      contriblist="NULL"
+                          Array of device names for distortion summary. When
+                          contriblist=[""], distortion from each non-linear
+                          device is calculated.
+50      maxharm_nonlin=4  Maximum harmonics of input signal frequency induced
+                          by non-linear effect.
+51      rfmag=0           RF source magnitude.
+52      rfdbm=0           RF source dBm.
+53      rf1_src="NULL"    Array of RF1 source names for IP3/IP2/IM2.
+54      rf2_src="NULL"    Array of RF2 source names for IP3/IP2/IM2.
+55      rf_src="NULL"     Array of RF source names for triple beat analysis.
+56      freqs=NULL        Array of RF source frequencies for triple beat
+                          analysis.
+57      rfampls=NULL      RF source amplitudes; the units are dBm for ports,
+                          Voltage for v-sources and Ampere for i-sources.
+
+You can select the set of periodic small-signal output frequencies of interest
+by setting either the `maxsideband' or the `sidebands' parameters. For a given
+set of n integer numbers representing sidebands K1, K2, ... Kn, the output
+frequency at each sideband is computed as f(out)= f(in) + Ki * fund(pss), where
+f(in) represent the (possibly swept) input frequency, and fund(pss) represents
+the fundamental frequency used in the corresponding PSS analysis. Therefore,
+when analyzing a down-converting mixer, while sweeping the RF input frequency,
+the most relevant sideband for IF output is Ki= -1. When simulating an
+up-converting mixer, while sweeping IF input frequency, the most relevant
+sideband for RF output is Ki= 1. By setting the `maxsideband' value to Kmax,
+all 2 * Kmax + 1 sidebands from -Kmax to +Kmax are generated.
+
+The number of requested sidebands does not change substantially the simulation
+time. However, the `maxacfreq' of the corresponding PSS analysis should be set
+to guarantee that | max{f(out)} | is less than `maxacfreq'; otherwise, the
+computed solution might be contaminated by aliasing effects. The PAC simulation
+is not executed for | f(in) | greater than  `maxacfreq'. Diagnostic messages
+are printed for those extreme cases, indicating how `maxacfreq' should be set
+in the PSS analysis. In majority of the simulations, however, this is not an
+issue, because `maxacfreq' is never allowed to be smaller than 40x the PSS
+fundamental.
+
+With PAC, the frequency of the stimulus and of the response are usually
+different (this is an important area in which PAC differs from AC). The
+`freqaxis' parameter is used to specify whether the results should be output
+versus the input frequency (`in'), the output frequency (`out'), or the
+absolute value of the output frequency (`absout').
+
+
+You can define sweep limits by specifying the end points or by providing the
+center value and span of the sweep. Steps can be linear or logarithmic, and you
+can specify the number of steps or the size of each step. In addition, You can
+specify a step size parameter (`step', `lin', `log', or `dec') to determine
+whether the sweep is linear or logarithmic. If you do not specify a step size
+parameter, the sweep is linear when the ratio of stop to start values is less
+than 10 and logarithmic when this ratio is 10 or greater. Alternatively, you
+may specify the values that the sweep parameter should take by using the
+`values' parameter. If you specify both a specific set of values and a set
+specified using a sweep range, the two sets are merged and collated before
+being used. All frequencies are in Hertz.
+
+
+===============
+Parameter Index
+===============
+
+    annotate ....................... 37   out1 ........................... 47
+    center .......................... 3   out2 ........................... 48
+    contriblist .................... 49   outmodharmvec .................. 41
+    crossingdirection .............. 15   outputperiod ................... 23
+    dec ............................. 7   perturbation ................... 44
+    extrasampletimepoints .......... 17   ptvtype ........................ 12
+    fim_out ........................ 46   relativeTol .................... 25
+    flin_out ....................... 45   relharmnum ..................... 11
+    freqaxis ....................... 20   resgmrescycle .................. 30
+    freqdivide ..................... 36   rf1_src ........................ 53
+    freqs .......................... 56   rf2_src ........................ 54
+    gear_order ..................... 26   rf_src ......................... 55
+    hbprecond_block_powerratio ..... 32   rfampls ........................ 57
+    hbprecond_solver ............... 31   rfdbm .......................... 52
+    inmodharmnum ................... 40   rfmag .......................... 51
+    krylov_size .................... 33   sampleprobe .................... 13
+    lin ............................. 6   save ........................... 21
+    lnsolver ....................... 29   sidebands ...................... 18
+    log ............................. 8   solver ......................... 27
+    maxharm_nonlin ................. 50   span ............................ 4
+    maxsamples ..................... 16   start ........................... 1
+    maxsideband .................... 19   step ............................ 5
+    modsource ...................... 43   stop ............................ 2
+    modulated ...................... 39   sweeptype ...................... 10
+    moduppersideband ............... 42   thresholdvalue ................. 14
+    nestlvl ........................ 22   title .......................... 38
+    osc_accuracy ................... 35   tolerance ...................... 24
+    osc_version .................... 34   values .......................... 9
+    oscsolver ...................... 28
+
+
