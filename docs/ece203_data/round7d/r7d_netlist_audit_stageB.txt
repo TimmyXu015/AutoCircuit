@@ -1,0 +1,32 @@
+PASS  R7C has IB / IBD: ['IB (vdd ib) isource dc=ib3 mag=0 type=dc'] | ['IBD (vddd ibd) isource dc=ibd mag=0 type=dc']
+PASS  IB / IBD absent in R7D
+PASS  IREF pref -> gnd, dc 100n: ['IREF (pref 0) isource dc=100n mag=0 type=dc']
+PASS  MP0 D G S B = pref pref vdd vdd, PMOS L 4u: MP0 (pref pref vdd vdd) pfet l=4u w=4u nf=1 m=1 par=1 ad=2.16e-12  as=2.16e-12 p
+PASS  MP1 D G S B = ib pref vdd vdd, PMOS L 4u: MP1 (ib pref vdd vdd) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12  as=1.08e-12 pd=
+PASS  MP2 D G S B = ibd pref vddd vddd, PMOS L 4u: MP2 (ibd pref vddd vddd) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12  as=1.08e-12 
+PASS  no other isource with non-zero dc (stimulus sources: ['IINT', 'IINTT', 'IZN', 'IZP'])
+PASS  VDD / VDDD independent sources to ground (vdd = 1.8)
+PASS  parameter vdd=1.8
+--- top-level structural diff (R7C -> R7D), 14 lines
+-IINT (0 body) isource dc=0 mag=icm type=dc
+-IBD (vddd ibd) isource dc=ibd mag=0 type=dc
+-IB (vdd ib) isource dc=ib3 mag=0 type=dc
++IREF (pref 0) isource dc=100n mag=0 type=dc
++IINT (0 body) isource dc=0 mag=icm type=dc
++MP2 (ibd pref vddd vddd) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
++        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
++        rf=0 rsx=50 dtemp=0
++MP1 (ib pref vdd vdd) pfet l=4u w=2u nf=1 m=1 par=1 ad=1.08e-12 \
++        as=1.08e-12 pd=5.08u ps=5.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
++        rf=0 rsx=50 dtemp=0
++MP0 (pref pref vdd vdd) pfet l=4u w=4u nf=1 m=1 par=1 ad=2.16e-12 \
++        as=2.16e-12 pd=9.08u ps=9.08u nrd=0.5909091 nrs=0.5909091 gcon=1 \
++        rf=0 rsx=50 dtemp=0
+PASS  same subckt set: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']
+PASS  subckt ece203_r4_drl_ota identical
+PASS  subckt ece203_r6a_fd_ota identical
+PASS  subckt ece203_r6b_tgchop identical
+PASS  subckt ece203_r6d_cd identical
+PASS  subckt ece203_r7a_cmfb_a2 identical
+PASS  subckt ece203_ss_pr_cell identical
+AUDIT PASS

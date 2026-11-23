@@ -1,0 +1,2 @@
+tag,cand,status,reason,t_end,stalled_at,fp_cm_avg,op_cm_avg,pn_cm_avg,vg_min,vg_max,ib_min,ib_max,ibd_min,ibd_max,pref_min,pref_max,I_VDD,I_VDDD,rows,csv
+T_bias_a0,a0,ok,n/a,0.06,n/a,0.899507,0.899507,0.899497,1.31891,1.32156,0.311566,0.311638,0.311552,0.3116,1.37204,1.37204,-9.80603e-07,-3.02396e-07,166860,/tmp/lix015_r7d/out/T_bias_a0_tran.csv.gz
