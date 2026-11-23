@@ -12,6 +12,7 @@
 r8Dir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_r8")
 r8Tmp = "/tmp/lix015_r8"
 r8Cell = "ece203_r7f_tb_gain_g0_load10p"
+r8Wd = "r8_watchdog.sh"     ;; watchdog script name (R8B rebinds r8Cell / r8Dir / r8Tmp / r8Wd)
 r8Opts = '(gmin "1e-18" iabstol "1e-17" reltol "1e-5")          ;; R7F system options (setting C)
 r8Bands = '(0.1 1.0 10.0 100.0 250.0)
 ;; PSS attempts: a1 = pre-registered; a2 = the one numerically motivated retry, registered in r8_plan.md before it runs
@@ -117,7 +118,7 @@ procedure( r8Tran0()
         car(errset(saveOption('save "selected") nil))
         car(errset(save('v "/ep" "/en" "/fp" "/fn" "/op" "/on" "/vg" "/bufp" "/bufn" "/outp" "/outn" "/p" "/n" "/pref" "/ib" "/cka" "/ckb") nil))
         r6bSet(r6Vars r8Vars(1.0 '(("adm" 0.0) ("pacd" 0.0))))
-        sh(sprintf(nil "nohup bash %s/tools/r8_watchdog.sh %s %s 240 3600 %s > /dev/null 2>&1 &" acRoot tag psf wlog))
+        sh(sprintf(nil "nohup bash %s/tools/%s %s %s 240 3600 %s > /dev/null 2>&1 &" acRoot r8Wd tag psf wlog))
         run()
         vid = v("/ep" ?result "tran") - v("/en" ?result "tran")
         ws = list(vid) names = "t_s,vid_V"
@@ -170,7 +171,7 @@ procedure( r8Periodic(kind step)
           analysis('pnoise ?sweeptype "relative" ?relharmnum "0" ?start "0.1" ?stop "250" ?dec "20"
                    ?maxsideband step ?p "/outp" ?n "/outn" ?noisetype "timeaverage"))
         r6bSet(r6Vars r8Vars(1.0 if( kind == 'pss '(("adm" 0.0) ("pacd" 0.0)) '(("adm" 0.0) ("pacd" 1.0)))))
-        sh(sprintf(nil "nohup bash %s/tools/r8_watchdog.sh %s %s %d %d %s > /dev/null 2>&1 &" acRoot tag psf stall hard wlog))
+        sh(sprintf(nil "nohup bash %s/tools/%s %s %s %d %d %s > /dev/null 2>&1 &" acRoot r8Wd tag psf stall hard wlog))
         run()
         sh(sprintf(nil "cp %s/simulation/%s/spectre/schematic/netlist/input.scs %s/%s_netlist.scs" getShellEnvVar("HOME") r8Cell r8Dir tag))
         sh(sprintf(nil "grep -n -i 'converge\\|steady\\|conv norm\\|did not\\|error\\|warning\\|maxacfreq\\|time step\\|pss:\\|period' %s/spectre.out | head -400 > %s/%s_convergence_lines.txt" psf r8Dir tag))
