@@ -20,3 +20,17 @@
   PASS  bias: op/on CM -0.495 mV vs 0.9 V, min XA margin 0.0922 V (XA.M1) >= 0.05
   hard gates: PASS
   info: fL_OFF 0.0270 Hz (not gated), fH_OFF 232.2 Hz (225-275: in), H100_OFF 86.369 = 38.73 dB (38-42: in)
+== Stage B ON gates c2 (A2 (120p/1p))
+  PASS  PSS explicitly converged (B_pss_b1_c2_convergence_lines.txt=converged; PAC run: reused, 1 iteration), PAC input 2 V at 0 deg
+  FAIL  fL_ON 0.1707 Hz in 0.09-0.11 (model 0.338/k = 0.1690; Q = 3.609)
+  PASS  fH_ON 234.25 Hz in 225-275
+  PASS  H100_ON 83.5622 = 38.440 dB in 38-42
+  PASS  PAC sb0 Zin(10 Hz) 248.5 MOhm >= 100
+  ON gates: FAIL
+== Stage B ON gates c35 (B35 (210p/1.75p))
+  PASS  PSS explicitly converged (B_pss_b1_c35_convergence_lines.txt=converged; PAC run: reused, 1 iteration), PAC input 2 V at 0 deg
+  PASS  fL_ON 0.0997 Hz in 0.09-0.11 (model 0.338/k = 0.0966; Q = 3.692)
+  PASS  fH_ON 232.39 Hz in 225-275
+  PASS  H100_ON 83.5608 = 38.440 dB in 38-42
+  PASS  PAC sb0 Zin(10 Hz) 157.2 MOhm >= 100
+  ON gates: PASS

@@ -1,0 +1,4 @@
+2026-11-23 07:27:13 watchdog start tag=B_pss_b1_c2 stall=900s hard=5400s
+2026-11-23 07:27:30 watchdog exit tag=B_pss_b1_c2 after 15 s, spectre.out 16202 bytes
+2026-11-23 07:27:37 watchdog start tag=B_pac_c2 stall=900s hard=5400s
+2026-11-23 07:27:54 watchdog exit tag=B_pac_c2 after 15 s, spectre.out 14842 bytes

@@ -1,0 +1,15 @@
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 47ed727
+[run] virtuoso: /software/ECE/IC-618/tools/dfII/bin/virtuoso
+[run] working folder: /home/linux/ieng6/ECE203_FA26_001/lix015
+[run] running job 'ece203_r8e_pac' (log: /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e_pac.log) ...
+[run] finished in 25 s
+[run] status: OK
+------------------------------------------------------------
+*Error* eval: unbound variable - f
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/c2/B_pac_c2_pss_td.csv (1092 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/c2/B_pac_c2_pac.csv (201 rows)
+AC> r8c P B_pac_c2 (ece203_r8e_tb_c2): ok  | vd 2 | H0 out 0.1/0.3/1/10/100 45.86202 79.02825 89.70691 90.76607 83.56221 ph100 -24.58845 | pn 0.04694155 0.09181967 0.09302413 | f 54.44088 106.4883 107.8421
+------------------------------------------------------------
+------------------------------------------------------------
+[run] transistor line in netlist (/home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8e_tb_c2/spectre/schematic/netlist/input.scs):

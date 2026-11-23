@@ -1,0 +1,917 @@
+COPYRIGHT (C) 1992-2018  CADENCE DESIGN SYSTEMS INC.  ALL RIGHTS RESERVED.
+          (C) 1992-2018  UNIX SYSTEMS Laboratories INC.,
+                         Reproduced with permission.
+
+This Cadence Design Systems program and online documentation are
+proprietary/confidential information and may be disclosed/used only
+as authorized in a license agreement controlling such use and disclosure.
+
+          RESTRICTED RIGHTS NOTICE (SHORT FORM)
+Use/reproduction/disclosure is subject to restriction
+set forth at FAR 1252.227-19 or its equivalent.
+Loading geView.cxt 
+Loading menuBuilder.cxt 
+Loading schView.cxt 
+Loading selectSv.cxt 
+Loading wireEdit.cxt 
+Loading pte2.cxt 
+Loading xlUI.cxt 
+Loading auCore.cxt 
+Loading vhdl.cxt 
+Loading seismic.cxt 
+Loading ci.cxt 
+Loading layers.cxt 
+Loading ams.cxt 
+Loading cli.cxt 
+Loading cle.cxt 
+Virtuoso Framework License (111) was checked out successfully. Total checkout time was 0.02s.
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+END OF USER CUSTOMIZATION
+*Error* eval: unbound variable - f
+<<< Stack Trace >>>
+leSetEnv("gravityOn" f)
+loadi(".cdsinit")
+funobj@0x237e6b88()
+errset(lambda(nil loadi(".cdsinit")))
+Calibre Skill Interface not loaded.
+> Loading pe.cxt 
+t
+> PDK config loaded: cmrf7sf
+AutoCircuit loaded (50 files) from /home/linux/ieng6/oce/7f/lix015/AutoCircuit
+t
+> AC> ece203: library Project at /home/linux/ieng6/ECE203_FA26_001/lix015/Project, tech library = "cmrf7sf"
+Loading oasis.cxt 
+Loading dal.cxt 
+Loading awv.cxt 
+Loading analog.cxt 
+Loading asimenv.cxt 
+Loading spectrei.cxt 
+Loading devCheck.cxt 
+Loading relXpert.cxt 
+Loading socket.cxt 
+Loading par.cxt 
+Loading alvs.cxt 
+Loading caa.cxt 
+Loading amps.cxt 
+Loading adexlCore.cxt 
+Loading adexl.cxt 
+Loading lx.cxt 
+Loading lce.cxt 
+Loading le.cxt 
+Loading rte.cxt 
+Loading te.cxt 
+Loading schHDL.cxt 
+Loading vdsil.cxt 
+*WARNING* LIB analogLib from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 1 redefines
+LIB analogLib from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+Insert UNDEFINE analogLib
+before DEFINE analogLib
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE analogLib
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/artist/cds.lib
+to suppress this warning message.
+*WARNING* LIB basic from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 3 redefines
+LIB basic from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE basic
+before DEFINE basic
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE basic
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+*WARNING* LIB US_8ths from File /home/linux/ieng6/ECE203_FA26_001/public/cds.lib Line 5 redefines
+LIB US_8ths from File /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+Insert UNDEFINE US_8ths
+before DEFINE US_8ths
+    in /home/linux/ieng6/ECE203_FA26_001/public/cds.lib
+Or remove or comment out DEFINE US_8ths
+    in /software/ECE/IC-618/tools.lnx86/dfII/etc/cdsDotLibs/composer/cds.lib
+to suppress this warning message.
+ 
+Loading IBM PDK cmrf7sf procedures... 
+IBM PDK cmrf7sf procedures loaded (/software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/cdslib/cmrf7sf/cmrf7sf610.att). 
+ 
+IBM PDK cmrf7sf Device Status Table loaded. 
+ 
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+*WARNING* (TECH-230035): User-defined rule "minExtensionDistance" in constraint
+                         group "foundry" of techDB "cmrf7sf" conflicts with
+                         a built-in constraint with the same name.
+                         You may write out "constraintGroups" section to an
+                         ASCII file, reopen the technology database in "a"
+                         mode, and reload the file to update the database.
+                         Another option is to rename this rule.
+Loading simui.cxt 
+Simulation set up: Project/ece203_r8e_tb_c2, corner tt
+WARNING (OCN-6000): Analysis: dc is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: ac is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: noise is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: stb is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+WARNING (OCN-6000): Analysis: tran is not defined. Use ocnDisplay('analysis)
+        to see the list of analyses that have been defined. For more information type
+        ocnHelp('analysis) in the Command Interface Window (CIW).
+Delete psf data in /tmp/lix015_r8e_c2/sim_B_pac_c2/psf.
+Loading spectreinl.cxt 
+Loading seCore.cxt 
+Begin Incremental Netlisting Nov 23 07:27:38 2026
+End netlisting Nov 23 07:27:38 2026
+Loading monte.cxt 
+
+	The netlist is up to date.
+	Time taken to compare the design with netlist:   1.0s
+Loading hspiceD.cxt 
+Loading msgHandler.cxt 
+Loading UltraSim.cxt 
+Loading AMSOSS.cxt 
+Loading AMS.cxt 
+
+Cadence (R) Virtuoso (R) Spectre (R) Circuit Simulator
+Version 15.1.0.803.isr18 64bit -- 21 Jun 2017
+Copyright (C) 1989-2017 Cadence Design Systems, Inc. All rights reserved
+        worldwide. Cadence, Virtuoso and Spectre are registered trademarks of
+        Cadence Design Systems, Inc. All others are the property of their
+        respective holders.
+
+Includes RSA BSAFE(R) Cryptographic or Security Protocol Software from RSA
+        Security, Inc.
+
+User: lix015   Host: ieng6-ece-10.ucsd.edu   HostID: 36808C43   PID: 17953
+Memory  available: 8.6393 GB  physical: 33.7804 GB
+Linux   : CentOS Linux release 7.9.2009 (Core)
+CPU Type: Intel(R) Xeon(R) Gold 5220 CPU @ 2.20GHz
+        Socket: Processors [Frequency] (Hyperthreaded Processor)
+        0:       0 [2117.7] (  1 ),  1 [2401.8] (),  2 [1255.0] (  3 )
+                 3 [1316.3] (),  4 [2551.7] (  5 ),  5 [2614.9] (),  6 [1687.6]
+        (  7 )
+                 7 [1320.2] ()
+        
+System load averages (1min, 5min, 15min) : 22.1 %, 24.4 %, 19.6 %
+Hyperthreading is enabled
+
+
+Simulating `input.scs' on ieng6-ece-10.ucsd.edu at 7:27:38 AM, Mon Nov 23, 2026
+        (process id: 17953).
+Current working directory:
+        /home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8e_tb_c2/spectre/schematic/netlist
+Command line:
+    /software/nonrdist64/mmsim151/tools/bin/spectre -64 input.scs  \
+        +escchars +log  \
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/spectre.out
+        \
+        +inter=mpsc +mpssession=spectre0_17646_1 -format psfxl -raw  \
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf  \
+        -I/software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models  \
+        +lqtimeout 900 -maxw 5 -maxn 5
+Reading file: 
+        /home/linux/ieng6/oce/7f/lix015/simulation/ece203_r8e_tb_c2/spectre/schematic/netlist/input.scs
+Reading link:  /software/nonrdist64/mmsim151
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/configs/spectre.cfg
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/configs/mapsubckt.cfg
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/design.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/wafer.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/allModels.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/fixed_corner.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/process.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/process_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/models.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/hacap.va
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/ahdl/constants.vams
+Reading file: 
+        /software/linux/cadence-mmsim151/tools.lnx86/spectre/etc/ahdl/disciplines.vams
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mvcap.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcap.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esd_modules.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdnsh_spe.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpsh_spe.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/jfetjc_xt.va
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/bondpad.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/coupledwires.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diffhavar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diffmosvar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dindpw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodenwx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodenx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepisx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/diodepwpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dipdnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/divpnp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/dualmim.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/efuse.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdndsx.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdndpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdnsh_base.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpnpi.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdpsh_base.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/esdvpnpnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/havar.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/ind.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/indline.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/indstack.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/jfetjc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/k1res.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mim.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mimhk.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mosvar18.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/mosvar50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfethv.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33tw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet33tw_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfet50tw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfettw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nfettw_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwppcres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwrppres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/nwrrpres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/opndres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oppdres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/opppcres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oprppres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/oprrpres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcapc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcdcap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pcdcap33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfethv.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet33.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet33_psp.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/pfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/p5pfet50.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/psbd.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/rr_serpentine.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sbd.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sbdnw.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sblkndres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sblkpdres.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/singlewire.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/subc.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/sxmodel.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/symind.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/vlnpn.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/vncap.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/zvtnfet.scs
+Reading file: 
+        /software/linux/IBM7RF/IBM_PDK/cmrf7sf/V2.0.0.2AM/Spectre/models/zvtnfet33.scs
+Time for NDB Parsing: CPU = 263.717 ms, elapsed = 563.132 ms.
+Time accumulated: CPU = 290.815 ms, elapsed = 563.138 ms.
+Peak resident memory used = 45.3 Mbytes.
+
+
+The CPU load for active processors is :
+        Spectre  0 (16.4 %)      1 (100.0 %)     2 (16.4 %)      3 (9.1 %)
+                 4 (3.8 %)       5 (5.5 %)       6 (17.9 %)      7 (5.5 %)
+        Other   
+Reading link: 
+        /software/nonrdist64/mmsim151/tools.lnx86/spectre/etc/ahdl/discipline.h
+Reading link: 
+        /software/nonrdist64/mmsim151/tools.lnx86/spectre/etc/ahdl/constants.h
+Time for Elaboration: CPU = 54.051 ms, elapsed = 55.867 ms.
+Time accumulated: CPU = 345.086 ms, elapsed = 619.223 ms.
+Peak resident memory used = 53.7 Mbytes.
+
+
+Notice from spectre in `nfet':`XA.MREF', in `ece203_r6a_fd_ota':`XA', during
+        hierarchy flattening.
+    XA.MREF.cwgd: Terminals are connected together (to node `ib').
+Notice from spectre in `pfet':`XD.M3', in `ece203_r4_drl_ota':`XD', during
+        hierarchy flattening.
+    XD.M3.cwgd: Terminals are connected together (to node `XD.n1').
+Notice from spectre in `nfet':`XD.MREF', in `ece203_r4_drl_ota':`XD', during
+        hierarchy flattening.
+    XD.MREF.cwgd: Terminals are connected together (to node `ibd').
+Notice from spectre in `pfet':`XC.MD', in `ece203_r7a_cmfb_a2':`XC', during
+        hierarchy flattening.
+    XC.MD.cwgd: Terminals are connected together (to node `vcf').
+Notice from spectre in `pfet33':`XPRP.MP', in `ece203_ss_pr_cell':`XPRP',
+        during hierarchy flattening.
+    XPRP.MP.cwgd: Terminals are connected together (to node `fn').
+        Further occurrences of this notice will be suppressed (except in log
+        file).
+
+Time for EDB Visiting: CPU = 7.059 ms, elapsed = 7.06005 ms.
+Time accumulated: CPU = 352.405 ms, elapsed = 626.54 ms.
+Peak resident memory used = 55.1 Mbytes.
+
+
+Global user options:
+             reltol = 1e-05
+            vabstol = 1e-06
+            iabstol = 1e-17
+               temp = 27
+               gmin = 1e-18
+             rforce = 1
+           maxnotes = 5
+           maxwarns = 5
+             digits = 5
+               cols = 80
+             pivrel = 0.001
+           sensfile =
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/sens.output
+     checklimitdest = psf
+               save = selected
+               tnom = 25
+             scalem = 1
+              scale = 1
+
+Scoped user options:
+
+Circuit inventory:
+              nodes 244
+             assert 368   
+            bsim3v3 46    
+          capacitor 156   
+              diode 92    
+             iprobe 2     
+            isource 5     
+           resistor 201   
+               vcvs 8     
+            vsource 15    
+
+Analysis and control statement inventory:
+               info 6     
+                pac 1     
+                pss 1     
+
+Output statements:
+             .probe 0     
+           .measure 0     
+               save 1     
+
+
+Notice from spectre.
+    2 notices suppressed.
+
+Time for parsing: CPU = 7.355 ms, elapsed = 17.844 ms.
+Time accumulated: CPU = 359.981 ms, elapsed = 644.605 ms.
+Peak resident memory used = 57 Mbytes.
+
+~~~~~~~~~~~~~~~~~~~~~~
+Pre-Simulation Summary
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+Entering remote command mode using MPSC service (spectre, ipi, v0.0,
+        spectre0_17646_1, ).
+Spectre Control Language log file is `input.scllog'.
+simulate...
+
+Warning from spectre.
+    WARNING (SPECTRE-16707): Only tran supports psfxl format, result of other
+        analyses will be in psfbin format.
+
+Reading file:  /tmp/lix015_r8e_c2/pss_converged.pss
+
+Notice from spectre during periodic steady state analysis `pss'.
+    `IZP' is disabled as irrelevant time-varying sources
+    `IZN' is disabled as irrelevant time-varying sources
+    `VSP' is disabled as irrelevant time-varying sources
+    `VSN' is disabled as irrelevant time-varying sources
+
+
+**************************************************
+Periodic Steady-State Analysis `pss': fund = 2 kHz
+**************************************************
+
+Notice from spectre during periodic steady state analysis `pss'.
+    `IZP' is disabled as irrelevant time-varying sources
+        Further occurrences of this notice will be suppressed (except in log
+        file).
+
+
+Important parameter values in pss iteration:
+    start = 0 s
+    outputstart = 0 s
+    stop = 5.75001 ms
+    period = 500 us
+    maxperiods = 40
+    steadyratio = 1e-03
+    step = 5.75001 us
+    maxstep = 20 us
+    ic = all
+    useprevic = no
+    skipdc = yes
+    reltol = 10e-06
+    abstol(V) = 1 uV
+    abstol(I) = 10 aA
+    temp = 27 C
+    tnom = 25 C
+    tempeffects = all
+    errpreset = moderate
+    method = gear2only
+    lteratio = 3.5
+    relref = alllocal
+    cmin = 10 aF
+    gmin = 1 aS
+
+
+Conv residual norm = 30.3.
+Norm of periodicity discrepancy due to numerical error: 1.641339e-07.
+Worst node: IPRD:in.
+Conv DeltaSolution norm in fdtd = 153e-03.
+Conv residual and DeltaSolution norm in fdtd = 30.3.
+
+Conv residual norm = 591e-03.
+Number of refinements using finite difference method = 1. Total steps = 1091
+
+Finite difference refinement finished.
+
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/pss.td.pss
+        ...
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/pss.fd.pss
+        ...
+Number of accepted pss steps =             1091
+Initial condition solution time: CPU = 0 s, elapsed = 0 s.
+pss: The steady-state solution was achieved in 1 shooting-Newton iterations,
+        followed by  finite-difference refinement.
+Number of accepted pss steps =             1091
+Total time required for pss analysis `pss': CPU = 858.692 ms, elapsed = 902.032
+        ms.
+Time accumulated: CPU = 1.2233 s, elapsed = 1.89619 s.
+Peak resident memory used = 99 Mbytes.
+
+
+Notice from spectre.
+    7 notices suppressed.
+
+
+****************************************************
+Periodic AC Analysis `pac': freq = (10 mHz -> 1 kHz)
+****************************************************
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/pac.pac
+        ...
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/pac.-1.pac
+        ...
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/pac.0.pac
+        ...
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/pac.1.pac
+        ...
+Using the operating-point information generated by PSS analysis `pss'.
+    pac: freq = 13.34 mHz    (2.5 %), step = 746 uHz      (500 m%)
+    pac: freq = 14.13 mHz      (3 %), step = 790.2 uHz    (500 m%)
+    pac: freq = 14.96 mHz    (3.5 %), step = 837 uHz      (500 m%)
+    pac: freq = 15.85 mHz      (4 %), step = 886.6 uHz    (500 m%)
+    pac: freq = 16.79 mHz    (4.5 %), step = 939.1 uHz    (500 m%)
+    pac: freq = 17.78 mHz      (5 %), step = 994.8 uHz    (500 m%)
+    pac: freq = 18.84 mHz    (5.5 %), step = 1.054 mHz    (500 m%)
+    pac: freq = 19.95 mHz      (6 %), step = 1.116 mHz    (500 m%)
+    pac: freq = 21.13 mHz    (6.5 %), step = 1.182 mHz    (500 m%)
+    pac: freq = 22.39 mHz      (7 %), step = 1.252 mHz    (500 m%)
+    pac: freq = 23.71 mHz    (7.5 %), step = 1.327 mHz    (500 m%)
+    pac: freq = 25.12 mHz      (8 %), step = 1.405 mHz    (500 m%)
+    pac: freq = 26.61 mHz    (8.5 %), step = 1.488 mHz    (500 m%)
+    pac: freq = 28.18 mHz      (9 %), step = 1.577 mHz    (500 m%)
+    pac: freq = 29.85 mHz    (9.5 %), step = 1.67 mHz     (500 m%)
+    pac: freq = 31.62 mHz     (10 %), step = 1.769 mHz    (500 m%)
+    pac: freq = 33.5 mHz    (10.5 %), step = 1.874 mHz    (500 m%)
+    pac: freq = 35.48 mHz     (11 %), step = 1.985 mHz    (500 m%)
+    pac: freq = 37.58 mHz   (11.5 %), step = 2.102 mHz    (500 m%)
+    pac: freq = 39.81 mHz     (12 %), step = 2.227 mHz    (500 m%)
+    pac: freq = 42.17 mHz   (12.5 %), step = 2.359 mHz    (500 m%)
+    pac: freq = 44.67 mHz     (13 %), step = 2.499 mHz    (500 m%)
+    pac: freq = 47.32 mHz   (13.5 %), step = 2.647 mHz    (500 m%)
+    pac: freq = 50.12 mHz     (14 %), step = 2.804 mHz    (500 m%)
+    pac: freq = 53.09 mHz   (14.5 %), step = 2.97 mHz     (500 m%)
+    pac: freq = 56.23 mHz     (15 %), step = 3.146 mHz    (500 m%)
+    pac: freq = 59.57 mHz   (15.5 %), step = 3.332 mHz    (500 m%)
+    pac: freq = 63.1 mHz      (16 %), step = 3.53 mHz     (500 m%)
+    pac: freq = 66.83 mHz   (16.5 %), step = 3.739 mHz    (500 m%)
+    pac: freq = 70.79 mHz     (17 %), step = 3.96 mHz     (500 m%)
+    pac: freq = 74.99 mHz   (17.5 %), step = 4.195 mHz    (500 m%)
+    pac: freq = 79.43 mHz     (18 %), step = 4.443 mHz    (500 m%)
+    pac: freq = 84.14 mHz   (18.5 %), step = 4.707 mHz    (500 m%)
+    pac: freq = 89.13 mHz     (19 %), step = 4.986 mHz    (500 m%)
+    pac: freq = 94.41 mHz   (19.5 %), step = 5.281 mHz    (500 m%)
+    pac: freq = 100 mHz       (20 %), step = 5.594 mHz    (500 m%)
+    pac: freq = 105.9 mHz   (20.5 %), step = 5.925 mHz    (500 m%)
+    pac: freq = 112.2 mHz     (21 %), step = 6.276 mHz    (500 m%)
+    pac: freq = 118.9 mHz   (21.5 %), step = 6.648 mHz    (500 m%)
+    pac: freq = 125.9 mHz     (22 %), step = 7.042 mHz    (500 m%)
+    pac: freq = 133.4 mHz   (22.5 %), step = 7.46 mHz     (500 m%)
+    pac: freq = 141.3 mHz     (23 %), step = 7.902 mHz    (500 m%)
+    pac: freq = 149.6 mHz   (23.5 %), step = 8.37 mHz     (500 m%)
+    pac: freq = 158.5 mHz     (24 %), step = 8.866 mHz    (500 m%)
+    pac: freq = 167.9 mHz   (24.5 %), step = 9.391 mHz    (500 m%)
+    pac: freq = 177.8 mHz     (25 %), step = 9.948 mHz    (500 m%)
+    pac: freq = 188.4 mHz   (25.5 %), step = 10.54 mHz    (500 m%)
+    pac: freq = 199.5 mHz     (26 %), step = 11.16 mHz    (500 m%)
+    pac: freq = 211.3 mHz   (26.5 %), step = 11.82 mHz    (500 m%)
+    pac: freq = 223.9 mHz     (27 %), step = 12.52 mHz    (500 m%)
+    pac: freq = 237.1 mHz   (27.5 %), step = 13.27 mHz    (500 m%)
+    pac: freq = 251.2 mHz     (28 %), step = 14.05 mHz    (500 m%)
+    pac: freq = 266.1 mHz   (28.5 %), step = 14.88 mHz    (500 m%)
+    pac: freq = 281.8 mHz     (29 %), step = 15.77 mHz    (500 m%)
+    pac: freq = 298.5 mHz   (29.5 %), step = 16.7 mHz     (500 m%)
+    pac: freq = 316.2 mHz     (30 %), step = 17.69 mHz    (500 m%)
+    pac: freq = 335 mHz     (30.5 %), step = 18.74 mHz    (500 m%)
+    pac: freq = 354.8 mHz     (31 %), step = 19.85 mHz    (500 m%)
+    pac: freq = 375.8 mHz   (31.5 %), step = 21.02 mHz    (500 m%)
+    pac: freq = 398.1 mHz     (32 %), step = 22.27 mHz    (500 m%)
+    pac: freq = 421.7 mHz   (32.5 %), step = 23.59 mHz    (500 m%)
+    pac: freq = 446.7 mHz     (33 %), step = 24.99 mHz    (500 m%)
+    pac: freq = 473.2 mHz   (33.5 %), step = 26.47 mHz    (500 m%)
+    pac: freq = 501.2 mHz     (34 %), step = 28.04 mHz    (500 m%)
+    pac: freq = 530.9 mHz   (34.5 %), step = 29.7 mHz     (500 m%)
+    pac: freq = 562.3 mHz     (35 %), step = 31.46 mHz    (500 m%)
+    pac: freq = 595.7 mHz   (35.5 %), step = 33.32 mHz    (500 m%)
+    pac: freq = 631 mHz       (36 %), step = 35.3 mHz     (500 m%)
+    pac: freq = 668.3 mHz   (36.5 %), step = 37.39 mHz    (500 m%)
+    pac: freq = 707.9 mHz     (37 %), step = 39.6 mHz     (500 m%)
+    pac: freq = 749.9 mHz   (37.5 %), step = 41.95 mHz    (500 m%)
+    pac: freq = 794.3 mHz     (38 %), step = 44.43 mHz    (500 m%)
+    pac: freq = 841.4 mHz   (38.5 %), step = 47.07 mHz    (500 m%)
+    pac: freq = 891.3 mHz     (39 %), step = 49.86 mHz    (500 m%)
+    pac: freq = 944.1 mHz   (39.5 %), step = 52.81 mHz    (500 m%)
+    pac: freq = 1 Hz          (40 %), step = 55.94 mHz    (500 m%)
+    pac: freq = 1.059 Hz    (40.5 %), step = 59.25 mHz    (500 m%)
+    pac: freq = 1.122 Hz      (41 %), step = 62.76 mHz    (500 m%)
+    pac: freq = 1.189 Hz    (41.5 %), step = 66.48 mHz    (500 m%)
+    pac: freq = 1.259 Hz      (42 %), step = 70.42 mHz    (500 m%)
+    pac: freq = 1.334 Hz    (42.5 %), step = 74.6 mHz     (500 m%)
+    pac: freq = 1.413 Hz      (43 %), step = 79.02 mHz    (500 m%)
+    pac: freq = 1.496 Hz    (43.5 %), step = 83.7 mHz     (500 m%)
+    pac: freq = 1.585 Hz      (44 %), step = 88.66 mHz    (500 m%)
+    pac: freq = 1.679 Hz    (44.5 %), step = 93.91 mHz    (500 m%)
+    pac: freq = 1.778 Hz      (45 %), step = 99.48 mHz    (500 m%)
+    pac: freq = 1.884 Hz    (45.5 %), step = 105.4 mHz    (500 m%)
+    pac: freq = 1.995 Hz      (46 %), step = 111.6 mHz    (500 m%)
+    pac: freq = 2.113 Hz    (46.5 %), step = 118.2 mHz    (500 m%)
+    pac: freq = 2.239 Hz      (47 %), step = 125.2 mHz    (500 m%)
+    pac: freq = 2.371 Hz    (47.5 %), step = 132.7 mHz    (500 m%)
+    pac: freq = 2.512 Hz      (48 %), step = 140.5 mHz    (500 m%)
+    pac: freq = 2.661 Hz    (48.5 %), step = 148.8 mHz    (500 m%)
+    pac: freq = 2.818 Hz      (49 %), step = 157.7 mHz    (500 m%)
+    pac: freq = 2.985 Hz    (49.5 %), step = 167 mHz      (500 m%)
+    pac: freq = 3.162 Hz      (50 %), step = 176.9 mHz    (500 m%)
+    pac: freq = 3.35 Hz     (50.5 %), step = 187.4 mHz    (500 m%)
+    pac: freq = 3.548 Hz      (51 %), step = 198.5 mHz    (500 m%)
+    pac: freq = 3.758 Hz    (51.5 %), step = 210.2 mHz    (500 m%)
+    pac: freq = 3.981 Hz      (52 %), step = 222.7 mHz    (500 m%)
+    pac: freq = 4.217 Hz    (52.5 %), step = 235.9 mHz    (500 m%)
+    pac: freq = 4.467 Hz      (53 %), step = 249.9 mHz    (500 m%)
+    pac: freq = 4.732 Hz    (53.5 %), step = 264.7 mHz    (500 m%)
+    pac: freq = 5.012 Hz      (54 %), step = 280.4 mHz    (500 m%)
+    pac: freq = 5.309 Hz    (54.5 %), step = 297 mHz      (500 m%)
+    pac: freq = 5.623 Hz      (55 %), step = 314.6 mHz    (500 m%)
+    pac: freq = 5.957 Hz    (55.5 %), step = 333.2 mHz    (500 m%)
+    pac: freq = 6.31 Hz       (56 %), step = 353 mHz      (500 m%)
+    pac: freq = 6.683 Hz    (56.5 %), step = 373.9 mHz    (500 m%)
+    pac: freq = 7.079 Hz      (57 %), step = 396 mHz      (500 m%)
+    pac: freq = 7.499 Hz    (57.5 %), step = 419.5 mHz    (500 m%)
+    pac: freq = 7.943 Hz      (58 %), step = 444.3 mHz    (500 m%)
+    pac: freq = 8.414 Hz    (58.5 %), step = 470.7 mHz    (500 m%)
+    pac: freq = 8.913 Hz      (59 %), step = 498.6 mHz    (500 m%)
+    pac: freq = 9.441 Hz    (59.5 %), step = 528.1 mHz    (500 m%)
+    pac: freq = 10 Hz         (60 %), step = 559.4 mHz    (500 m%)
+    pac: freq = 10.59 Hz    (60.5 %), step = 592.5 mHz    (500 m%)
+    pac: freq = 11.22 Hz      (61 %), step = 627.6 mHz    (500 m%)
+    pac: freq = 11.89 Hz    (61.5 %), step = 664.8 mHz    (500 m%)
+    pac: freq = 12.59 Hz      (62 %), step = 704.2 mHz    (500 m%)
+    pac: freq = 13.34 Hz    (62.5 %), step = 746 mHz      (500 m%)
+    pac: freq = 14.13 Hz      (63 %), step = 790.2 mHz    (500 m%)
+    pac: freq = 14.96 Hz    (63.5 %), step = 837 mHz      (500 m%)
+    pac: freq = 15.85 Hz      (64 %), step = 886.6 mHz    (500 m%)
+    pac: freq = 16.79 Hz    (64.5 %), step = 939.1 mHz    (500 m%)
+    pac: freq = 17.78 Hz      (65 %), step = 994.8 mHz    (500 m%)
+    pac: freq = 18.84 Hz    (65.5 %), step = 1.054 Hz     (500 m%)
+    pac: freq = 19.95 Hz      (66 %), step = 1.116 Hz     (500 m%)
+    pac: freq = 21.13 Hz    (66.5 %), step = 1.182 Hz     (500 m%)
+    pac: freq = 22.39 Hz      (67 %), step = 1.252 Hz     (500 m%)
+    pac: freq = 23.71 Hz    (67.5 %), step = 1.327 Hz     (500 m%)
+    pac: freq = 25.12 Hz      (68 %), step = 1.405 Hz     (500 m%)
+    pac: freq = 26.61 Hz    (68.5 %), step = 1.488 Hz     (500 m%)
+    pac: freq = 28.18 Hz      (69 %), step = 1.577 Hz     (500 m%)
+    pac: freq = 29.85 Hz    (69.5 %), step = 1.67 Hz      (500 m%)
+    pac: freq = 31.62 Hz      (70 %), step = 1.769 Hz     (500 m%)
+    pac: freq = 33.5 Hz     (70.5 %), step = 1.874 Hz     (500 m%)
+    pac: freq = 35.48 Hz      (71 %), step = 1.985 Hz     (500 m%)
+    pac: freq = 37.58 Hz    (71.5 %), step = 2.102 Hz     (500 m%)
+    pac: freq = 39.81 Hz      (72 %), step = 2.227 Hz     (500 m%)
+    pac: freq = 42.17 Hz    (72.5 %), step = 2.359 Hz     (500 m%)
+    pac: freq = 44.67 Hz      (73 %), step = 2.499 Hz     (500 m%)
+    pac: freq = 47.32 Hz    (73.5 %), step = 2.647 Hz     (500 m%)
+    pac: freq = 50.12 Hz      (74 %), step = 2.804 Hz     (500 m%)
+    pac: freq = 53.09 Hz    (74.5 %), step = 2.97 Hz      (500 m%)
+    pac: freq = 56.23 Hz      (75 %), step = 3.146 Hz     (500 m%)
+    pac: freq = 59.57 Hz    (75.5 %), step = 3.332 Hz     (500 m%)
+    pac: freq = 63.1 Hz       (76 %), step = 3.53 Hz      (500 m%)
+    pac: freq = 66.83 Hz    (76.5 %), step = 3.739 Hz     (500 m%)
+    pac: freq = 70.79 Hz      (77 %), step = 3.96 Hz      (500 m%)
+    pac: freq = 74.99 Hz    (77.5 %), step = 4.195 Hz     (500 m%)
+    pac: freq = 79.43 Hz      (78 %), step = 4.443 Hz     (500 m%)
+    pac: freq = 84.14 Hz    (78.5 %), step = 4.707 Hz     (500 m%)
+    pac: freq = 89.13 Hz      (79 %), step = 4.986 Hz     (500 m%)
+    pac: freq = 94.41 Hz    (79.5 %), step = 5.281 Hz     (500 m%)
+    pac: freq = 100 Hz        (80 %), step = 5.594 Hz     (500 m%)
+    pac: freq = 105.9 Hz    (80.5 %), step = 5.925 Hz     (500 m%)
+    pac: freq = 112.2 Hz      (81 %), step = 6.276 Hz     (500 m%)
+    pac: freq = 118.9 Hz    (81.5 %), step = 6.648 Hz     (500 m%)
+    pac: freq = 125.9 Hz      (82 %), step = 7.042 Hz     (500 m%)
+    pac: freq = 133.4 Hz    (82.5 %), step = 7.46 Hz      (500 m%)
+    pac: freq = 141.3 Hz      (83 %), step = 7.902 Hz     (500 m%)
+    pac: freq = 149.6 Hz    (83.5 %), step = 8.37 Hz      (500 m%)
+    pac: freq = 158.5 Hz      (84 %), step = 8.866 Hz     (500 m%)
+    pac: freq = 167.9 Hz    (84.5 %), step = 9.391 Hz     (500 m%)
+    pac: freq = 177.8 Hz      (85 %), step = 9.948 Hz     (500 m%)
+    pac: freq = 188.4 Hz    (85.5 %), step = 10.54 Hz     (500 m%)
+    pac: freq = 199.5 Hz      (86 %), step = 11.16 Hz     (500 m%)
+    pac: freq = 211.3 Hz    (86.5 %), step = 11.82 Hz     (500 m%)
+    pac: freq = 223.9 Hz      (87 %), step = 12.52 Hz     (500 m%)
+    pac: freq = 237.1 Hz    (87.5 %), step = 13.27 Hz     (500 m%)
+    pac: freq = 251.2 Hz      (88 %), step = 14.05 Hz     (500 m%)
+    pac: freq = 266.1 Hz    (88.5 %), step = 14.88 Hz     (500 m%)
+    pac: freq = 281.8 Hz      (89 %), step = 15.77 Hz     (500 m%)
+    pac: freq = 298.5 Hz    (89.5 %), step = 16.7 Hz      (500 m%)
+    pac: freq = 316.2 Hz      (90 %), step = 17.69 Hz     (500 m%)
+    pac: freq = 335 Hz      (90.5 %), step = 18.74 Hz     (500 m%)
+    pac: freq = 354.8 Hz      (91 %), step = 19.85 Hz     (500 m%)
+    pac: freq = 375.8 Hz    (91.5 %), step = 21.02 Hz     (500 m%)
+    pac: freq = 398.1 Hz      (92 %), step = 22.27 Hz     (500 m%)
+    pac: freq = 421.7 Hz    (92.5 %), step = 23.59 Hz     (500 m%)
+    pac: freq = 446.7 Hz      (93 %), step = 24.99 Hz     (500 m%)
+    pac: freq = 473.2 Hz    (93.5 %), step = 26.47 Hz     (500 m%)
+    pac: freq = 501.2 Hz      (94 %), step = 28.04 Hz     (500 m%)
+    pac: freq = 530.9 Hz    (94.5 %), step = 29.7 Hz      (500 m%)
+    pac: freq = 562.3 Hz      (95 %), step = 31.46 Hz     (500 m%)
+    pac: freq = 595.7 Hz    (95.5 %), step = 33.32 Hz     (500 m%)
+    pac: freq = 631 Hz        (96 %), step = 35.3 Hz      (500 m%)
+    pac: freq = 668.3 Hz    (96.5 %), step = 37.39 Hz     (500 m%)
+    pac: freq = 707.9 Hz      (97 %), step = 39.6 Hz      (500 m%)
+    pac: freq = 749.9 Hz    (97.5 %), step = 41.95 Hz     (500 m%)
+    pac: freq = 794.3 Hz      (98 %), step = 44.43 Hz     (500 m%)
+    pac: freq = 841.4 Hz    (98.5 %), step = 47.07 Hz     (500 m%)
+    pac: freq = 891.3 Hz      (99 %), step = 49.86 Hz     (500 m%)
+    pac: freq = 944.1 Hz    (99.5 %), step = 52.81 Hz     (500 m%)
+    pac: freq = 1 kHz        (100 %), step = 55.94 Hz     (500 m%)
+Total time required for pac analysis `pac': CPU = 8.39366 s, elapsed = 8.43655
+        s.
+Time accumulated: CPU = 9.61784 s, elapsed = 10.3336 s.
+Peak resident memory used = 103 Mbytes.
+
+modelParameter: writing model parameter values to rawfile.
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/modelParameter.info
+        ...
+element: writing instance parameter values to rawfile.
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/element.info
+        ...
+outputParameter: writing output parameter values to rawfile.
+
+Opening the PSF file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/outputParameter.info
+        ...
+designParamVals: writing netlist parameters to rawfile.
+
+Opening the PSFASCII file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/designParamVals.info
+        ...
+primitives: writing primitives to rawfile.
+
+Opening the PSFASCII file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/primitives.info.primitives
+        ...
+subckts: writing subcircuits to rawfile.
+
+Opening the PSFASCII file
+        ../../../../../../../../../../../tmp/lix015_r8e_c2/sim_B_pac_c2/psf/subckts.info.subckts
+        ...
+INFO (ADE-3071): Simulation completed successfully.
+reading simulation data...
+Loading viva.cxt 
+      ...successful.
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/c2/B_pac_c2_pss_td.csv (1092 rows)
+AC> wrote /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8e/c2/B_pac_c2_pac.csv (201 rows)
+AC> r8c P B_pac_c2 (ece203_r8e_tb_c2): ok  | vd 2 | H0 out 0.1/0.3/1/10/100 45.86202 79.02825 89.70691 90.76607 83.56221 ph100 -24.58845 | pn 0.04694155 0.09181967 0.09302413 | f 54.44088 106.4883 107.8421
+AC_BATCH_DONE
+(t)
+> 

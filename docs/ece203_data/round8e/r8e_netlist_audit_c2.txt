@@ -22,3 +22,27 @@ analysis NEW: ac ac start=1m stop=100k dec=50 annotate=status
 analysis REF: ac ac start=1m stop=100k dec=50 annotate=status
 AUDIT PASS
 
+
+=== B_pss_b1_c2 vs R8B gate B PSS a1 netlist
+PASS  removed = [] (expected [])
+PASS  added = [] (expected [])
+PASS  changed = [] (expected exactly the remastered [])
+PASS  parameter differences {'cfb': ('5e-13', '1e-12'), 'cc': ('6e-11', '1.2e-10')} (allowed {'cc': '1.2e-10', 'cfb': '1e-12'})
+PASS  subckts: common identical ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']; removed [] (expected []); added [] (expected [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 writepss="/tmp/lix015_r8e_c2/pss_converged.pss" | + itres=1e-4 maxacfreq=200k maxperiods=40 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 writepss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status
+AUDIT PASS
+
+=== B_pac_c2 vs R8C A1 PAC m1 netlist (R8B cell, same PAC code)
+PASS  removed = [] (expected [])
+PASS  added = [] (expected [])
+PASS  changed = [] (expected exactly the remastered [])
+PASS  parameter differences {'cfb': ('5e-13', '1e-12'), 'cc': ('6e-11', '1.2e-10')} (allowed {'cc': '1.2e-10', 'cfb': '1e-12'})
+PASS  subckts: common identical ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2', 'ece203_ss_pr_cell']; removed [] (expected []); added [] (expected [])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8e_c2/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.01 stop=1000 | + dec=40 maxsideband=1 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.01 stop=250 | + dec=40 maxsideband=1 annotate=status
+AUDIT PASS

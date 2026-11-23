@@ -1,0 +1,107 @@
+221:Warning from spectre.
+222:    WARNING (SPECTRE-16707): Only tran supports psfxl format, result of other analyses will be in psfbin format.
+223:Notice from spectre during periodic steady state analysis `pss'.
+231:Periodic Steady-State Analysis `pss': fund = 2 kHz
+234:Notice from spectre during IC analysis, during periodic steady state analysis `pss'.
+235:    Bad pivoting is found during DC analysis. Option dc_pivot_check=yes is recommended for possible improvement of convergence.
+243:Notice from spectre during periodic steady state analysis `pss'.
+252:    period = 500 us
+253:    maxperiods = 40
+271:    pss: time = 157.3 us    (2.73 %), step = 20 us        (348 m%)
+273:Notice from spectre at time = 250.011 us during periodic steady state analysis `pss'.
+275:Notice from spectre at time = 250.011 us during periodic steady state analysis `pss'.
+277:Notice from spectre at time = 250.011 us during periodic steady state analysis `pss'.
+279:Notice from spectre at time = 250.011 us during periodic steady state analysis `pss'.
+281:Notice from spectre at time = 250.643 us during periodic steady state analysis `pss'.
+285:    pss: time = 434.1 us    (7.55 %), step = 5.037 us    (87.6 m%)
+286:    pss: time = 721.9 us    (12.6 %), step = 3.868 us    (67.3 m%)
+287:    pss: time = 1.009 ms    (17.5 %), step = 3.199 us    (55.6 m%)
+288:    pss: time = 1.297 ms    (22.6 %), step = 4.762 us    (82.8 m%)
+289:    pss: time = 1.583 ms    (27.5 %), step = 3.828 us    (66.6 m%)
+290:    pss: time = 1.872 ms    (32.6 %), step = 4.989 us    (86.8 m%)
+291:    pss: time = 2.159 ms    (37.6 %), step = 4.011 us    (69.8 m%)
+292:    pss: time = 2.444 ms    (42.5 %), step = 3.637 us    (63.2 m%)
+293:    pss: time = 2.733 ms    (47.5 %), step = 4.203 us    (73.1 m%)
+294:    pss: time = 3.021 ms    (52.5 %), step = 3.991 us    (69.4 m%)
+295:    pss: time = 3.307 ms    (57.5 %), step = 801.9 ns    (13.9 m%)
+296:    pss: time = 3.595 ms    (62.5 %), step = 4.182 us    (72.7 m%)
+297:    pss: time = 3.881 ms    (67.5 %), step = 3.794 us      (66 m%)
+298:    pss: time = 4.172 ms    (72.6 %), step = 4.381 us    (76.2 m%)
+299:    pss: time = 4.457 ms    (77.5 %), step = 1.761 us    (30.6 m%)
+300:    pss: time = 4.744 ms    (82.5 %), step = 5.661 us    (98.4 m%)
+301:    pss: time = 5.033 ms    (87.5 %), step = 4.359 us    (75.8 m%)
+302:    pss: time = 5.322 ms    (92.5 %), step = 3.504 us    (60.9 m%)
+303:    pss: time = 5.608 ms    (97.5 %), step = 4.568 us    (79.4 m%)
+304:Total time required for tstab analysis `pss': CPU = 2.29608 s, elapsed = 2.90441 s.
+308:Conv norm = 1.6e+06, max dV(ckab) = 1.8 V, took 1.92 s.
+314:    period = 500 us
+315:    maxperiods = 40
+316:    steadyratio = 1e-03
+339:    pss: time = 5.263 ms    (2.62 %), step = 625 ns       (125 m%)
+340:    pss: time = 5.288 ms    (7.62 %), step = 625 ns       (125 m%)
+341:    pss: time = 5.313 ms    (12.6 %), step = 625 ns       (125 m%)
+342:    pss: time = 5.338 ms    (17.6 %), step = 625 ns       (125 m%)
+343:    pss: time = 5.363 ms    (22.6 %), step = 625 ns       (125 m%)
+344:    pss: time = 5.388 ms    (27.6 %), step = 625 ns       (125 m%)
+345:    pss: time = 5.413 ms    (32.6 %), step = 625 ns       (125 m%)
+346:    pss: time = 5.438 ms    (37.6 %), step = 625 ns       (125 m%)
+347:    pss: time = 5.463 ms    (42.6 %), step = 625 ns       (125 m%)
+348:    pss: time = 5.488 ms    (47.6 %), step = 625 ns       (125 m%)
+349:    pss: time = 5.513 ms    (52.6 %), step = 625 ns       (125 m%)
+350:    pss: time = 5.538 ms    (57.6 %), step = 625 ns       (125 m%)
+351:    pss: time = 5.563 ms    (62.6 %), step = 625 ns       (125 m%)
+352:    pss: time = 5.588 ms    (67.6 %), step = 625 ns       (125 m%)
+353:    pss: time = 5.613 ms    (72.6 %), step = 625 ns       (125 m%)
+354:    pss: time = 5.638 ms    (77.6 %), step = 625 ns       (125 m%)
+355:    pss: time = 5.663 ms    (82.6 %), step = 625 ns       (125 m%)
+356:    pss: time = 5.688 ms    (87.6 %), step = 625 ns       (125 m%)
+357:    pss: time = 5.713 ms    (92.6 %), step = 625 ns       (125 m%)
+358:    pss: time = 5.738 ms    (97.6 %), step = 625 ns       (125 m%)
+359:Conv norm = 137e+03, max dI(VCKAB:p) = 198.488 nA, took 590 ms.
+365:    pss: time = 5.263 ms    (2.62 %), step = 625 ns       (125 m%)
+366:    pss: time = 5.288 ms    (7.62 %), step = 625 ns       (125 m%)
+367:    pss: time = 5.313 ms    (12.6 %), step = 625 ns       (125 m%)
+368:    pss: time = 5.338 ms    (17.6 %), step = 625 ns       (125 m%)
+369:    pss: time = 5.363 ms    (22.6 %), step = 625 ns       (125 m%)
+370:    pss: time = 5.388 ms    (27.6 %), step = 625 ns       (125 m%)
+371:    pss: time = 5.413 ms    (32.6 %), step = 625 ns       (125 m%)
+372:    pss: time = 5.438 ms    (37.6 %), step = 625 ns       (125 m%)
+373:    pss: time = 5.463 ms    (42.6 %), step = 625 ns       (125 m%)
+374:    pss: time = 5.488 ms    (47.6 %), step = 625 ns       (125 m%)
+375:    pss: time = 5.513 ms    (52.6 %), step = 625 ns       (125 m%)
+376:    pss: time = 5.538 ms    (57.6 %), step = 625 ns       (125 m%)
+377:    pss: time = 5.563 ms    (62.6 %), step = 625 ns       (125 m%)
+378:    pss: time = 5.588 ms    (67.6 %), step = 625 ns       (125 m%)
+379:    pss: time = 5.613 ms    (72.6 %), step = 625 ns       (125 m%)
+380:    pss: time = 5.638 ms    (77.6 %), step = 625 ns       (125 m%)
+381:    pss: time = 5.663 ms    (82.6 %), step = 625 ns       (125 m%)
+382:    pss: time = 5.688 ms    (87.6 %), step = 625 ns       (125 m%)
+383:    pss: time = 5.713 ms    (92.6 %), step = 625 ns       (125 m%)
+384:    pss: time = 5.738 ms    (97.6 %), step = 625 ns       (125 m%)
+385:Conv norm = 423e-03, max dI(VCKAB:p) = -604.825 fA, took 560 ms.
+388:    pss: time = 5.762 ms    (2.58 %), step = 625 ns       (125 m%)
+389:    pss: time = 5.787 ms    (7.57 %), step = 625 ns       (125 m%)
+390:    pss: time = 5.812 ms    (12.6 %), step = 625 ns       (125 m%)
+391:    pss: time = 5.837 ms    (17.6 %), step = 625 ns       (125 m%)
+392:    pss: time = 5.862 ms    (22.6 %), step = 625 ns       (125 m%)
+393:    pss: time = 5.887 ms    (27.5 %), step = 625 ns       (125 m%)
+394:    pss: time = 5.912 ms    (32.5 %), step = 625 ns       (125 m%)
+395:    pss: time = 5.937 ms    (37.5 %), step = 625 ns       (125 m%)
+396:    pss: time = 5.962 ms    (42.5 %), step = 625 ns       (125 m%)
+397:    pss: time = 5.987 ms    (47.5 %), step = 625 ns       (125 m%)
+398:    pss: time = 6.013 ms    (52.6 %), step = 625 ns       (125 m%)
+399:    pss: time = 6.038 ms    (57.6 %), step = 625 ns       (125 m%)
+400:    pss: time = 6.063 ms    (62.6 %), step = 625 ns       (125 m%)
+401:    pss: time = 6.088 ms    (67.6 %), step = 625 ns       (125 m%)
+402:    pss: time = 6.113 ms    (72.6 %), step = 625 ns       (125 m%)
+403:    pss: time = 6.138 ms    (77.6 %), step = 625 ns       (125 m%)
+404:    pss: time = 6.163 ms    (82.6 %), step = 625 ns       (125 m%)
+405:    pss: time = 6.188 ms    (87.6 %), step = 625 ns       (125 m%)
+406:    pss: time = 6.213 ms    (92.6 %), step = 625 ns       (125 m%)
+407:    pss: time = 6.238 ms    (97.6 %), step = 625 ns       (125 m%)
+410:Notice from spectre during periodic steady state analysis `pss'.
+417:Norm of periodicity discrepancy due to numerical error: 1.091379e-01.
+423:Norm of periodicity discrepancy due to numerical error: 1.607960e-11.
+437:Notice from spectre during periodic steady state analysis `pss'.
+442:pss: The steady-state solution was achieved in 3 shooting-Newton iterations, followed by  finite-difference refinement.
+444:Total time required for pss analysis `pss': CPU = 4.49669 s, elapsed = 4.53548 s.
