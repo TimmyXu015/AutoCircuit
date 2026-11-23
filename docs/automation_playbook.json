@@ -299,7 +299,11 @@
     "R8B: an inert high-impedance fixture branch (vcvs EOC -> 1 MF CHP -> 1 TOhm RHP, tau ~1e18 s) made the shooting PSS oscillate (norm 4..1e5, 40/60 iterations); removing just EOC+CHP gave convergence in 3 iterations with identical settings. Before tightening PSS tolerances, look for huge-tau diagnostic branches.",
     "R8B: run PSS once with writepss=<file>, then PAC/PNoise with readpss=<same file> (each then re-converges in 1 iteration). The sideband ladder (S10/30/60/90) takes ~30-46 s per count on the R8 cell.",
     "R8B: netlist audits must skip analysis statements (pss/pac/pnoise/noise ...) when diffing instances, and allow known analysis-variable changes (pacd 0 -> 1 for a PAC drive) explicitly; see docs/ece203_data/round8b/r8b_netlist_audit.py.",
-    "R8B: PAC sideband-0 transfer under chopping can have a different low-frequency corner than static AC (R8B: 0.34 vs 0.095 Hz); de-embedding PNoise with 1/|Hon|^2 then inflates the 0.1-0.5 Hz input density. Report both normalisations."
+    "R8B: PAC sideband-0 transfer under chopping can have a different low-frequency corner than static AC (R8B: 0.34 vs 0.095 Hz); de-embedding PNoise with 1/|Hon|^2 then inflates the 0.1-0.5 Hz input density. Report both normalisations.",
+    "R8C: readpss is silently ignored when the circuit's equation count differs from the run that wrote the file -- e.g. saving extra terminal currents (save XPRP:A) adds equations. Spectre prints 'The equation size in file ... does not equal that in simulation ... Will compute pss solution without loading it' and recomputes the PSS. Keep the PSS-writing and PSS-reading runs' save lists identical, and grep spectre.out for 'equation size' / 'achieved in 1 shooting-Newton'.",
+    "R8C: netlist analysis statements can look like instances ('noise ( outp outn ) noise ...'); audit parsers must classify the analysis names (pss/pac/pnoise/noise/ac/dc/tran/stb) before treating 'name (' as an instance (docs/ece203_data/round8c/r8c_netlist_audit.py).",
+    "R8C: OCEAN harmonic(v(...?result \"pac\") k) for k = +1 and -1 gave very different magnitudes on the chopped OTA nodes (op-on at 1 Hz: -1 -> 69.6, +1 -> 2.05); the -1 value matches (2/pi) x the static gain. Do not interpret PAC +-1 sidebands without checking the sideband/freqaxis convention first.",
+    "R8C: user .cdsinit prints '*Error* eval: unbound variable - f' (leSetEnv(\"gravityOn\" f)) in every batch job; harmless, not from the AutoCircuit scripts."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",

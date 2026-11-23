@@ -14,3 +14,27 @@
   PASS  A1 OFF |H(100)| 85.66635 = R8B 85.666
   PASS  netlist audit (A1 OFF, A1 PAC m1, m3 vs R8B): r8c_netlist_audit_A.txt
   Stage A: PASS
+== Stage B0 gate (l0)
+  PASS  OFF fL_flat 0.0946 Hz in 0.07-0.15 (MOS 0.0943)
+  PASS  OFF |H(100)| 86.5297 within 5 % of MOS 85.6664 (+1.008 %)
+  PASS  DC CM (p,n) +0.0000 mV vs MOS
+  PASS  DC CM (ia,ibx) +0.0000 mV vs MOS
+  PASS  DC CM (fp,fn) +0.0000 mV vs MOS
+  PASS  DC CM (op,on) +0.0000 mV vs MOS
+  PASS  DC CM (bufp,bufn) +0.0000 mV vs MOS
+  PASS  DC CM (outp,outn) +0.0000 mV vs MOS
+  PASS  power 2.3094 uW vs MOS 2.3094 uW (+0.000 %)
+  B0 l0: PASS
+== Stage B1 (l0): PSS conv True | fL_ON,lin 0.3409 Hz, fL_OFF,lin 0.0946 Hz -> Q_R = 3.604 ; Q_MOS = 3.585 ; H100 ON lin 84.0664
+  pre-registered reading: TG / other periodic switching coupling = main suspect
+  operating state preserved (p/n/fp/fn pp within 30 %, mean within 1 mV)
+    p     pp MOS 0.005672 V  lin 0.005673 V  (x1.000)  mean +0.0020 mV
+    n     pp MOS 0.005672 V  lin 0.005673 V  (x1.000)  mean +0.0020 mV
+    ia    pp MOS 0.007707 V  lin 0.007707 V  (x1.000)  mean +0.0627 mV
+    ibx   pp MOS 0.007707 V  lin 0.007707 V  (x1.000)  mean +0.0627 mV
+    fp    pp MOS 0.005949 V  lin 0.005952 V  (x1.000)  mean +0.0175 mV
+    fn    pp MOS 0.005949 V  lin 0.005952 V  (x1.000)  mean +0.0175 mV
+    op    pp MOS 0.01062 V  lin 0.01062 V  (x1.000)  mean +0.0783 mV
+    on    pp MOS 0.01062 V  lin 0.01062 V  (x1.000)  mean +0.0783 mV
+    outp  pp MOS 7.96e-08 V  lin 7.91e-08 V  (x0.994)  mean +0.0000 mV
+    outn  pp MOS 7.9e-08 V  lin 7.91e-08 V  (x1.001)  mean -0.0000 mV

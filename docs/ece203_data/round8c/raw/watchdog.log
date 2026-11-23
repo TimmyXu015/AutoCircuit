@@ -1,0 +1,8 @@
+2026-11-23 05:46:19 watchdog start tag=A1_pac_mos_m1 stall=900s hard=5400s
+2026-11-23 05:46:36 watchdog exit tag=A1_pac_mos_m1 after 15 s, spectre.out 16713 bytes
+2026-11-23 05:46:50 watchdog start tag=A1_pac_mos_m3 stall=900s hard=5400s
+2026-11-23 05:47:07 watchdog exit tag=A1_pac_mos_m3 after 15 s, spectre.out 16645 bytes
+2026-11-23 05:50:13 watchdog start tag=B1_pss_b1_l0 stall=900s hard=5400s
+2026-11-23 05:50:30 watchdog exit tag=B1_pss_b1_l0 after 15 s, spectre.out 15295 bytes
+2026-11-23 05:50:38 watchdog start tag=B1_pac_l0 stall=900s hard=5400s
+2026-11-23 05:50:55 watchdog exit tag=B1_pac_l0 after 15 s, spectre.out 15247 bytes

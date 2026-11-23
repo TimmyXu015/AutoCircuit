@@ -1,0 +1,53 @@
+=== B0 OFF linear l0 (ece203_r8c_tb_linear_pr) vs A1 OFF MOS (R8B cell), same analysis
+PASS  removed = ['XPRN', 'XPRP'] (expected ['XPRN', 'XPRP'])
+    REF XPRN (n fp) ece203_ss_pr_cell
+    REF XPRP (p fn) ece203_ss_pr_cell
+PASS  added = ['RPRN', 'RPRP'] (expected ['RPRN', 'RPRP'])
+    NEW RPRN (n fp) resistor r=3.128T
+    NEW RPRP (p fn) resistor r=3.128T
+PASS  changed = []
+PASS  RPRP matches /^RPRP \(p fn\) resistor r=3.128T$/: RPRP (p fn) resistor r=3.128T
+PASS  RPRN matches /^RPRN \(n fp\) resistor r=3.128T$/: RPRN (n fp) resistor r=3.128T
+PASS  parameter differences {} (allowed {})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2'] (expected removed ['ece203_ss_pr_cell'], removed ['ece203_ss_pr_cell'])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: ac ac start=1m stop=100k dec=50 annotate=status
+analysis REF: ac ac start=1m stop=100k dec=50 annotate=status
+AUDIT PASS
+
+=== B1_pss_b1_l0 (linear l0) vs ../round8b/raw/gateB/B_pss_a1_netlist.scs
+PASS  removed = ['XPRN', 'XPRP'] (expected ['XPRN', 'XPRP'])
+    REF XPRN (n fp) ece203_ss_pr_cell
+    REF XPRP (p fn) ece203_ss_pr_cell
+PASS  added = ['RPRN', 'RPRP'] (expected ['RPRN', 'RPRP'])
+    NEW RPRN (n fp) resistor r=3.128T
+    NEW RPRP (p fn) resistor r=3.128T
+PASS  changed = []
+PASS  RPRP matches /^RPRP \(p fn\) resistor r=3.128T$/: RPRP (p fn) resistor r=3.128T
+PASS  RPRN matches /^RPRN \(n fp\) resistor r=3.128T$/: RPRN (n fp) resistor r=3.128T
+PASS  parameter differences {} (allowed {})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2'] (expected removed ['ece203_ss_pr_cell'], removed ['ece203_ss_pr_cell'])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 writepss="/tmp/lix015_r8c/pss_l0.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 writepss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status
+AUDIT PASS
+
+=== B1_pac_l0 (linear l0) vs raw/stageA/A1_pac_mos_m1_netlist.scs
+PASS  removed = ['XPRN', 'XPRP'] (expected ['XPRN', 'XPRP'])
+    REF XPRN (n fp) ece203_ss_pr_cell
+    REF XPRP (p fn) ece203_ss_pr_cell
+PASS  added = ['RPRN', 'RPRP'] (expected ['RPRN', 'RPRP'])
+    NEW RPRN (n fp) resistor r=3.128T
+    NEW RPRP (p fn) resistor r=3.128T
+PASS  changed = []
+PASS  RPRP matches /^RPRP \(p fn\) resistor r=3.128T$/: RPRP (p fn) resistor r=3.128T
+PASS  RPRN matches /^RPRN \(n fp\) resistor r=3.128T$/: RPRN (n fp) resistor r=3.128T
+PASS  parameter differences {} (allowed {})
+PASS  subckts identical: ['ece203_r4_drl_ota', 'ece203_r6a_fd_ota', 'ece203_r6b_tgchop', 'ece203_r6d_cd', 'ece203_r7a_cmfb_a2'] (expected removed ['ece203_ss_pr_cell'], removed ['ece203_ss_pr_cell'])
+PASS  EOC absent (fixture stays removed)
+PASS  CHP absent (fixture stays removed)
+analysis NEW: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8c/pss_l0.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.01 stop=250 | + dec=40 maxsideband=1 annotate=status
+analysis REF: pss pss fund=2k harms=40 errpreset=moderate tstab=5m | + cmin=1e-17 readpss="/tmp/lix015_r8b/pss_converged.pss" itres=1e-4 | + maxacfreq=200k maxperiods=40 annotate=status | pac pac sweeptype=relative relharmnum=0 start=0.01 stop=250 | + dec=40 maxsideband=1 annotate=status
+AUDIT PASS

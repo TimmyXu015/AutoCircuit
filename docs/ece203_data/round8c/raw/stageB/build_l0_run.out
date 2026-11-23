@@ -1,0 +1,19 @@
+[run] git pull ok
+[run] scripts: /home/linux/ieng6/oce/7f/lix015/AutoCircuit @ 031cb75
+[run] virtuoso: /software/ECE/IC-618/tools/dfII/bin/virtuoso
+[run] working folder: /home/linux/ieng6/ECE203_FA26_001/lix015
+[run] running job 'ece203_r8c_build' (log: /home/linux/ieng6/oce/7f/lix015/AutoCircuit_results/ece203_r8c_build.log) ...
+[run] finished in 11 s
+[run] status: OK
+------------------------------------------------------------
+*Error* eval: unbound variable - f
+AC> MP0.w: CDF callback "bicmos7wlfetWidthp()" failed: ("concat" 0 t nil ("*Error* concat: illegal argument type" nil))
+AC> MP0.l: CDF callback "bicmos7wlfetLength()" failed: ("concat" 0 t nil ("*Error* concat: illegal argument type" nil))
+AC> MP1.w: CDF callback "bicmos7wlfetWidthp()" failed: ("concat" 0 t nil ("*Error* concat: illegal argument type" nil))
+AC> MP1.l: CDF callback "bicmos7wlfetLength()" failed: ("concat" 0 t nil ("*Error* concat: illegal argument type" nil))
+AC> MP2.w: CDF callback "bicmos7wlfetWidthp()" failed: ("concat" 0 t nil ("*Error* concat: illegal argument type" nil))
+AC> MP2.l: CDF callback "bicmos7wlfetLength()" failed: ("concat" 0 t nil ("*Error* concat: illegal argument type" nil))
+schCheck (errors warnings): (0 0)
+Built Project/ece203_r8c_tb_linear_pr/schematic
+AC> r8c: built ece203_r8c_tb_linear_pr with RPRP/RPRN = 3.128T
+------------------------------------------------------------

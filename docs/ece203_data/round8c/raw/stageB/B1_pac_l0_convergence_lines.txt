@@ -1,0 +1,13 @@
+218:Warning from spectre.
+219:    WARNING (SPECTRE-16707): Only tran supports psfxl format, result of other analyses will be in psfbin format.
+223:Notice from spectre during periodic steady state analysis `pss'.
+231:Periodic Steady-State Analysis `pss': fund = 2 kHz
+234:Notice from spectre during periodic steady state analysis `pss'.
+243:    period = 500 us
+244:    maxperiods = 40
+245:    steadyratio = 1e-03
+266:Norm of periodicity discrepancy due to numerical error: 2.213915e-07.
+282:pss: The steady-state solution was achieved in 1 shooting-Newton iterations, followed by  finite-difference refinement.
+284:Total time required for pss analysis `pss': CPU = 1.01117 s, elapsed = 1.0688 s.
+294:Periodic AC Analysis `pac': freq = (10 mHz -> 250 Hz)
+477:Total time required for pac analysis `pac': CPU = 7.31427 s, elapsed = 7.34534 s.
