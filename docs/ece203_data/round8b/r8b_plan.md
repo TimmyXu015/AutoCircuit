@@ -26,3 +26,13 @@ Gate D (only after A-C): PNoise (timeaverage, p outp n outn, relative, relharmnu
 only if 30 -> 60 is not converged. Converged = last two completed counts within 5 % in app and de-embedded input RMS and within 10 %
 in input density at 1 / 10 / 100 Hz. Integrals double-checked (OCEAN vs Python). < 3 uVrms judged only if converged.
 Deterministic R7F items stay out of every noise number.
+
+## Update 1 (after Gates A-C and PNoise S10/S30/S60, before S90)
+
+Gate A PASS (netlist: exactly EOC + CHP removed; every DC/AC/noise checkpoint identical, max 6.5e-5 %). Gate B PASS: PSS with the R8 a1
+settings converged ("steady-state solution was achieved in 3 shooting-Newton iterations, followed by finite-difference refinement").
+Gate C PASS: PAC |Hon(100)| 83.251 V/V (R7F chopped transient 83.247), ep-en = 2 V.
+PNoise app / de-embedded input RMS: S10 2.991 / 3.736 uV, S30 3.070 / 3.871 uV, S60 3.111 / 3.941 uV. S30 -> S60 already meets the
+convergence criterion (+1.3 % / +1.8 %; density +2.9 / +0.8 / +0.1 % at 1 / 10 / 100 Hz). Because the task prefers S60/S90 as the
+final pair, the values still rise monotonically and they sit near the 3 uV spec, the fourth and last allowed count **S90** is run;
+the final pair is then S60/S90 (criterion unchanged). No other change.
