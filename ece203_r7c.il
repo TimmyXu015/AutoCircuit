@@ -66,7 +66,7 @@ procedure( r7cStageA()
             r7cNum(r->r_secant_ohm) r7cNum(r->id_MP) r7cNum(r->vds_MP) r7cNum(r->vth_MP) r7cNum(r->region_MP) r->status)
       r7cRow(port r7cACols r))
     close(port)
-    sh(sprintf(nil "f=$(ls -t $(find %s/simulation/ece203_ss_pr_iv_tb -path '*_r7c_A*' -name input.scs) | head -1); cp \"$f\" %s/A_pr_iv_netlist.scs; rm -rf %s/simulation/ece203_ss_pr_iv_tb/spectre/schematic_r7c_A/psf"
+    sh(sprintf(nil "cp %s/simulation/ece203_ss_pr_iv_tb/spectre/schematic/netlist/input.scs %s/A_pr_iv_netlist.scs; rm -rf %s/simulation/ece203_ss_pr_iv_tb/spectre/schematic_r7c_A/psf"
                getShellEnvVar("HOME") r7cDir getShellEnvVar("HOME")))
     t
   )
@@ -145,8 +145,7 @@ procedure( r7cStageB1(c opts otag)
           let( (m) m = ece203Margin(caddr(x))
             when( numberp(m) && car(parseString(car(x) ".")) == "XA" && (!r->minA || m < r->minA) r->minA = m r->worstA = car(x))
             when( numberp(m) && car(parseString(car(x) ".")) == "XC" && (!r->minC || m < r->minC) r->minC = m r->worstC = car(x))))
-        sh(sprintf(nil "f=$(ls -t $(find %s/simulation/%s -path '*%s_dm*' -name input.scs) | head -1); cp \"$f\" %s/%s_netlist.scs"
-                   getShellEnvVar("HOME") cell tag r7cDir tag))
+        sh(sprintf(nil "cp %s/simulation/%s/spectre/schematic/netlist/input.scs %s/%s_netlist.scs" getShellEnvVar("HOME") cell r7cDir tag))
         ;; CM AC: CMRR at 60 Hz
         r7cAc(cell strcat(tag "_cm") append(vars list(list("vcmin" 1.0) list("dcc" 0.01))) opts)
         wc = ldAc("fp") - ldAc("fn")
