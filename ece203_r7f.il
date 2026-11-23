@@ -68,6 +68,8 @@ procedure( r7fTran()
     c = r7fCase() r7fRegister(c)
     od = r7eDir ot = r7eTmp ow = r7eWd
     r7eDir = r7fDir r7eTmp = r7fTmp r7eWd = "r7f_watchdog.sh"
+    ;; r7eStageC picks its case from env AC_R7E_CASE: it must equal the R7F case (first launch without it ran R7E lp_a0, killed)
+    unless( getShellEnvVar("AC_R7E_CASE") == c error("set AC_R7E_CASE=%s (r7eStageC reads it), got %L" c getShellEnvVar("AC_R7E_CASE")))
     res = errset(r7eStageC() t)
     r7eDir = od r7eTmp = ot r7eWd = ow
     unless( res error("%L" errset.errset))

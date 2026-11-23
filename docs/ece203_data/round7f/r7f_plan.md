@@ -50,3 +50,12 @@ openly). Model prediction: unloaded 250.5 Hz, +10 pF 234.6 Hz (Ro +-50 kOhm: 247
 72.55 at cc 50 p. Area: CLP 2 x 148 = 296 pF (+30 pF vs L0, +256 pF vs R7E); designed total 419 pF (L1) -> 439 pF with G0 cc 60 p.
 New cells ece203_r7f_tb_lp_l1 / _l1_load10p; L0 cells and data kept. If L1 fails either load: Stage A FAIL, STOP.
 Stage B cells (not built yet) now use the L1 LP (4.0M / 148p).
+
+## Update 2 (Stage A L1 and Stage B G0 static results, before Stage C)
+
+L1 measured: fH_flat 250.42 Hz unloaded / 234.65 Hz +10 pF (model 250.5 / 234.6) -> Stage A PASS. G0 (cc 60p on L1) measured:
+Hout100 86.06 (38.70 dB) loaded / 86.88 (38.78 dB) unloaded, plateau 93.54 (39.42 dB), fH_flat 234.6 / 250.3 Hz, fL 0.0946 Hz -> Stage B
+PASS without G1. Stage C = one 60 ms run of gain_g0_load10p.
+Launch note: the first Stage C launch (commit e8c9219) did not set AC_R7E_CASE, so r7eStageC simulated the R7E lp_a0 cell (read-only)
+into /tmp/lix015_r7f; it was killed by me at ~40 s of wall time (no result used, not counted as an R7F candidate run). r7fTran now
+refuses to start unless AC_R7E_CASE equals the R7F case.
