@@ -79,3 +79,19 @@
 ## Not run
 
 MC, PVT, chopper, any DRL / bias / size / power change, extra noise. The 1 µA result is beyond the original 100 nA spec and does not redefine project compliance.
+
+## Update 1 (after Test 1 and the first 3 s transient T0, before any 10 s run)
+
+- **Test 1 results:**
+  - archived F2 fixture reproduces Hsrc(100 Hz) = 91.363 (39.215 dB, historical 39.22);
+  - instructor-TB copy: Hpost(10 Hz) = 98.524 (39.87 dB), identical to the archived fixture's Hpost;
+  - Hsrc includes the 2/3 body divider (0.666).
+- **T0 at 3 s:**
+  - Gpost 39.842 / 39.859 dB in windows [1,2] / [2,3] s: the gain is settled to 0.017 dB;
+  - **out DC drifts by +4.9 mV between the windows (0.9247 → 0.9296 V)**, so the case is NOT settled by the pre-registered 1 mV rule;
+  - the registered single extension to 10 s therefore applies to every unsettled case.
+- **Implementation detail for the 10 s runs (no definition change):**
+  - with `AC_F2I_KEEP=3`, the full-resolution CSV holds only 7–10 s, which contains both analysis windows [8,9] and [9,10] s;
+  - a 1 ms resampled CSV of the whole 0–10 s run is added for the DC-drift trend;
+  - reason: SKILL CSV writing dominated the run time (about 5 min per 60 k rows);
+  - maxstep stays 50 µs.
