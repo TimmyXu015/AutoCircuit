@@ -1,0 +1,60 @@
+(1) instructor ECG_tb elements (schematic dump vs copy netlist)
+  R9: nets [('MINUS', 'net7'), ('PLUS', 'net5')] -> netlist ('net5', 'net7') resistor r=2K | nets match: True
+  R8: nets [('MINUS', 'vRL'), ('PLUS', 'net7')] -> netlist ('net7', 'vRL') resistor r=1M | nets match: True
+  R7: nets [('MINUS', 'vRight'), ('PLUS', 'net9')] -> netlist ('net9', 'vRight') resistor r=1M | nets match: True
+  R6: nets [('MINUS', 'net9'), ('PLUS', 'net1')] -> netlist ('net1', 'net9') resistor r=2K | nets match: True
+  R5: nets [('MINUS', 'vLeft'), ('PLUS', 'net8')] -> netlist ('net8', 'vLeft') resistor r=1M | nets match: True
+  R4: nets [('MINUS', 'net8'), ('PLUS', 'net6')] -> netlist ('net6', 'net8') resistor r=2K | nets match: True
+  R3: nets [('MINUS', 'net6'), ('PLUS', 'net013')] -> netlist ('net013', 'net6') resistor r=200 | nets match: True
+  R2: nets [('MINUS', 'net5'), ('PLUS', 'net6')] -> netlist ('net6', 'net5') resistor r=200 | nets match: True
+  R1: nets [('MINUS', 'net5'), ('PLUS', 'net1')] -> netlist ('net1', 'net5') resistor r=200 | nets match: True
+  I2: nets [('MINUS', 'net5'), ('PLUS', 'gnd!')] -> netlist ('0', 'net5') isource dc=0 mag=aint type=sine ampl=iint sinephase=phint freq=fint | nets match: True
+  C3: nets [('MINUS', 'vRL'), ('PLUS', 'net7')] -> netlist ('net7', 'vRL') capacitor c=50n | nets match: True
+  C2: nets [('MINUS', 'vRight'), ('PLUS', 'net9')] -> netlist ('net9', 'vRight') capacitor c=50n | nets match: True
+  C1: nets [('MINUS', 'vLeft'), ('PLUS', 'net8')] -> netlist ('net8', 'vLeft') capacitor c=50n | nets match: True
+  C0: nets [('MINUS', 'gnd!'), ('PLUS', 'net5')] -> netlist ('net5', '0') capacitor c=200p | nets match: True
+  V0: nets [('MINUS', 'net013'), ('PLUS', 'net1')] -> netlist ('net1', 'net013') vsource mag=aecg type=sine ampl=vecg sinephase=phecg freq=fecg | nets match: True
+(2) DUT elements vs archived F2 (ece203_r5nf_tb_f2) minus fixture, renames {'inpr': 'vRight', 'innr': 'vLeft', 'rl0b': 'vRL'}
+  36 DUT elements compared; subckts equal: True; includes equal: True
+(3) parameters
+  aecg: ref None | copy 1.0
+  aint: ref None | copy 0.0
+  fecg: ref None | copy 10.0
+  fint: ref None | copy 60.0
+  iint: ref None | copy 0.0
+  phecg: ref None | copy 0.0
+  phint: ref None | copy 0.0
+  vecg: ref None | copy 0.001
+  copy prw = 4e-06
+  copy prl = 2e-06
+  copy rdr = 1000000.0
+  copy rdi = 1e+15
+  copy rlp = 3.18e+07
+  copy clp = 2e-11
+  copy cm2 = 5e-13
+  copy dcc = 0.0
+  copy iref = 1e-07
+  copy ibd = 5e-08
+  copy vref = 0.9
+  copy vdd = 1.8
+(4) transient netlists vs A_prof_dm (elements; parameter differences listed)
+  I100n_10s: element topology diffs []; params {'aecg': '0.0', 'iint': '1e-07', 'vecg': '0.0'}
+  I100n_3s: element topology diffs []; params {'aecg': '0.0', 'iint': '1e-07', 'vecg': '0.0'}
+  I1u_10s: element topology diffs []; params {'aecg': '0.0', 'iint': '1e-06', 'vecg': '0.0'}
+  I1u_3s: element topology diffs []; params {'aecg': '0.0', 'iint': '1e-06', 'vecg': '0.0'}
+  I1u_dcc1_10s: element topology diffs []; params {'aecg': '0.0', 'dcc': '0.01', 'iint': '1e-06', 'vecg': '0.0'}
+  S0_10s: element topology diffs []; params {'aecg': '0.0', 'fecg': '60.0'}
+  S1u_p0_10s: element topology diffs []; params {'aecg': '0.0', 'fecg': '60.0', 'iint': '1e-06'}
+  S1u_p180_10s: element topology diffs []; params {'aecg': '0.0', 'fecg': '60.0', 'iint': '1e-06', 'phecg': '180.0'}
+  S1u_p270_10s: element topology diffs []; params {'aecg': '0.0', 'fecg': '60.0', 'iint': '1e-06', 'phecg': '270.0'}
+  S1u_p90_10s: element topology diffs []; params {'aecg': '0.0', 'fecg': '60.0', 'iint': '1e-06', 'phecg': '90.0'}
+  Si_10s: element topology diffs []; params {'aecg': '0.0', 'fecg': '60.0', 'iint': '1e-06', 'vecg': '0.0'}
+  T0_10s: element topology diffs []; params {'aecg': '0.0'}
+  T0_3s: element topology diffs []; params {'aecg': '0.0'}
+  T0_dcc1_10s: element topology diffs []; params {'aecg': '0.0', 'dcc': '0.01'}
+  T100n_10s: element topology diffs []; params {'aecg': '0.0', 'iint': '1e-07'}
+  T100n_3s: element topology diffs []; params {'aecg': '0.0', 'iint': '1e-07'}
+  T1u_10s: element topology diffs []; params {'aecg': '0.0', 'iint': '1e-06'}
+  T1u_3s: element topology diffs []; params {'aecg': '0.0', 'iint': '1e-06'}
+  T1u_dcc1_10s: element topology diffs []; params {'aecg': '0.0', 'dcc': '0.01', 'iint': '1e-06'}
+AUDIT PASS

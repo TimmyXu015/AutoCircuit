@@ -31,9 +31,10 @@ def analyse(fn, windows):
         _, Pv, _ = fit(t, vpost, f0, K, a, b); _, Ps, _ = fit(t, v0, f0, K, a, b)
         dc_o, Po, res = fit(t, out, f0, K, a, b); r = dict(case=tag, window=f'{a:g}-{b:g}', f0=f0, out_dc=dc_o, out_drift_mV_per_s=1e3 * fit.slope)
         k1 = 1
+        noecg = tag.startswith(('I', 'Si'))   # interference-only: vecg = 0, no gain is defined
         r['src_amp_V'] = abs(Ps[k1]); r['post_amp_V'] = abs(Pv[k1]); r['out_amp_V'] = abs(Po[k1])
-        r['Gpost_dB'] = db(abs(Po[k1]) / abs(Pv[k1])) if abs(Pv[k1]) > 1e-9 else float('nan')
-        r['Gsrc_dB'] = db(abs(Po[k1]) / abs(Ps[k1])) if abs(Ps[k1]) > 1e-9 else float('nan')
+        r['Gpost_dB'] = db(abs(Po[k1]) / abs(Pv[k1])) if abs(Pv[k1]) > 1e-6 and not noecg else float('nan')
+        r['Gsrc_dB'] = db(abs(Po[k1]) / abs(Ps[k1])) if abs(Ps[k1]) > 1e-6 and not noecg else float('nan')
         r['out_phase_deg'] = math.degrees(np.angle(Po[k1])); r['post_phase_deg'] = math.degrees(np.angle(Pv[k1]))
         if not same:
             for k in (2, 3, 5, 6, 7, 12, 18):

@@ -309,7 +309,12 @@
     "R8D: a zero-input PSS with ideal relay choppers is exactly constant (pp 0 V); MOS TG choppers produce mV edge spikes (charge injection). A peak-to-peak or arithmetic-sample-mean comparison of PSS waveforms is dominated by those spikes (dense time points at edges); use the median or a time-weighted mean for levels.",
     "R8E: saving a vsource branch current (save VSP:p) in the PSS-writing run and in every readpss run keeps the equation count identical (PAC/PNoise report 'achieved in 1 shooting-Newton iteration'); only subckt terminal currents (XPRP:A) changed the size in R8C. Keep one save list for PSS, PAC and PNoise.",
     "R8E: design-variable-only variants (cc/cfb) can reuse a frozen spec list as a new cell and set the values per run (r8VarsExtra / 'extra); audit by diffing the netlist parameter block (only the intended names may differ) and compute the capacitance budget from the netlisted capacitor expressions (docs/ece203_data/round8e/r8e_budget.py reproduces the R7F 439 pF).",
-    "R8E: the 60 ms 2 kHz chopped tran of the R8B-class system (r7eStageC, maxstep 0.5 us, cmin 1e-17) runs in ~2 min wall time; the 12.6 MB tran CSV.gz scp/stage path works in one call."
+    "R8E: the 60 ms 2 kHz chopped tran of the R8B-class system (r7eStageC, maxstep 0.5 us, cmin 1e-17) runs in ~2 min wall time; the 12.6 MB tran CSV.gz scp/stage path works in one call.",
+    "F2I: the instructor testbench `ECG_tb` is a LIBRARY (path /home/linux/ieng6/ECE203_FA26_001/public/ECG_tb) holding a cell also named ECG_tb; probing by cell name alone finds nothing. Its I1 is an analogLib gnd symbol (no netlist element).",
+    "F2I: writing every accepted Spectre tran point to CSV from SKILL is very slow (3 s run with 124 k steps > 20 min). Write exact min/max per window via SKILL (ymax/ymin on the full waveform), resample only the analysis window (100 us), plus a coarse 1 ms whole-run trend. `psf -i` (dfII/bin/psf) prints only the header for PSF-XL output, so it is not a shortcut.",
+    "F2I: `pkill -f <pattern>` run through ssh also matches the ssh bash command line that contains the pattern, killing the rest of that remote command. Use `pgrep` first and kill by PID, or a pattern that cannot match your own command (e.g. `[n]ograph`).",
+    "F2I: SKILL lambda argument named `t` is an error (t is reserved); xmax(wave) returns the x at the maximum, use xmax(xval(wave)) for the end time.",
+    "F2I: for coherent sine fits on HP-coupled (0.1 Hz pseudo-R) outputs add a linear term to the LS basis; a 4 mV/s settling ramp shifts the 10 Hz gain fit by ~0.03 dB and the H2 estimate by several dB."
   ],
   "open_items": [
     "Auto-load ac.il via ~/.cdsinit (offered, not done).",

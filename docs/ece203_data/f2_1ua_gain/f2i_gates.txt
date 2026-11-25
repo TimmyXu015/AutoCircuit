@@ -1,0 +1,71 @@
+== Test 2/4 per case and window (peak amplitudes)
+  I100n_10s        8-9    post 4.476e-11 mV src 0 mV out 6.487e-05 mV | Gpost nan dB Gsrc nan dB | out60 6.595 mV out DC 0.9046 V | out 0.897..0.910 oa1 1.435..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -inf dBc | clip none
+  I100n_10s        9-10   post 1.24e-09 mV src 0 mV out 6.374e-05 mV | Gpost nan dB Gsrc nan dB | out60 6.582 mV out DC 0.9046 V | out 0.897..0.910 oa1 1.435..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -inf dBc | clip none
+  I100n_3s         1-2    post 1.013e-09 mV src 0 mV out 0.001149 mV | Gpost nan dB Gsrc nan dB | out60 6.689 mV out DC 0.9034 V | out 0.895..0.910 oa1 1.435..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -inf dBc | clip none
+  I100n_3s         2-3    post 1.826e-09 mV src 0 mV out 0.0004045 mV | Gpost nan dB Gsrc nan dB | out60 6.675 mV out DC 0.9042 V | out 0.896..0.910 oa1 1.435..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -inf dBc | clip none
+  I1u_10s          8-9    post 1.234e-06 mV src 0 mV out 0.02858 mV | Gpost nan dB Gsrc nan dB | out60 505.8 mV out DC 0.8650 V | out 0.422..1.605 oa1 0.757..1.447 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  I1u_10s          9-10   post 1.013e-06 mV src 0 mV out 0.0253 mV | Gpost nan dB Gsrc nan dB | out60 513.6 mV out DC 0.7939 V | out 0.354..1.523 oa1 1.040..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  I1u_3s           1-2    post 5.533e-06 mV src 0 mV out 0.06499 mV | Gpost nan dB Gsrc nan dB | out60 1.48 mV out DC 1.7987 V | out 1.707..1.800 oa1 0.001..1.436 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa1;oa;out;drlr
+  I1u_3s           2-3    post 2.537e-06 mV src 0 mV out 0.2128 mV | Gpost nan dB Gsrc nan dB | out60 38.29 mV out DC 1.7798 V | out 1.282..1.799 oa1 0.002..1.454 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa1;oa;out;drlr
+  I1u_dcc1_10s     8-9    post 7.987e-07 mV src 0 mV out 0.02808 mV | Gpost nan dB Gsrc nan dB | out60 528.9 mV out DC 0.8271 V | out 0.370..1.587 oa1 0.926..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  I1u_dcc1_10s     9-10   post 9.541e-07 mV src 0 mV out 0.02629 mV | Gpost nan dB Gsrc nan dB | out60 536.6 mV out DC 0.7555 V | out 0.302..1.504 oa1 1.152..1.449 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  S0_10s           8-9    post 0.6659 mV src 0.9999 mV out 63.83 mV | Gpost 39.633 dB Gsrc 36.102 dB | out60 nan mV out DC 0.9345 V | out 0.871..0.998 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -inf dBc | clip none
+  S0_10s           9-10   post 0.6659 mV src 0.9999 mV out 63.83 mV | Gpost 39.633 dB Gsrc 36.102 dB | out60 nan mV out DC 0.9346 V | out 0.871..0.998 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -inf dBc | clip none
+  S1u_p0_10s       8-9    post 0.6627 mV src 0.9999 mV out 525.6 mV | Gpost 57.986 dB Gsrc 54.414 dB | out60 nan mV out DC 0.8276 V | out 0.373..1.580 oa1 0.844..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  S1u_p0_10s       9-10   post 0.6627 mV src 0.9999 mV out 533.3 mV | Gpost 58.114 dB Gsrc 54.541 dB | out60 nan mV out DC 0.7565 V | out 0.305..1.497 oa1 1.100..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  S1u_p180_10s     8-9    post 0.6697 mV src 0.9999 mV out 486 mV | Gpost 57.215 dB Gsrc 53.735 dB | out60 nan mV out DC 0.9024 V | out 0.472..1.632 oa1 0.667..1.447 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  S1u_p180_10s     9-10   post 0.6698 mV src 0.9999 mV out 493.9 mV | Gpost 57.353 dB Gsrc 53.873 dB | out60 nan mV out DC 0.8312 V | out 0.404..1.549 oa1 0.974..1.447 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  S1u_p270_10s     8-9    post 0.6648 mV src 0.9999 mV out 482.3 mV | Gpost 57.212 dB Gsrc 53.668 dB | out60 nan mV out DC 0.9083 V | out 0.482..1.652 oa1 0.884..1.447 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  S1u_p270_10s     9-10   post 0.6648 mV src 0.9999 mV out 490 mV | Gpost 57.350 dB Gsrc 53.805 dB | out60 nan mV out DC 0.8371 V | out 0.414..1.569 oa1 1.109..1.447 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  S1u_p90_10s      8-9    post 0.6679 mV src 0.9999 mV out 529.8 mV | Gpost 57.987 dB Gsrc 54.483 dB | out60 nan mV out DC 0.8217 V | out 0.363..1.559 oa1 0.601..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  S1u_p90_10s      9-10   post 0.6679 mV src 0.9999 mV out 537.6 mV | Gpost 58.115 dB Gsrc 54.611 dB | out60 nan mV out DC 0.7507 V | out 0.295..1.477 oa1 0.940..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  Si_10s           8-9    post 0.003821 mV src 0 mV out 505.8 mV | Gpost nan dB Gsrc nan dB | out60 nan mV out DC 0.8650 V | out 0.422..1.605 oa1 0.757..1.447 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  Si_10s           9-10   post 0.003883 mV src 0 mV out 513.6 mV | Gpost nan dB Gsrc nan dB | out60 nan mV out DC 0.7939 V | out 0.354..1.523 oa1 1.040..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -inf dBc | clip oa;drlr
+  T0_10s           8-9    post 0.666 mV src 1 mV out 65.63 mV | Gpost 39.872 dB Gsrc 36.343 dB | out60 0.0001573 mV out DC 0.9345 V | out 0.869..1.000 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -56.2 dBc | clip none
+  T0_10s           9-10   post 0.666 mV src 1 mV out 65.63 mV | Gpost 39.873 dB Gsrc 36.343 dB | out60 0.0001596 mV out DC 0.9346 V | out 0.869..1.000 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -56.2 dBc | clip none
+  T0_3s            1-2    post 0.666 mV src 1 mV out 65.63 mV | Gpost 39.872 dB Gsrc 36.342 dB | out60 0.0001121 mV out DC 0.9247 V | out 0.856..0.993 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -52.9 dBc | clip none
+  T0_3s            2-3    post 0.666 mV src 1 mV out 65.63 mV | Gpost 39.872 dB Gsrc 36.342 dB | out60 2.891e-05 mV out DC 0.9296 V | out 0.863..0.997 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -54.6 dBc | clip none
+  T0_dcc1_10s      8-9    post 0.666 mV src 1 mV out 65.65 mV | Gpost 39.875 dB Gsrc 36.345 dB | out60 0.0001574 mV out DC 0.9345 V | out 0.869..1.000 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -56.2 dBc | clip none
+  T0_dcc1_10s      9-10   post 0.666 mV src 1 mV out 65.65 mV | Gpost 39.875 dB Gsrc 36.345 dB | out60 0.0001597 mV out DC 0.9346 V | out 0.869..1.000 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -56.2 dBc | clip none
+  T100n_10s        8-9    post 0.666 mV src 1 mV out 65.62 mV | Gpost 39.870 dB Gsrc 36.341 dB | out60 6.602 mV out DC 0.9372 V | out 0.865..1.007 oa1 1.434..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -52.2 dBc | clip none
+  T100n_10s        9-10   post 0.666 mV src 1 mV out 65.62 mV | Gpost 39.870 dB Gsrc 36.341 dB | out60 6.589 mV out DC 0.9372 V | out 0.865..1.007 oa1 1.434..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -52.2 dBc | clip none
+  T100n_3s         1-2    post 0.666 mV src 1 mV out 65.61 mV | Gpost 39.869 dB Gsrc 36.339 dB | out60 6.694 mV out DC 0.9319 V | out 0.857..1.004 oa1 1.434..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -50.2 dBc | clip none
+  T100n_3s         2-3    post 0.666 mV src 1 mV out 65.62 mV | Gpost 39.870 dB Gsrc 36.340 dB | out60 6.682 mV out DC 0.9354 V | out 0.863..1.006 oa1 1.434..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -51.4 dBc | clip none
+  T1u_10s          8-9    post 0.666 mV src 1 mV out 61.55 mV | Gpost 39.314 dB Gsrc 35.784 dB | out60 505.6 mV out DC 0.8894 V | out 0.386..1.692 oa1 0.466..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -32.4 dBc | clip oa;drlr;out H2/H3 > -40 dBc
+  T1u_10s          9-10   post 0.666 mV src 1 mV out 61.85 mV | Gpost 39.358 dB Gsrc 35.827 dB | out60 513.5 mV out DC 0.8190 V | out 0.318..1.610 oa1 0.763..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -33.1 dBc | clip oa;drlr;out H2/H3 > -40 dBc
+  T1u_3s           1-2    post 0.6665 mV src 1 mV out 0.359 mV | Gpost -5.373 dB Gsrc -8.897 dB | out60 1.672 mV out DC 1.7986 V | out 1.687..1.800 oa1 0.001..1.437 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -13.0 dBc | clip oa1;oa;out;drlr;out H2/H3 > -40 dBc
+  T1u_3s           2-3    post 0.6665 mV src 1 mV out 2.246 mV | Gpost 10.553 dB Gsrc 7.029 dB | out60 39.17 mV out DC 1.7794 V | out 1.252..1.799 oa1 0.002..1.455 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -17.1 dBc | clip oa1;oa;out;drlr;out H2/H3 > -40 dBc
+  T1u_dcc1_10s     8-9    post 0.666 mV src 1 mV out 61.61 mV | Gpost 39.323 dB Gsrc 35.793 dB | out60 528.8 mV out DC 0.8515 V | out 0.333..1.673 oa1 0.602..1.448 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -32.4 dBc | clip oa;drlr;out H2/H3 > -40 dBc
+  T1u_dcc1_10s     9-10   post 0.666 mV src 1 mV out 61.9 mV | Gpost 39.364 dB Gsrc 35.834 dB | out60 536.6 mV out DC 0.7806 V | out 0.265..1.591 oa1 0.936..1.449 drlr -0.696..2.433 body -1.687..3.414 | H2/3 -33.1 dBc | clip oa;drlr;out H2/H3 > -40 dBc
+== settling (last two windows)
+  I100n_10s        dGpost +nan dB, dDC(out) -0.0075 mV -> settled
+  I100n_3s         dGpost +nan dB, dDC(out) +0.7872 mV -> settled
+  I1u_10s          dGpost +nan dB, dDC(out) -71.1016 mV -> NOT settled
+  I1u_3s           dGpost +nan dB, dDC(out) -18.9227 mV -> NOT settled
+  I1u_dcc1_10s     dGpost +nan dB, dDC(out) -71.5630 mV -> NOT settled
+  S0_10s           dGpost +0.0000 dB, dDC(out) +0.0586 mV -> settled
+  S1u_p0_10s       dGpost +0.1277 dB, dDC(out) -71.0458 mV -> NOT settled
+  S1u_p180_10s     dGpost +0.1378 dB, dDC(out) -71.1543 mV -> NOT settled
+  S1u_p270_10s     dGpost +0.1371 dB, dDC(out) -71.1710 mV -> NOT settled
+  S1u_p90_10s      dGpost +0.1284 dB, dDC(out) -71.0085 mV -> NOT settled
+  Si_10s           dGpost +nan dB, dDC(out) -71.1016 mV -> NOT settled
+  T0_10s           dGpost +0.0000 dB, dDC(out) +0.0596 mV -> settled
+  T0_3s            dGpost +0.0004 dB, dDC(out) +4.9054 mV -> NOT settled
+  T0_dcc1_10s      dGpost +0.0000 dB, dDC(out) +0.0596 mV -> settled
+  T100n_10s        dGpost +0.0000 dB, dDC(out) -0.0007 mV -> settled
+  T100n_3s         dGpost +0.0007 dB, dDC(out) +3.4469 mV -> NOT settled
+  T1u_10s          dGpost +0.0434 dB, dDC(out) -70.4218 mV -> NOT settled
+  T1u_3s           dGpost +15.9265 dB, dDC(out) -19.2798 mV -> NOT settled
+  T1u_dcc1_10s     dGpost +0.0417 dB, dDC(out) -70.8773 mV -> NOT settled
+  paired T100n_10s - I100n_10s      Gpost 39.870 dB, 60 Hz left after subtraction 8.06 uV, 20/30 Hz 161/49.3 uV
+  paired T100n_3s - I100n_3s        Gpost 39.870 dB, 60 Hz left after subtraction 6.45 uV, 20/30 Hz 177/54.6 uV
+  paired T1u_10s - I1u_10s          Gpost 39.359 dB, 60 Hz left after subtraction 192 uV, 20/30 Hz 1.4e+03/540 uV
+  paired T1u_3s - I1u_3s            Gpost 10.522 dB, 60 Hz left after subtraction 881.3 uV, 20/30 Hz 43.6/4.41 uV
+  paired T1u_dcc1_10s - I1u_dcc1_10s Gpost 39.365 dB, 60 Hz left after subtraction 159.2 uV, 20/30 Hz 1.39e+03/538 uV
+== Test 4 same frequency (60 Hz phasors, last 1 s; "apparent" = mixed ratio, NOT the differential gain)
+  S0_10s           out60 63.83 mV post60 0.6659 mV src60 0.9999 mV | apparent out/post 39.633 dB out/src 36.102 dB | paired-sub Gpost - (vs S0 0.000 dB)
+  Si_10s           out60 513.6 mV post60 0.003883 mV src60 0 mV | apparent out/post - out/src - | paired-sub Gpost - (vs S0 -)
+  S1u_p0_10s       out60 533.3 mV post60 0.6627 mV src60 0.9999 mV | apparent out/post 58.114 dB out/src 54.541 dB | paired-sub Gpost 29.939 dB (vs S0 -9.694 dB)
+  S1u_p90_10s      out60 537.6 mV post60 0.6679 mV src60 0.9999 mV | apparent out/post 58.115 dB out/src 54.611 dB | paired-sub Gpost 32.762 dB (vs S0 -6.871 dB)
+  S1u_p180_10s     out60 493.9 mV post60 0.6698 mV src60 0.9999 mV | apparent out/post 57.353 dB out/src 53.873 dB | paired-sub Gpost 29.949 dB (vs S0 -9.684 dB)
+  S1u_p270_10s     out60 490 mV post60 0.6648 mV src60 0.9999 mV | apparent out/post 57.350 dB out/src 53.805 dB | paired-sub Gpost 32.772 dB (vs S0 -6.861 dB)

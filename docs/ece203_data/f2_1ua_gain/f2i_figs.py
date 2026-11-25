@@ -23,7 +23,7 @@ for tag, k, lab in cases:
     d = load(f'{R}/{tag}_{ST}s_tran.csv.gz'); s = d['t_s'] >= st - 0.3; t = d['t_s'][s] - (st - 0.3)
     d['elcm'] = (d['vRight_V'] + d['vLeft_V']) / 2
     for a, (n, yl) in zip(ax, sig):
-        y = d[n][s] * (1e6 if n == 'I_IPRD_A' else 1); a.plot(t * 1e3, y, color=C[k], label=lab); a.set_ylabel(yl, fontsize=8)
+        y = d[n][s] * (1e6 if n == 'I_IPRD_A' else 1); a.plot(t * 1e3, y, color=C[k], label=lab, zorder=1 if k == '1u' else 3); a.set_ylabel(yl, fontsize=8)
 for a, (n, _) in zip(ax, sig):
     if n.endswith('_V') or n == 'elcm':
         for v in (0, 1.8): a.axhline(v, color='#9a9992', lw=0.8, ls=(0, (3, 3)))
@@ -35,9 +35,9 @@ fig, ax = plt.subplots(2, 1, figsize=(8, 5), sharex=True)
 for tag, k, lab in cases + [('I100n', '100n', 'interference 100 nA only'), ('I1u', '1u', 'interference 1 µA only')]:
     if not have(tag, '1ms'): continue
     d = load(f'{R}/{tag}_{ST}s_tran1ms.csv.gz'); ls = '-' if tag.startswith('T') else (0, (2, 2))
-    a = ax[0] if tag.startswith('T') else ax[1]; a.plot(d['t_s'], d['out_V'], color=C[k], lw=0.7, ls=ls, label=lab)
+    a = ax[0] if tag.startswith('T') else ax[1]; a.plot(d['t_s'], d['out_V'], color=C[k], lw=0.7, ls=ls, label=lab, zorder=1 if k == '1u' else 3)
 for a in ax: a.set_ylabel('out [V]'); a.legend(fontsize=8, ncol=3)
-ax[1].set_xlabel('time [s]'); fig.suptitle(f'Final output over the whole {ST} s run (1 ms grid)', fontsize=10, color=INK)
+ax[1].set_xlabel('time [s]'); fig.suptitle(f'Final output over the whole {ST} s run (1 ms grid; 1 µA drawn behind)', fontsize=10, color=INK)
 fig.tight_layout(); fig.savefig('fig_f2i_out_trend.png', dpi=150); plt.close(fig)
 # 3) gain per case, last window, vs the 38-42 dB band
 rows = [r for r in csv.DictReader(open('f2i_tran_summary.csv')) if r['case'].endswith(f'_{ST}s') and r['window'] == f'{st - 1:g}-{st:g}'
@@ -51,3 +51,19 @@ if rows:
     a.set_title(f'Mixed-run 10 Hz fundamental gain, window {st - 1:g}-{st:g} s (shaded: 38-42 dB)', fontsize=10, color=INK)
     fig.tight_layout(); fig.savefig('fig_f2i_gain.png', dpi=150); plt.close(fig)
 print('figs done')
+# 4) Test 4 same frequency: apparent mixed ratio vs paired-subtraction estimate per ECG phase
+if os.path.exists('f2i_samefreq.csv'):
+    rows = [r for r in csv.DictReader(open('f2i_samefreq.csv')) if r['case'].startswith('S1u_p') and r['case'].endswith(f'_{ST}s')]
+    s0 = [r for r in csv.DictReader(open('f2i_samefreq.csv')) if r['case'] == f'S0_{ST}s']
+    if rows:
+        fig, a = plt.subplots(figsize=(7, 3.6)); x = np.arange(len(rows)); w = 0.35
+        ap = [float(r['apparent_post_dB']) for r in rows]; sb = [float(r['sub_post_dB']) for r in rows]
+        a.bar(x - w / 2 - 0.01, ap, w, color='#2a78d6', label='apparent mixed |out60| / |vpost60| (NOT a gain)')
+        a.bar(x + w / 2 + 0.01, sb, w, color='#eb6834', label='paired subtraction (mixed − interference-only)')
+        if s0: a.axhline(float(s0[0]['apparent_post_dB']), color=INK, lw=1, ls=(0, (4, 3))); a.text(len(rows) - 0.5, float(s0[0]['apparent_post_dB']) + 1, 'S0 (no interference) %.2f dB' % float(s0[0]['apparent_post_dB']), ha='right', fontsize=8, color=INK)
+        for i in range(len(rows)):
+            a.text(i - w / 2, ap[i] + 0.8, '%.1f' % ap[i], ha='center', fontsize=8, color=INK); a.text(i + w / 2, sb[i] + 0.8, '%.1f' % sb[i], ha='center', fontsize=8, color=INK)
+        a.set_xticks(x, ['ECG phase %s°' % r['case'].split('_p')[1].split('_')[0] for r in rows]); a.set_ylabel('60 Hz ratio [dB]'); a.set_ylim(0, 70)
+        a.legend(fontsize=8, loc='upper center', bbox_to_anchor=(0.5, -0.14), ncol=2); a.set_title(f'Test 4: ECG 1 mV at 60 Hz + 1 µA at 60 Hz, window {st - 1:g}-{st:g} s', fontsize=10, color=INK)
+        fig.tight_layout(); fig.savefig('fig_f2i_samefreq.png', dpi=150); plt.close(fig)
+print('figs 4 done')
