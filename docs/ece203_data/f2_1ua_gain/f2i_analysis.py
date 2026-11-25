@@ -44,6 +44,13 @@ def analyse(fn, windows):
         s = (t >= a) & (t <= b)
         for n in ('out', 'oa', 'oa1', 'o', 'p', 'n', 'drlr', 'body', 'vRL', 'cm', 'inp', 'inn'):  # CSV extrema; exact Spectre extrema override below when present
             r[f'{n}_min_V'] = float(d[n + '_V'][s].min()); r[f'{n}_max_V'] = float(d[n + '_V'][s].max())
+        kvp = fn.replace('_tran.csv.gz', '.csv')
+        if os.path.exists(kvp):   # exact full-resolution Spectre extrema (plan update 2) override the resampled-CSV extrema
+            kvd = {q['key']: q['value'] for q in csv.DictReader(open(kvp))}
+            for n in ('out', 'oa', 'oa1', 'o', 'p', 'n', 'drlr', 'body', 'vRL', 'cm', 'inp', 'inn'):
+                for mm in ('min', 'max'):
+                    key = '%s_%s_V_w%g' % (mm, n, b)
+                    if key in kvd and kvd[key] not in ('', 'n/a'): r[f'{n}_{mm}_V'] = float(kvd[key]); r['extrema_source'] = 'Spectre full resolution'
         el = (d['vRight_V'] + d['vLeft_V']) / 2; r['elcm_min_V'] = float(el[s].min()); r['elcm_max_V'] = float(el[s].max())
         r['I_IPRD_pk_A'] = float(np.max(np.abs(d['I_IPRD_A'][s]))) if 'I_IPRD_A' in d else float('nan')
         r['P_avg_uW'] = float(-np.mean(d['I_VDD_A'][s]) * VDD * 1e6) if 'I_VDD_A' in d else float('nan')
