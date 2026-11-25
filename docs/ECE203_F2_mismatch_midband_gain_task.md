@@ -1,3 +1,11 @@
+# WITHDRAWN — not the user's requested experiment
+
+Do not execute this Monte Carlo task. The user clarified that the requested experiment is the early F2 ECG gain under 1 µA interference. Use [the active replacement task](ECE203_F2_1uA_interference_gain_task.md). No MC is requested for this round.
+
+---
+
+Historical draft, retained for reference only:
+
 # ECE203 — F2 ECG mismatch Monte Carlo: midband gain only (2026-11-25)
 
 User-approved bounded diagnostic. Claude Code: execute this task on the existing ieng6 Cadence environment and return measured data. Do not redesign the circuit.
