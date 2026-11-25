@@ -1,0 +1,774 @@
+
+==== ECG_tb / ECG_tb (read-only; path /home/linux/ieng6/ECE203_FA26_001/public/ECG_tb)
+  views: ("schematic")
+  terminals (pins): nil
+  nets: ("gnd!" "net013" "net1" "net5" "net6" "net7" "net8" "net9" "vLeft" "vRL" "vRight")
+  INST R9  analogLib/res/symbol
+     term MINUS -> net7
+     term PLUS -> net5
+     prop r = "2K"
+  INST R8  analogLib/res/symbol
+     term MINUS -> vRL
+     term PLUS -> net7
+     prop r = "1M"
+  INST R7  analogLib/res/symbol
+     term MINUS -> vRight
+     term PLUS -> net9
+     prop r = "1M"
+  INST R6  analogLib/res/symbol
+     term MINUS -> net9
+     term PLUS -> net1
+     prop r = "2K"
+  INST R5  analogLib/res/symbol
+     term MINUS -> vLeft
+     term PLUS -> net8
+     prop r = "1M"
+  INST R4  analogLib/res/symbol
+     term MINUS -> net8
+     term PLUS -> net6
+     prop r = "2K"
+  INST R3  analogLib/res/symbol
+     term MINUS -> net6
+     term PLUS -> net013
+     prop r = "200"
+  INST R2  analogLib/res/symbol
+     term MINUS -> net5
+     term PLUS -> net6
+     prop r = "200"
+  INST R1  analogLib/res/symbol
+     term MINUS -> net5
+     term PLUS -> net1
+     prop r = "200"
+  INST I2  analogLib/isin/symbol
+     term PLUS -> gnd!
+     term MINUS -> net5
+     prop filenums = "none"
+     prop freq = "60"
+     prop idc = "0"
+     prop ia = "1u"
+     prop acm = "1u"
+  INST C3  analogLib/cap/symbol
+     term MINUS -> vRL
+     term PLUS -> net7
+     prop c = "50n"
+  INST C2  analogLib/cap/symbol
+     term MINUS -> vRight
+     term PLUS -> net9
+     prop c = "50n"
+  INST C1  analogLib/cap/symbol
+     term MINUS -> vLeft
+     term PLUS -> net8
+     prop c = "50n"
+  INST C0  analogLib/cap/symbol
+     term MINUS -> gnd!
+     term PLUS -> net5
+     prop c = "200p"
+  INST I1  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST V0  analogLib/vsin/symbol
+     term PLUS -> net1
+     term MINUS -> net013
+     prop filenums = "none"
+     prop freq = "10"
+     prop va = "1m"
+     prop acm = "1m"
+
+==== 203ECG_CCF_TwoStage / ECG_tb_DRL (read-only; path /home/linux/ieng6/ECE203_FA26_001/lix015/203ECG_CCF_TwoStage)
+  views: ("spectre_state1" "schematic")
+  terminals (pins): (("Main_OUT" "output"))
+  nets: ("Ibias" "Ibias_DRL" "Iref" "Main_OUT" "VCM_DRL" "Vcas" "Vdd" "Vref" "gnd" "gnd!" "net013" "net015" "net016" "net017" "net019" "net036" "net1" "net5" "net6" "net7" "net8" "net9" "vLeft" "vRL" "vRight")
+  INST R9  analogLib/res/symbol
+     term MINUS -> net7
+     term PLUS -> net5
+     prop r = "2K"
+  INST R8  analogLib/res/symbol
+     term MINUS -> vRL
+     term PLUS -> net7
+     prop r = "1M"
+  INST R7  analogLib/res/symbol
+     term MINUS -> vRight
+     term PLUS -> net9
+     prop r = "1M"
+  INST R6  analogLib/res/symbol
+     term MINUS -> net9
+     term PLUS -> net1
+     prop r = "2K"
+  INST R5  analogLib/res/symbol
+     term MINUS -> vLeft
+     term PLUS -> net8
+     prop r = "1M"
+  INST R4  analogLib/res/symbol
+     term MINUS -> net8
+     term PLUS -> net6
+     prop r = "2K"
+  INST R3  analogLib/res/symbol
+     term MINUS -> net6
+     term PLUS -> net013
+     prop r = "200"
+  INST R2  analogLib/res/symbol
+     term MINUS -> net5
+     term PLUS -> net6
+     prop r = "200"
+  INST R1  analogLib/res/symbol
+     term MINUS -> net5
+     term PLUS -> net1
+     prop r = "200"
+  INST I2  analogLib/isin/symbol
+     term PLUS -> gnd!
+     term MINUS -> net5
+     prop filenums = "none"
+     prop freq = "60"
+     prop idc = "0"
+     prop ia = "1u"
+     prop acm = "i_disturb"
+  INST C3  analogLib/cap/symbol
+     term MINUS -> vRL
+     term PLUS -> net7
+     prop c = "50n"
+  INST C2  analogLib/cap/symbol
+     term MINUS -> vRight
+     term PLUS -> net9
+     prop c = "50n"
+  INST C1  analogLib/cap/symbol
+     term MINUS -> vLeft
+     term PLUS -> net8
+     prop c = "50n"
+  INST C0  analogLib/cap/symbol
+     term MINUS -> gnd!
+     term PLUS -> net5
+     prop c = "200p"
+  INST I13  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST I12  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST I11  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST I9  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST I1  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST V0  analogLib/vsin/symbol
+     term PLUS -> net1
+     term MINUS -> net013
+     prop filenums = "none"
+     prop freq = "10"
+     prop va = "1m"
+     prop acm = "1m"
+  INST I3  203ECG_CCF_TwoStage/OTA_V2_Single_Cascode_Cell/symbol
+     term VCAS -> Vcas
+     term GND -> gnd
+     term IBIAS -> Ibias
+     term VDD -> Vdd
+     term OUT -> net019
+     term INN -> net015
+     term INP -> net016
+  INST I4  203ECG_CCF_TwoStage/CS_amp_cell/symbol
+     term GND -> gnd
+     term VDD -> Vdd
+     term OUT -> net017
+     term BIAS -> Ibias
+     term IN -> net019
+  INST I5  203ECG_CCF_TwoStage/Lp_Filter_Cell/symbol
+     term Vout -> Main_OUT
+     term Vin -> net017
+  INST I19  203ECG_CCF_TwoStage/Psudo_R_cell/symbol
+     term A -> net016
+     term B -> net017
+  INST I20  203ECG_CCF_TwoStage/Psudo_R_cell/symbol
+     term A -> net015
+     term B -> Vref
+  INST I7  203ECG_CCF_TwoStage/PMOS_CurrentMirror_Cell/symbol
+     term Ibias -> Ibias
+     term Ibias_DRL -> Ibias_DRL
+     term Iref -> Iref
+     term Vdd -> Vdd
+  INST I8  203ECG_CCF_TwoStage/Vref_Gen_cell/symbol
+     term gnd -> gnd!
+     term Vdd -> Vdd
+     term Vcas -> Vcas
+     term Vref -> Vref
+  INST V2  analogLib/vdc/symbol
+     term PLUS -> gnd
+     term MINUS -> gnd!
+     prop vdc = "0"
+  INST V1  analogLib/vdc/symbol
+     term PLUS -> Vdd
+     term MINUS -> gnd!
+     prop vdc = "1.8"
+  INST I10  analogLib/idc/symbol
+     term PLUS -> Iref
+     term MINUS -> gnd!
+     prop idc = "100n"
+  INST C11  analogLib/pcapacitor/symbol
+     term MINUS -> VCM_DRL
+     term PLUS -> vLeft
+  INST C10  analogLib/pcapacitor/symbol
+     term MINUS -> VCM_DRL
+     term PLUS -> vRight
+  INST C9  analogLib/pcapacitor/symbol
+     term MINUS -> net016
+     term PLUS -> net017
+     prop c = "500.0f"
+  INST C8  analogLib/pcapacitor/symbol
+     term MINUS -> net015
+     term PLUS -> Vref
+     prop c = "500.0f"
+  INST C7  analogLib/pcapacitor/symbol
+     term MINUS -> net017
+     term PLUS -> net019
+     prop c = "500.0f"
+  INST C6  analogLib/pcapacitor/symbol
+     term MINUS -> vLeft
+     term PLUS -> net016
+     prop c = "50p"
+  INST C5  analogLib/pcapacitor/symbol
+     term MINUS -> vRight
+     term PLUS -> net015
+     prop c = "50p"
+  INST PIN0  basic/opin/symbol
+  INST I18  203ECG_CCF_TwoStage/DRL_Ota_Cell/symbol
+     term GND -> gnd
+     term IBIAS -> Ibias_DRL
+     term VDD -> Vdd
+     term OUT -> net036
+     term INN -> VCM_DRL
+     term INP -> Vref
+  INST R11  analogLib/presistor/symbol
+     term MINUS -> net036
+     term PLUS -> vRL
+     prop r = "1M"
+  INST R10  analogLib/presistor/symbol
+     term MINUS -> VCM_DRL
+     term PLUS -> vLeft
+     prop r = "10M"
+  INST R0  analogLib/presistor/symbol
+     term MINUS -> VCM_DRL
+     term PLUS -> vRight
+     prop r = "10M"
+
+==== 203ECG_CCF_TwoStage / ECG_tb_NoDRL (read-only; path /home/linux/ieng6/ECE203_FA26_001/lix015/203ECG_CCF_TwoStage)
+  views: ("schematic" "spectre_state1")
+  terminals (pins): (("Main_OUT" "output"))
+  nets: ("Ibias" "Ibias_DRL" "Iref" "Main_OUT" "Vcas" "Vdd" "Vref" "gnd" "gnd!" "net013" "net015" "net016" "net017" "net019" "net1" "net5" "net6" "net7" "net8" "net9" "vLeft" "vRL" "vRight")
+  INST R9  analogLib/res/symbol
+     term MINUS -> net7
+     term PLUS -> net5
+     prop r = "2K"
+  INST R8  analogLib/res/symbol
+     term MINUS -> vRL
+     term PLUS -> net7
+     prop r = "1M"
+  INST R7  analogLib/res/symbol
+     term MINUS -> vRight
+     term PLUS -> net9
+     prop r = "1M"
+  INST R6  analogLib/res/symbol
+     term MINUS -> net9
+     term PLUS -> net1
+     prop r = "2K"
+  INST R5  analogLib/res/symbol
+     term MINUS -> vLeft
+     term PLUS -> net8
+     prop r = "1M"
+  INST R4  analogLib/res/symbol
+     term MINUS -> net8
+     term PLUS -> net6
+     prop r = "2K"
+  INST R3  analogLib/res/symbol
+     term MINUS -> net6
+     term PLUS -> net013
+     prop r = "200"
+  INST R2  analogLib/res/symbol
+     term MINUS -> net5
+     term PLUS -> net6
+     prop r = "200"
+  INST R1  analogLib/res/symbol
+     term MINUS -> net5
+     term PLUS -> net1
+     prop r = "200"
+  INST I2  analogLib/isin/symbol
+     term PLUS -> gnd!
+     term MINUS -> net5
+     prop filenums = "none"
+     prop freq = "60"
+     prop idc = "0"
+     prop ia = "100n"
+     prop acm = "100n"
+  INST C3  analogLib/cap/symbol
+     term MINUS -> vRL
+     term PLUS -> net7
+     prop c = "50n"
+  INST C2  analogLib/cap/symbol
+     term MINUS -> vRight
+     term PLUS -> net9
+     prop c = "50n"
+  INST C1  analogLib/cap/symbol
+     term MINUS -> vLeft
+     term PLUS -> net8
+     prop c = "50n"
+  INST C0  analogLib/cap/symbol
+     term MINUS -> gnd!
+     term PLUS -> net5
+     prop c = "200p"
+  INST I13  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST I12  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST I11  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST I9  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST I1  analogLib/gnd/symbol
+     term gnd! -> gnd!
+  INST V0  analogLib/vsin/symbol
+     term PLUS -> net1
+     term MINUS -> net013
+     prop filenums = "none"
+     prop freq = "10"
+     prop va = "1m"
+     prop acm = "0"
+  INST I3  203ECG_CCF_TwoStage/OTA_V2_Single_Cascode_Cell/symbol
+     term VCAS -> Vcas
+     term GND -> gnd
+     term IBIAS -> Ibias
+     term VDD -> Vdd
+     term OUT -> net019
+     term INN -> net015
+     term INP -> net016
+  INST I4  203ECG_CCF_TwoStage/CS_amp_cell/symbol
+     term GND -> gnd
+     term VDD -> Vdd
+     term OUT -> net017
+     term BIAS -> Ibias
+     term IN -> net019
+  INST I5  203ECG_CCF_TwoStage/Lp_Filter_Cell/symbol
+     term Vout -> Main_OUT
+     term Vin -> net017
+  INST I15  203ECG_CCF_TwoStage/Psudo_R_cell/symbol
+     term A -> net016
+     term B -> net017
+  INST I16  203ECG_CCF_TwoStage/Psudo_R_cell/symbol
+     term A -> net015
+     term B -> Vref
+  INST I7  203ECG_CCF_TwoStage/PMOS_CurrentMirror_Cell/symbol
+     term Ibias -> Ibias
+     term Ibias_DRL -> Ibias_DRL
+     term Iref -> Iref
+     term Vdd -> Vdd
+  INST I8  203ECG_CCF_TwoStage/Vref_Gen_cell/symbol
+     term gnd -> gnd!
+     term Vdd -> Vdd
+     term Vcas -> Vcas
+     term Vref -> Vref
+  INST V2  analogLib/vdc/symbol
+     term PLUS -> gnd
+     term MINUS -> gnd!
+     prop vdc = "0"
+  INST V1  analogLib/vdc/symbol
+     term PLUS -> Vdd
+     term MINUS -> gnd!
+     prop vdc = "1.8"
+  INST I10  analogLib/idc/symbol
+     term PLUS -> Iref
+     term MINUS -> gnd!
+     prop idc = "100n"
+  INST C9  analogLib/pcapacitor/symbol
+     term MINUS -> net016
+     term PLUS -> net017
+     prop c = "500.0f"
+  INST C8  analogLib/pcapacitor/symbol
+     term MINUS -> net015
+     term PLUS -> Vref
+     prop c = "500.0f"
+  INST C7  analogLib/pcapacitor/symbol
+     term MINUS -> net017
+     term PLUS -> net019
+     prop c = "500.0f"
+  INST C6  analogLib/pcapacitor/symbol
+     term MINUS -> vLeft
+     term PLUS -> net016
+     prop c = "50p"
+  INST C5  analogLib/pcapacitor/symbol
+     term MINUS -> vRight
+     term PLUS -> net015
+     prop c = "50p"
+  INST PIN0  basic/opin/symbol
+
+==== Project / ece203_r5nf_tb_f2 (frozen F2 fixture, read-only)
+  views: ("r5nf_final_f2" "schematic")
+  terminals (pins): nil
+  nets: ("body" "cm" "drli" "drlr" "en" "en1" "ep" "ep1" "gnd!" "ib" "ibd" "inn" "innr" "inp" "inpr" "n" "o" "oa" "oa1" "out" "p" "pref" "rl0" "rl0b" "rl1" "vcas" "vdd" "vddd" "vref")
+  INST VDDD  analogLib/vdc/symbol
+     term PLUS -> vddd
+     term MINUS -> vdd
+     prop vdc = "0"
+     prop acm = "0"
+  INST VPN  analogLib/vdc/symbol
+     term PLUS -> innr
+     term MINUS -> inn
+     prop vdc = "0"
+     prop acm = "0"
+  INST VPP  analogLib/vdc/symbol
+     term PLUS -> inpr
+     term MINUS -> inp
+     prop vdc = "0"
+     prop acm = "0"
+  INST VSN  analogLib/vdc/symbol
+     term PLUS -> en
+     term MINUS -> body
+     prop vdc = "0"
+     prop acm = "-adm/2+vcmin"
+  INST VSP  analogLib/vdc/symbol
+     term PLUS -> ep
+     term MINUS -> body
+     prop vdc = "0"
+     prop acm = "adm/2+vcmin"
+  INST VDD  analogLib/vdc/symbol
+     term PLUS -> vdd
+     term MINUS -> gnd!
+     prop vdc = "vdd"
+     prop acm = "0"
+  INST CM2  analogLib/cap/symbol
+     term MINUS -> oa
+     term PLUS -> oa1
+     prop c = "cm2"
+  INST CVR  analogLib/cap/symbol
+     term MINUS -> gnd!
+     term PLUS -> vref
+     prop c = "cvref"
+  INST CER  analogLib/cap/symbol
+     term MINUS -> body
+     term PLUS -> rl1
+     prop c = "ce"
+  INST CCMN  analogLib/cap/symbol
+     term MINUS -> cm
+     term PLUS -> inn
+     prop c = "ccm"
+  INST CCMP  analogLib/cap/symbol
+     term MINUS -> cm
+     term PLUS -> inp
+     prop c = "ccm"
+  INST CLP  analogLib/cap/symbol
+     term MINUS -> gnd!
+     term PLUS -> out
+     prop c = "clp"
+  INST CL  analogLib/cap/symbol
+     term MINUS -> gnd!
+     term PLUS -> o
+     prop c = "cl"
+  INST CFN  analogLib/cap/symbol
+     term MINUS -> o
+     term PLUS -> n
+     prop c = "cfb"
+  INST CFP  analogLib/cap/symbol
+     term MINUS -> vref
+     term PLUS -> p
+     prop c = "cfb"
+  INST CCN  analogLib/cap/symbol
+     term MINUS -> n
+     term PLUS -> inn
+     prop c = "cc"
+  INST CCX  analogLib/cap/symbol
+     term MINUS -> p
+     term PLUS -> inp
+     prop c = "cc*dcc"
+  INST CCP  analogLib/cap/symbol
+     term MINUS -> p
+     term PLUS -> inp
+     prop c = "cc"
+  INST CEN  analogLib/cap/symbol
+     term MINUS -> innr
+     term PLUS -> en1
+     prop c = "ce"
+  INST CEP  analogLib/cap/symbol
+     term MINUS -> inpr
+     term PLUS -> ep1
+     prop c = "ce"
+  INST CBODY  analogLib/cap/symbol
+     term MINUS -> gnd!
+     term PLUS -> body
+     prop c = "cbody"
+  INST IREF  analogLib/idc/symbol
+     term PLUS -> pref
+     term MINUS -> gnd!
+     prop idc = "iref"
+     prop acm = "0"
+  INST IINT  analogLib/idc/symbol
+     term PLUS -> gnd!
+     term MINUS -> body
+     prop idc = "0"
+     prop acm = "icm"
+  INST IINTT  analogLib/isin/symbol
+     term PLUS -> gnd!
+     term MINUS -> body
+     prop acm = "0"
+     prop filenums = "none"
+     prop freq = "60"
+     prop ia = "itr"
+     prop io = "0"
+  INST RC2  analogLib/res/symbol
+     term MINUS -> gnd!
+     term PLUS -> vcas
+     prop r = "rc2"
+  INST RC1  analogLib/res/symbol
+     term MINUS -> vcas
+     term PLUS -> vdd
+     prop r = "rc1"
+  INST RV2  analogLib/res/symbol
+     term MINUS -> gnd!
+     term PLUS -> vref
+     prop r = "rv2"
+  INST RV1  analogLib/res/symbol
+     term MINUS -> vref
+     term PLUS -> vdd
+     prop r = "rv1"
+  INST RER  analogLib/res/symbol
+     term MINUS -> body
+     term PLUS -> rl1
+     prop r = "re"
+  INST RSR  analogLib/res/symbol
+     term MINUS -> rl1
+     term PLUS -> rl0b
+     prop r = "rs"
+  INST RDRR  analogLib/res/symbol
+     term MINUS -> rl0
+     term PLUS -> drlr
+     prop r = "rdr"
+  INST RDRI  analogLib/res/symbol
+     term MINUS -> rl0
+     term PLUS -> drli
+     prop r = "rdi"
+  INST RCMN  analogLib/res/symbol
+     term MINUS -> cm
+     term PLUS -> inn
+     prop r = "rcm"
+  INST RCMP  analogLib/res/symbol
+     term MINUS -> cm
+     term PLUS -> inp
+     prop r = "rcm"
+  INST RLP  analogLib/res/symbol
+     term MINUS -> out
+     term PLUS -> o
+     prop r = "rlp"
+  INST REN  analogLib/res/symbol
+     term MINUS -> innr
+     term PLUS -> en1
+     prop r = "re"
+  INST RSN  analogLib/res/symbol
+     term MINUS -> en1
+     term PLUS -> en
+     prop r = "rs"
+  INST REP  analogLib/res/symbol
+     term MINUS -> inpr
+     term PLUS -> ep1
+     prop r = "re"
+  INST RSP  analogLib/res/symbol
+     term MINUS -> ep1
+     term PLUS -> ep
+     prop r = "rs"
+  INST XPN  Project/ece203_ss_pr_cell/symbol
+     term A -> n
+     term B -> o
+  INST XPP  Project/ece203_ss_pr_cell/symbol
+     term A -> p
+     term B -> vref
+  INST XA  Project/ece203_r5nf_ota_f2/symbol
+     term GND -> gnd!
+     term IBIAS -> ib
+     term VDD -> vdd
+     term OUT -> oa1
+     term INN -> p
+     term INP -> n
+     term VCAS -> vcas
+  INST IPRD  analogLib/iprobe/symbol
+     term MINUS -> rl0b
+     term PLUS -> rl0
+  INST IPRB  analogLib/iprobe/symbol
+     term MINUS -> o
+     term PLUS -> oa
+  INST EDRL  analogLib/vcvs/symbol
+     term NC+ -> vref
+     term NC- -> cm
+     term PLUS -> drli
+     term MINUS -> vref
+     prop egain = "adrl"
+  INST XD  Project/ece203_r4_drl_ota/symbol
+     term GND -> gnd!
+     term IBIAS -> ibd
+     term VDD -> vddd
+     term OUT -> drlr
+     term INN -> cm
+     term INP -> vref
+  INST MP2  cmrf7sf/pfetx/symbol
+     term B -> vdd
+     term G -> pref
+     term S -> vdd
+     term D -> ibd
+     prop wt = "500n"
+     prop hiResSubLib = "FALSE"
+     prop ps = "5.08u"
+     prop pd = "5.08u"
+     prop as = "1.08e-12"
+     prop ad = "1.08e-12"
+     prop est = 1
+     prop gns = 0
+     prop psp = 0
+     prop pspmodel = "FALSE"
+     prop vtsens = "FALSE"
+     prop bentgate = 0
+     prop rsx = "50"
+     prop caGateToPcRxSpace = "180n"
+     prop contactGate = "FALSE"
+     prop nwFill = "100"
+     prop trench = "FALSE"
+     prop SpaceCAbtwFingers? = "FALSE"
+     prop centerFill = "100"
+     prop rightFill = "100"
+     prop leftFill = "100"
+     prop connect = "FALSE"
+     prop gcon = "1"
+     prop rf = 0
+     prop idg = 0
+     prop interdigitation? = "FALSE"
+     prop CaToRxBorder = 0.1
+     prop ModifyCaToRxBorder? = "FALSE"
+     prop CaToGateSpace = 0.16
+     prop RelaxCaToRxOrToPc? = "FALSE"
+     prop rightRXuser? = "FALSE"
+     prop leftRXuser? = "FALSE"
+     prop medCaToPcGate? = "FALSE"
+     prop minCaToPcGate? = "FALSE"
+     prop rightRX = 0.46
+     prop leftRX = 0.46
+     prop rightRX_prev = 0.46
+     prop leftRX_prev = 0.46
+     prop rightCnt_prev = "FALSE"
+     prop rightCnt = "TRUE"
+     prop leftCnt_prev = "FALSE"
+     prop leftCnt = "TRUE"
+     prop size_prev = "FALSE"
+     prop opt = "n_bb"
+     prop multCaDiffSpace = 1
+     prop mSwitch = 0
+     prop m = 1
+     prop nf = 1
+     prop l = "4u"
+     prop w = "2u"
+  INST MP1  cmrf7sf/pfetx/symbol
+     term B -> vdd
+     term G -> pref
+     term S -> vdd
+     term D -> ib
+     prop wt = "500n"
+     prop hiResSubLib = "FALSE"
+     prop ps = "5.08u"
+     prop pd = "5.08u"
+     prop as = "1.08e-12"
+     prop ad = "1.08e-12"
+     prop est = 1
+     prop gns = 0
+     prop psp = 0
+     prop pspmodel = "FALSE"
+     prop vtsens = "FALSE"
+     prop bentgate = 0
+     prop rsx = "50"
+     prop caGateToPcRxSpace = "180n"
+     prop contactGate = "FALSE"
+     prop nwFill = "100"
+     prop trench = "FALSE"
+     prop SpaceCAbtwFingers? = "FALSE"
+     prop centerFill = "100"
+     prop rightFill = "100"
+     prop leftFill = "100"
+     prop connect = "FALSE"
+     prop gcon = "1"
+     prop rf = 0
+     prop idg = 0
+     prop interdigitation? = "FALSE"
+     prop CaToRxBorder = 0.1
+     prop ModifyCaToRxBorder? = "FALSE"
+     prop CaToGateSpace = 0.16
+     prop RelaxCaToRxOrToPc? = "FALSE"
+     prop rightRXuser? = "FALSE"
+     prop leftRXuser? = "FALSE"
+     prop medCaToPcGate? = "FALSE"
+     prop minCaToPcGate? = "FALSE"
+     prop rightRX = 0.46
+     prop leftRX = 0.46
+     prop rightRX_prev = 0.46
+     prop leftRX_prev = 0.46
+     prop rightCnt_prev = "FALSE"
+     prop rightCnt = "TRUE"
+     prop leftCnt_prev = "FALSE"
+     prop leftCnt = "TRUE"
+     prop size_prev = "FALSE"
+     prop opt = "n_bb"
+     prop multCaDiffSpace = 1
+     prop mSwitch = 0
+     prop m = 1
+     prop nf = 1
+     prop l = "4u"
+     prop w = "2u"
+  INST MP0  cmrf7sf/pfetx/symbol
+     term B -> vdd
+     term G -> pref
+     term S -> vdd
+     term D -> pref
+     prop wt = "500n"
+     prop hiResSubLib = "FALSE"
+     prop ps = "9.08u"
+     prop pd = "9.08u"
+     prop as = "2.16e-12"
+     prop ad = "2.16e-12"
+     prop est = 1
+     prop gns = 0
+     prop psp = 0
+     prop pspmodel = "FALSE"
+     prop vtsens = "FALSE"
+     prop bentgate = 0
+     prop rsx = "50"
+     prop caGateToPcRxSpace = "180n"
+     prop contactGate = "FALSE"
+     prop nwFill = "100"
+     prop trench = "FALSE"
+     prop SpaceCAbtwFingers? = "FALSE"
+     prop centerFill = "100"
+     prop rightFill = "100"
+     prop leftFill = "100"
+     prop connect = "FALSE"
+     prop gcon = "1"
+     prop rf = 0
+     prop idg = 0
+     prop interdigitation? = "FALSE"
+     prop CaToRxBorder = 0.1
+     prop ModifyCaToRxBorder? = "FALSE"
+     prop CaToGateSpace = 0.16
+     prop RelaxCaToRxOrToPc? = "FALSE"
+     prop rightRXuser? = "FALSE"
+     prop leftRXuser? = "FALSE"
+     prop medCaToPcGate? = "FALSE"
+     prop minCaToPcGate? = "FALSE"
+     prop rightRX = 0.46
+     prop leftRX = 0.46
+     prop rightRX_prev = 0.46
+     prop leftRX_prev = 0.46
+     prop rightCnt_prev = "FALSE"
+     prop rightCnt = "TRUE"
+     prop leftCnt_prev = "FALSE"
+     prop leftCnt = "TRUE"
+     prop size_prev = "FALSE"
+     prop opt = "n_bb"
+     prop multCaDiffSpace = 1
+     prop mSwitch = 0
+     prop m = 1
+     prop nf = 1
+     prop l = "4u"
+     prop w = "4u"
+  INST X2  Project/ece203_r5_cs/symbol
+     term GND -> gnd!
+     term VDD -> vdd
+     term OUT -> oa
+     term BIAS -> ib
+     term IN -> oa1
+  INST GND0  analogLib/gnd/symbol
+     term gnd! -> gnd!

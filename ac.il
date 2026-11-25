@@ -183,6 +183,9 @@ acJobs = list(nil
   'ece203_r8e_pnoise '(r8ePn)
   'ece203_r8e_tran '(r8eTran)
   'ece203_f2i_probe '(f2iProbe)
+  'ece203_f2i_build '(f2iJobBuild)
+  'ece203_f2i_ac '(f2iJobAc)
+  'ece203_f2i_tran '(f2iJobTran)
 )
 
 ;; ---------- reporting ----------
