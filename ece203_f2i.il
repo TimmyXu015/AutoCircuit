@@ -225,16 +225,25 @@ procedure( f2iTran(tag over stop maxstep)
         foreach(n '(("I_IPRD" "/IPRD/PLUS") ("I_VDD" "/VDD/PLUS"))
           when( setq(h car(errset(i(cadr(n) ?result "tran") nil))) w = append(w list(h)) names = strcat(names "," car(n) "_A")))
         r->t_end = car(errset(xmax(xval(car(w))) nil))   ;; last time point
-        ;; AC_F2I_KEEP (s): if set, the full-resolution CSV holds only the last KEEP seconds (analysis windows) and a 1 ms
-        ;; resampled CSV of the whole run is written for the DC-drift trend (SKILL CSV writing dominates the run time)
-        let( (keep st)
-          keep = getShellEnvVar("AC_F2I_KEEP") st = atof(stop)
-          if( keep
-            then spsWriteWaves(sprintf(nil "%s/%s_tran.csv" f2iDir tag) names mapcar(lambda((x) clip(x st - atof(keep) st)) w))
-                 spsWriteWaves(sprintf(nil "%s/%s_tran1ms.csv" f2iDir tag) names mapcar(lambda((x) sample(x 0 st "linear" 1e-3)) w))
-                 sh(sprintf(nil "cd %s && gzip -f %s_tran1ms.csv" f2iDir tag))
-                 r->full_res_from = st - atof(keep)
-            else spsWriteWaves(sprintf(nil "%s/%s_tran.csv" f2iDir tag) names w)))
+        ;; Output (plan update 2): SKILL CSV writing of every Spectre point (60-125 k rows) took 5-15 min per case. Default now:
+        ;;  - exact full-resolution min / max of every saved signal over each of the last two 1 s windows (kv CSV),
+        ;;  - <tag>_tran.csv: the last 2 s resampled on a uniform 100 us grid (linear interpolation of the <= 50 us Spectre steps),
+        ;;  - <tag>_tran1ms.csv.gz: the whole run resampled at 1 ms (DC-drift trend).
+        ;; AC_F2I_FULL=1 restores the old full-resolution CSV of the whole run (used for T0_3s and I1u_3s).
+        let( (st)
+          st = atof(stop)
+          if( getShellEnvVar("AC_F2I_FULL")
+            then spsWriteWaves(sprintf(nil "%s/%s_tran.csv" f2iDir tag) names w)
+            else
+              foreach(win list(list(st - 2.0 st - 1.0) list(st - 1.0 st))
+                foreach(nw mapcar('list parseString(names ",") cons(nil w))
+                  when( cadr(nw)
+                    putprop(r car(errset(ymin(clip(cadr(nw) car(win) cadr(win))) nil)) stringToSymbol(sprintf(nil "min_%s_w%g" car(nw) cadr(win))))
+                    putprop(r car(errset(ymax(clip(cadr(nw) car(win) cadr(win))) nil)) stringToSymbol(sprintf(nil "max_%s_w%g" car(nw) cadr(win)))))))
+              spsWriteWaves(sprintf(nil "%s/%s_tran.csv" f2iDir tag) names mapcar(lambda((x) sample(x st - 2.0 st "linear" 1e-4)) w))
+              spsWriteWaves(sprintf(nil "%s/%s_tran1ms.csv" f2iDir tag) names mapcar(lambda((x) sample(x 0 st "linear" 1e-3)) w))
+              sh(sprintf(nil "cd %s && gzip -f %s_tran1ms.csv" f2iDir tag))
+              r->csv_grid = "last 2 s at 100 us + 1 ms trend"))
         sh(sprintf(nil "cd %s && sha256sum %s_tran.csv > %s_tran.csv.sha256 && gzip -f %s_tran.csv" f2iDir tag tag tag))
         t)
       t)

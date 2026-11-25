@@ -42,7 +42,7 @@ def analyse(fn, windows):
             for k in (2, 3): r[f'out_{60 * k}Hz_V'] = abs(Po[k])
         r['out_fit_resid_rms_V'] = float(np.sqrt(np.mean(res ** 2)))
         s = (t >= a) & (t <= b)
-        for n in ('out', 'oa', 'oa1', 'o', 'p', 'n', 'drlr', 'body', 'vRL', 'cm', 'inp', 'inn'):
+        for n in ('out', 'oa', 'oa1', 'o', 'p', 'n', 'drlr', 'body', 'vRL', 'cm', 'inp', 'inn'):  # CSV extrema; exact Spectre extrema override below when present
             r[f'{n}_min_V'] = float(d[n + '_V'][s].min()); r[f'{n}_max_V'] = float(d[n + '_V'][s].max())
         el = (d['vRight_V'] + d['vLeft_V']) / 2; r['elcm_min_V'] = float(el[s].min()); r['elcm_max_V'] = float(el[s].max())
         r['I_IPRD_pk_A'] = float(np.max(np.abs(d['I_IPRD_A'][s]))) if 'I_IPRD_A' in d else float('nan')

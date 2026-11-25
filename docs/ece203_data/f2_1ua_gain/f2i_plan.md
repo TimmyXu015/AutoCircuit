@@ -95,3 +95,14 @@ MC, PVT, chopper, any DRL / bias / size / power change, extra noise. The 1 µA r
   - a 1 ms resampled CSV of the whole 0–10 s run is added for the DC-drift trend;
   - reason: SKILL CSV writing dominated the run time (about 5 min per 60 k rows);
   - maxstep stays 50 µs.
+
+## Update 2 (during the 3 s batch, before T1u / I100n / T100n and any 10 s run) — output format only
+
+- **Problem:** writing every Spectre point from SKILL took 5–15 min per case (I1u_3s has 124 k accepted steps).
+- **New default:**
+  - the **exact** full-resolution min/max of every saved signal over each analysis window, computed in SKILL from the Spectre waveform and stored in the case CSV;
+  - the last 2 s resampled on a uniform 100 µs grid (linear interpolation of the ≤ 50 µs Spectre steps), used for the coherent fits;
+  - a 1 ms trend CSV of the whole run.
+- T0_3s and I1u_3s keep their full-resolution CSVs (`AC_F2I_FULL`).
+- Fits, windows and gates are unchanged. A 100 µs grid samples 60 Hz at 167 points per period.
+- `psf -i` (dfII/bin) only reads the header of the PSF-XL tran files, so it is not used.
