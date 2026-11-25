@@ -106,3 +106,8 @@ MC, PVT, chopper, any DRL / bias / size / power change, extra noise. The 1 µA r
 - T0_3s and I1u_3s keep their full-resolution CSVs (`AC_F2I_FULL`).
 - Fits, windows and gates are unchanged. A 100 µs grid samples 60 Hz at 167 points per period.
 - `psf -i` (dfII/bin) only reads the header of the PSF-XL tran files, so it is not used.
+
+## Update 3 (2026-11-25, before any 10 s result was read)
+
+- Fit basis gains a linear term (t − t_mid) next to DC + k·f0. Reason: the T0/T100n 3 s windows still drift ~4 mV/s from the 0.1 Hz pseudo-R corner; an un-modelled ramp leaks into the sine terms (3 s T0 Gpost 39.84 dB without it, 39.872 dB with it; AC says 39.87 dB). The drift slope is reported (`out_drift_mV_per_s`). The settling gate is unchanged (window-to-window ΔGpost ≤ 0.05 dB, ΔDC ≤ 1 mV).
+- The H2/H3 clip flag is evaluated only when an ECG tone is present (interference-only cases have no 10 Hz fundamental).
