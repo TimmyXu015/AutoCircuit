@@ -35,6 +35,10 @@ if kind != 'ref':
     txt = setp(txt, 'dcc', 'dccv')
     txt = txt.replace('\nparameters ', '\nparameters fvm=0 dccv=0\nparameters ', 1)
 
+import os
+for kv in os.environ.get('F2V_SET', '').split():          # F2S Stage B: design-variable overrides, e.g. "cc=60e-12 cfb=0.6e-12 prw=4.8e-6"
+    k_, v_ = kv.split('=')
+    txt = setp(txt, k_, v_)
 opts = ('simulatorOptions options reltol=1e-6 vabstol=1e-6 iabstol=1e-18 temp=27 tnom=25 scalem=1.0 scale=1.0 \\\n'
         '    gmin=1e-18 rforce=1 maxnotes=5 maxwarns=5 digits=5 cols=80 pivrel=1e-3\n')
 dec = None

@@ -1,0 +1,91 @@
+;; ECE203 F2S: bounded OTA1 sizing exploration for a safer full-band noise margin (task docs/ECE203_F2_safe_noise_optimization_task.md,
+;; plan docs/ece203_data/f2_safe_noise/f2s_plan.md). Per case: new OTA1 cell Project/ece203_f2s_ota_<case> (same device list as
+;; ece203_r5nf_ota_f2, only W/L of the case changed, PDK CDF callbacks run), new system cell Project/ece203_f2s_tb_<case> = fresh read-only
+;; copy of ECG_tb/ECG_tb + the F2 system with XA = the new OTA (f2iBuild unchanged, globals rebound), and one ADE DC+AC run whose netlist
+;; (~/AutoCircuit_results/ece203_f2s/<case>_netlist.scs) is the base of the standalone f2v analyses. Nothing is written to any 203ECG* library.
+;; Job ece203_f2s_build, env AC_F2S_CASES = space-separated case names.
+
+f2sDir = strcat(getShellEnvVar("HOME") "/AutoCircuit_results/ece203_f2s")
+;; case -> (input pair W L, mirror W L, tail W L) in um; MC 10/4 and MREF 2/4 fixed
+f2sCases = list(nil
+  'B0 '(50 40   8 42    32 4)
+  'N1 '(55 44   8 42    32 4)
+  'N2 '(60 48   8 42    32 4)
+  'P1 '(50 40   10 52.5 32 4)
+  'P2 '(50 40   12 63   32 4)
+  'P1s '(50 40  9 47.25 32 4)
+  'T0 '(50 40   8 42    28 4)
+  'T1 '(50 40   8 42    36 4)
+  'T2 '(50 40   8 42    40 4))
+procedure( f2sOtaCell(name) sprintf(nil "ece203_f2s_ota_%s" lowerCase(name)) )
+procedure( f2sTbCell(name) sprintf(nil "ece203_f2s_tb_%s" lowerCase(name)) )
+procedure( f2sSizes(name)
+  let( (s) s = get(f2sCases stringToSymbol(name))
+    unless( s error("f2s: unknown case %s (define it in f2sCases)" name)) s ) )
+procedure( f2sOtaDevs(s)
+  let( (u) u = 1e-6
+    list(list("pfetx" "M3" nth(2 s) * u nth(3 s) * u "n1" "n1" "VDD" "VDD")
+         list("pfetx" "M4" nth(2 s) * u nth(3 s) * u "OUT" "n1" "VDD" "VDD")
+         list("nfetx" "M1" nth(0 s) * u nth(1 s) * u "n1" "INP" "tail" "GND")
+         list("nfetx" "M2" nth(0 s) * u nth(1 s) * u "x" "INN" "tail" "GND")
+         list("nfetx" "MC" 10e-6 4e-6 "OUT" "VCAS" "x" "GND")
+         list("nfetx" "MT" nth(4 s) * u nth(5 s) * u "tail" "IBIAS" "GND" "GND")
+         list("nfetx" "MREF" 2e-6 4e-6 "IBIAS" "IBIAS" "GND" "GND")))
+)
+;; read back the realised instance w/l of the drawn OTA (catches CDF clipping before any simulation)
+procedure( f2sReadBack(cell)
+  let( (cv out)
+    cv = dbOpenCellViewByType(ece203Lib cell "schematic" nil "r")
+    foreach(i cv~>instances
+      when( member(i~>cellName '("nfetx" "pfetx"))
+        out = cons(list(i~>name i~>cellName i~>w i~>l) out)))
+    dbClose(cv)
+    reverse(out)
+  )
+)
+procedure( f2sCdfDump()
+  let( (port)
+    port = outfile(strcat(f2sDir "/cdf_w_l.txt") "w")
+    foreach(dev '("nfetx" "pfetx")
+      let( (cdf)
+        cdf = cdfGetBaseCellCDF(ddGetObj("cmrf7sf" dev))
+        foreach(p cdf~>parameters
+          when( member(p~>name '("w" "l" "nf" "m" "wf" "fingers" "lr"))
+            fprintf(port "%s %s type %L default %L prompt %L callback %L choices %L editable %L\n" dev p~>name p~>paramType p~>defValue
+                    p~>prompt p~>callback p~>choices p~>editable)))))
+    close(port)
+    sh(sprintf(nil "sed 's/^/AC> cdf: /' %s/cdf_w_l.txt | cut -c1-400" f2sDir))
+  )
+)
+procedure( f2sBuildCase(name)
+  let( (s ota tb r rb)
+    s = f2sSizes(name) ota = f2sOtaCell(name) tb = f2sTbCell(name)
+    ece203LibInfo()
+    if( ddGetObj(ece203Lib ota) then acSay("f2s %s: %s exists, reused\n" name ota)
+    else
+      let( (cv)
+        cv = acOpenSch(ece203Lib ota)
+        ece203Pins(cv append(a3Cfg->pins '(("VCAS" "input"))))
+        ece203Place(cv mapcar(lambda((d) apply('ece203FetSpec d)) f2sOtaDevs(s)))
+        ece203Finish(cv ece203Lib ota)
+        ece203Symbol(ece203Lib ota)))
+    rb = f2sReadBack(ota)
+    acSay("f2s %s: requested %L, realised %L\n" name s rb)
+    unless( ddGetObj(ece203Lib tb)
+      let( ((f2iCell tb) (f2iF2Ota ota)) f2iBuild()))
+    let( ((f2iCell tb) (f2iF2Ota ota) (f2iDir f2sDir))
+      r = f2iAc(strcat(name "_dm") 'dm nil))
+    sh(sprintf(nil "cp %s/%s_dm_netlist.scs %s/%s_netlist.scs" f2sDir name f2sDir name))
+    r
+  )
+)
+procedure( f2sJobBuild()
+  let( (names)
+    unless( isDir(f2sDir) sh(sprintf(nil "mkdir -p %s" f2sDir)))
+    names = parseString(or(getShellEnvVar("AC_F2S_CASES") "B0") " ")
+    f2sCdfDump()
+    foreach(n names
+      unless( errset(f2sBuildCase(n) t) acSay("f2s %s FAILED: %L\n" n errset.errset)))
+    t
+  )
+)
