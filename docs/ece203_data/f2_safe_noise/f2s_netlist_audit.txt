@@ -1,0 +1,8 @@
+B0 (OTA ece203_f2s_ota_b0): PASS; changed: none
+N1 (OTA ece203_f2s_ota_n1): PASS; changed: M1 w 55u l 44u (was 50u/40u; ad/pd consistent True); M2 w 55u l 44u (was 50u/40u; ad/pd consistent True)
+N2 (OTA ece203_f2s_ota_n2): PASS; changed: M1 w 60u l 48u (was 50u/40u; ad/pd consistent True); M2 w 60u l 48u (was 50u/40u; ad/pd consistent True)
+P1 (OTA ece203_f2s_ota_p1): PASS; changed: M3 w 10u l 52.5u (was 8u/42u; ad/pd consistent True); M4 w 10u l 52.5u (was 8u/42u; ad/pd consistent True)
+P2 (OTA ece203_f2s_ota_p2): PASS; changed: M3 w 12u l 63u (was 8u/42u; ad/pd consistent True); M4 w 12u l 63u (was 8u/42u; ad/pd consistent True)
+T1 (OTA ece203_f2s_ota_t1): PASS; changed: MT w 36u l 4u (was 32u/4u; ad/pd consistent True)
+T2 (OTA ece203_f2s_ota_t2): PASS; changed: MT w 40u l 4u (was 32u/4u; ad/pd consistent True)
+AUDIT PASS
