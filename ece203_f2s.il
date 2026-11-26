@@ -92,3 +92,65 @@ procedure( f2sJobBuild()
     t
   )
 )
+
+;; ---------------- Stage C (winner) ----------------
+;; winner = case f2sWinCase sizes + design variables f2sWinVars (Stage B cap/pseudo-R scaling); same TB cell as the case
+f2sWinCase = "P2"
+f2sWinVars = '(("cc" 60e-12) ("cfb" 0.6e-12) ("prw" 4.8e-6))
+f2sWinState = "f2s_winner_p2_cc60p"
+;; ADE netlist of the winner (DC + AC, design variables as in the ADE state) for the audit against the standalone candidate netlist
+procedure( f2sJobWinnerAc()
+  let( ((f2iCell f2sTbCell(f2sWinCase)) (f2iF2Ota f2sOtaCell(f2sWinCase)) (f2iDir f2sDir) (f2iExtraVars f2sWinVars))
+    f2iAc("WIN_dm" 'dm nil)
+    f2iAc("WIN_int" 'int nil)
+    t
+  )
+)
+;; 10 s transients of the winner (F2I cases; env AC_F2I_CASES, AC_F2I_STOP, AC_F2I_MAXSTEP as in f2iJobTran)
+procedure( f2sJobTran()
+  let( ((f2iCell f2sTbCell(f2sWinCase)) (f2iF2Ota f2sOtaCell(f2sWinCase)) (f2iDir f2sDir) (f2iExtraVars f2sWinVars))
+    f2iJobTran()
+  )
+)
+;; ADE L state for hand reproduction (GUI job, xvfb): tight options, dc op, ac 1m-100k, noise 1m-100k (input /V0), stb main loop,
+;; outputs Gpost at 10/60/100 Hz, course noise M1 (G10 and G100), native V0-referred integrated noise, power, main-loop PM.
+procedure( f2sAde()
+  let( (sess vars)
+    hw1NoLicensePrompts()
+    when( hiGraphicMode() acAutoOkStart() )
+    unless( hiGraphicMode() error("f2sAde needs the GUI (run.sh ece203_f2s_ade)\n") )
+    sess = acAdeStart(ece203Lib f2sTbCell(f2sWinCase))
+    unless( sess error("No ADE session for %s\n" f2sTbCell(f2sWinCase)))
+    acAdeModels(sess "tt")
+    acAdeSaveCurrents(sess)
+    foreach(o '((gmin "1e-18") (iabstol "1e-18") (reltol "1e-6"))
+      acSay("ADE: sim option %L -> %L\n" car(o) car(errset(asiSetSimOptionVal(sess car(o) cadr(o)) nil))))
+    acAdeAnalysis(sess 'dc list(list('saveOppoint t)))
+    acAdeAnalysis(sess 'ac list(list('start "1m") list('stop "100k") list('dec "50"))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")))
+    acAdeAnalysis(sess 'noise
+      list(list('start "1m") list('stop "100k") list('dec "50") list('p "/out") list('n "/gnd!") list('inVsrc "/V0"))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")
+           list('outType "voltage") list('inType "voltage")))
+    acAdeAnalysis(sess 'stb list(list('start "1m") list('stop "10M") list('dec "20") list('probe "/IPRB"))
+      list(list('sweep "freq") list('rangeType "start") list('incrType "log") list('stepTypeLog "decade")))
+    acAdeOutput(acAdeSev "Gpost_dB" "db20(VF(\"/out\") / (VF(\"/vRight\") - VF(\"/vLeft\")))")
+    acAdeOutput(acAdeSev "Gpost_10Hz" "value(mag(VF(\"/out\") / (VF(\"/vRight\") - VF(\"/vLeft\"))) 10)")
+    acAdeOutput(acAdeSev "Gpost_100Hz" "value(mag(VF(\"/out\") / (VF(\"/vRight\") - VF(\"/vLeft\"))) 100)")
+    acAdeOutput(acAdeSev "out_noise_rms_1m_100k" "sqrt(integ((getData(\"out\" ?result \"noise\") ** 2) 0.001 100000))")
+    acAdeOutput(acAdeSev "M1_noise_G10" "sqrt(integ((getData(\"out\" ?result \"noise\") ** 2) 0.001 100000)) / value(mag(VF(\"/out\") / (VF(\"/vRight\") - VF(\"/vLeft\"))) 10)")
+    acAdeOutput(acAdeSev "M1_noise_G100" "sqrt(integ((getData(\"out\" ?result \"noise\") ** 2) 0.001 100000)) / value(mag(VF(\"/out\") / (VF(\"/vRight\") - VF(\"/vLeft\"))) 100)")
+    acAdeOutput(acAdeSev "M2_native_V0ref_1m_100k" "sqrt(integ((getData(\"in\" ?result \"noise\") ** 2) 0.001 100000))")
+    acAdeOutput(acAdeSev "P_total" "1.8 * IDC(\"/VDD/PLUS\")")
+    acAdeOutput(acAdeSev "loopGain_main" "getData(\"loopGain\" ?result \"stb\")")
+    vars = mapcar(lambda((x) list(car(x) sprintf(nil "%g" float(cadr(x)))))
+                  let( (all) all = nil
+                    foreach(o append(append(append(r4Vars r5nOver(4e-6)) f2iStim()) append('(("aecg" 1.0) ("aint" 0.0)) f2sWinVars))
+                      all = cons(o setof(x all car(x) != car(o))))
+                    all))
+    acAdeVars(sess vars)
+    acAdeSave(sess ece203Lib f2sTbCell(f2sWinCase) f2sWinState)
+    acSay("f2s ADE state %s saved on Project/%s with %d variables\n" f2sWinState f2sTbCell(f2sWinCase) length(vars))
+    t
+  )
+)

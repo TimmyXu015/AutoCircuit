@@ -188,6 +188,9 @@ acJobs = list(nil
   'ece203_f2i_tran '(f2iJobTran)
   'ece203_f2v_ocean '(f2vOcean)
   'ece203_f2s_build '(f2sJobBuild)
+  'ece203_f2s_winner_ac '(f2sJobWinnerAc)
+  'ece203_f2s_tran '(f2sJobTran)
+  'ece203_f2s_ade '(f2sAde)
 )
 
 ;; ---------- reporting ----------
