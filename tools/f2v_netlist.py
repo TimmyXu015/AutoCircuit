@@ -49,6 +49,7 @@ if kind == 'nominal':
         '  swm sweep param=fvm values=[0 1 2] {\n'
         '    dcm dc\n'
         '    acm ac start=1m stop=100k dec=%s\n'
+        '    acx ac values=[10 60 100]\n'
         '  }\n'
         '}\n'
         'nz50 (out 0) noise start=1m stop=100k dec=%s iprobe=V0\n'
@@ -65,6 +66,7 @@ elif kind == 'mc':
         '  swm sweep param=fvm values=[0 1 2] {\n'
         '    dcm dc\n'
         '    acm ac start=1m stop=100k dec=%s\n'
+        '    acx ac values=[10 60 100]\n'
         '  }\n'
         '  nz (out 0) noise start=1m stop=100k dec=%s iprobe=V0\n'
         '  stbm stb start=1m stop=10M dec=10 probe=IPRB\n'
@@ -75,6 +77,7 @@ elif kind == 'ref':
     dec = sys.argv[4] if len(sys.argv) > 4 else '50'
     ana = ('dcop dc write="spectre.dc" maxiters=150 maxsteps=10000\n'
            'acr ac start=1m stop=100k dec=%s\n'
+           'acrx ac values=[10 60 100]\n'
            'nzr (out 0) noise start=1m stop=100k dec=%s iprobe=VSP\n' % (dec, dec))
     save = 'save out o inpr innr ep en VDD:p VDDD:p\nsaveOptions options save=selected\n'
 else:
