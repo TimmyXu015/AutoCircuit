@@ -1,0 +1,60 @@
+quantity,value,unit,note
+Gpost_10Hz,98.49640641382028,V/V,39.868 dB
+Gsrc_10Hz,65.60304141731618,V/V,
+Gpost_60Hz,95.81440182470413,V/V,39.629 dB
+Gsrc_60Hz,63.81152951348212,V/V,
+Gpost_100Hz,91.42201742566206,V/V,39.221 dB
+Gsrc_100Hz,60.88614962912337,V/V,
+Gpost_plateau,98.5416719721037,V/V,at 5.01 Hz
+fL,0.1003437567731197,Hz,Gpost plateau max / sqrt2
+fH,248.01046175690564,Hz,Gpost plateau max / sqrt2
+CMRR60_on,85.21695044331288,dB,"Adm60 * |vcm_post,off| / |out_on|"
+CMRR60_off,54.55589904529107,dB,"Adm60 * |vcm_post,off| / |out_off|"
+vcm_post_off_60,1.273740077611101,V,100 nA AC
+out60_on,0.006693666711578939,V,
+out60_off,0.2284108101698341,V,
+Zin10_P,3174515548.201168,Ohm,v(inp)/i(VPP)
+Zin10_N,164095491.39542517,Ohm,v(inn)/i(VPN)
+Zin10_diff,6348818831.318091,Ohm,
+Gpost_10Hz_dcc1pct,98.53320256153107,V/V,39.872 dB
+Gsrc_10Hz_dcc1pct,65.6274507773546,V/V,
+Gpost_60Hz_dcc1pct,95.85035034910275,V/V,39.632 dB
+Gsrc_60Hz_dcc1pct,63.83537505717343,V/V,
+Gpost_100Hz_dcc1pct,91.45647138035241,V/V,39.224 dB
+Gsrc_100Hz_dcc1pct,60.90900416202846,V/V,
+Gpost_plateau_dcc1pct,98.5782996041688,V/V,at 5.01 Hz
+fL_dcc1pct,0.10034368998687493,Hz,Gpost plateau max / sqrt2
+fH_dcc1pct,248.01656095867017,Hz,Gpost plateau max / sqrt2
+CMRR60_on_dcc1pct,89.58794611001657,dB,"Adm60 * |vcm_post,off| / |out_on|"
+CMRR60_off_dcc1pct,58.92347762902976,dB,"Adm60 * |vcm_post,off| / |out_off|"
+vcm_post_off_60_dcc1pct,1.2739300772810076,V,100 nA AC
+out60_on_dcc1pct,0.004048946053925639,V,
+out60_off_dcc1pct,0.13821825780804067,V,
+Zin10_P_dcc1pct,3172829778.1341434,Ohm,v(inp)/i(VPP)
+Zin10_N_dcc1pct,164037305.25924557,Ohm,v(inn)/i(VPN)
+Zin10_diff_dcc1pct,6345456898.700866,Ohm,
+I_VDD,1.764085001170139e-06,A,includes the DRL supply meter VDDD
+P_total,3.1753530021062502e-06,W,
+I_VDDD_DRL,2.489422904921834e-07,A,
+I_MP2_DRLbias,5.34535375121891e-08,A,
+I_forward_NEF,1.4616891731657664e-06,A,I_VDD - I_VDDD - I_MP2
+out_DC,0.8998343280069137,V,
+PM_stbm,66.4457732890787,deg,UGF 2.603e+04 Hz
+GM_stbm,21.08654158380553,dB,
+PM_stbd,90.13125606413891,deg,UGF 1989 Hz
+GM_stbd,77.36841340699571,dB,
+C_designed_total,1.435e-10,F,excludes instructor fixture C0..C3
+noise_M1_out_over_G10_uV_full,2.562876052586631,uVrms,0.001..100000 Hz
+noise_M1_out_over_G100_uV_full,2.761195698498798,uVrms,0.001..100000 Hz
+noise_M1_out_over_Gplateau_uV_full,2.5616987839954874,uVrms,0.001..100000 Hz
+noise_M2_native_in_V0ref_uV_full,87.67452105079873,uVrms,0.001..100000 Hz
+noise_M3_post_deembedded_uV_full,57.92381367960993,uVrms,0.001..100000 Hz
+noise_M1_out_over_G10_uV_0.1-250,2.2851734234915435,uVrms,0.1..250 Hz
+noise_M1_out_over_G100_uV_0.1-250,2.4620039743632263,uVrms,0.1..250 Hz
+noise_M1_out_over_Gplateau_uV_0.1-250,2.2841237188466086,uVrms,0.1..250 Hz
+noise_M2_native_in_V0ref_uV_0.1-250,3.643982862533788,uVrms,0.1..250 Hz
+noise_M3_post_deembedded_uV_0.1-250,2.427779048871486,uVrms,0.1..250 Hz
+NEF_0.1-250_M1,6.734528325468008,,BW 249.90 Hz
+NEF_0.1-250_M3,7.154794732218409,,BW 249.90 Hz
+NEF_full_M1,6.050505860092612,,BW 389.42 Hz
+NEF_full_M3,136.748077907894,,BW 389.42 Hz

@@ -172,7 +172,9 @@ say('== A. noise: analysis (out 0) noise 1 mHz..100 kHz, iprobe=V0 (instructor E
     '"in" = out / |gain|, gain = out/V0 (SOURCE-referred).')
 bands = [('full 1mHz-100kHz', 1e-3, 1e5), ('0.1-250 Hz', 0.1, 250.0), ('below 0.1 Hz', 1e-3, 0.1), ('above 250 Hz', 250.0, 1e5), ('0.5-150 Hz', 0.5, 150.0)]
 nrows = []; nzres = {}
+import os
 for nzn in ('nz50', 'nz100'):
+    if not os.path.exists('%s/psf/%s.noise' % (NOM, nzn)): continue   # nz100 only kept for the convergence check of a winner
     z = rd(NOM, nzn + '.noise'); fz = np.array(z['x']); So = arr(z, 'out') ** 2; Si = arr(z, 'in') ** 2; gz = arr(z, 'gain')
     # post-electrode transfer on the noise grid: complex log-interp of Hpost from the AC run (identical grid for nz50)
     Hp = np.exp(np.interp(np.log(fz), np.log(r0['f']), np.log(np.abs(r0['Hpost']))))
