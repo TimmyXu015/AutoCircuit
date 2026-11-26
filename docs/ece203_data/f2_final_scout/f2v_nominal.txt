@@ -1,0 +1,45 @@
+== B. AC, professor ECG_tb copy + frozen F2, TT 27 C, real DRL on, pure DM (V0 AC 1 V, I2 AC 0)
+  [dcc0] Gpost = |out/(vRight-vLeft)|: 10 Hz 98.5245 (39.871 dB), 60 Hz 95.8447 (39.631 dB), 100 Hz 91.4557 (39.224 dB); plateau max 98.5696 (39.875 dB) at 5.01 Hz
+  [dcc0] Gsrc = |out/V0|: 10/60/100 Hz 65.6218 / 63.8317 / 60.9086 ; post/src = 0.6660 / 0.6660 / 0.6660
+  [dcc0] corners from the Gpost plateau max: fL 0.10036 Hz, fH 248.16 Hz (Gsrc: fL 0.10024, fH 248.00)
+  [dcc0] CMRR60 (100 nA AC into body, V0 AC 0): vcm_post,off = |(vRight+vLeft)/2| = 1.285 V, vcm_post,on = 0.03735 V; out_off 0.2046 V, out_on 0.005942 V; Adm60 95.8447
+  [dcc0]   CMRR_on = 20log10(Adm60*|vcm_off|/|out_on|) = 86.33 dB ; CMRR_off = 20log10(Adm60*|vcm_off|/|out_off|) = 55.59 dB ; (info: own-reference CMRR_on with vcm_on = 55.60 dB); body60 off/on 1.285 / 0.03735 V; CM->DM residual at the electrodes |vRight-vLeft| off/on 1.3e-07 / 1e-07 V (at the 6-significant-digit psfascii AC resolution of ~1e-6 V, i.e. not resolved)
+  [dcc0] Zin @10 Hz (historical definition, amplifier input after the electrode): |v(inp)/i(VPP)| 3.856e+09 Ohm (phase -67.2 deg), |v(inn)/i(VPN)| 1.625e+08 Ohm, differential |v(inp)-v(inn)|/|i(VPP)| 7.711e+09 Ohm
+  [dcc1pct] Gpost = |out/(vRight-vLeft)|: 10 Hz 98.5518 (39.873 dB), 60 Hz 95.8715 (39.634 dB), 100 Hz 91.4814 (39.227 dB); plateau max 98.5971 (39.877 dB) at 5.01 Hz
+  [dcc1pct] Gsrc = |out/V0|: 10/60/100 Hz 65.6400 / 63.8495 / 60.9257 ; post/src = 0.6660 / 0.6660 / 0.6660
+  [dcc1pct] corners from the Gpost plateau max: fL 0.10036 Hz, fH 248.17 Hz (Gsrc: fL 0.10024, fH 248.01)
+  [dcc1pct] CMRR60 (100 nA AC into body, V0 AC 0): vcm_post,off = |(vRight+vLeft)/2| = 1.286 V, vcm_post,on = 0.03735 V; out_off 0.1365 V, out_on 0.003963 V; Adm60 95.8715
+  [dcc1pct]   CMRR_on = 20log10(Adm60*|vcm_off|/|out_on|) = 89.85 dB ; CMRR_off = 20log10(Adm60*|vcm_off|/|out_off|) = 59.11 dB ; (info: own-reference CMRR_on with vcm_on = 59.12 dB); body60 off/on 1.286 / 0.03735 V; CM->DM residual at the electrodes |vRight-vLeft| off/on 6.6e-08 / 2e-09 V (at the 6-significant-digit psfascii AC resolution of ~1e-6 V, i.e. not resolved)
+  [dcc1pct] Zin @10 Hz (historical definition, amplifier input after the electrode): |v(inp)/i(VPP)| 3.854e+09 Ohm (phase -67.2 deg), |v(inn)/i(VPN)| 1.625e+08 Ohm, differential |v(inp)-v(inn)|/|i(VPP)| 7.709e+09 Ohm
+== B. DC operating point (dcop): out 0.89980 V, o 0.89980, oa1 1.43491, p 0.900000, n 0.899796, inp/inn 0.901480, body 0.901480, drlr 0.901480, vref 0.900000, vcas 1.1000, ib 0.3116, pref 1.3720
+  supplies in the netlist: VDD (vdd 0) dc=1.8 is the only source of power; VDDD (vddd vdd) dc=0 is a 0 V meter in series (DRL OTA supply), so I(VDD) already contains I(VDDD). IREF (pref 0) isource 100 nA is the one ideal bias reference (allowed); RV1/RV2 (vref divider) and RC1/RC2 (vcas divider) are ideal resistors from vdd (their current is inside I(VDD)). EDRL (ideal vcvs) hangs on RDRI = 1e15 Ohm (inactive leftover).
+  I(VDD) 1.764e-06 A -> P_total = 1.8 V * I(VDD) = 3.1752e-06 W ; I(VDDD) (DRL OTA, inside) 2.489e-07 A ; DRL bias mirror MP2 5.345e-08 A ; IREF branch MP0 1e-07 A ; OTA bias MP1 5.345e-08 A
+  forward-path current for NEF = I(VDD) - I(VDDD) - I(MP2) = 1.4616e-06 A (DRL OTA and its bias mirror excluded; shared IREF branch, vref / vcas dividers and CS stage included)
+  MOS regions (Spectre estimate): X2.MCL subthreshold, X2.MCS subthreshold, MP0 saturation, MP1 saturation, MP2 saturation, XD.M1 subthreshold, XD.M2 subthreshold, XD.MT subthreshold, XD.MREF subthreshold, XD.M3 saturation, XD.M4 saturation, XA.M1 saturation, XA.M2 saturation, XA.MC subthreshold, XA.MT subthreshold, XA.MREF subthreshold, XA.M3 saturation, XA.M4 saturation, XPP.MP off, XPN.MP off
+  smallest |vds|-|vdsat| among non-pseudo-R devices: XA.M4 0.076 V, XA.M2 0.116 V, XD.MREF 0.261 V, XA.MREF 0.261 V
+== B. STB main loop (probe IPRB, oa -> o): PM 73.02 deg at 2.901e+04 Hz, GM 19.38 dB at 1.864e+05 Hz
+== B. STB DRL loop (probe IPRD, rl0 -> vRL): PM 90.13 deg at 2006 Hz, GM 78.14 dB at 8.305e+06 Hz
+== B. designed capacitance (all capacitor elements except the instructor fixture C0..C3; subckt caps counted once per instance): 143.5 pF ; CM2 0.5p, CVR 20p, CCMN 1p, CCMP 1p, CLP 20p, CFN 0.5p, CFP 0.5p, CCN 50p, CCP 50p
+== A. noise: analysis (out 0) noise 1 mHz..100 kHz, iprobe=V0 (instructor ECG source), real DRL on, interference off (I2 AC 0, isource has no noise), all fixture resistors (2 k + 1 M electrodes, 200 Ohm body) noisy. Spectre "out" = output ASD V/sqrt(Hz) at node out; "in" = out / |gain|, gain = out/V0 (SOURCE-referred).
+  checks: Spectre in*gain/out - 1 max 8.88e-16 ; Spectre noise gain vs AC |out/V0| max rel diff 4.43e-06 (same DC op and source)
+  [nz50] full 1mHz-100kHz out 293.8 uVrms (power-law integ 293.8) | M1 out/G10 2.9821 uV, out/G100 3.2126, out/Gplateau 2.9808 | M2 native (V0-ref) 47.2145 uV | M3 post-electrode pointwise 31.0422 uV
+  [nz50] 0.1-250 Hz       out 267.5 uVrms (power-law integ 267.5) | M1 out/G10 2.7151 uV, out/G100 2.9250, out/Gplateau 2.7139 | M2 native (V0-ref) 4.3156 uV | M3 post-electrode pointwise 2.8754 uV
+  [nz50] below 0.1 Hz     out 75.07 uVrms (power-law integ 75.07) | M1 out/G10 0.7620 uV, out/G100 0.8209, out/Gplateau 0.7616 | M2 native (V0-ref) 6.2659 uV | M3 post-electrode pointwise 4.1768 uV
+  [nz50] above 250 Hz     out 95.55 uVrms (power-law integ 95.5) | M1 out/G10 0.9698 uV, out/G100 1.0447, out/Gplateau 0.9693 | M2 native (V0-ref) 46.5975 uV | M3 post-electrode pointwise 30.6253 uV
+  [nz50] 0.5-150 Hz       out 227.5 uVrms (power-law integ 227.4) | M1 out/G10 2.3086 uV, out/G100 2.4870, out/Gplateau 2.3075 | M2 native (V0-ref) 3.5240 uV | M3 post-electrode pointwise 2.3477 uV
+  [nz100] full 1mHz-100kHz out 293.8 uVrms (power-law integ 293.8) | M1 out/G10 2.9817 uV, out/G100 3.2122, out/Gplateau 2.9804 | M2 native (V0-ref) 47.2116 uV | M3 post-electrode pointwise 31.0435 uV
+  [nz100] 0.1-250 Hz       out 267.5 uVrms (power-law integ 267.5) | M1 out/G10 2.7148 uV, out/G100 2.9246, out/Gplateau 2.7136 | M2 native (V0-ref) 4.3150 uV | M3 post-electrode pointwise 2.8750 uV
+  [nz100] below 0.1 Hz     out 75.08 uVrms (power-law integ 75.08) | M1 out/G10 0.7620 uV, out/G100 0.8209, out/Gplateau 0.7616 | M2 native (V0-ref) 6.2640 uV | M3 post-electrode pointwise 4.1756 uV
+  [nz100] above 250 Hz     out 95.52 uVrms (power-law integ 95.5) | M1 out/G10 0.9695 uV, out/G100 1.0444, out/Gplateau 0.9690 | M2 native (V0-ref) 46.5948 uV | M3 post-electrode pointwise 30.6267 uV
+  [nz100] 0.5-150 Hz       out 227.4 uVrms (power-law integ 227.4) | M1 out/G10 2.3083 uV, out/G100 2.4867, out/Gplateau 2.3072 | M2 native (V0-ref) 3.5235 uV | M3 post-electrode pointwise 2.3474 uV
+  source sum / total output power: full 1.000000, 0.1-250 1.000000
+  groups (full band, % of output noise power): OTA1 input pair XA.M1/M2 54.4%, OTA1 PMOS mirror XA.M3/M4 40.9%, electrode resistors (2k + 1M, instructor) 2.1%, pseudo-resistors XPP/XPN 1.0%, OTA1 other (tail/cascode/ref) 0.9%, bias / dividers / CM sense R 0.3%, output LP resistor RLP 0.2%, CS second stage X2 0.2%
+  groups (0.1-250 band, % of output noise power): OTA1 input pair XA.M1/M2 54.4%, OTA1 PMOS mirror XA.M3/M4 41.1%, electrode resistors (2k + 1M, instructor) 2.3%, OTA1 other (tail/cascode/ref) 0.9%, pseudo-resistors XPP/XPN 0.6%, bias / dividers / CM sense R 0.3%, CS second stage X2 0.2%, output LP resistor RLP 0.1%
+  output noise power by frequency slice (%% of full band): 0.001-0.01 Hz 0.2%, 0.01-0.1 Hz 6.3%, 0.1-1 Hz 26.1%, 1-10 Hz 24.5%, 10-100 Hz 23.0%, 100-250 Hz 9.4%, 250-1000 Hz 7.9%, 1000-10000 Hz 2.4%, 10000-100000 Hz 0.2%
+  NEF (0.1-250 Hz, M1 out/G10) = Vni * sqrt(2 I_fwd / (pi UT 4kT BW)), Vni 2.7151 uV, I_fwd 1.462e-06 A, T 300.15 K, UT 25.8649 mV, BW 249.90 Hz (= 250 - 0.1) -> 8.001
+  NEF (0.1-250 Hz, M3 post pointwise) = Vni * sqrt(2 I_fwd / (pi UT 4kT BW)), Vni 2.8754 uV, I_fwd 1.462e-06 A, T 300.15 K, UT 25.8649 mV, BW 249.90 Hz (= 250 - 0.1) -> 8.474
+  NEF (full 1mHz-100kHz, M1 out/G10) = Vni * sqrt(2 I_fwd / (pi UT 4kT BW)), Vni 2.9821 uV, I_fwd 1.462e-06 A, T 300.15 K, UT 25.8649 mV, BW 389.65 Hz (= pi/2 (fH-fL), full-band noise) -> 7.038
+  NEF (full 1mHz-100kHz, M3 post pointwise) = Vni * sqrt(2 I_fwd / (pi UT 4kT BW)), Vni 31.0422 uV, I_fwd 1.462e-06 A, T 300.15 K, UT 25.8649 mV, BW 389.65 Hz (= pi/2 (fH-fL), full-band noise) -> 73.261
+== Reference: archived F2 fixture (Project/ece203_r5nf_tb_f2 netlist, f2i job A_ref), H = out/(ep-en): 10/60/100 Hz 98.4326 / 95.7476 / 91.3629 (100 Hz 39.215 dB), fL 0.1002 fH 248.00
+  ref noise full 1mHz-100kHz: out/H100 3.2157 uV (historical "app" 2.930 for 0.1-250), out/H10 2.9848 uV, pointwise de-embedded 31.4724 uV (historical 2.880 for 0.1-250)
+  ref noise 0.1-250 Hz: out/H100 2.9279 uV (historical "app" 2.930 for 0.1-250), out/H10 2.7176 uV, pointwise de-embedded 2.8770 uV (historical 2.880 for 0.1-250)

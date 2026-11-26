@@ -1,0 +1,33 @@
+== MC n100: attempted 100, valid 100, failed 0
+  draw spread out_dc           mean 0.899783 std 0.00014 min 0.899455 max 0.900071, distinct values 100/100
+  draw spread p_minus_n_dc_mV  mean 0.217095 std 0.14 min -0.0709797 max 0.545009, distinct values 100/100
+  draw spread I_VDD            mean 1.76474e-06 std 5.85e-08 min 1.63981e-06 max 1.92906e-06, distinct values 100/100
+  draw spread body_dc          mean 0.901548 std 0.00118 min 0.899029 max 0.904392, distinct values 100/100
+  same-sample mapping in one iteration: max |DC(DM-mode dc) - DC(dcop)| 0 V, max |DC(CM DRL-on mode dc) - DC(dcop)| 8.45e-10 V over all samples
+  replay (firstrun=7, numruns=1, separate Spectre run) vs main-run sample 007: max |dDC| 8.46e-10 V, max rel AC diff 3.97e-06, max rel noise ASD diff 5.55e-07 (contrast: sample 008 vs 007 max |dDC| 0.00183 V)
+  replay (firstrun=15, numruns=1, separate Spectre run) vs main-run sample 015: max |dDC| 8.46e-10 V, max rel AC diff 2.25e-06, max rel noise ASD diff 3.06e-07 (contrast: sample 016 vs 015 max |dDC| 0.00394 V)
+  replay (firstrun=63, numruns=1, separate Spectre run) vs main-run sample 063: max |dDC| 8.46e-10 V, max rel AC diff 6.35e-07, max rel noise ASD diff 2.43e-06 (contrast: sample 064 vs 063 max |dDC| 0.00374 V)
+  Gpost_10_dB            gain @10 Hz (primary midband)          mean 39.871     std 0.00242   min 39.863     p5 39.866     p50 39.871     p95 39.874     max 39.875     pass 100/100 (100 %)
+  Gpost_100_dB           gain @100 Hz (historical)              mean 39.224     std 0.00326   min 39.215     p5 39.218     p50 39.225     p95 39.228     max 39.231     pass 100/100 (100 %)
+  fL                     fL (plateau-3 dB)                      mean 0.10022    std 0.00325   min 0.091851   p5 0.0952     p50 0.10014    p95 0.10556    max 0.10754    pass 100/100 (100 %)
+  fH                     fH (plateau-3 dB)                      mean 248.14     std 0.193     min 247.61     p5 247.83     p50 248.16     p95 248.46     max 248.62     pass 100/100 (100 %)
+  nz_M1_G10_full_uV      noise M1 full 1mHz-100kHz out/G10      mean 2.9835     std 0.0105    min 2.9584     p5 2.9664     p50 2.9837     p95 3.0007     max 3.0122     pass 94/100 (94 %)
+  nz_M1_G100_full_uV     noise M1 full out/G100                 mean 3.2141     std 0.0112    min 3.1876     p5 3.196      p50 3.2144     p95 3.2323     max 3.2449     pass 0/100 (0 %)
+  nz_M1_G10_band_uV      noise M1 0.1-250 out/G10               mean 2.7161     std 0.00576   min 2.7032     p5 2.7072     p50 2.7161     p95 2.7261     max 2.7331     pass 100/100 (100 %)
+  nz_M3_post_band_uV     noise M3 0.1-250 post pointwise        mean 2.8762     std 0.00492   min 2.8623     p5 2.8692     p50 2.8764     p95 2.8831     max 2.8891     pass 100/100 (100 %)
+  nz_M3_post_full_uV     noise M3 full post pointwise           mean 31.06      std 0.505     min 29.651     p5 30.264     p50 31.115     p95 31.74      max 32.169     pass 0/100 (0 %)
+  nz_M2_V0ref_full_uV    noise M2 native V0-ref full            mean 47.24      std 0.744     min 45.159     p5 46.063     p50 47.32      p95 48.234     max 48.876     pass 0/100 (0 %)
+  nz_M2_V0ref_band_uV    noise M2 native V0-ref 0.1-250         mean 4.3169     std 0.00739   min 4.2959     p5 4.3063     p50 4.3171     p95 4.3272     max 4.3362     pass 0/100 (0 %)
+  CMRR_on_dB             CMRR60 DRL on (course)                 mean 86.327     std 0.426     min 85.164     p5 85.576     p50 86.379     p95 87.017     max 87.301     pass 100/100 (100 %)
+  CMRR_off_dB            CMRR60 DRL off (info)                  mean 55.597     std 0.284     min 54.691     p5 55.169     p50 55.619     p95 55.99      max 56.148     
+  Zin_P_10               Zin10 P                                mean 3.8557e+09 std 3.34e+06  min 3.8456e+09 p5 3.85e+09   p50 3.8562e+09 p95 3.8605e+09 max 3.8625e+09 pass 100/100 (100 %)
+  Zin_N_10               Zin10 N                                mean 1.6251e+08 std 4.37e+04  min 1.6243e+08 p5 1.6245e+08 p50 1.625e+08  p95 1.6259e+08 max 1.6264e+08 pass 100/100 (100 %)
+  P_total_uW             total power                            mean 3.1765     std 0.105     min 2.9517     p5 3.0223     p50 3.1604     p95 3.3607     max 3.4723     pass 100/100 (100 %)
+  PM_main                main loop PM (no course spec)          mean 73.029     std 0.16      min 72.664     p5 72.785     p50 73.02      p95 73.291     max 73.512     
+  PM_drl                 DRL loop PM (no course spec)           mean 90.13      std 0.00433   min 90.121     p5 90.122     p50 90.13      p95 90.136     max 90.141     
+  out_dc                 out DC                                 mean 0.89978    std 0.00014   min 0.89946    p5 0.89954    p50 0.89978    p95 0.90002    max 0.90007    
+  joint (gain10, fL, fH, noise M1 full/G10, CMRR_on, Zin P/N, P): 94/100 valid (94 %; attempted 100)
+  joint with noise M1 0.1-250/G10 instead: 100/100 valid (100 %; attempted 100)
+  joint without noise: 100/100 valid (100 %; attempted 100)
+  worst CMRR_on sample 082: 85.16 dB, out_dc 0.89990, p-n 0.099 mV, I_VDD 1.903e-06
+  worst noise (M1 full/G10) sample 094: 3.0122 uV

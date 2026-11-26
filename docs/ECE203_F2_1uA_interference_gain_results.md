@@ -83,7 +83,7 @@ Figures:
 - **供你推理的事实，未下结论。**
   - DC OP 下 DRL OTA 尾电流为 249 nA（XD.MT），而 1 µA 用例中 RDRR 上的电流峰值为 0.998 µA。
   - 100 nA 用例的 drlr 只摆动 ±62 mV。
-  - 1 µA 用例中 VDD 平均功耗从 3.18 µW 变为 1.36 µW（不含 DRL 的 VDDD）。
+  - 1 µA 用例中总平均功耗（1.8 V × I(VDD)）从 3.18 µW 变为 1.36 µW。（更正 2026-11-25：VDDD 是 vdd→vddd 之间的 0 V 电流表，I(VDD) 已包含 DRL 电流，原文“不含 VDDD”有误。）
 - **回答主问题：** 这个早期 F2 在 1 µA 下，10 Hz 基波增益数字仍在带内，但输出被饱和的 60 Hz 主导、有失真且未稳定，**不能算保持了可用的中频 ECG 增益**。100 nA（规格值）下干净通过。
 
 ## Commands
@@ -121,4 +121,4 @@ The partial I1u 3 s full-resolution CSV, from a run I killed myself, was moved a
 - **No pad or ESD clamps.** The model has no input or body clamp devices. At 1 µA the body and inputs exceed the rails, limited only by the device junctions and the source impedances. Real pads would change the clamp levels.
 - **Settling.** The registered single extension went to 10 s. All 1 µA cases are still unsettled (DC −64 mV/s); their 10 Hz numbers come from a drifting state. They were not run longer.
 - **Fit method.** Least-squares fit of DC + linear + k·f0 on a 20 µs resample of a 100 µs grid. The harmonics of strongly distorted 1 µA waveforms are fit estimates. The min/max values are exact Spectre extrema.
-- **Power.** P counts only the VDD supply; the DRL VDDD supply is excluded.
+- **Power.** P = 1.8 V × I(VDD). VDDD is a 0 V meter in series from vdd, so I(VDD) already includes the DRL OTA current. (Corrected 2026-11-25 in the final validation scout; an earlier version of this line wrongly said the DRL supply was excluded.)
