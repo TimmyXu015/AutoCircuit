@@ -10,7 +10,7 @@ def _types(text):
     m = re.search(r'^TYPE\n(.*?)^(?:SWEEP|TRACE|VALUE)', text, re.S | re.M)
     if not m: return out
     for sm in re.finditer(r'^"([^"]+)" STRUCT\((.*?)^\) PROP\(', m.group(1), re.S | re.M):
-        out[sm.group(1)] = re.findall(r'^"([^"]+)" FLOAT', sm.group(2), re.M)
+        out[sm.group(1)] = re.findall(r'^"([^"]+)" (?:FLOAT|INT)', sm.group(2), re.M)
     return out
 
 def read(path):
@@ -39,6 +39,11 @@ def read(path):
             while toks[i] != ')': vals.append(num(toks[i])); i += 1
             i += 1
             val = complex(vals[0], vals[1]) if (len(vals) == 2 and not trace.get(name)) else vals   # STRUCT only if TRACE type is a struct
+        elif t.startswith('"') and toks[i + 1] == '(':   # "inst" "struct type" ( values )  (info / oppoint files)
+            stype = t[1:-1]; vals = []; i += 2
+            while toks[i] != ')': vals.append(num(toks[i])); i += 1
+            i += 1
+            val = dict(zip(types.get(stype, []), vals)); val['_type'] = stype
         elif t.startswith('"'):                      # "name" "unit" value [PROP(...)]
             i += 1; val = num(toks[i]); i += 1
         else:
