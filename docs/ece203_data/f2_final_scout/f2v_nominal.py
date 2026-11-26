@@ -6,7 +6,7 @@ import sys, re, csv, math
 import numpy as np
 import f2v_psf as P
 
-NOM, REF = sys.argv[1], sys.argv[2]
+NOM = sys.argv[1]; REF = sys.argv[2] if len(sys.argv) > 2 else None
 k_B, q, T = 1.380649e-23, 1.602176634e-19, 300.15            # 27 C
 UT = k_B * T / q
 out = []; say = out.append; summ = []
@@ -251,20 +251,22 @@ for bn, lo, hi in (('0.1-250 Hz', 0.1, 250.0), ('full 1mHz-100kHz', 1e-3, 1e5)):
         say('  NEF (%s, %s) = Vni * sqrt(2 I_fwd / (pi UT 4kT BW)), Vni %.4f uV, I_fwd %.4g A, T 300.15 K, UT %.4f mV, BW %.2f Hz%s -> %.3f'
             % (bn, meth, vni, I_fwd, UT * 1e3, bw, ' (= pi/2 (fH-fL), full-band noise)' if not bn.startswith('0.1') else ' (= 250 - 0.1)', nef))
         put('NEF_%s_%s' % (bn.split()[0], meth.split()[0]), nef, '', 'BW %.2f Hz' % bw)
-# ---------------- reference: archived F2 fixture ----------------
-a = rd(REF, 'acr.ac'); ax = rd(REF, 'acrx.ac'); zr = rd(REF, 'nzr.noise')
-fr = np.array(a['x']); Hr = arr(a, 'out') / (arr(a, 'ep') - arr(a, 'en'))
-Hrx = arr(ax, 'out') / (arr(ax, 'ep') - arr(ax, 'en'))
-Sr = arr(zr, 'out') ** 2; fzr = np.array(zr['x'])
-Hrp = np.exp(np.interp(np.log(fzr), np.log(fr), np.log(np.abs(Hr))))
-pkr, _, fLr, fHr = corners(fr, Hr)
-say('== Reference: archived F2 fixture (Project/ece203_r5nf_tb_f2 netlist, f2i job A_ref), H = out/(ep-en): 10/60/100 Hz %.4f / %.4f / %.4f (100 Hz %.3f dB), '
-    'fL %.4f fH %.2f' % (abs(Hrx[0]), abs(Hrx[1]), abs(Hrx[2]), 20 * math.log10(abs(Hrx[2])), fLr, fHr))
-for bn, lo, hi in bands[:2]:
-    po = band(fzr, Sr, lo, hi); pp = band(fzr, Sr / Hrp ** 2, lo, hi)
-    say('  ref noise %s: out/H100 %.4f uV (historical "app" 2.930 for 0.1-250), out/H10 %.4f uV, pointwise de-embedded %.4f uV (historical 2.880 for 0.1-250)'
-        % (bn, 1e6 * math.sqrt(po) / abs(Hrx[2]), 1e6 * math.sqrt(po) / abs(Hrx[0]), 1e6 * math.sqrt(pp)))
-    put('ref_noise_out_over_H100_' + bn.split()[0], 1e6 * math.sqrt(po) / abs(Hrx[2]), 'uVrms'); put('ref_noise_deemb_' + bn.split()[0], 1e6 * math.sqrt(pp), 'uVrms')
+# ---------------- reference: archived F2 fixture (optional) ----------------
+if REF:
+    a = rd(REF, 'acr.ac'); ax = rd(REF, 'acrx.ac'); zr = rd(REF, 'nzr.noise')
+    fr = np.array(a['x']); Hr = arr(a, 'out') / (arr(a, 'ep') - arr(a, 'en'))
+    Hrx = arr(ax, 'out') / (arr(ax, 'ep') - arr(ax, 'en'))
+    Sr = arr(zr, 'out') ** 2; fzr = np.array(zr['x'])
+    Hrp = np.exp(np.interp(np.log(fzr), np.log(fr), np.log(np.abs(Hr))))
+    pkr, _, fLr, fHr = corners(fr, Hr)
+    say('== Reference: archived F2 fixture (Project/ece203_r5nf_tb_f2 netlist, f2i job A_ref), H = out/(ep-en): 10/60/100 Hz %.4f / %.4f / %.4f (100 Hz %.3f dB), '
+        'fL %.4f fH %.2f' % (abs(Hrx[0]), abs(Hrx[1]), abs(Hrx[2]), 20 * math.log10(abs(Hrx[2])), fLr, fHr))
+    for bn, lo, hi in bands[:2]:
+        po = band(fzr, Sr, lo, hi); pp = band(fzr, Sr / Hrp ** 2, lo, hi)
+        say('  ref noise %s: out/H100 %.4f uV (historical "app" 2.930 for 0.1-250), out/H10 %.4f uV, pointwise de-embedded %.4f uV (historical 2.880 for 0.1-250)'
+            % (bn, 1e6 * math.sqrt(po) / abs(Hrx[2]), 1e6 * math.sqrt(po) / abs(Hrx[0]), 1e6 * math.sqrt(pp)))
+        put('ref_noise_out_over_H100_' + bn.split()[0], 1e6 * math.sqrt(po) / abs(Hrx[2]), 'uVrms'); put('ref_noise_deemb_' + bn.split()[0], 1e6 * math.sqrt(pp), 'uVrms')
+
 with open('f2v_nominal_summary.csv', 'w') as fh:
     w = csv.DictWriter(fh, ['quantity', 'value', 'unit', 'note']); w.writeheader(); [w.writerow(r) for r in summ]
 open('f2v_nominal.txt', 'w').write('\n'.join(out) + '\n'); print('\n'.join(out))
