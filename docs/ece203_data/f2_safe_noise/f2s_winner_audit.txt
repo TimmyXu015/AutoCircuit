@@ -1,0 +1,44 @@
+Winner audit: ADE netlist of Project/ece203_f2s_tb_p2 with the ADE-state variables (WIN_dm_netlist.scs) vs the standalone candidate netlist (s_P2S60/input.scs), circuit section (before simulatorOptions):
+3c3,4
+< parameters aint=0.0 phint=0.0 fint=60.0 iint=0.0 aecg=1.0 phecg=0.0 \
+---
+> parameters fvm=0 dccv=0
+> parameters aint=(1e-7*fvm*(3-fvm)/2) phint=0.0 fint=60.0 iint=0 aecg=((1-fvm)*(2-fvm)/2) phecg=0.0 \
+6c7
+<     rdr=1000000.0 rdi=1e+15 adrl=100.0 dcc=0.0 vcmin=0.0 adm=1.0 icm=0.0 \
+---
+>     rdr=(1e6+(1e15-1e6)*fvm*(2-fvm)) rdi=1e+15 adrl=100.0 dcc=dccv vcmin=0.0 adm=1.0 icm=0.0 \
+8,9c9,10
+<     rlp=3.18e+07 cl=0.0 prl=2e-06 prw=4.8e-06 rfb=3.1831e+12 cfb=6e-13 \
+<     cc=6e-11 vcas=1.1 ibd=5e-08 ib3=5e-08 vref=0.9 vdd=1.8 phires=0 \
+---
+>     rlp=3.18e+07 cl=0.0 prl=2e-06 prw=4.8e-6 rfb=3.1831e+12 cfb=0.6e-12 \
+>     cc=60e-12 vcas=1.1 ibd=5e-08 ib3=5e-08 vref=0.9 vdd=1.8 phires=0 \
+133a135,152
+> 
+> simulatorOptions options reltol=1e-6 vabstol=1e-6 iabstol=1e-18 temp=27 tnom=25 scalem=1.0 scale=1.0 \
+>     gmin=1e-18 rforce=1 maxnotes=5 maxwarns=5 digits=5 cols=80 pivrel=1e-3
+> dcop dc write="spectre.dc" maxiters=150 maxsteps=10000
+> opinfo info what=oppoint where=rawfile
+> sdcc sweep param=dccv values=[0 0.01] {
+>   swm sweep param=fvm values=[0 1 2] {
+>     dcm dc
+>     acm ac start=1m stop=100k dec=50
+>     acx ac values=[10 60 100]
+>   }
+> }
+> nz50 (out 0) noise start=1m stop=100k dec=50 iprobe=V0
+> nz100 (out 0) noise start=1m stop=100k dec=100 iprobe=V0
+> stbm stb start=1m stop=10M dec=20 probe=IPRB
+> stbd stb start=1m stop=10M dec=20 probe=IPRD
+> save out o oa oa1 p n inp inn vRight vLeft vRL net5 cm drlr rl0 vref ib ibd pref vcas net1 net013 net6 VDD:p VDDD:p VPP:p VPN:p IPRD:in MP2:d MP1:d MP0:d XA.MT:d XD.MT:d
+> saveOptions options save=selected
+-> only the f2v stimulus-mode expressions (equal to aint 0, aecg 1, rdr 1e6, dcc 0, iint 0 at fvm = 0) and number spelling (4.8e-06 vs 4.8e-6, 6e-13 vs 0.6e-12, 6e-11 vs 60e-12) differ: PASS
+
+P2 base netlist vs WIN (ADE) netlist: only prw/cfb/cc differ:
+8,9c8,9
+<     rlp=3.18e+07 cl=0.0 prl=2e-06 prw=4e-06 rfb=3.1831e+12 cfb=5e-13 \
+<     cc=5e-11 vcas=1.1 ibd=5e-08 ib3=5e-08 vref=0.9 vdd=1.8 phires=0 \
+---
+>     rlp=3.18e+07 cl=0.0 prl=2e-06 prw=4.8e-06 rfb=3.1831e+12 cfb=6e-13 \
+>     cc=6e-11 vcas=1.1 ibd=5e-08 ib3=5e-08 vref=0.9 vdd=1.8 phires=0 \

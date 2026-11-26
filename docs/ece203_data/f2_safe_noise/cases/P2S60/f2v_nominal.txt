@@ -27,6 +27,11 @@
   [nz50] below 0.1 Hz     out 57.81 uVrms (power-law integ 57.81) | M1 out/G10 0.5867 uV, out/G100 0.6321, out/Gplateau 0.5865 | M2 native (V0-ref) 4.9152 uV | M3 post-electrode pointwise 3.2765 uV
   [nz50] above 250 Hz     out 94.46 uVrms (power-law integ 94.42) | M1 out/G10 0.9587 uV, out/G100 1.0328, out/Gplateau 0.9582 | M2 native (V0-ref) 81.4632 uV | M3 post-electrode pointwise 53.6332 uV
   [nz50] 0.5-150 Hz       out 200.4 uVrms (power-law integ 200.4) | M1 out/G10 2.0342 uV, out/G100 2.1914, out/Gplateau 2.0333 | M2 native (V0-ref) 3.1112 uV | M3 post-electrode pointwise 2.0723 uV
+  [nz100] full 1mHz-100kHz out 257.1 uVrms (power-law integ 257.1) | M1 out/G10 2.6090 uV, out/G100 2.8106, out/Gplateau 2.6078 | M2 native (V0-ref) 81.6951 uV | M3 post-electrode pointwise 53.7945 uV
+  [nz100] 0.1-250 Hz       out 232 uVrms (power-law integ 232) | M1 out/G10 2.3546 uV, out/G100 2.5365, out/Gplateau 2.3535 | M2 native (V0-ref) 3.7432 uV | M3 post-electrode pointwise 2.4936 uV
+  [nz100] below 0.1 Hz     out 57.81 uVrms (power-law integ 57.81) | M1 out/G10 0.5868 uV, out/G100 0.6321, out/Gplateau 0.5865 | M2 native (V0-ref) 4.9137 uV | M3 post-electrode pointwise 3.2755 uV
+  [nz100] above 250 Hz     out 94.43 uVrms (power-law integ 94.42) | M1 out/G10 0.9584 uV, out/G100 1.0324, out/Gplateau 0.9579 | M2 native (V0-ref) 81.4612 uV | M3 post-electrode pointwise 53.6367 uV
+  [nz100] 0.5-150 Hz       out 200.4 uVrms (power-law integ 200.4) | M1 out/G10 2.0340 uV, out/G100 2.1911, out/Gplateau 2.0330 | M2 native (V0-ref) 3.1108 uV | M3 post-electrode pointwise 2.0721 uV
   source sum / total output power: full 1.000000, 0.1-250 1.000000
   groups (full band, % of output noise power): OTA1 input pair XA.M1/M2 68.0%, OTA1 PMOS mirror XA.M3/M4 25.6%, electrode resistors (2k + 1M, instructor) 2.7%, OTA1 other (tail/cascode/ref) 1.5%, pseudo-resistors XPP/XPN 1.1%, bias / dividers / CM sense R 0.6%, output LP resistor RLP 0.3%, CS second stage X2 0.2%
   groups (0.1-250 band, % of output noise power): OTA1 input pair XA.M1/M2 69.2%, OTA1 PMOS mirror XA.M3/M4 25.0%, electrode resistors (2k + 1M, instructor) 3.1%, OTA1 other (tail/cascode/ref) 1.2%, pseudo-resistors XPP/XPN 0.7%, bias / dividers / CM sense R 0.4%, CS second stage X2 0.2%, output LP resistor RLP 0.2%

@@ -1,0 +1,12 @@
+== Test 2/4 per case and window (peak amplitudes)
+  I100n_10s        8-9    post 6.578e-10 mV src 0 mV out 6.396e-05 mV | Gpost nan dB Gsrc nan dB | out60 6.309 mV out DC 0.9044 V | out 0.897..0.910 oa1 1.435..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -inf dBc | clip none
+  I100n_10s        9-10   post 1.057e-09 mV src 0 mV out 6.284e-05 mV | Gpost nan dB Gsrc nan dB | out60 6.297 mV out DC 0.9044 V | out 0.897..0.910 oa1 1.435..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -inf dBc | clip none
+  T0_10s           8-9    post 0.6659 mV src 1 mV out 65.63 mV | Gpost 39.873 dB Gsrc 36.342 dB | out60 0.0001565 mV out DC 0.9345 V | out 0.869..1.000 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -56.3 dBc | clip none
+  T0_10s           9-10   post 0.6659 mV src 1 mV out 65.63 mV | Gpost 39.873 dB Gsrc 36.342 dB | out60 0.0001588 mV out DC 0.9346 V | out 0.869..1.000 oa1 1.434..1.435 drlr 0.901..0.901 body 0.901..0.901 | H2/3 -56.3 dBc | clip none
+  T100n_10s        8-9    post 0.6659 mV src 1 mV out 65.61 mV | Gpost 39.871 dB Gsrc 36.340 dB | out60 6.316 mV out DC 0.9370 V | out 0.866..1.006 oa1 1.434..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -52.2 dBc | clip none
+  T100n_10s        9-10   post 0.6659 mV src 1 mV out 65.61 mV | Gpost 39.871 dB Gsrc 36.340 dB | out60 6.304 mV out DC 0.9370 V | out 0.866..1.006 oa1 1.434..1.435 drlr 0.840..0.963 body 0.862..0.941 | H2/3 -52.2 dBc | clip none
+== settling (last two windows)
+  I100n_10s        dGpost +nan dB, dDC(out) -0.0074 mV -> settled
+  T0_10s           dGpost +0.0000 dB, dDC(out) +0.0617 mV -> settled
+  T100n_10s        dGpost +0.0000 dB, dDC(out) -0.0007 mV -> settled
+  paired T100n_10s - I100n_10s      Gpost 39.871 dB, 60 Hz left after subtraction 8.032 uV, 20/30 Hz 160/49.2 uV
